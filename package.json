@@ -1,0 +1,10 @@
+{
+  "name": "advanced-bash-scripting-guide-code-highlight",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Beaglefoot <ch-e-st@yandex.ru>",
+  "license": "MIT",
+  "devDependencies": {
+    "jsdom": "16.4.0"
+  }
+}
