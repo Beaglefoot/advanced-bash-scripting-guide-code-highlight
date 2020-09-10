@@ -1,119 +1,40 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Assorted Tips</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Miscellany"
-HREF="miscellany.html"><LINK
-REL="PREVIOUS"
-TITLE="Optimizations"
-HREF="optimizations.html"><LINK
-REL="NEXT"
-TITLE="Security Issues"
-HREF="securityissues.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="optimizations.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 36. Miscellany</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="securityissues.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="ASSORTEDTIPS"
-></A
->36.7. Assorted Tips</H1
-><DIV
-CLASS="SECT2"
-><H2
-CLASS="SECT2"
-><A
-NAME="AEN20460"
-></A
->36.7.1. Ideas for more powerful scripts</H2
-><P
-></P
-><UL
-><LI
-><P
-><A
-NAME="PSEUDOCODEREF"
-></A
-></P
-><P
->You have a problem that you want to solve by writing a Bash
-	     script. Unfortunately, you don't know quite where to start.
-	     One method is to plunge right in and code those parts
-	     of the script that come easily, and write the hard parts as
-	     <I
-CLASS="FIRSTTERM"
->pseudo-code</I
->.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Assorted Tips</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Miscellany" href="miscellany.html">
+  <link rel="PREVIOUS" title="Optimizations" href="optimizations.html">
+  <link rel="NEXT" title="Security Issues" href="securityissues.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="optimizations.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 36. Miscellany</td>
+        <td width="10%" align="right" valign="bottom"><a href="securityissues.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="ASSORTEDTIPS" id="ASSORTEDTIPS"></a>36.7. Assorted Tips</h1>
+    <div class="SECT2">
+      <h2 class="SECT2"><a name="AEN20460" id="AEN20460"></a>36.7.1. Ideas for more powerful scripts</h2>
+      <ul>
+        <li>
+          <p><a name="PSEUDOCODEREF" id="PSEUDOCODEREF"></a></p>
+          <p>You have a problem that you want to solve by writing a Bash script. Unfortunately, you don't know quite where to start. One method is to plunge right in and code those parts of the script that come easily, and write the hard parts as <i class="FIRSTTERM">pseudo-code</i>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 ARGCOUNT=1                     # Need name as argument.
 E_WRONGARGS=65
@@ -140,212 +61,64 @@ exit 0
 if [ $# -ne "$ARGCOUNT" ]
 
 # Line 12 becomes:
-  echo "Usage: `basename $0` name"</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->For an example of using pseudo-code, see the <A
-HREF="writingscripts.html#NEWTONSQRT"
->Square Root</A
-> exercise.</P
-></LI
-><LI
-><P
-><A
-NAME="TRACKINGSCR"
-></A
-></P
-><P
->To keep a record of which user scripts have run
-	    during a particular session or over a number of sessions,
-	    add the following lines to each script you want to keep track
-	    of. This will keep a continuing file record of the script
-	    names and invocation times. </P
-><P
->	  <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># Append (&#62;&#62;) following to end of each script tracked.
+  echo "Usage: `basename $0` name"</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>For an example of using pseudo-code, see the <a href="writingscripts.html#NEWTONSQRT">Square Root</a> exercise.</p>
+        </li>
+        <li>
+          <p><a name="TRACKINGSCR" id="TRACKINGSCR"></a></p>
+          <p>To keep a record of which user scripts have run during a particular session or over a number of sessions, add the following lines to each script you want to keep track of. This will keep a continuing file record of the script names and invocation times.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000"># Append (&gt;&gt;) following to end of each script tracked.
 
-whoami&#62;&#62; $SAVE_FILE    # User invoking the script.
-echo $0&#62;&#62; $SAVE_FILE   # Script name.
-date&#62;&#62; $SAVE_FILE      # Date and time.
-echo&#62;&#62; $SAVE_FILE      # Blank line as separator.
+whoami&gt;&gt; $SAVE_FILE    # User invoking the script.
+echo $0&gt;&gt; $SAVE_FILE   # Script name.
+date&gt;&gt; $SAVE_FILE      # Date and time.
+echo&gt;&gt; $SAVE_FILE      # Blank line as separator.
 
 #  Of course, SAVE_FILE defined and exported as environmental variable in ~/.bashrc
-#+ (something like ~/.scripts-run)</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-          </P
-></LI
-><LI
-><P
-><A
-NAME="PREPENDREF"
-></A
-></P
-><P
->The <SPAN
-CLASS="TOKEN"
->&#62;&#62;</SPAN
-> operator
-	    <I
-CLASS="FIRSTTERM"
->appends</I
-> lines to a file.
-	    What if you wish to <I
-CLASS="FIRSTTERM"
->prepend</I
-> a
-	    line to an existing file, that is, to paste it in at the
-	    beginning?</P
-><P
->	  <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->file=data.txt
+#+ (something like ~/.scripts-run)</font></pre>
+              </td>
+            </tr>
+          </table>
+        </li>
+        <li>
+          <p><a name="PREPENDREF" id="PREPENDREF"></a></p>
+          <p>The <span class="TOKEN">&gt;&gt;</span> operator <i class="FIRSTTERM">appends</i> lines to a file. What if you wish to <i class="FIRSTTERM">prepend</i> a line to an existing file, that is, to paste it in at the beginning?</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">file=data.txt
 title="***This is the title line of data text file***"
 
-echo $title | cat - $file &#62;$file.new
+echo $title | cat - $file &gt;$file.new
 # "cat -" concatenates stdout to $file.
 #  End result is
-#+ to write a new file with $title appended at *beginning*.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	  </P
-><P
->This is a simplified variant of the <A
-HREF="x17837.html#PREPENDEX"
->Example 19-13</A
-> script given earlier.	And, of course,
-	    <A
-HREF="sedawk.html#SEDREF"
->sed</A
-> can also do this.</P
-></LI
-><LI
-><P
-><A
-NAME="SCRIPTASEMB"
-></A
-></P
-><P
->A shell script may act as an embedded command inside
-	    another shell script, a <I
-CLASS="FIRSTTERM"
->Tcl</I
-> or
-	    <I
-CLASS="FIRSTTERM"
->wish</I
-> script, or even a <A
-HREF="filearchiv.html#MAKEFILEREF"
->Makefile</A
->. It can be invoked
-	    as an external shell command in a C program using the
-	    <TT
-CLASS="REPLACEABLE"
-><I
->system()</I
-></TT
-> call, i.e.,
-	   <TT
-CLASS="REPLACEABLE"
-><I
->system("script_name");</I
-></TT
->.</P
-></LI
-><LI
-><P
-><A
-NAME="SETVAREMB"
-></A
-></P
-><P
->Setting a variable to the contents of an embedded
-	    <I
-CLASS="FIRSTTERM"
->sed</I
-> or <I
-CLASS="FIRSTTERM"
->awk</I
->
-	    script increases the readability of the surrounding <A
-HREF="wrapper.html#SHWRAPPER"
->shell wrapper</A
->. See <A
-HREF="contributed-scripts.html#MAILFORMAT"
->Example A-1</A
-> and <A
-HREF="internal.html#COLTOTALER3"
->Example 15-20</A
->.</P
-></LI
-><LI
-><P
-><A
-NAME="LIBROUTINES"
-></A
-></P
-><P
->Put together files containing your favorite and most useful
-	    definitions and functions.	As necessary,
-	    <SPAN
-CLASS="QUOTE"
->"include"</SPAN
-> one or more of these
-	    <SPAN
-CLASS="QUOTE"
->"library files"</SPAN
-> in scripts with either the
-	    <A
-HREF="special-chars.html#DOTREF"
->dot</A
-> (<B
-CLASS="COMMAND"
->.</B
->)
-	    or <A
-HREF="internal.html#SOURCEREF"
->source</A
-> command.</P
-><P
->  
-            <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># SCRIPT LIBRARY
+#+ to write a new file with $title appended at *beginning*.</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>This is a simplified variant of the <a href="x17837.html#PREPENDEX">Example 19-13</a> script given earlier. And, of course, <a href="sedawk.html#SEDREF">sed</a> can also do this.</p>
+        </li>
+        <li>
+          <p><a name="SCRIPTASEMB" id="SCRIPTASEMB"></a></p>
+          <p>A shell script may act as an embedded command inside another shell script, a <i class="FIRSTTERM">Tcl</i> or <i class="FIRSTTERM">wish</i> script, or even a <a href="filearchiv.html#MAKEFILEREF">Makefile</a>. It can be invoked as an external shell command in a C program using the <tt class="REPLACEABLE"><i>system()</i></tt> call, i.e., <tt class="REPLACEABLE"><i>system("script_name");</i></tt>.</p>
+        </li>
+        <li>
+          <p><a name="SETVAREMB" id="SETVAREMB"></a></p>
+          <p>Setting a variable to the contents of an embedded <i class="FIRSTTERM">sed</i> or <i class="FIRSTTERM">awk</i> script increases the readability of the surrounding <a href="wrapper.html#SHWRAPPER">shell wrapper</a>. See <a href="contributed-scripts.html#MAILFORMAT">Example A-1</a> and <a href="internal.html#COLTOTALER3">Example 15-20</a>.</p>
+        </li>
+        <li>
+          <p><a name="LIBROUTINES" id="LIBROUTINES"></a></p>
+          <p>Put together files containing your favorite and most useful definitions and functions. As necessary, <span class="QUOTE">"include"</span> one or more of these <span class="QUOTE">"library files"</span> in scripts with either the <a href="special-chars.html#DOTREF">dot</a> (<b class="COMMAND">.</b>) or <a href="internal.html#SOURCEREF">source</a> command.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000"># SCRIPT LIBRARY
 # ------ -------
 
 # Note:
@@ -449,35 +222,18 @@ tolower ()             #  Converts string(s) passed as argument(s)
 #
 # Exercise: Rewrite this function to change lowercase passed argument(s)
 #           to uppercase ... toupper()  [easy].
-}</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-          </P
-></LI
-><LI
-><P
-><A
-NAME="COMMENTH"
-></A
-></P
-><P
->Use special-purpose comment headers to increase clarity
-	    and legibility in scripts.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->## Caution.
+}</font></pre>
+              </td>
+            </tr>
+          </table>
+        </li>
+        <li>
+          <p><a name="COMMENTH" id="COMMENTH"></a></p>
+          <p>Use special-purpose comment headers to increase clarity and legibility in scripts.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">## Caution.
 rm -rf *.zzy   ##  The "-rf" options to "rm" are very dangerous,
                ##+ especially with wild cards.
 
@@ -490,46 +246,22 @@ rm -rf *.zzy   ##  The "-rf" options to "rm" are very dangerous,
 
 #o List item.
 
-#&#62; Another point of view.
-while [ "$var1" != "end" ]    #&#62; while test "$var1" != "end"</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></LI
-><LI
-><P
-><A
-NAME="PROGBAR"
-></A
-></P
-><P
->Dotan Barak contributes template code for a
-	  <I
-CLASS="FIRSTTERM"
->progress bar</I
-> in a script.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="PROGRESSBAR"
-></A
-><P
-><B
->Example 36-17. A Progress Bar</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#&gt; Another point of view.
+while [ "$var1" != "end" ]    #&gt; while test "$var1" != "end"</font></pre>
+              </td>
+            </tr>
+          </table>
+        </li>
+        <li>
+          <p><a name="PROGBAR" id="PROGBAR"></a></p>
+          <p>Dotan Barak contributes template code for a <i class="FIRSTTERM">progress bar</i> in a script.</p>
+          <div class="EXAMPLE">
+            <a name="PROGRESSBAR" id="PROGRESSBAR"></a>
+            <p><b>Example 36-17. A Progress Bar</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # progress-bar.sh
 
 # Author: Dotan Barak (very minor revisions by ABS Guide author).
@@ -554,11 +286,11 @@ print_progress_bar()
 
         # Prepare the bar.
         bar_line="${BAR_CHAR_START}"
-        for ((j=0; j&#60;full_limit; j++)); do
+        for ((j=0; j&lt;full_limit; j++)); do
                 bar_line="${bar_line}${BAR_CHAR_FULL}"
         done
 
-        for ((j=0; j&#60;empty_limit; j++)); do
+        for ((j=0; j&lt;empty_limit; j++)); do
                 bar_line="${bar_line}${BAR_CHAR_EMPTY}"
         done
 
@@ -569,7 +301,7 @@ print_progress_bar()
 
 # Here is a sample of code that uses it.
 MAX_PERCENT=100
-for ((i=0; i&#60;=MAX_PERCENT; i++)); do
+for ((i=0; i&lt;=MAX_PERCENT; i++)); do
         #
         usleep 10000
         # ... Or run some other commands ...
@@ -580,38 +312,19 @@ done
 
 echo ""
 
-exit</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-></LI
-><LI
-><P
-><A
-NAME="COMOUTBL"
-></A
-></P
-><P
->A particularly clever use of <A
-HREF="testconstructs.html#TESTCONSTRUCTS1"
->if-test</A
-> constructs
-	    is for comment blocks.</P
-><P
->    
-	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </li>
+        <li>
+          <p><a name="COMOUTBL" id="COMOUTBL"></a></p>
+          <p>A particularly clever use of <a href="testconstructs.html#TESTCONSTRUCTS1">if-test</a> constructs is for comment blocks.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 COMMENT_BLOCK=
 #  Try setting the above variable to some value
@@ -634,53 +347,26 @@ fi
 
 echo "No more comments, please."
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	  </P
-><P
->Compare this with <A
-HREF="here-docs.html#CBLOCK1"
->using  
-	    here documents to comment out code blocks</A
->.</P
-></LI
-><LI
-><P
-><A
-NAME="INTPARAM"
-></A
-></P
-><P
->Using the <A
-HREF="internalvariables.html#XSTATVARREF"
->$? exit status
-	    variable</A
->, a script may test if a parameter contains
-	    only digits, so it can be treated as an integer.</P
-><P
->  
-	    <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>Compare this with <a href="here-docs.html#CBLOCK1">using here documents to comment out code blocks</a>.</p>
+        </li>
+        <li>
+          <p><a name="INTPARAM" id="INTPARAM"></a></p>
+          <p>Using the <a href="internalvariables.html#XSTATVARREF">$? exit status variable</a>, a script may test if a parameter contains only digits, so it can be treated as an integer.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 SUCCESS=0
 E_BADINPUT=85
 
-test "$1" -ne 0 -o "$1" -eq 0 2&#62;/dev/null
+test "$1" -ne 0 -o "$1" -eq 0 2&gt;/dev/null
 # An integer is either equal to 0 or not equal to 0.
-# 2&#62;/dev/null suppresses error message.
+# 2&gt;/dev/null suppresses error message.
 
 if [ $? -ne "$SUCCESS" ]
 then
@@ -693,61 +379,20 @@ echo "Sum = $sum"
 
 # Any variable, not just a command-line parameter, can be tested this way.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-          </P
-></LI
-><LI
-><P
-><A
-NAME="RVT"
-></A
->The 0 - 255 range for function return
-	    values is a severe limitation. Global variables and
-	    other workarounds are often problematic. An alternative
-	    method for a function to communicate a value back to
-	    the main body of the script is to have the function
-	    write to <TT
-CLASS="FILENAME"
->stdout</TT
-> (usually with
-	    <A
-HREF="internal.html#ECHOREF"
->echo</A
->) the <SPAN
-CLASS="QUOTE"
->"return
-	    value,"</SPAN
-> and assign this to a variable. This is
-	    actually a variant of <A
-HREF="commandsub.html#COMMANDSUBREF"
->command
-	    substitution.</A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="MULTIPLICATION"
-></A
-><P
-><B
->Example 36-18. Return value trickery</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+              </td>
+            </tr>
+          </table>
+        </li>
+        <li>
+          <p><a name="RVT" id="RVT"></a>The 0 - 255 range for function return values is a severe limitation. Global variables and other workarounds are often problematic. An alternative method for a function to communicate a value back to the main body of the script is to have the function write to <tt class="FILENAME">stdout</tt> (usually with <a href="internal.html#ECHOREF">echo</a>) the <span class="QUOTE">"return value,"</span> and assign this to a variable. This is actually a variant of <a href="commandsub.html#COMMANDSUBREF">command substitution.</a></p>
+          <div class="EXAMPLE">
+            <a name="MULTIPLICATION" id="MULTIPLICATION"></a>
+            <p><b>Example 36-18. Return value trickery</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # multiplication.sh
 
 multiply ()                     # Multiplies params passed.
@@ -777,31 +422,16 @@ mult1=188; mult2=37; mult3=25; mult4=47
 val3=`multiply $mult1 $mult2 $mult3 $mult4`
 echo "$mult1 X $mult2 X $mult3 X $mult4 = $val3" # 8173300
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->The same technique also works for alphanumeric
-	    strings. This means that a function can <SPAN
-CLASS="QUOTE"
->"return"</SPAN
->
-	    a non-numeric value.</P
-><P
->	  <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->capitalize_ichar ()          #  Capitalizes initial character
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>The same technique also works for alphanumeric strings. This means that a function can <span class="QUOTE">"return"</span> a non-numeric value.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">capitalize_ichar ()          #  Capitalizes initial character
 {                            #+ of argument string(s) passed.
 
   string0="$@"               # Accepts multiple arguments.
@@ -817,39 +447,18 @@ CLASS="PROGRAMLISTING"
 }  
 
 newstring=`capitalize_ichar "every sentence should start with a capital letter."`
-echo "$newstring"          # Every sentence should start with a capital letter.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-> 
-	  </P
-><P
->It is even possible for a function to <SPAN
-CLASS="QUOTE"
->"return"</SPAN
->
-	    multiple values with this method.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="SUMPRODUCT"
-></A
-><P
-><B
->Example 36-19. Even more return value trickery</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+echo "$newstring"          # Every sentence should start with a capital letter.</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>It is even possible for a function to <span class="QUOTE">"return"</span> multiple values with this method.</p>
+          <div class="EXAMPLE">
+            <a name="SUMPRODUCT" id="SUMPRODUCT"></a>
+            <p><b>Example 36-19. Even more return value trickery</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # sum-product.sh
 # A function may "return" more than one value.
 
@@ -876,139 +485,47 @@ echo "$first + $second = $sum"
 echo "$first * $second = $product"
 echo
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
-><A
-NAME="RVTCAUTION"
-></A
->There can be only
-	    <B
-CLASS="COMMAND"
->one</B
-> <I
-CLASS="FIRSTTERM"
->echo</I
-> statement
-	    in the function for this to work. If you alter the previous
-	    example:</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->sum_and_product ()
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p><a name="RVTCAUTION" id="RVTCAUTION"></a>There can be only <b class="COMMAND">one</b> <i class="FIRSTTERM">echo</i> statement in the function for this to work. If you alter the previous example:</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="PROGRAMLISTING"><font color="#000000">sum_and_product ()
 {
   echo "This is the sum_and_product function." # This messes things up!
   echo $(( $1 + $2 )) $(( $1 * $2 ))
 }
 ...
 retval=`sum_and_product $first $second`      # Assigns output of function.
-# Now, this will not work correctly.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></TD
-></TR
-></TABLE
-></DIV
-></LI
-><LI
-><P
-><A
-NAME="PASSARRAY"
-></A
-></P
-><P
->Next in our bag of tricks are techniques for passing
-	    an <A
-HREF="arrays.html#ARRAYREF"
->array</A
-> to a
-	    <A
-HREF="functions.html#FUNCTIONREF"
->function</A
->, then
-	    <SPAN
-CLASS="QUOTE"
->"returning"</SPAN
-> an array back to the main body of
-	    the script.</P
-><P
->Passing an array involves loading the space-separated
-	    elements of the array into a variable with <A
-HREF="commandsub.html#COMMANDSUBREF"
->command substitution</A
->. <A
-NAME="RETARRAY"
-></A
->Getting an array back as the <SPAN
-CLASS="QUOTE"
->"return
-	    value"</SPAN
-> from a function uses the previously mentioned
-	    strategem of <A
-HREF="internal.html#ECHOREF"
->echoing</A
-> the
-	    array in the function, then invoking command substitution
-	    and the <B
-CLASS="COMMAND"
->( ... )</B
-> operator to assign it to
-	    an array.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="ARRFUNC"
-></A
-><P
-><B
->Example 36-20. Passing and returning arrays</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# Now, this will not work correctly.</font></pre>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </li>
+        <li>
+          <p><a name="PASSARRAY" id="PASSARRAY"></a></p>
+          <p>Next in our bag of tricks are techniques for passing an <a href="arrays.html#ARRAYREF">array</a> to a <a href="functions.html#FUNCTIONREF">function</a>, then <span class="QUOTE">"returning"</span> an array back to the main body of the script.</p>
+          <p>Passing an array involves loading the space-separated elements of the array into a variable with <a href="commandsub.html#COMMANDSUBREF">command substitution</a>. <a name="RETARRAY" id="RETARRAY"></a>Getting an array back as the <span class="QUOTE">"return value"</span> from a function uses the previously mentioned strategem of <a href="internal.html#ECHOREF">echoing</a> the array in the function, then invoking command substitution and the <b class="COMMAND">( ... )</b> operator to assign it to an array.</p>
+          <div class="EXAMPLE">
+            <a name="ARRFUNC" id="ARRFUNC"></a>
+            <p><b>Example 36-20. Passing and returning arrays</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # array-function.sh: Passing an array to a function and ...
 #                   "returning" an array from a function
 
@@ -1085,161 +602,52 @@ echo
 exit 0
 
 #  Nathan Coulter points out that passing arrays with elements containing
-#+ whitespace breaks this example.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->For a more elaborate example of passing arrays to
-	    functions, see <A
-HREF="contributed-scripts.html#LIFESLOW"
->Example A-10</A
->.</P
-></LI
-><LI
-><P
-><A
-NAME="CSTYLE"
-></A
-></P
-><P
->Using the <A
-HREF="dblparens.html"
->double-parentheses
-	    construct</A
->, it is possible to use C-style syntax
-	    for setting and incrementing/decrementing variables
-	    and in <A
-HREF="loops1.html#FORLOOPREF1"
->for</A
-> and <A
-HREF="loops1.html#WHILELOOPREF"
->while</A
-> loops.	See <A
-HREF="loops1.html#FORLOOPC"
->Example 11-13</A
-> and <A
-HREF="loops1.html#WHLOOPC"
->Example 11-18</A
->.</P
-></LI
-><LI
-><P
-><A
-NAME="SETPUM"
-></A
-></P
-><P
->Setting the <A
-HREF="internalvariables.html#PATHREF"
->path</A
-> and <A
-HREF="system.html#UMASKREF"
->umask</A
-> at the beginning of a script makes
-	    it more <A
-HREF="portabilityissues.html"
->portable</A
->
-	    -- more likely to run on a <SPAN
-CLASS="QUOTE"
->"foreign"</SPAN
-> machine
-	    whose user may have bollixed up the <TT
-CLASS="VARNAME"
->$PATH</TT
->
-	    and <B
-CLASS="COMMAND"
->umask</B
->.
-	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#+ whitespace breaks this example.</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>For a more elaborate example of passing arrays to functions, see <a href="contributed-scripts.html#LIFESLOW">Example A-10</a>.</p>
+        </li>
+        <li>
+          <p><a name="CSTYLE" id="CSTYLE"></a></p>
+          <p>Using the <a href="dblparens.html">double-parentheses construct</a>, it is possible to use C-style syntax for setting and incrementing/decrementing variables and in <a href="loops1.html#FORLOOPREF1">for</a> and <a href="loops1.html#WHILELOOPREF">while</a> loops. See <a href="loops1.html#FORLOOPC">Example 11-13</a> and <a href="loops1.html#WHLOOPC">Example 11-18</a>.</p>
+        </li>
+        <li>
+          <p><a name="SETPUM" id="SETPUM"></a></p>
+          <p>Setting the <a href="internalvariables.html#PATHREF">path</a> and <a href="system.html#UMASKREF">umask</a> at the beginning of a script makes it more <a href="portabilityissues.html">portable</a> -- more likely to run on a <span class="QUOTE">"foreign"</span> machine whose user may have bollixed up the <tt class="VARNAME">$PATH</tt> and <b class="COMMAND">umask</b>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 PATH=/bin:/usr/bin:/usr/local/bin ; export PATH
 umask 022   # Files that the script creates will have 755 permission.
 
-# Thanks to Ian D. Allen, for this tip.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></LI
-><LI
-><P
-><A
-NAME="FILTEROUTP"
-></A
-></P
-><P
->A useful scripting technique is to
-	    <EM
->repeatedly</EM
-> feed the output of a filter
-	    (by piping) back to the <EM
->same filter</EM
->, but
-	    with a different set of arguments and/or options. Especially
-	    suitable for this are <A
-HREF="textproc.html#TRREF"
->tr</A
-> and
-	    <A
-HREF="textproc.html#GREPREF"
->grep</A
->.</P
-><P
->	  <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># From "wstrings.sh" example.
+# Thanks to Ian D. Allen, for this tip.</font></pre>
+              </td>
+            </tr>
+          </table>
+        </li>
+        <li>
+          <p><a name="FILTEROUTP" id="FILTEROUTP"></a></p>
+          <p>A useful scripting technique is to <em>repeatedly</em> feed the output of a filter (by piping) back to the <em>same filter</em>, but with a different set of arguments and/or options. Especially suitable for this are <a href="textproc.html#TRREF">tr</a> and <a href="textproc.html#GREPREF">grep</a>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000"># From "wstrings.sh" example.
 
 wlist=`strings "$1" | tr A-Z a-z | tr '[:space:]' Z | \
-tr -cs '[:alpha:]' Z | tr -s '\173-\377' Z | tr Z ' '`</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	  </P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="AGRAM"
-></A
-><P
-><B
->Example 36-21. Fun with anagrams</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+tr -cs '[:alpha:]' Z | tr -s '\173-\377' Z | tr Z ' '`</font></pre>
+              </td>
+            </tr>
+          </table>
+          <div class="EXAMPLE">
+            <a name="AGRAM" id="AGRAM"></a>
+            <p><b>Example 36-21. Fun with anagrams</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # agram.sh: Playing games with anagrams.
 
 # Find anagrams of...
@@ -1277,73 +685,24 @@ isotheral
 #+ so that they can be specified by passing arguments to a function.
 
 #  For a slightly different approach to anagramming,
-#+ see the agram2.sh script.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->See also <A
-HREF="procref1.html#CONSTAT"
->Example 29-4</A
->, <A
-HREF="textproc.html#CRYPTOQUOTE"
->Example 16-25</A
->, and <A
-HREF="contributed-scripts.html#SOUNDEX"
->Example A-9</A
->.</P
-></LI
-><LI
-><P
-><A
-NAME="COMMBLAHD"
-></A
-></P
-><P
->Use <SPAN
-CLASS="QUOTE"
->"<A
-HREF="here-docs.html#ANONHEREDOC0"
->anonymous here
-	    documents</A
->"</SPAN
-> to comment out blocks of code,
-	    to save having to individually comment out each line with
-	    a <SPAN
-CLASS="TOKEN"
->#</SPAN
->.  See <A
-HREF="here-docs.html#COMMENTBLOCK"
->Example 19-11</A
->.</P
-></LI
-><LI
-><P
-><A
-NAME="WHATISREF3"
-></A
-></P
-><P
->Running a script on a machine that relies on a command
-	    that might not be installed is dangerous. Use <A
-HREF="filearchiv.html#WHATISREF"
->whatis</A
-> to avoid potential problems
-	    with this.</P
-><P
->	    <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->CMD=command1                 # First choice.
+#+ see the agram2.sh script.</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>See also <a href="procref1.html#CONSTAT">Example 29-4</a>, <a href="textproc.html#CRYPTOQUOTE">Example 16-25</a>, and <a href="contributed-scripts.html#SOUNDEX">Example A-9</a>.</p>
+        </li>
+        <li>
+          <p><a name="COMMBLAHD" id="COMMBLAHD"></a></p>
+          <p>Use <span class="QUOTE">"<a href="here-docs.html#ANONHEREDOC0">anonymous here documents</a>"</span> to comment out blocks of code, to save having to individually comment out each line with a <span class="TOKEN">#</span>. See <a href="here-docs.html#COMMENTBLOCK">Example 19-11</a>.</p>
+        </li>
+        <li>
+          <p><a name="WHATISREF3" id="WHATISREF3"></a></p>
+          <p>Running a script on a machine that relies on a command that might not be installed is dangerous. Use <a href="filearchiv.html#WHATISREF">whatis</a> to avoid potential problems with this.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">CMD=command1                 # First choice.
 PlanB=command2               # Fallback option.
 
 command_test=$(whatis "$CMD" | grep 'nothing appropriate')
@@ -1363,111 +722,48 @@ then
   $CMD option1 option2       #  Run command1 with options.
 else                         #  Otherwise,
   $PlanB                     #+ run command2. 
-fi</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-          </P
-></LI
-><LI
-><P
-><A
-NAME="IFGREPFIX"
-></A
-></P
-><P
->An <A
-HREF="testconstructs.html#IFGREPREF"
->if-grep test</A
-> may not
-	    return expected results in an error case, when text is output to
-	    <TT
-CLASS="FILENAME"
->stderr</TT
->, rather that
-	    <TT
-CLASS="FILENAME"
->stdout</TT
->.
-	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->if ls -l nonexistent_filename | grep -q 'No such file or directory'
+fi</font></pre>
+              </td>
+            </tr>
+          </table>
+        </li>
+        <li>
+          <p><a name="IFGREPFIX" id="IFGREPFIX"></a></p>
+          <p>An <a href="testconstructs.html#IFGREPREF">if-grep test</a> may not return expected results in an error case, when text is output to <tt class="FILENAME">stderr</tt>, rather that <tt class="FILENAME">stdout</tt>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">if ls -l nonexistent_filename | grep -q 'No such file or directory'
   then echo "File \"nonexistent_filename\" does not exist."
-fi</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
-><A
-HREF="io-redirection.html#IOREDIRREF"
->Redirecting</A
->
-	    <TT
-CLASS="FILENAME"
->stderr</TT
-> to <TT
-CLASS="FILENAME"
->stdout</TT
-> fixes
-	    this.
-	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->if ls -l nonexistent_filename 2&#62;&#38;1 | grep -q 'No such file or directory'
+fi</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p><a href="io-redirection.html#IOREDIRREF">Redirecting</a> <tt class="FILENAME">stderr</tt> to <tt class="FILENAME">stdout</tt> fixes this.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">if ls -l nonexistent_filename 2&gt;&amp;1 | grep -q 'No such file or directory'
 #                             ^^^^
   then echo "File \"nonexistent_filename\" does not exist."
 fi
 
-# Thanks, Chris Martin, for pointing this out.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></LI
-><LI
-><P
-><A
-NAME="SUBSHTMP"
-></A
->
-        If you absolutely must access a subshell variable outside the
-	subshell, here's a way to do it.
-	  <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->TMPFILE=tmpfile                  # Create a temp file to store the variable.
+# Thanks, Chris Martin, for pointing this out.</font></pre>
+              </td>
+            </tr>
+          </table>
+        </li>
+        <li>
+          <p><a name="SUBSHTMP" id="SUBSHTMP"></a> If you absolutely must access a subshell variable outside the subshell, here's a way to do it.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">TMPFILE=tmpfile                  # Create a temp file to store the variable.
 
 (   # Inside the subshell ...
 inner_variable=Inner
 echo $inner_variable
-echo $inner_variable &#62;&#62;$TMPFILE  # Append to temp file.
+echo $inner_variable &gt;&gt;$TMPFILE  # Append to temp file.
 )
 
     # Outside the subshell ...
@@ -1477,214 +773,54 @@ echo $inner_variable             # Null, as expected.
 echo "-----"; echo
 
 # Now ...
-read inner_variable &#60;$TMPFILE    # Read back shell variable.
+read inner_variable &lt;$TMPFILE    # Read back shell variable.
 rm -f "$TMPFILE"                 # Get rid of temp file.
-echo "$inner_variable"           # It's an ugly kludge, but it works.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	</P
-></LI
-><LI
-><P
-><A
-NAME="RUNPARTSREF2"
-></A
-></P
-><P
->The <A
-HREF="extmisc.html#RUNPARTSREF"
->run-parts</A
->
-	    command is handy for running a set of command
-	    scripts in a particular sequence, especially in
-	    combination with <A
-HREF="system.html#CRONREF"
->cron</A
-> or
-	    <A
-HREF="timedate.html#ATREF"
->at</A
->.</P
-></LI
-><LI
-><P
-><A
-NAME="RCSREF"
-></A
-></P
-><P
->For doing multiple revisions on a complex script, use the
-	    <I
-CLASS="FIRSTTERM"
->rcs</I
-> Revision Control System package.</P
-><P
-> Among other benefits of this is automatically updated ID
-	    header tags. The <B
-CLASS="COMMAND"
->co</B
-> command in
-	    <I
-CLASS="FIRSTTERM"
->rcs</I
-> does a parameter replacement of
-	    certain reserved key words, for example, replacing
-	    <TT
-CLASS="PARAMETER"
-><I
-># $Id$</I
-></TT
-> in a script with something like:
-	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># $Id: hello-world.sh,v 1.1 2004/10/16 02:43:05 bozo Exp $</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></LI
-></UL
-></DIV
-><DIV
-CLASS="SECT2"
-><H2
-CLASS="SECT2"
-><A
-NAME="AEN20679"
-></A
->36.7.2. Widgets</H2
-><P
-><A
-NAME="WIDGETREF"
-></A
-></P
-><P
->It would be nice to be able to invoke X-Windows widgets
-	    from a shell script. There happen to exist several packages
-	    that purport to do so, namely <I
-CLASS="FIRSTTERM"
->Xscript</I
->,
-	    <I
-CLASS="FIRSTTERM"
->Xmenu</I
->, and <I
-CLASS="FIRSTTERM"
->widtools</I
->.
-	    The first two of these no longer seem
-	    to be maintained.  Fortunately, it is still
-	    possible to obtain <I
-CLASS="FIRSTTERM"
->widtools</I
-> <A
-HREF="http://www.batse.msfc.nasa.gov/~mallozzi/home/software/xforms/src/widtools-2.0.tgz"
-TARGET="_top"
->here</A
->.
-	    </P
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The <I
-CLASS="FIRSTTERM"
->widtools</I
-> (widget tools)
-	    package requires the <I
-CLASS="FIRSTTERM"
->XForms</I
-> library to
-	    be installed. Additionally, the <A
-HREF="filearchiv.html#MAKEFILEREF"
->Makefile</A
-> needs some judicious
-	    editing before the package will build on a typical Linux
-	    system. Finally, three of the six widgets offered do not work
-	    (and, in fact, segfault).</P
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="DIALOGREF"
-></A
-></P
-><P
->The <I
-CLASS="FIRSTTERM"
->dialog</I
-> family of tools offers a method
-	    of calling <SPAN
-CLASS="QUOTE"
->"dialog"</SPAN
-> widgets from a shell script. The
-	    original <I
-CLASS="FIRSTTERM"
->dialog</I
-> utility works in a text
-	    console, but its successors, <I
-CLASS="FIRSTTERM"
->gdialog</I
->,
-	    <I
-CLASS="FIRSTTERM"
->Xdialog</I
->, and <I
-CLASS="FIRSTTERM"
->kdialog</I
->
-	    use X-Windows-based widget sets.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="DIALOG"
-></A
-><P
-><B
->Example 36-22. Widgets invoked from a shell script</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+echo "$inner_variable"           # It's an ugly kludge, but it works.</font></pre>
+              </td>
+            </tr>
+          </table>
+        </li>
+        <li>
+          <p><a name="RUNPARTSREF2" id="RUNPARTSREF2"></a></p>
+          <p>The <a href="extmisc.html#RUNPARTSREF">run-parts</a> command is handy for running a set of command scripts in a particular sequence, especially in combination with <a href="system.html#CRONREF">cron</a> or <a href="timedate.html#ATREF">at</a>.</p>
+        </li>
+        <li>
+          <p><a name="RCSREF" id="RCSREF"></a></p>
+          <p>For doing multiple revisions on a complex script, use the <i class="FIRSTTERM">rcs</i> Revision Control System package.</p>
+          <p>Among other benefits of this is automatically updated ID header tags. The <b class="COMMAND">co</b> command in <i class="FIRSTTERM">rcs</i> does a parameter replacement of certain reserved key words, for example, replacing <tt class="PARAMETER"><i># $Id$</i></tt> in a script with something like:</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000"># $Id: hello-world.sh,v 1.1 2004/10/16 02:43:05 bozo Exp $</font></pre>
+              </td>
+            </tr>
+          </table>
+        </li>
+      </ul>
+    </div>
+    <div class="SECT2">
+      <h2 class="SECT2"><a name="AEN20679" id="AEN20679"></a>36.7.2. Widgets</h2>
+      <p><a name="WIDGETREF" id="WIDGETREF"></a></p>
+      <p>It would be nice to be able to invoke X-Windows widgets from a shell script. There happen to exist several packages that purport to do so, namely <i class="FIRSTTERM">Xscript</i>, <i class="FIRSTTERM">Xmenu</i>, and <i class="FIRSTTERM">widtools</i>. The first two of these no longer seem to be maintained. Fortunately, it is still possible to obtain <i class="FIRSTTERM">widtools</i> <a href="http://www.batse.msfc.nasa.gov/~mallozzi/home/software/xforms/src/widtools-2.0.tgz" target="_top">here</a>.</p>
+      <div class="CAUTION">
+        <table class="CAUTION" width="100%" border="0">
+          <tr>
+            <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+            <td align="left" valign="top">
+              <p>The <i class="FIRSTTERM">widtools</i> (widget tools) package requires the <i class="FIRSTTERM">XForms</i> library to be installed. Additionally, the <a href="filearchiv.html#MAKEFILEREF">Makefile</a> needs some judicious editing before the package will build on a typical Linux system. Finally, three of the six widgets offered do not work (and, in fact, segfault).</p>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="DIALOGREF" id="DIALOGREF"></a></p>
+      <p>The <i class="FIRSTTERM">dialog</i> family of tools offers a method of calling <span class="QUOTE">"dialog"</span> widgets from a shell script. The original <i class="FIRSTTERM">dialog</i> utility works in a text console, but its successors, <i class="FIRSTTERM">gdialog</i>, <i class="FIRSTTERM">Xdialog</i>, and <i class="FIRSTTERM">kdialog</i> use X-Windows-based widget sets.</p>
+      <div class="EXAMPLE">
+        <a name="DIALOG" id="DIALOG"></a>
+        <p><b>Example 36-22. Widgets invoked from a shell script</b></p>
+        <table border="0" bgcolor="#E0E0E0" width="100%">
+          <tr>
+            <td>
+              <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # dialog.sh: Using 'gdialog' widgets.
 
 # Must have 'gdialog' installed on your system to run this script.
@@ -1712,9 +848,9 @@ gdialog --title "Displaying: $0" --textbox $0 $HEIGHT $WIDTH
 
 
 # Now, we'll try saving input in a file.
-echo -n "VARIABLE=" &#62; $OUTFILE
+echo -n "VARIABLE=" &gt; $OUTFILE
 gdialog --title "User Input" --inputbox "Enter variable, please:" \
-$HEIGHT $WIDTH 2&#62;&#62; $OUTFILE
+$HEIGHT $WIDTH 2&gt;&gt; $OUTFILE
 
 
 if [ "$?" -eq 0 ]
@@ -1740,67 +876,24 @@ rm $OUTFILE  # Clean up by removing the temp file.
 
 exit $?
 
-# Exercise: Rewrite this script using the 'zenity' widget set.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="XMESSAGEREF2"
-></A
->
-	    The <A
-HREF="extmisc.html#XMESSAGEREF"
->xmessage</A
-> command is
-	    a simple method of popping up a message/query window. For
-	    example:
-	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->xmessage Fatal error in script! -button exit</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	  </P
-><P
-><A
-NAME="ZENITYREF2"
-></A
->
-	    The latest entry in the widget sweepstakes is
-	    <A
-HREF="extmisc.html#ZENITYREF"
->zenity</A
->.
-	    This utility pops up
-	    <I
-CLASS="FIRSTTERM"
->GTK+</I
-> dialog widgets-and-windows,
-	    and it works very nicely within a script.
-	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->get_info ()
+# Exercise: Rewrite this script using the 'zenity' widget set.</font></pre>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p><a name="XMESSAGEREF2" id="XMESSAGEREF2"></a> The <a href="extmisc.html#XMESSAGEREF">xmessage</a> command is a simple method of popping up a message/query window. For example:</p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">xmessage Fatal error in script! -button exit</font></pre>
+          </td>
+        </tr>
+      </table>
+      <p><a name="ZENITYREF2" id="ZENITYREF2"></a> The latest entry in the widget sweepstakes is <a href="extmisc.html#ZENITYREF">zenity</a>. This utility pops up <i class="FIRSTTERM">GTK+</i> dialog widgets-and-windows, and it works very nicely within a script.</p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">get_info ()
 {
   zenity --entry       #  Pops up query window . . .
                        #+ and prints user entry to stdout.
@@ -1810,146 +903,27 @@ CLASS="PROGRAMLISTING"
 
 answer=$( get_info )   #  Capture stdout in $answer variable.
 
-echo "User entered: "$answer""</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	  </P
-><P
->For other methods of scripting with widgets, try
-	    <I
-CLASS="FIRSTTERM"
->Tk</I
-> or <I
-CLASS="FIRSTTERM"
->wish</I
->
-	    (<I
-CLASS="FIRSTTERM"
->Tcl</I
-> derivatives),
-	    <I
-CLASS="FIRSTTERM"
->PerlTk</I
-> (<I
-CLASS="FIRSTTERM"
->Perl</I
->
-	    with <I
-CLASS="FIRSTTERM"
->Tk</I
-> extensions),
-	    <I
-CLASS="FIRSTTERM"
->tksh</I
-> (<I
-CLASS="FIRSTTERM"
->ksh</I
->
-	    with <I
-CLASS="FIRSTTERM"
->Tk</I
-> extensions),
-	    <I
-CLASS="FIRSTTERM"
->XForms4Perl</I
->
-	    (<I
-CLASS="FIRSTTERM"
->Perl</I
-> with
-	    <I
-CLASS="FIRSTTERM"
->XForms</I
-> extensions),
-	    <I
-CLASS="FIRSTTERM"
->Gtk-Perl</I
-> (<I
-CLASS="FIRSTTERM"
->Perl</I
->
-	    with <I
-CLASS="FIRSTTERM"
->Gtk</I
-> extensions), or
-	    <I
-CLASS="FIRSTTERM"
->PyQt</I
-> (<I
-CLASS="FIRSTTERM"
->Python</I
->
-	    with <I
-CLASS="FIRSTTERM"
->Qt</I
-> extensions).</P
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="optimizations.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="securityissues.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Optimizations</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="miscellany.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Security Issues</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+echo "User entered: "$answer""</font></pre>
+          </td>
+        </tr>
+      </table>
+      <p>For other methods of scripting with widgets, try <i class="FIRSTTERM">Tk</i> or <i class="FIRSTTERM">wish</i> (<i class="FIRSTTERM">Tcl</i> derivatives), <i class="FIRSTTERM">PerlTk</i> (<i class="FIRSTTERM">Perl</i> with <i class="FIRSTTERM">Tk</i> extensions), <i class="FIRSTTERM">tksh</i> (<i class="FIRSTTERM">ksh</i> with <i class="FIRSTTERM">Tk</i> extensions), <i class="FIRSTTERM">XForms4Perl</i> (<i class="FIRSTTERM">Perl</i> with <i class="FIRSTTERM">XForms</i> extensions), <i class="FIRSTTERM">Gtk-Perl</i> (<i class="FIRSTTERM">Perl</i> with <i class="FIRSTTERM">Gtk</i> extensions), or <i class="FIRSTTERM">PyQt</i> (<i class="FIRSTTERM">Python</i> with <i class="FIRSTTERM">Qt</i> extensions).</p>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="optimizations.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="securityissues.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Optimizations</td>
+        <td width="34%" align="center" valign="top"><a href="miscellany.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Security Issues</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

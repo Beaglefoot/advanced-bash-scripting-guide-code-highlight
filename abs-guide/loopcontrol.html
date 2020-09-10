@@ -1,198 +1,53 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Loop Control</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Loops and Branches"
-HREF="loops.html"><LINK
-REL="PREVIOUS"
-TITLE="Nested Loops"
-HREF="nestedloops.html"><LINK
-REL="NEXT"
-TITLE="Testing and Branching"
-HREF="testbranch.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="nestedloops.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 11. Loops and Branches</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="testbranch.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="LOOPCONTROL"
-></A
->11.3. Loop Control</H1
-><TABLE
-BORDER="0"
-WIDTH="100%"
-CELLSPACING="0"
-CELLPADDING="0"
-CLASS="EPIGRAPH"
-><TR
-><TD
-WIDTH="45%"
->&nbsp;</TD
-><TD
-WIDTH="45%"
-ALIGN="LEFT"
-VALIGN="TOP"
-><I
-><P
-><I
->Tournez cent tours, tournez mille tours,</I
-></P
-><P
-><I
->Tournez souvent et tournez toujours . . .</I
-></P
-><P
-><I
->--Verlaine, <SPAN
-CLASS="QUOTE"
->"Chevaux de bois"</SPAN
-></I
-></P
-></I
-></TD
-></TR
-></TABLE
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="BRKCONT1"
-></A
->Commands affecting loop behavior</B
-></P
-><DL
-><DT
-><B
-CLASS="COMMAND"
->break</B
->, <B
-CLASS="COMMAND"
->continue</B
-></DT
-><DD
-><P
->The <B
-CLASS="COMMAND"
->break</B
-> and <B
-CLASS="COMMAND"
->continue</B
->
-	      loop control commands
-		<A
-NAME="AEN6981"
-HREF="#FTN.AEN6981"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
->
-	      correspond exactly to their counterparts in other
-	      programming languages. The <B
-CLASS="COMMAND"
->break</B
->
-	      command terminates the loop (<EM
->breaks</EM
->
-	      out of it), while <B
-CLASS="COMMAND"
->continue</B
-> causes a jump
-	      to the next <A
-HREF="loops1.html#ITERATIONREF"
->iteration</A
->
-	      of the loop, skipping all the remaining commands in that
-	      particular loop cycle.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX28"
-></A
-><P
-><B
->Example 11-21. Effects of <I
-CLASS="FIRSTTERM"
->break</I
-> and
-		<B
-CLASS="COMMAND"
->continue</B
-> in a loop</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Loop Control</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Loops and Branches" href="loops.html">
+  <link rel="PREVIOUS" title="Nested Loops" href="nestedloops.html">
+  <link rel="NEXT" title="Testing and Branching" href="testbranch.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="nestedloops.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 11. Loops and Branches</td>
+        <td width="10%" align="right" valign="bottom"><a href="testbranch.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="LOOPCONTROL" id="LOOPCONTROL"></a>11.3. Loop Control</h1>
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" class="EPIGRAPH">
+      <tr>
+        <td width="45%">&nbsp;</td>
+        <td width="45%" align="left" valign="top">
+          <p><i>Tournez cent tours, tournez mille tours,</i></p>
+          <p><i>Tournez souvent et tournez toujours . . .</i></p>
+          <p><i>--Verlaine, <span class="QUOTE">"Chevaux de bois"</span></i></p>
+        </td>
+      </tr>
+    </table>
+    <div class="VARIABLELIST">
+      <p><b><a name="BRKCONT1" id="BRKCONT1"></a>Commands affecting loop behavior</b></p>
+      <dl>
+        <dt><b class="COMMAND">break</b>, <b class="COMMAND">continue</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">break</b> and <b class="COMMAND">continue</b> loop control commands <a name="AEN6981" href="#FTN.AEN6981" id="AEN6981"><span class="footnote">[1]</span></a> correspond exactly to their counterparts in other programming languages. The <b class="COMMAND">break</b> command terminates the loop (<em>breaks</em> out of it), while <b class="COMMAND">continue</b> causes a jump to the next <a href="loops1.html#ITERATIONREF">iteration</a> of the loop, skipping all the remaining commands in that particular loop cycle.</p>
+          <div class="EXAMPLE">
+            <a name="EX28" id="EX28"></a>
+            <p><b>Example 11-21. Effects of <i class="FIRSTTERM">break</i> and continue in a loop</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 LIMIT=19  # Upper limit
 
@@ -240,57 +95,20 @@ done
 
 echo; echo; echo
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="BREAKPARAM"
-></A
-></P
-><P
->The <B
-CLASS="COMMAND"
->break</B
-> command may optionally take a
-	      parameter. A plain <B
-CLASS="COMMAND"
->break</B
-> terminates
-	      only the innermost loop in which it is embedded,
-	      but a <B
-CLASS="COMMAND"
->break N</B
-> breaks out of
-	      <TT
-CLASS="PARAMETER"
-><I
->N</I
-></TT
-> levels of loop.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="BREAKLEVELS"
-></A
-><P
-><B
->Example 11-22. Breaking out of multiple loop levels</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p><a name="BREAKPARAM" id="BREAKPARAM"></a></p>
+          <p>The <b class="COMMAND">break</b> command may optionally take a parameter. A plain <b class="COMMAND">break</b> terminates only the innermost loop in which it is embedded, but a <b class="COMMAND">break N</b> breaks out of <tt class="PARAMETER"><i>N</i></tt> levels of loop.</p>
+          <div class="EXAMPLE">
+            <a name="BREAKLEVELS" id="BREAKLEVELS"></a>
+            <p><b>Example 11-22. Breaking out of multiple loop levels</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # break-levels.sh: Breaking out of loops.
 
 # "break N" breaks out of N level loops.
@@ -317,56 +135,19 @@ done
 
 echo
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->The <B
-CLASS="COMMAND"
->continue</B
-> command, similar to
-	      <B
-CLASS="COMMAND"
->break</B
->, optionally takes a parameter. A
-	      plain <B
-CLASS="COMMAND"
->continue</B
-> cuts short the
-	      current iteration within its loop and begins the next.
-	      A <B
-CLASS="COMMAND"
->continue N</B
-> terminates all remaining
-	      iterations at its loop level and continues with the
-	      next iteration at the loop, <TT
-CLASS="OPTION"
->N</TT
-> levels
-	      above.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="CONTINUELEVELS"
-></A
-><P
-><B
->Example 11-23. Continuing at a higher loop level</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>The <b class="COMMAND">continue</b> command, similar to <b class="COMMAND">break</b>, optionally takes a parameter. A plain <b class="COMMAND">continue</b> cuts short the current iteration within its loop and begins the next. A <b class="COMMAND">continue N</b> terminates all remaining iterations at its loop level and continues with the next iteration at the loop, <tt class="OPTION">N</tt> levels above.</p>
+          <div class="EXAMPLE">
+            <a name="CONTINUELEVELS" id="CONTINUELEVELS"></a>
+            <p><b>Example 11-23. Continuing at a higher loop level</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # The "continue N" command, continuing at the Nth level loop.
 
 for outer in I II III IV V           # outer loop
@@ -377,7 +158,7 @@ do
   for inner in 1 2 3 4 5 6 7 8 9 10  # inner loop
   do
 
-    if [[ "$inner" -eq 7 &#38;&#38; "$outer" = "III" ]]
+    if [[ "$inner" -eq 7 &amp;&amp; "$outer" = "III" ]]
     then
       continue 2  # Continue at loop on 2nd level, that is "outer loop".
                   # Replace above line with a simple "continue"
@@ -395,35 +176,18 @@ echo; echo
 # Exercise:
 # Come up with a meaningful use for "continue N" in a script.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="CONTINUENEX"
-></A
-><P
-><B
->Example 11-24. Using <I
-CLASS="FIRSTTERM"
->continue N</I
-> in an actual task</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># Albert Reiner gives an example of how to use "continue N":
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="EXAMPLE">
+            <a name="CONTINUENEX" id="CONTINUENEX"></a>
+            <p><b>Example 11-24. Using <i class="FIRSTTERM">continue N</i> in an actual task</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000"># Albert Reiner gives an example of how to use "continue N":
 # ---------------------------------------------------------
 
 #  Suppose I have a large number of jobs that need to be run, with
@@ -437,16 +201,16 @@ while true
 do
   for n in .iso.*
   do
-    [ "$n" = ".iso.opts" ] &#38;&#38; continue
+    [ "$n" = ".iso.opts" ] &amp;&amp; continue
     beta=${n#.iso.}
-    [ -r .Iso.$beta ] &#38;&#38; continue
-    [ -r .lock.$beta ] &#38;&#38; sleep 10 &#38;&#38; continue
+    [ -r .Iso.$beta ] &amp;&amp; continue
+    [ -r .lock.$beta ] &amp;&amp; sleep 10 &amp;&amp; continue
     lockfile -r0 .lock.$beta || continue
     echo -n "$beta: " `date`
     run-isotherm $beta
     date
     ls -alF .Iso.$beta
-    [ -r .Iso.$beta ] &#38;&#38; rm -f .lock.$beta
+    [ -r .Iso.$beta ] &amp;&amp; rm -f .lock.$beta
     continue 2
   done
   break
@@ -461,7 +225,7 @@ while true
 do
   for job in {pattern}
   do
-    {job already done or running} &#38;&#38; continue
+    {job already done or running} &amp;&amp; continue
     {mark job as running, do job, mark job as done}
     continue 2
   done
@@ -478,151 +242,48 @@ done
 #+ but then one would have to actually check whether or not some job
 #+ was done (so that we should immediately look for the next job) or not
 #+ (in which case we terminate or sleep for a long time before checking
-#+ for a new job).</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The <B
-CLASS="COMMAND"
->continue N</B
-> construct is
-	      difficult to understand and tricky to use in any meaningful
-	      context. It is probably best avoided.</P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-></DL
-></DIV
-></DIV
-><H3
-CLASS="FOOTNOTES"
->Notes</H3
-><TABLE
-BORDER="0"
-CLASS="FOOTNOTES"
-WIDTH="100%"
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN6981"
-HREF="loopcontrol.html#AEN6981"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->These are shell <A
-HREF="internal.html#BUILTINREF"
->builtins</A
->,
-		whereas other loop commands, such as <A
-HREF="loops1.html#WHILELOOPREF"
->while</A
-> and <A
-HREF="testbranch.html#CASEESAC1"
->case</A
->, are <A
-HREF="internal.html#KEYWORDREF"
->keywords</A
->.</P
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="nestedloops.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="testbranch.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Nested Loops</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="loops.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Testing and Branching</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+#+ for a new job).</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>The <b class="COMMAND">continue N</b> construct is difficult to understand and tricky to use in any meaningful context. It is probably best avoided.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN6981" href="loopcontrol.html#AEN6981" id="FTN.AEN6981"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>These are shell <a href="internal.html#BUILTINREF">builtins</a>, whereas other loop commands, such as <a href="loops1.html#WHILELOOPREF">while</a> and <a href="testbranch.html#CASEESAC1">case</a>, are <a href="internal.html#KEYWORDREF">keywords</a>.</p>
+      </td>
+    </tr>
+  </table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="nestedloops.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="testbranch.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Nested Loops</td>
+        <td width="34%" align="center" valign="top"><a href="loops.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Testing and Branching</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

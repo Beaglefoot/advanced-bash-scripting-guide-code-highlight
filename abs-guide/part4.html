@@ -1,2960 +1,1229 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Commands</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="PREVIOUS"
-TITLE="Recess Time"
-HREF="recess-time.html"><LINK
-REL="NEXT"
-TITLE="Internal Commands and Builtins"
-HREF="internal.html"></HEAD
-><BODY
-CLASS="PART"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="recess-time.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="internal.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="PART"
-><A
-NAME="PART4"
-></A
-><DIV
-CLASS="TITLEPAGE"
-><H1
-CLASS="TITLE"
->Part 4. Commands</H1
-><DIV
-CLASS="PARTINTRO"
-><A
-NAME="AEN7439"
-></A
-><P
-><A
-NAME="PART4A"
-></A
-></P
-><P
->Mastering the commands on your Linux machine is an indispensable
-      prelude to writing effective shell scripts.</P
-><P
->This section covers the following commands:</P
-><P
-></P
-><UL
-><LI
-><P
-><A
-HREF="special-chars.html#DOTREF"
->.</A
->
-	         (See also <A
-HREF="internal.html#SOURCEREF"
->source</A
->)</P
-></LI
-><LI
-><P
-><A
-HREF="system.html#ACREF"
->ac</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#USERADDREF"
->adduser</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#AGETTYREF"
->agetty</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#AGREPREF"
->agrep</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#ARREF"
->ar</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#ARCHREF"
->arch</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="timedate.html#ATREF"
->at</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="x9644.html#AUTOLOADREF"
->autoload</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="awk.html#AWKREF"
->awk</A
->
-		 (See also <A
-HREF="mathc.html#AWKMATH"
->Using
-		 <B
-CLASS="COMMAND"
->awk</B
-> for
-		 math operations</A
->)</P
-></LI
-><LI
-><P
-><A
-HREF="system.html#BADBLOCKSREF"
->badblocks</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#BANNERREF"
->banner</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#BASENAMEREF"
->basename</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="timedate.html#BATCHREF"
->batch</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="mathc.html#BCREF"
->bc</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="x9644.html#BGREF"
->bg</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#BINDREF"
->bind</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#BISONREF"
->bison</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="x9644.html#BLTREF"
->builtin</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#BZGREPREF"
->bzgrep</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#BZIPREF"
->bzip2</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="timedate.html#CALREF"
->cal</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#CALLERREF"
->caller</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="basic.html#CATREF"
->cat</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#CDREF"
->cd</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="basic.html#CHATTRREF"
->chattr</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#CHFNREF"
->chfn</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#CHGRPREF"
->chgrp</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#CHKCONFIGREF"
->chkconfig</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="basic.html#CHMODREF"
->chmod</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#CHOWNREF"
->chown</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#CHROOTREF"
->chroot</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#CKSUMREF"
->cksum</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="terminalccmds.html#CLEARREF"
->clear</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="timedate.html#CLOCKREF"
->clock</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#CMPREF"
->cmp</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#COLREF"
->col</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#COLRMREF"
->colrm</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#COLUMNREF"
->column</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#COMMREF"
->comm</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="x9644.html#COMMANDREF"
->command</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="tabexpansion.html#COMPGENREF"
->compgen</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="tabexpansion.html#COMPLETEREF"
->complete</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#COMPRESSREF"
->compress</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="bashver4.html#COPROCREF"
->coproc</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="basic.html#CPREF"
->cp</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#CPIOREF"
->cpio</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#CRONREF"
->cron</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#CRYPTREF"
->crypt</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#CSPLITREF"
->csplit</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#CUREF"
->cu</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#CUTREF"
->cut</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="timedate.html#DATEREF"
->date</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="mathc.html#DCREF"
->dc</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#DDREF"
->dd</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#DEBUGFSREF"
->debugfs</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="declareref.html"
->declare</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#DEPMODREF"
->depmod</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#DFREF"
->df</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="assortedtips.html#DIALOGREF"
->dialog</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#DIFFREF"
->diff</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#DIFF3REF"
->diff3</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#DIFFSTATREF"
->diffstat</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#DIGREF"
->dig</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#DIRNAMEREF"
->dirname</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#DIRSD"
->dirs</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="x9644.html#DISOWNREF"
->disown</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#DMESGREF"
->dmesg</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#DOEXECREF"
->doexec</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#DOS2UNIXREF"
->dos2unix</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#DUREF"
->du</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#DUMPREF"
->dump</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#DUMPE2FSREF"
->dumpe2fs</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#E2FSCKREF"
->e2fsck</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#ECHOREF"
->echo</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#EGREPREF"
->egrep</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="x9644.html#ENABLEREF"
->enable</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#ENSCRIPTREF"
->enscript</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#ENVVREF"
->env</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#EQNREF"
->eqn</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#EVALREF"
->eval</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#EXECREF"
->exec</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#EXITREF"
->exit</A
->
-		 (Related topic: <A
-HREF="exit-status.html#EXITSTATUSREF"
->exit
-		 status</A
->)</P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#EXPANDREF"
->expand</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#EXPORTREF"
->export</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="moreadv.html#EXPRREF"
->expr</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="mathc.html#FACTORREF"
->factor</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#FALSEREF"
->false</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#FDFORMATREF"
->fdformat</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#FDISKREF"
->fdisk</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="x9644.html#FGREF"
->fg</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#FGREPREF"
->fgrep</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#FILEREF"
->file</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="moreadv.html#FINDREF"
->find</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#FINGERREF"
->finger</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#FLEXREF"
->flex</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#FLOCKREF"
->flock</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#FMTREF"
->fmt</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#FOLDREF"
->fold</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#FREEREF"
->free</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#FSCKREF"
->fsck</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#FTPREF"
->ftp</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#FUSERREF"
->fuser</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#GETFACLREF"
->getfacl</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#GETOPTY"
->getopt</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#GETOPTSX"
->getopts</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#GETTEXTREF"
->gettext</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#GETTYREF"
->getty</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#GNOMEMOUNTREF"
->gnome-mount</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#GREPREF"
->grep</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#GROFFREF"
->groff</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#GROUPMODREF"
->groupmod</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#GROUPSCMDREF"
->groups</A
->
-		 (Related topic: the <A
-HREF="internalvariables.html#GROUPSREF"
->$GROUPS</A
->
-		 variable)</P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#GSREF"
->gs</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#GZIPREF"
->gzip</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#HALTREF"
->halt</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#HASHCMDREF"
->hash</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#HDPARMREF"
->hdparm</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#HEADREF"
->head</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#HELPREF"
->help</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#HEXDUMPREF"
->hexdump</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#HOSTREF"
->host</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#HOSTIDREF"
->hostid</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#HNAMEREF"
->hostname</A
->
-		 (Related topic: the <A
-HREF="internalvariables.html#HOSTNAMEREF"
->$HOSTNAME</A
->
-		 variable)</P
-></LI
-><LI
-><P
-><A
-HREF="timedate.html#HWCLOCKREF"
->hwclock</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#ICONVREF"
->iconv</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#IDREF"
->id</A
->
-		 (Related topic: the <A
-HREF="internalvariables.html#UIDREF"
->$UID</A
->
-	       variable)</P
-></LI
-><LI
-><P
-><A
-HREF="system.html#IFCONFIGREF"
->ifconfig</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="basic.html#INFOREF"
->info</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="terminalccmds.html#INFOCMPREF"
->infocmp</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#INITREF"
->init</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#INSMODREF"
->insmod</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#INSTALLREF"
->install</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#IPREF"
->ip</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#IPCALCREF"
->ipcalc</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#IPTABLESREF"
->iptables</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#IWCONFIGREF"
->iwconfig</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="x9644.html#JOBSREF"
->jobs</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#JOINREF"
->join</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#JOTREF"
->jot</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="x9644.html#KILLREF"
->kill</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="x9644.html#KILLALLREF"
->killall</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LASTREF"
->last</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LASTCOMMREF"
->lastcomm</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LASTLOGREF"
->lastlog</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LDDREF"
->ldd</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#LESSREF"
->less</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#LETREF"
->let</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#LEXREF"
->lex</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LIDREF"
->lid</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="basic.html#LINKREF"
->ln</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#LOCATEREF"
->locate</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LOCKFILEREF"
->lockfile</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LOGGERREF"
->logger</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LOGNAMEREF"
->logname</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="x9644.html#LOGOUTREF"
->logout</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LOGROTATEREF"
->logrotate</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#LOOKREF"
->look</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LOSETUPREF"
->losetup</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#LPREF"
->lp</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="basic.html#LSREF"
->ls</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LSDEVREF"
->lsdev</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LSMODREF"
->lsmod</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LSOFREF"
->lsof</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LSPCIREF"
->lspci</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LSUSBREF"
->lsusb</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LTRACEREF"
->ltrace</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#LYNXREF"
->lynx</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#LZMAREF"
->lzcat</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#LZMAREF"
->lzma</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#M4REF"
->m4</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#COMMMAIL1"
->mail</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#MAILSTATSREF"
->mailstats</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#MAILTOREF"
->mailto</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#MAKEREF"
->make</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#MAKEDEVREF"
->MAKEDEV</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="basic.html#MANREF"
->man</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="bashver4.html#MAPFILEREF"
->mapfile</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#MCOOKIEREF"
->mcookie</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#MD5SUMREF"
->md5sum</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#MERGEREF"
->merge</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#MESGREF"
->mesg</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#MIMENCODEREF"
->mimencode</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#MKBOOTDISKREF"
->mkbootdisk</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="basic.html#MKDIRREF"
->mkdir</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#MKDOSFSREF"
->mkdosfs</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#MKE2FSREF"
->mke2fs</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#MKFIFOREF"
->mkfifo</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#MKISOFSREF"
->mkisofs</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#MKNODREF"
->mknod</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#MKSWAPREF"
->mkswap</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#MKTEMPREF"
->mktemp</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#MMENCODEREF"
->mmencode</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#MODINFOREF"
->modinfo</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#MODPROBEREF"
->modprobe</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#MOREREF"
->more</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#MOUNTREF"
->mount</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#MSGFMTREF"
->msgfmt</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="basic.html#MVREF"
->mv</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#NCREF"
->nc</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#NETCONFIGREF"
->netconfig</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#NETSTATREF"
->netstat</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#NEWGRPREF"
->newgrp</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#NICEREF"
->nice</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#NLREF"
->nl</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#NMREF"
->nm</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#NMAPREF"
->nmap</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#NOHUPREF"
->nohup</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#NSLOOKUPREF"
->nslookup</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#OBJDUMPREF"
->objdump</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#ODREF"
->od</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#OPENSSLREF"
->openssl</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#PASSWDREF"
->passwd</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#PASTEREF"
->paste</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#PATCHREF"
->patch</A
->
-		 (Related topic: <A
-HREF="filearchiv.html#DIFFREF"
->diff</A
->)</P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#PATHCHKREF"
->pathchk</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#PAXREF"
->pax</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#PGREPREF"
->pgrep</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#PIDOFREF"
->pidof</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#PINGREF"
->ping</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#PKILLREF"
->pkill</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#DIRSD"
->popd</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#PRREF"
->pr</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#PRINTENVREF"
->printenv</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#PRINTFREF"
->printf</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#PROCINFOREF"
->procinfo</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#PPSSREF"
->ps</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#PSTREEREF"
->pstree</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#PTXREF"
->ptx</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#DIRSD"
->pushd</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#PWD2REF"
->pwd</A
->
-		 (Related topic: the <A
-HREF="internalvariables.html#PWDREF"
->$PWD</A
->
-		 variable)</P
-></LI
-><LI
-><P
-><A
-HREF="system.html#QUOTAREF"
->quota</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#RCPREF"
->rcp</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#RDEVREF"
->rdev</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#RDISTREF"
->rdist</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#READREF"
->read</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#READELFREF"
->readelf</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#READLINKREF"
->readlink</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#READONLYREF"
->readonly</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#REBOOTREF"
->reboot</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#RECODEREF"
->recode</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#NICE2REF"
->renice</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="terminalccmds.html#RESETREF"
->reset</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="terminalccmds.html#RESIZEREF"
->resize</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#RESTOREREF"
->restore</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="basic.html#REVREF"
->rev</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#RLOGINREF"
->rlogin</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="basic.html#RMREF"
->rm</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="basic.html#RMDIRREF"
->rmdir</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#RMMODREF"
->rmmod</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#ROUTEREF"
->route</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#RPMREF"
->rpm</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#RPM2CPIOREF"
->rpm2cpio</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#RSHREF"
->rsh</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#RSYNCREF"
->rsync</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#RUNLEVELREF"
->runlevel</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#RUNPARTSREF"
->run-parts</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#RXREF"
->rx</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#RZREF"
->rz</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#SARREF"
->sar</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#SCPREF"
->scp</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="terminalccmds.html#SCRIPTREF"
->script</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#SDIFFREF"
->sdiff</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="sedawk.html#SEDREF"
->sed</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#SEQREF"
->seq</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#SERVICEREF"
->service</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#SETREF"
->set</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#SETFACLREF"
->setfacl</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#SETQUOTAREF"
->setquota</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#SETSERIALREF"
->setserial</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#SETTERMREF"
->setterm</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#SHA1SUMREF"
->sha1sum</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#SHARREF"
->shar</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#SHOPTREF"
->shopt</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#SHREDREF"
->shred</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#SHUTDOWNREF"
->shutdown</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#SIZEREF"
->size</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#NICE2REF"
->skill</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="timedate.html#SLEEPREF"
->sleep</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#SLOCATEREF"
->slocate</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#NICE2REF"
->snice</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#SORTREF"
->sort</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#SOURCEREF"
->source</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#SOXREF"
->sox</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#SPLITREF"
->split</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#SQREF"
->sq</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#SSHREF"
->ssh</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#STATREF"
->stat</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#STRACEREF"
->strace</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#STRINGSREF"
->strings</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#STRIPREF"
->strip</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#STTYREF"
->stty</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#SUREF"
->su</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#SUDOREF"
->sudo</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#SUMREF"
->sum</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="x9644.html#SUSPENDREF"
->suspend</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#SWAPONREF"
->swapoff</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#SWAPONREF"
->swapon</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#RXREF"
->sx</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#SYNCREF"
->sync</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#RZREF"
->sz</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="basic.html#CATREF"
->tac</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#TAILREF"
->tail</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#TARREF"
->tar</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#TBLREF"
->tbl</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#TCPDUMPREF"
->tcpdump</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#TEEREF"
->tee</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#TELINITREF"
->telinit</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#TELNETREF"
->telnet</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#TEXREF"
->Tex</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#TEXEXECREF"
->texexec</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="timedate.html#TIMREF"
->time</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="x9644.html#TIMESREF"
->times</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#TMPWATCHREF"
->tmpwatch</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#TOPREF"
->top</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="timedate.html#TOUCHREF"
->touch</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="terminalccmds.html#TPUTREF"
->tput</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#TRREF"
->tr</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#TRACEROUTEREF"
->traceroute</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#TRUEREF"
->true</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#TSETREF"
->tset</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#TSORTREF"
->tsort</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#TTYREF"
->tty</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#TUNE2FSREF"
->tune2fs</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#TYPEREF"
->type</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="declareref.html"
->typeset</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#ULIMITREF"
->ulimit</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#UMASKREF"
->umask</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#UMOUNTREF"
->umount</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#UNAMEREF"
->uname</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#UNARCREF"
->unarc</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#UNARCREF"
->unarj</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#UNCOMPRESSREF"
->uncompress</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#EXPANDREF"
->unexpand</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#UNIQREF"
->uniq</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#UNITSREF"
->units</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#LZMAREF"
->unlzma</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#UNARCREF"
->unrar</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="internal.html#UNSETREF"
->unset</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#SQREF"
->unsq</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#ZIPREF"
->unzip</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#UPTIMEREF"
->uptime</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#LSUSBREF"
->usbmodules</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#USERADDREF"
->useradd</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#USERADDREF"
->userdel</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#USERMODREF"
->usermod</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#USERSREF"
->users</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="timedate.html#USLEEPREF"
->usleep</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#UUCPREF"
->uucp</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#UUDECODEREF"
->uudecode</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#UUENCODEREF"
->uuencode</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#UUXREF"
->uux</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#VACATIONREF"
->vacation</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#VDIRREF"
->vdir</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#VMSTATREF"
->vmstat</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#VRFYREF"
->vrfy</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#WREF"
->w</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="x9644.html#WAITREF"
->wait</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#WALLREF"
->wall</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#WATCHREF"
->watch</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#WCREF"
->wc</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#WGETREF"
->wget</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#WHATISREF"
->whatis</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#WHEREISREF"
->whereis</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#WHICHREF"
->which</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#WHOREF"
->who</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#WHOAMIREF"
->whoami</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#WHOISREF"
->whois</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="communications.html#WRITEREF"
->write</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="moreadv.html#XARGSREF"
->xargs</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="system.html#XRANDRREF"
->xrandr</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#XZREF"
->xz</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#YACCREF"
->yacc</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#YESREF"
->yes</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#ZCATREF"
->zcat</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#ZDIFFREF"
->zdiff</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="timedate.html#ZDUMPREF"
->zdump</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#ZEGREPREF"
->zegrep</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#ZEGREPREF"
->zfgrep</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#ZEGREPREF"
->zgrep</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#ZIPREF"
->zip</A
-></P
-></LI
-></UL
-></DIV
-><DIV
-CLASS="TOC"
-><DL
-><DT
-><B
->Table of Contents</B
-></DT
-><DT
->15. <A
-HREF="internal.html"
->Internal Commands and Builtins</A
-></DT
-><DD
-><DL
-><DT
->15.1. <A
-HREF="x9644.html"
->Job Control Commands</A
-></DT
-></DL
-></DD
-><DT
->16. <A
-HREF="external.html"
->External Filters, Programs and Commands</A
-></DT
-><DD
-><DL
-><DT
->16.1. <A
-HREF="basic.html"
->Basic Commands</A
-></DT
-><DT
->16.2. <A
-HREF="moreadv.html"
->Complex Commands</A
-></DT
-><DT
->16.3. <A
-HREF="timedate.html"
->Time / Date Commands</A
-></DT
-><DT
->16.4. <A
-HREF="textproc.html"
->Text Processing Commands</A
-></DT
-><DT
->16.5. <A
-HREF="filearchiv.html"
->File and Archiving Commands</A
-></DT
-><DT
->16.6. <A
-HREF="communications.html"
->Communications Commands</A
-></DT
-><DT
->16.7. <A
-HREF="terminalccmds.html"
->Terminal Control Commands</A
-></DT
-><DT
->16.8. <A
-HREF="mathc.html"
->Math Commands</A
-></DT
-><DT
->16.9. <A
-HREF="extmisc.html"
->Miscellaneous Commands</A
-></DT
-></DL
-></DD
-><DT
->17. <A
-HREF="system.html"
->System and Administrative Commands</A
-></DT
-><DD
-><DL
-><DT
->17.1. <A
-HREF="sysscripts.html"
->Analyzing a System Script</A
-></DT
-></DL
-></DD
-></DL
-></DIV
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="recess-time.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="internal.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Recess Time</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
->&nbsp;</TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Internal Commands and Builtins</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Commands</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="PREVIOUS" title="Recess Time" href="recess-time.html">
+  <link rel="NEXT" title="Internal Commands and Builtins" href="internal.html">
+</head>
+<body class="PART" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="recess-time.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="internal.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="PART">
+    <a name="PART4" id="PART4"></a>
+    <div class="TITLEPAGE">
+      <h1 class="TITLE">Part 4. Commands</h1>
+      <div class="PARTINTRO">
+        <a name="AEN7439" id="AEN7439"></a>
+        <p><a name="PART4A" id="PART4A"></a></p>
+        <p>Mastering the commands on your Linux machine is an indispensable prelude to writing effective shell scripts.</p>
+        <p>This section covers the following commands:</p>
+        <ul>
+          <li>
+            <p><a href="special-chars.html#DOTREF">.</a> (See also <a href="internal.html#SOURCEREF">source</a>)</p>
+          </li>
+          <li>
+            <p><a href="system.html#ACREF">ac</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#USERADDREF">adduser</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#AGETTYREF">agetty</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#AGREPREF">agrep</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#ARREF">ar</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#ARCHREF">arch</a></p>
+          </li>
+          <li>
+            <p><a href="timedate.html#ATREF">at</a></p>
+          </li>
+          <li>
+            <p><a href="x9644.html#AUTOLOADREF">autoload</a></p>
+          </li>
+          <li>
+            <p><a href="awk.html#AWKREF">awk</a> (See also <a href="mathc.html#AWKMATH">Using <b class="COMMAND">awk</b> for math operations</a>)</p>
+          </li>
+          <li>
+            <p><a href="system.html#BADBLOCKSREF">badblocks</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#BANNERREF">banner</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#BASENAMEREF">basename</a></p>
+          </li>
+          <li>
+            <p><a href="timedate.html#BATCHREF">batch</a></p>
+          </li>
+          <li>
+            <p><a href="mathc.html#BCREF">bc</a></p>
+          </li>
+          <li>
+            <p><a href="x9644.html#BGREF">bg</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#BINDREF">bind</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#BISONREF">bison</a></p>
+          </li>
+          <li>
+            <p><a href="x9644.html#BLTREF">builtin</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#BZGREPREF">bzgrep</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#BZIPREF">bzip2</a></p>
+          </li>
+          <li>
+            <p><a href="timedate.html#CALREF">cal</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#CALLERREF">caller</a></p>
+          </li>
+          <li>
+            <p><a href="basic.html#CATREF">cat</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#CDREF">cd</a></p>
+          </li>
+          <li>
+            <p><a href="basic.html#CHATTRREF">chattr</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#CHFNREF">chfn</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#CHGRPREF">chgrp</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#CHKCONFIGREF">chkconfig</a></p>
+          </li>
+          <li>
+            <p><a href="basic.html#CHMODREF">chmod</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#CHOWNREF">chown</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#CHROOTREF">chroot</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#CKSUMREF">cksum</a></p>
+          </li>
+          <li>
+            <p><a href="terminalccmds.html#CLEARREF">clear</a></p>
+          </li>
+          <li>
+            <p><a href="timedate.html#CLOCKREF">clock</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#CMPREF">cmp</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#COLREF">col</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#COLRMREF">colrm</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#COLUMNREF">column</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#COMMREF">comm</a></p>
+          </li>
+          <li>
+            <p><a href="x9644.html#COMMANDREF">command</a></p>
+          </li>
+          <li>
+            <p><a href="tabexpansion.html#COMPGENREF">compgen</a></p>
+          </li>
+          <li>
+            <p><a href="tabexpansion.html#COMPLETEREF">complete</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#COMPRESSREF">compress</a></p>
+          </li>
+          <li>
+            <p><a href="bashver4.html#COPROCREF">coproc</a></p>
+          </li>
+          <li>
+            <p><a href="basic.html#CPREF">cp</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#CPIOREF">cpio</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#CRONREF">cron</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#CRYPTREF">crypt</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#CSPLITREF">csplit</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#CUREF">cu</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#CUTREF">cut</a></p>
+          </li>
+          <li>
+            <p><a href="timedate.html#DATEREF">date</a></p>
+          </li>
+          <li>
+            <p><a href="mathc.html#DCREF">dc</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#DDREF">dd</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#DEBUGFSREF">debugfs</a></p>
+          </li>
+          <li>
+            <p><a href="declareref.html">declare</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#DEPMODREF">depmod</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#DFREF">df</a></p>
+          </li>
+          <li>
+            <p><a href="assortedtips.html#DIALOGREF">dialog</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#DIFFREF">diff</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#DIFF3REF">diff3</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#DIFFSTATREF">diffstat</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#DIGREF">dig</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#DIRNAMEREF">dirname</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#DIRSD">dirs</a></p>
+          </li>
+          <li>
+            <p><a href="x9644.html#DISOWNREF">disown</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#DMESGREF">dmesg</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#DOEXECREF">doexec</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#DOS2UNIXREF">dos2unix</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#DUREF">du</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#DUMPREF">dump</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#DUMPE2FSREF">dumpe2fs</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#E2FSCKREF">e2fsck</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#ECHOREF">echo</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#EGREPREF">egrep</a></p>
+          </li>
+          <li>
+            <p><a href="x9644.html#ENABLEREF">enable</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#ENSCRIPTREF">enscript</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#ENVVREF">env</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#EQNREF">eqn</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#EVALREF">eval</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#EXECREF">exec</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#EXITREF">exit</a> (Related topic: <a href="exit-status.html#EXITSTATUSREF">exit status</a>)</p>
+          </li>
+          <li>
+            <p><a href="textproc.html#EXPANDREF">expand</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#EXPORTREF">export</a></p>
+          </li>
+          <li>
+            <p><a href="moreadv.html#EXPRREF">expr</a></p>
+          </li>
+          <li>
+            <p><a href="mathc.html#FACTORREF">factor</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#FALSEREF">false</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#FDFORMATREF">fdformat</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#FDISKREF">fdisk</a></p>
+          </li>
+          <li>
+            <p><a href="x9644.html#FGREF">fg</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#FGREPREF">fgrep</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#FILEREF">file</a></p>
+          </li>
+          <li>
+            <p><a href="moreadv.html#FINDREF">find</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#FINGERREF">finger</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#FLEXREF">flex</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#FLOCKREF">flock</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#FMTREF">fmt</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#FOLDREF">fold</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#FREEREF">free</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#FSCKREF">fsck</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#FTPREF">ftp</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#FUSERREF">fuser</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#GETFACLREF">getfacl</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#GETOPTY">getopt</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#GETOPTSX">getopts</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#GETTEXTREF">gettext</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#GETTYREF">getty</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#GNOMEMOUNTREF">gnome-mount</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#GREPREF">grep</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#GROFFREF">groff</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#GROUPMODREF">groupmod</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#GROUPSCMDREF">groups</a> (Related topic: the <a href="internalvariables.html#GROUPSREF">$GROUPS</a> variable)</p>
+          </li>
+          <li>
+            <p><a href="textproc.html#GSREF">gs</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#GZIPREF">gzip</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#HALTREF">halt</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#HASHCMDREF">hash</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#HDPARMREF">hdparm</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#HEADREF">head</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#HELPREF">help</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#HEXDUMPREF">hexdump</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#HOSTREF">host</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#HOSTIDREF">hostid</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#HNAMEREF">hostname</a> (Related topic: the <a href="internalvariables.html#HOSTNAMEREF">$HOSTNAME</a> variable)</p>
+          </li>
+          <li>
+            <p><a href="timedate.html#HWCLOCKREF">hwclock</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#ICONVREF">iconv</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#IDREF">id</a> (Related topic: the <a href="internalvariables.html#UIDREF">$UID</a> variable)</p>
+          </li>
+          <li>
+            <p><a href="system.html#IFCONFIGREF">ifconfig</a></p>
+          </li>
+          <li>
+            <p><a href="basic.html#INFOREF">info</a></p>
+          </li>
+          <li>
+            <p><a href="terminalccmds.html#INFOCMPREF">infocmp</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#INITREF">init</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#INSMODREF">insmod</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#INSTALLREF">install</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#IPREF">ip</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#IPCALCREF">ipcalc</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#IPTABLESREF">iptables</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#IWCONFIGREF">iwconfig</a></p>
+          </li>
+          <li>
+            <p><a href="x9644.html#JOBSREF">jobs</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#JOINREF">join</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#JOTREF">jot</a></p>
+          </li>
+          <li>
+            <p><a href="x9644.html#KILLREF">kill</a></p>
+          </li>
+          <li>
+            <p><a href="x9644.html#KILLALLREF">killall</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LASTREF">last</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LASTCOMMREF">lastcomm</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LASTLOGREF">lastlog</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LDDREF">ldd</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#LESSREF">less</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#LETREF">let</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#LEXREF">lex</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LIDREF">lid</a></p>
+          </li>
+          <li>
+            <p><a href="basic.html#LINKREF">ln</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#LOCATEREF">locate</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LOCKFILEREF">lockfile</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LOGGERREF">logger</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LOGNAMEREF">logname</a></p>
+          </li>
+          <li>
+            <p><a href="x9644.html#LOGOUTREF">logout</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LOGROTATEREF">logrotate</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#LOOKREF">look</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LOSETUPREF">losetup</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#LPREF">lp</a></p>
+          </li>
+          <li>
+            <p><a href="basic.html#LSREF">ls</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LSDEVREF">lsdev</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LSMODREF">lsmod</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LSOFREF">lsof</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LSPCIREF">lspci</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LSUSBREF">lsusb</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LTRACEREF">ltrace</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#LYNXREF">lynx</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#LZMAREF">lzcat</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#LZMAREF">lzma</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#M4REF">m4</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#COMMMAIL1">mail</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#MAILSTATSREF">mailstats</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#MAILTOREF">mailto</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#MAKEREF">make</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#MAKEDEVREF">MAKEDEV</a></p>
+          </li>
+          <li>
+            <p><a href="basic.html#MANREF">man</a></p>
+          </li>
+          <li>
+            <p><a href="bashver4.html#MAPFILEREF">mapfile</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#MCOOKIEREF">mcookie</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#MD5SUMREF">md5sum</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#MERGEREF">merge</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#MESGREF">mesg</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#MIMENCODEREF">mimencode</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#MKBOOTDISKREF">mkbootdisk</a></p>
+          </li>
+          <li>
+            <p><a href="basic.html#MKDIRREF">mkdir</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#MKDOSFSREF">mkdosfs</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#MKE2FSREF">mke2fs</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#MKFIFOREF">mkfifo</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#MKISOFSREF">mkisofs</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#MKNODREF">mknod</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#MKSWAPREF">mkswap</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#MKTEMPREF">mktemp</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#MMENCODEREF">mmencode</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#MODINFOREF">modinfo</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#MODPROBEREF">modprobe</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#MOREREF">more</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#MOUNTREF">mount</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#MSGFMTREF">msgfmt</a></p>
+          </li>
+          <li>
+            <p><a href="basic.html#MVREF">mv</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#NCREF">nc</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#NETCONFIGREF">netconfig</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#NETSTATREF">netstat</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#NEWGRPREF">newgrp</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#NICEREF">nice</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#NLREF">nl</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#NMREF">nm</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#NMAPREF">nmap</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#NOHUPREF">nohup</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#NSLOOKUPREF">nslookup</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#OBJDUMPREF">objdump</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#ODREF">od</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#OPENSSLREF">openssl</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#PASSWDREF">passwd</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#PASTEREF">paste</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#PATCHREF">patch</a> (Related topic: <a href="filearchiv.html#DIFFREF">diff</a>)</p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#PATHCHKREF">pathchk</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#PAXREF">pax</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#PGREPREF">pgrep</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#PIDOFREF">pidof</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#PINGREF">ping</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#PKILLREF">pkill</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#DIRSD">popd</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#PRREF">pr</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#PRINTENVREF">printenv</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#PRINTFREF">printf</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#PROCINFOREF">procinfo</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#PPSSREF">ps</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#PSTREEREF">pstree</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#PTXREF">ptx</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#DIRSD">pushd</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#PWD2REF">pwd</a> (Related topic: the <a href="internalvariables.html#PWDREF">$PWD</a> variable)</p>
+          </li>
+          <li>
+            <p><a href="system.html#QUOTAREF">quota</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#RCPREF">rcp</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#RDEVREF">rdev</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#RDISTREF">rdist</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#READREF">read</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#READELFREF">readelf</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#READLINKREF">readlink</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#READONLYREF">readonly</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#REBOOTREF">reboot</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#RECODEREF">recode</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#NICE2REF">renice</a></p>
+          </li>
+          <li>
+            <p><a href="terminalccmds.html#RESETREF">reset</a></p>
+          </li>
+          <li>
+            <p><a href="terminalccmds.html#RESIZEREF">resize</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#RESTOREREF">restore</a></p>
+          </li>
+          <li>
+            <p><a href="basic.html#REVREF">rev</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#RLOGINREF">rlogin</a></p>
+          </li>
+          <li>
+            <p><a href="basic.html#RMREF">rm</a></p>
+          </li>
+          <li>
+            <p><a href="basic.html#RMDIRREF">rmdir</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#RMMODREF">rmmod</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#ROUTEREF">route</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#RPMREF">rpm</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#RPM2CPIOREF">rpm2cpio</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#RSHREF">rsh</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#RSYNCREF">rsync</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#RUNLEVELREF">runlevel</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#RUNPARTSREF">run-parts</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#RXREF">rx</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#RZREF">rz</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#SARREF">sar</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#SCPREF">scp</a></p>
+          </li>
+          <li>
+            <p><a href="terminalccmds.html#SCRIPTREF">script</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#SDIFFREF">sdiff</a></p>
+          </li>
+          <li>
+            <p><a href="sedawk.html#SEDREF">sed</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#SEQREF">seq</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#SERVICEREF">service</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#SETREF">set</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#SETFACLREF">setfacl</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#SETQUOTAREF">setquota</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#SETSERIALREF">setserial</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#SETTERMREF">setterm</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#SHA1SUMREF">sha1sum</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#SHARREF">shar</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#SHOPTREF">shopt</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#SHREDREF">shred</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#SHUTDOWNREF">shutdown</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#SIZEREF">size</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#NICE2REF">skill</a></p>
+          </li>
+          <li>
+            <p><a href="timedate.html#SLEEPREF">sleep</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#SLOCATEREF">slocate</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#NICE2REF">snice</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#SORTREF">sort</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#SOURCEREF">source</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#SOXREF">sox</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#SPLITREF">split</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#SQREF">sq</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#SSHREF">ssh</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#STATREF">stat</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#STRACEREF">strace</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#STRINGSREF">strings</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#STRIPREF">strip</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#STTYREF">stty</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#SUREF">su</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#SUDOREF">sudo</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#SUMREF">sum</a></p>
+          </li>
+          <li>
+            <p><a href="x9644.html#SUSPENDREF">suspend</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#SWAPONREF">swapoff</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#SWAPONREF">swapon</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#RXREF">sx</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#SYNCREF">sync</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#RZREF">sz</a></p>
+          </li>
+          <li>
+            <p><a href="basic.html#CATREF">tac</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#TAILREF">tail</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#TARREF">tar</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#TBLREF">tbl</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#TCPDUMPREF">tcpdump</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#TEEREF">tee</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#TELINITREF">telinit</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#TELNETREF">telnet</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#TEXREF">Tex</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#TEXEXECREF">texexec</a></p>
+          </li>
+          <li>
+            <p><a href="timedate.html#TIMREF">time</a></p>
+          </li>
+          <li>
+            <p><a href="x9644.html#TIMESREF">times</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#TMPWATCHREF">tmpwatch</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#TOPREF">top</a></p>
+          </li>
+          <li>
+            <p><a href="timedate.html#TOUCHREF">touch</a></p>
+          </li>
+          <li>
+            <p><a href="terminalccmds.html#TPUTREF">tput</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#TRREF">tr</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#TRACEROUTEREF">traceroute</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#TRUEREF">true</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#TSETREF">tset</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#TSORTREF">tsort</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#TTYREF">tty</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#TUNE2FSREF">tune2fs</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#TYPEREF">type</a></p>
+          </li>
+          <li>
+            <p><a href="declareref.html">typeset</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#ULIMITREF">ulimit</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#UMASKREF">umask</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#UMOUNTREF">umount</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#UNAMEREF">uname</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#UNARCREF">unarc</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#UNARCREF">unarj</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#UNCOMPRESSREF">uncompress</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#EXPANDREF">unexpand</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#UNIQREF">uniq</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#UNITSREF">units</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#LZMAREF">unlzma</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#UNARCREF">unrar</a></p>
+          </li>
+          <li>
+            <p><a href="internal.html#UNSETREF">unset</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#SQREF">unsq</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#ZIPREF">unzip</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#UPTIMEREF">uptime</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#LSUSBREF">usbmodules</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#USERADDREF">useradd</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#USERADDREF">userdel</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#USERMODREF">usermod</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#USERSREF">users</a></p>
+          </li>
+          <li>
+            <p><a href="timedate.html#USLEEPREF">usleep</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#UUCPREF">uucp</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#UUDECODEREF">uudecode</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#UUENCODEREF">uuencode</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#UUXREF">uux</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#VACATIONREF">vacation</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#VDIRREF">vdir</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#VMSTATREF">vmstat</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#VRFYREF">vrfy</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#WREF">w</a></p>
+          </li>
+          <li>
+            <p><a href="x9644.html#WAITREF">wait</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#WALLREF">wall</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#WATCHREF">watch</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#WCREF">wc</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#WGETREF">wget</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#WHATISREF">whatis</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#WHEREISREF">whereis</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#WHICHREF">which</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#WHOREF">who</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#WHOAMIREF">whoami</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#WHOISREF">whois</a></p>
+          </li>
+          <li>
+            <p><a href="communications.html#WRITEREF">write</a></p>
+          </li>
+          <li>
+            <p><a href="moreadv.html#XARGSREF">xargs</a></p>
+          </li>
+          <li>
+            <p><a href="system.html#XRANDRREF">xrandr</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#XZREF">xz</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#YACCREF">yacc</a></p>
+          </li>
+          <li>
+            <p><a href="extmisc.html#YESREF">yes</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#ZCATREF">zcat</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#ZDIFFREF">zdiff</a></p>
+          </li>
+          <li>
+            <p><a href="timedate.html#ZDUMPREF">zdump</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#ZEGREPREF">zegrep</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#ZEGREPREF">zfgrep</a></p>
+          </li>
+          <li>
+            <p><a href="textproc.html#ZEGREPREF">zgrep</a></p>
+          </li>
+          <li>
+            <p><a href="filearchiv.html#ZIPREF">zip</a></p>
+          </li>
+        </ul>
+      </div>
+      <div class="TOC">
+        <dl>
+          <dt><b>Table of Contents</b></dt>
+          <dt>15. <a href="internal.html">Internal Commands and Builtins</a></dt>
+          <dd>
+            <dl>
+              <dt>15.1. <a href="x9644.html">Job Control Commands</a></dt>
+            </dl>
+          </dd>
+          <dt>16. <a href="external.html">External Filters, Programs and Commands</a></dt>
+          <dd>
+            <dl>
+              <dt>16.1. <a href="basic.html">Basic Commands</a></dt>
+              <dt>16.2. <a href="moreadv.html">Complex Commands</a></dt>
+              <dt>16.3. <a href="timedate.html">Time / Date Commands</a></dt>
+              <dt>16.4. <a href="textproc.html">Text Processing Commands</a></dt>
+              <dt>16.5. <a href="filearchiv.html">File and Archiving Commands</a></dt>
+              <dt>16.6. <a href="communications.html">Communications Commands</a></dt>
+              <dt>16.7. <a href="terminalccmds.html">Terminal Control Commands</a></dt>
+              <dt>16.8. <a href="mathc.html">Math Commands</a></dt>
+              <dt>16.9. <a href="extmisc.html">Miscellaneous Commands</a></dt>
+            </dl>
+          </dd>
+          <dt>17. <a href="system.html">System and Administrative Commands</a></dt>
+          <dd>
+            <dl>
+              <dt>17.1. <a href="sysscripts.html">Analyzing a System Script</a></dt>
+            </dl>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="recess-time.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="internal.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Recess Time</td>
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+        <td width="33%" align="right" valign="top">Internal Commands and Builtins</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

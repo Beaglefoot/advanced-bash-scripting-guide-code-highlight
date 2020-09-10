@@ -1,106 +1,37 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Parsing and Managing Pathnames</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="PREVIOUS"
-TITLE="Awk"
-HREF="awk.html"><LINK
-REL="NEXT"
-TITLE="Exit Codes With Special Meanings"
-HREF="exitcodes.html"></HEAD
-><BODY
-CLASS="APPENDIX"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="awk.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="exitcodes.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="APPENDIX"
-><H1
-><A
-NAME="PATHMANAGEMENT"
-></A
->Appendix D. Parsing and Managing Pathnames</H1
-><P
->Emmanual Rouat contributed the following example of parsing
-        and transforming <I
-CLASS="FIRSTTERM"
->filenames</I
-> and, in
-        particular, <A
-HREF="special-chars.html#PATHNAMEREF"
->pathnames</A
->. It draws
-        heavily on the functionality of <I
-CLASS="FIRSTTERM"
->sed</I
->.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/usr/bin/env bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Parsing and Managing Pathnames</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="PREVIOUS" title="Awk" href="awk.html">
+  <link rel="NEXT" title="Exit Codes With Special Meanings" href="exitcodes.html">
+</head>
+<body class="APPENDIX" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="awk.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="exitcodes.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="APPENDIX">
+    <h1><a name="PATHMANAGEMENT" id="PATHMANAGEMENT"></a>Appendix D. Parsing and Managing Pathnames</h1>
+    <p>Emmanual Rouat contributed the following example of parsing and transforming <i class="FIRSTTERM">filenames</i> and, in particular, <a href="special-chars.html#PATHNAMEREF">pathnames</a>. It draws heavily on the functionality of <i class="FIRSTTERM">sed</i>.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">#!/usr/bin/env bash
 #-----------------------------------------------------------
 # Management of PATH, LD_LIBRARY_PATH, MANPATH variables...
-# By Emmanuel Rouat &#60;no-email&#62;
+# By Emmanuel Rouat &lt;no-email&gt;
 # (Inspired by the bash documentation 'pathfuncs' and on
 # discussions found on stackoverflow:
 # http://stackoverflow.com/questions/370047/
@@ -121,7 +52,7 @@ CLASS="PROGRAMLISTING"
 #-----------------------------------------------------------
 
 # Show $@ (usually PATH) as list.
-function p_show() { local p="$@" &#38;&#38; for p; do [[ ${!p} ]] &#38;&#38;
+function p_show() { local p="$@" &amp;&amp; for p; do [[ ${!p} ]] &amp;&amp;
 echo -e ${!p//:/\\n}; done }
 
 # Filter out empty lines, multiple/trailing slashes, and duplicate entries.
@@ -133,27 +64,27 @@ function p_build() { paste -sd: ;}
 
 # Clean $1 (typically PATH) and rebuild it
 function p_clean()
-{ local p=${1} &#38;&#38; eval ${p}='$(p_show ${p} | p_filter | p_build)' ;}
+{ local p=${1} &amp;&amp; eval ${p}='$(p_show ${p} | p_filter | p_build)' ;}
 
 # Remove $1 from $2 (found on stackoverflow, with modifications).
 function p_rm()
-{ local d=$(echo $1 | p_filter) p=${2} &#38;&#38;
+{ local d=$(echo $1 | p_filter) p=${2} &amp;&amp;
   eval ${p}='$(p_show ${p} | p_filter | grep -xv "${d}" | p_build)' ;}
 
 #  Same as previous, but filters on a pattern (dangerous...
 #+ don't use 'bin' or '/' as pattern!).
 function p_rmpat()
-{ local d=$(echo $1 | p_filter) p=${2} &#38;&#38; eval ${p}='$(p_show ${p} |
+{ local d=$(echo $1 | p_filter) p=${2} &amp;&amp; eval ${p}='$(p_show ${p} |
   p_filter | grep -v "${d}" | p_build)' ;}
 
 # Delete $1 from $2 and append it cleanly.
 function p_append()
-{ local d=$(echo $1 | p_filter) p=${2} &#38;&#38; p_rm "${d}" ${p} &#38;&#38;
+{ local d=$(echo $1 | p_filter) p=${2} &amp;&amp; p_rm "${d}" ${p} &amp;&amp;
   eval ${p}='$(p_show ${p} d | p_build)' ;}
 
 # Delete $1 from $2 and prepend it cleanly.
 function p_prepend()
-{ local d=$(echo $1 | p_filter) p=${2} &#38;&#38; p_rm "${d}" ${p} &#38;&#38;
+{ local d=$(echo $1 | p_filter) p=${2} &amp;&amp; p_rm "${d}" ${p} &amp;&amp;
   eval ${p}='$(p_show d ${p} | p_build)' ;}
 
 # Some tests:
@@ -183,29 +114,16 @@ BARPATH="/a:/b/://b c://a:/my local pub"
 p_clean BARPATH
 echo "Clean BARPATH='/a:/b/://b c://a:/my local pub'"
 echo "(result should be: /a:/b:/b c:/my local pub)"
-echo $BARPATH</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->***</P
-><P
->David Wheeler kindly permitted me to use his instructive
-        examples.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->Doing it correctly: A quick summary
+echo $BARPATH</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>***</p>
+    <p>David Wheeler kindly permitted me to use his instructive examples.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">Doing it correctly: A quick summary
 by David Wheeler
 http://www.dwheeler.com/essays/filenames-in-shell.html
 
@@ -283,9 +201,9 @@ correctly. Here are some of those templates that work correctly:
  #  and you can read from stdin.
  #+ (Change the 4 to another number if fd 4 is needed.)
 
- while IFS="" read -r -d "" file &#60;&#38;4 ; do
+ while IFS="" read -r -d "" file &lt;&amp;4 ; do
    COMMAND "$file"   # Use quoted "$file" -- not $file, everywhere.
- done 4&#60; &#60;(find . -print0)
+ done 4&lt; &lt;(find . -print0)
 
 
  #  Named pipe version.
@@ -297,74 +215,28 @@ correctly. Here are some of those templates that work correctly:
 
  mkfifo mypipe
 
- find . -print0 &#62; mypipe &#38;
- while IFS="" read -r -d "" file &#60;&#38;4 ; do
+ find . -print0 &gt; mypipe &amp;
+ while IFS="" read -r -d "" file &lt;&amp;4 ; do
    COMMAND "$file" # Use quoted "$file", not $file, everywhere.
- done 4&#60; mypipe</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="awk.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="exitcodes.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Awk</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
->&nbsp;</TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Exit Codes With Special Meanings</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+ done 4&lt; mypipe</font></pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="awk.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="exitcodes.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Awk</td>
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+        <td width="33%" align="right" valign="top">Exit Codes With Special Meanings</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

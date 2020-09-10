@@ -1,106 +1,38 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Localization</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="PREVIOUS"
-TITLE="An Introduction to Programmable Completion"
-HREF="tabexpansion.html"><LINK
-REL="NEXT"
-TITLE="History Commands"
-HREF="histcommands.html"></HEAD
-><BODY
-CLASS="APPENDIX"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="tabexpansion.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="histcommands.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="APPENDIX"
-><H1
-><A
-NAME="LOCALIZATION"
-></A
->Appendix K. Localization</H1
-><P
->Localization is an undocumented Bash feature.</P
-><P
-><A
-NAME="LOCALEREF"
-></A
->A localized shell script echoes
-        its text output in the language defined as the system's locale.
-        A Linux user in Berlin, Germany, would get script output in German,
-        whereas his cousin in Berlin, Maryland, would get output from
-        the same script in English.</P
-><P
->To create a localized script, use the following template to
-        write all messages to the user (error messages, prompts,
-        etc.).</P
-><P
->      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Localization</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="PREVIOUS" title="An Introduction to Programmable Completion" href="tabexpansion.html">
+  <link rel="NEXT" title="History Commands" href="histcommands.html">
+</head>
+<body class="APPENDIX" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="tabexpansion.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="histcommands.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="APPENDIX">
+    <h1><a name="LOCALIZATION" id="LOCALIZATION"></a>Appendix K. Localization</h1>
+    <p>Localization is an undocumented Bash feature.</p>
+    <p><a name="LOCALEREF" id="LOCALEREF"></a>A localized shell script echoes its text output in the language defined as the system's locale. A Linux user in Berlin, Germany, would get script output in German, whereas his cousin in Berlin, Maryland, would get output from the same script in English.</p>
+    <p>To create a localized script, use the following template to write all messages to the user (error messages, prompts, etc.).</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # localized.sh
-#  Script by Stéphane Chazelas,
+#  Script by Stï¿½phane Chazelas,
 #+ modified by Bruno Haible, bugfixed by Alfredo Pironti.
 
 . gettext.sh
@@ -109,7 +41,7 @@ E_CDERROR=65
 
 error()
 {
-  printf "$@" &#62;&#38;2
+  printf "$@" &gt;&amp;2
   exit $E_CDERROR
 }
 
@@ -183,181 +115,52 @@ read -p "`gettext \"Enter the value: \"`" var
 #  This way 'gettext' works correctly, as does 'xgettext.'
 #  Moreover, the NULL character won't change the behavior
 #+ of the 'echo' command.
-#  ------------------------------------------------------------------</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-      </P
-><P
->      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->bash -D localized.sh</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->"Can't cd to %s."
- "Enter the value: "</TT
-></PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-
-      This lists all the localized text. (The <TT
-CLASS="OPTION"
->-D</TT
->
-      option lists double-quoted strings prefixed by a <SPAN
-CLASS="TOKEN"
->$</SPAN
->,
-      without executing the script.)</P
-><P
->      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->bash --dump-po-strings localized.sh</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->#: a:6
+#  ------------------------------------------------------------------</font></pre>
+        </td>
+      </tr>
+    </table>
+    <table border="1" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>bash -D localized.sh</b></tt>
+<tt class="COMPUTEROUTPUT">"Can't cd to %s."
+ "Enter the value: "</tt></font></pre>
+        </td>
+      </tr>
+    </table>This lists all the localized text. (The <tt class="OPTION">-D</tt> option lists double-quoted strings prefixed by a <span class="TOKEN">$</span>, without executing the script.)
+    <table border="1" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>bash --dump-po-strings localized.sh</b></tt>
+<tt class="COMPUTEROUTPUT">#: a:6
  msgid "Can't cd to %s."
  msgstr ""
  #: a:7
  msgid "Enter the value: "
- msgstr ""</TT
-></PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-      
-      The <TT
-CLASS="OPTION"
->--dump-po-strings</TT
-> option to Bash
-      resembles the <TT
-CLASS="OPTION"
->-D</TT
-> option, but uses <A
-HREF="textproc.html#GETTEXTREF"
->gettext</A
-> <SPAN
-CLASS="QUOTE"
->"po"</SPAN
-> format.
-
-      </P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->Bruno Haible points out:</P
-><P
->Starting with gettext-0.12.2, <B
-CLASS="COMMAND"
->xgettext -o - localized.sh</B
->
-      is recommended instead of <B
-CLASS="COMMAND"
->bash --dump-po-strings
-      localized.sh</B
->, because <B
-CLASS="COMMAND"
->xgettext</B
-> . . .</P
-><P
->1. understands the gettext and eval_gettext commands
-      (whereas bash --dump-po-strings understands only its deprecated
-      $"..." syntax)</P
-><P
->2. can extract comments placed by the programmer, intended
-      to be read by the translator.</P
-><P
->This shell code is then not specific to Bash any
-      more; it works the same way with Bash 1.x and other /bin/sh
-      implementations.</P
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Now, build a <TT
-CLASS="FILENAME"
->language.po</TT
->
-	file for each language that the script will be translated
-	into, specifying the <TT
-CLASS="REPLACEABLE"
-><I
->msgstr</I
-></TT
->. Alfredo
-	Pironti gives the following example:</P
-><P
->fr.po:
-
-      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#: a:6
+ msgstr ""</tt></font></pre>
+        </td>
+      </tr>
+    </table>The <tt class="OPTION">--dump-po-strings</tt> option to Bash resembles the <tt class="OPTION">-D</tt> option, but uses <a href="textproc.html#GETTEXTREF">gettext</a> <span class="QUOTE">"po"</span> format.
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>Bruno Haible points out:</p>
+            <p>Starting with gettext-0.12.2, <b class="COMMAND">xgettext -o - localized.sh</b> is recommended instead of <b class="COMMAND">bash --dump-po-strings localized.sh</b>, because <b class="COMMAND">xgettext</b> . . .</p>
+            <p>1. understands the gettext and eval_gettext commands (whereas bash --dump-po-strings understands only its deprecated $"..." syntax)</p>
+            <p>2. can extract comments placed by the programmer, intended to be read by the translator.</p>
+            <p>This shell code is then not specific to Bash any more; it works the same way with Bash 1.x and other /bin/sh implementations.</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>Now, build a <tt class="FILENAME">language.po</tt> file for each language that the script will be translated into, specifying the <tt class="REPLACEABLE"><i>msgstr</i></tt>. Alfredo Pironti gives the following example:</p>
+    <p>fr.po:</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">#: a:6
 msgid "Can't cd to $var."
 msgstr "Impossible de se positionner dans le repertoire $var."
 #: a:7
@@ -367,103 +170,33 @@ msgstr "Entrez la valeur : "
 #  The string are dumped with the variable names, not with the %s syntax,
 #+ similar to C programs.
 #+ This is a very cool feature if the programmer uses
-#+ variable names that make sense!</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-      </P
-><P
->Then, run <A
-HREF="textproc.html#MSGFMTREF"
->msgfmt</A
->.</P
-><P
-><TT
-CLASS="USERINPUT"
-><B
->msgfmt -o localized.sh.mo fr.po</B
-></TT
-></P
-><P
->Place the resulting <TT
-CLASS="FILENAME"
->localized.sh.mo</TT
-> file in the
-        <TT
-CLASS="FILENAME"
->/usr/local/share/locale/fr/LC_MESSAGES</TT
->
-        directory, and at the beginning of the script, insert the lines:
-
-	  <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->TEXTDOMAINDIR=/usr/local/share/locale
-TEXTDOMAIN=localized.sh</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-      </P
-><P
->If a user on a French system runs the script, she will get
-        French messages.</P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->With older versions of Bash or other shells, localization requires
-        <A
-HREF="textproc.html#GETTEXTREF"
->gettext</A
->, using the
-	<TT
-CLASS="OPTION"
->-s</TT
-> option. In this case, the script becomes:</P
-><P
-><A
-NAME="GETTEXTEXAMPLE"
-></A
->
-      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#+ variable names that make sense!</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>Then, run <a href="textproc.html#MSGFMTREF">msgfmt</a>.</p>
+    <p><tt class="USERINPUT"><b>msgfmt -o localized.sh.mo fr.po</b></tt></p>
+    <p>Place the resulting <tt class="FILENAME">localized.sh.mo</tt> file in the <tt class="FILENAME">/usr/local/share/locale/fr/LC_MESSAGES</tt> directory, and at the beginning of the script, insert the lines:</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">TEXTDOMAINDIR=/usr/local/share/locale
+TEXTDOMAIN=localized.sh</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>If a user on a French system runs the script, she will get French messages.</p>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>With older versions of Bash or other shells, localization requires <a href="textproc.html#GETTEXTREF">gettext</a>, using the <tt class="OPTION">-s</tt> option. In this case, the script becomes:</p>
+            <p><a name="GETTEXTEXAMPLE" id="GETTEXTEXAMPLE"></a></p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # localized.sh
 
 E_CDERROR=65
@@ -471,101 +204,37 @@ E_CDERROR=65
 error() {
   local format=$1
   shift
-  printf "$(gettext -s "$format")" "$@" &#62;&#38;2
+  printf "$(gettext -s "$format")" "$@" &gt;&amp;2
   exit $E_CDERROR
 }
 cd $var || error "Can't cd to %s." "$var"
 read -p "$(gettext -s "Enter the value: ")" var
-# ...</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-      </P
-></TD
-></TR
-></TABLE
-></DIV
-><P
->The <TT
-CLASS="VARNAME"
->TEXTDOMAIN</TT
-> and
-	<TT
-CLASS="VARNAME"
->TEXTDOMAINDIR</TT
-> variables need to be set and
-	exported to the environment. This should be done within the
-	script itself.</P
-><P
->---</P
-><P
->This appendix written by Stéphane Chazelas,
-	with modifications suggested by Alfredo Pironti,
-	and by Bruno Haible, maintainer of GNU <A
-HREF="textproc.html#GETTEXTREF"
->gettext</A
->.</P
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="tabexpansion.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="histcommands.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->An Introduction to Programmable Completion</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
->&nbsp;</TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->History Commands</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+# ...</font></pre>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>The <tt class="VARNAME">TEXTDOMAIN</tt> and <tt class="VARNAME">TEXTDOMAINDIR</tt> variables need to be set and exported to the environment. This should be done within the script itself.</p>
+    <p>---</p>
+    <p>This appendix written by Stï¿½phane Chazelas, with modifications suggested by Alfredo Pironti, and by Bruno Haible, maintainer of GNU <a href="textproc.html#GETTEXTREF">gettext</a>.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="tabexpansion.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="histcommands.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">An Introduction to Programmable Completion</td>
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+        <td width="33%" align="right" valign="top">History Commands</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,461 +1,134 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
-> Important Files</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="PREVIOUS"
-TITLE="Bash Command-Line Options"
-HREF="bash-options.html"><LINK
-REL="NEXT"
-TITLE="Important System Directories"
-HREF="systemdirs.html"></HEAD
-><BODY
-CLASS="APPENDIX"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="bash-options.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="systemdirs.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="APPENDIX"
-><H1
-><A
-NAME="FILES"
-></A
->Appendix H.  Important Files</H1
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="FILESREF1"
-></A
->startup files</B
-></P
-><DL
-><DT
-></DT
-><DD
-><P
->These files contain the aliases and <A
-HREF="othertypesv.html#ENVREF"
->environmental variables</A
->
-	    made available to Bash running as a user shell and to all
-	    Bash scripts invoked after system initialization.</P
-></DD
-><DT
-><TT
-CLASS="FILENAME"
->/etc/profile</TT
-></DT
-><DD
-><P
->Systemwide defaults, mostly setting the environment
-	  (all Bourne-type shells, not just Bash
-	     <A
-NAME="AEN23892"
-HREF="#FTN.AEN23892"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
->)</P
-></DD
-><DT
-><TT
-CLASS="FILENAME"
->/etc/bashrc</TT
-></DT
-><DD
-><P
->systemwide functions and <A
-HREF="aliases.html#ALIASREF"
->aliases</A
-> for Bash</P
-></DD
-><DT
-><TT
-CLASS="FILENAME"
-><TT
-CLASS="VARNAME"
->$HOME</TT
->/.bash_profile</TT
-></DT
-><DD
-><P
->user-specific Bash environmental default settings,
-	    found in each user's home directory (the local counterpart
-	    to <TT
-CLASS="FILENAME"
->/etc/profile</TT
->)</P
-></DD
-><DT
-><TT
-CLASS="FILENAME"
-><TT
-CLASS="VARNAME"
->$HOME</TT
->/.bashrc</TT
-></DT
-><DD
-><P
->user-specific Bash init file, found in each user's home
-	    directory (the local counterpart to
-	    <TT
-CLASS="FILENAME"
->/etc/bashrc</TT
->).	Only interactive
-	    shells and user scripts read this file. See
-	    <A
-HREF="sample-bashrc.html"
->Appendix M</A
-> for a sample
-	    <TT
-CLASS="FILENAME"
->.bashrc</TT
-> file.</P
-></DD
-></DL
-></DIV
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="LOGOUTFILEREF1"
-></A
->logout file</B
-></P
-><DL
-><DT
-><TT
-CLASS="FILENAME"
-><TT
-CLASS="VARNAME"
->$HOME</TT
->/.bash_logout</TT
-></DT
-><DD
-><P
->user-specific instruction file, found in
-	    each user's home directory. Upon exit from a login (Bash)
-	    shell, the commands in this file execute.</P
-></DD
-></DL
-></DIV
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="DATAFILESREF1"
-></A
->data files</B
-></P
-><DL
-><DT
-><TT
-CLASS="FILENAME"
->/etc/passwd</TT
-></DT
-><DD
-><P
->A listing of all the user accounts on the system,
-	    their identities, their home directories, the groups they
-	    belong to, and their default shell. Note that the user
-	    passwords are <EM
->not</EM
->
-            stored in this file,
-	      <A
-NAME="AEN23937"
-HREF="#FTN.AEN23937"
-><SPAN
-CLASS="footnote"
->[2]</SPAN
-></A
->
-	    but in <TT
-CLASS="FILENAME"
->/etc/shadow</TT
-> in encrypted form.</P
-></DD
-></DL
-></DIV
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="SYSCONFREF1"
-></A
->system configuration files</B
-></P
-><DL
-><DT
-><TT
-CLASS="FILENAME"
->/etc/sysconfig/hwconf</TT
-></DT
-><DD
-><P
->Listing and description of attached hardware devices.
-	     This information is in text form and can be extracted and
-	     parsed.</P
-><P
-><TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->grep -A 5 AUDIO /etc/sysconfig/hwconf</B
-></TT
->	      
-<TT
-CLASS="COMPUTEROUTPUT"
->class: AUDIO
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Important Files</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="PREVIOUS" title="Bash Command-Line Options" href="bash-options.html">
+  <link rel="NEXT" title="Important System Directories" href="systemdirs.html">
+</head>
+<body class="APPENDIX" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="bash-options.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="systemdirs.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="APPENDIX">
+    <h1><a name="FILES" id="FILES"></a>Appendix H. Important Files</h1>
+    <div class="VARIABLELIST">
+      <p><b><a name="FILESREF1" id="FILESREF1"></a>startup files</b></p>
+      <dl>
+        <dd>
+          <p>These files contain the aliases and <a href="othertypesv.html#ENVREF">environmental variables</a> made available to Bash running as a user shell and to all Bash scripts invoked after system initialization.</p>
+        </dd>
+        <dt><tt class="FILENAME">/etc/profile</tt></dt>
+        <dd>
+          <p>Systemwide defaults, mostly setting the environment (all Bourne-type shells, not just Bash <a name="AEN23892" href="#FTN.AEN23892" id="AEN23892"><span class="footnote">[1]</span></a>)</p>
+        </dd>
+        <dt><tt class="FILENAME">/etc/bashrc</tt></dt>
+        <dd>
+          <p>systemwide functions and <a href="aliases.html#ALIASREF">aliases</a> for Bash</p>
+        </dd>
+        <dt><tt class="FILENAME"><tt class="VARNAME">$HOME</tt>/.bash_profile</tt></dt>
+        <dd>
+          <p>user-specific Bash environmental default settings, found in each user's home directory (the local counterpart to <tt class="FILENAME">/etc/profile</tt>)</p>
+        </dd>
+        <dt><tt class="FILENAME"><tt class="VARNAME">$HOME</tt>/.bashrc</tt></dt>
+        <dd>
+          <p>user-specific Bash init file, found in each user's home directory (the local counterpart to <tt class="FILENAME">/etc/bashrc</tt>). Only interactive shells and user scripts read this file. See <a href="sample-bashrc.html">Appendix M</a> for a sample <tt class="FILENAME">.bashrc</tt> file.</p>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="LOGOUTFILEREF1" id="LOGOUTFILEREF1"></a>logout file</b></p>
+      <dl>
+        <dt><tt class="FILENAME"><tt class="VARNAME">$HOME</tt>/.bash_logout</tt></dt>
+        <dd>
+          <p>user-specific instruction file, found in each user's home directory. Upon exit from a login (Bash) shell, the commands in this file execute.</p>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="DATAFILESREF1" id="DATAFILESREF1"></a>data files</b></p>
+      <dl>
+        <dt><tt class="FILENAME">/etc/passwd</tt></dt>
+        <dd>
+          <p>A listing of all the user accounts on the system, their identities, their home directories, the groups they belong to, and their default shell. Note that the user passwords are <em>not</em> stored in this file, <a name="AEN23937" href="#FTN.AEN23937" id="AEN23937"><span class="footnote">[2]</span></a> but in <tt class="FILENAME">/etc/shadow</tt> in encrypted form.</p>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="SYSCONFREF1" id="SYSCONFREF1"></a>system configuration files</b></p>
+      <dl>
+        <dt><tt class="FILENAME">/etc/sysconfig/hwconf</tt></dt>
+        <dd>
+          <p>Listing and description of attached hardware devices. This information is in text form and can be extracted and parsed.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>grep -A 5 AUDIO /etc/sysconfig/hwconf</b></tt>             
+<tt class="COMPUTEROUTPUT">class: AUDIO
  bus: PCI
  detached: 0
  driver: snd-intel8x0
  desc: "Intel Corporation 82801CA/CAM AC'97 Audio Controller"
- vendorId: 8086</TT
->
- </PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->This file is present on Red Hat and Fedora Core
-	     installations, but may be missing from other
-	     distros.</P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-></DL
-></DIV
-></DIV
-><H3
-CLASS="FOOTNOTES"
->Notes</H3
-><TABLE
-BORDER="0"
-CLASS="FOOTNOTES"
-WIDTH="100%"
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN23892"
-HREF="files.html#AEN23892"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->This does not apply to <B
-CLASS="COMMAND"
->csh</B
->,
-	       <B
-CLASS="COMMAND"
->tcsh</B
->, and other shells not related to or
-	       descended from the classic Bourne shell
-	       (<B
-CLASS="COMMAND"
->sh</B
->).</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN23937"
-HREF="files.html#AEN23937"
-><SPAN
-CLASS="footnote"
->[2]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->In older versions of UNIX, passwords
-	      <EM
->were</EM
-> stored in
-	      <TT
-CLASS="FILENAME"
->/etc/passwd</TT
->, and that explains
-	      the name of the file.</P
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="bash-options.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="systemdirs.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Bash Command-Line Options</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
->&nbsp;</TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Important System Directories</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+ vendorId: 8086</tt>
+ </font></pre>
+              </td>
+            </tr>
+          </table>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>This file is present on Red Hat and Fedora Core installations, but may be missing from other distros.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN23892" href="files.html#AEN23892" id="FTN.AEN23892"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>This does not apply to <b class="COMMAND">csh</b>, <b class="COMMAND">tcsh</b>, and other shells not related to or descended from the classic Bourne shell (<b class="COMMAND">sh</b>).</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN23937" href="files.html#AEN23937" id="FTN.AEN23937"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>In older versions of UNIX, passwords <em>were</em> stored in <tt class="FILENAME">/etc/passwd</tt>, and that explains the name of the file.</p>
+      </td>
+    </tr>
+  </table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="bash-options.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="systemdirs.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Bash Command-Line Options</td>
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+        <td width="33%" align="right" valign="top">Important System Directories</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,206 +1,46 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Internal Commands and Builtins</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Commands"
-HREF="part4.html"><LINK
-REL="PREVIOUS"
-TITLE="Commands"
-HREF="part4.html"><LINK
-REL="NEXT"
-TITLE="Job Control Commands"
-HREF="x9644.html"></HEAD
-><BODY
-CLASS="CHAPTER"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="part4.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="x9644.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="CHAPTER"
-><H1
-><A
-NAME="INTERNAL"
-></A
->Chapter 15. Internal Commands and Builtins</H1
-><P
-><A
-NAME="BUILTINREF"
-></A
->A <I
-CLASS="FIRSTTERM"
->builtin</I
->
-	is a <B
-CLASS="COMMAND"
->command</B
-> contained within the Bash tool
-	set, literally <I
-CLASS="FIRSTTERM"
->built in</I
->. This is either
-	for performance reasons -- builtins execute faster than external
-	commands, which usually require <I
-CLASS="FIRSTTERM"
->forking off</I
->
-	  <A
-NAME="AEN8607"
-HREF="#FTN.AEN8607"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
->
-	a separate process -- or because a particular builtin needs
-	direct access to the shell internals.</P
-><P
-><A
-NAME="FORKREF"
-></A
-></P
-><TABLE
-CLASS="SIDEBAR"
-BORDER="1"
-CELLPADDING="5"
-><TR
-><TD
-><DIV
-CLASS="SIDEBAR"
-><A
-NAME="AEN8611"
-></A
-><P
-></P
-><P
-><A
-NAME="PARENTREF"
-></A
->When a command or
-		   the shell itself initiates (or
-		   <I
-CLASS="FIRSTTERM"
->spawns</I
->) a new
-		   subprocess to carry out a task, this is called
-		   <I
-CLASS="FIRSTTERM"
->forking</I
->. This new process
-		   is the <I
-CLASS="FIRSTTERM"
->child</I
->, and the process
-		   that <I
-CLASS="FIRSTTERM"
->forked</I
-> it off is the
-		   <I
-CLASS="FIRSTTERM"
->parent</I
->. While the <I
-CLASS="FIRSTTERM"
->child
-		   process</I
-> is doing its work, the
-		   <I
-CLASS="FIRSTTERM"
->parent process</I
-> is still
-		   executing.</P
-><P
->Note that while a <I
-CLASS="FIRSTTERM"
->parent
-		   process</I
-> gets the <I
-CLASS="FIRSTTERM"
->process
-		   ID</I
-> of the <I
-CLASS="FIRSTTERM"
->child
-		   process</I
->, and can thus pass arguments to it,
-		   <EM
->the reverse is not true</EM
->. <A
-HREF="gotchas.html#PARCHILDPROBREF"
->This can create problems
-		   that are subtle and hard to track down.</A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="SPAWNSCR"
-></A
-><P
-><B
->Example 15-1. A script that spawns multiple instances of itself</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Internal Commands and Builtins</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Commands" href="part4.html">
+  <link rel="PREVIOUS" title="Commands" href="part4.html">
+  <link rel="NEXT" title="Job Control Commands" href="x9644.html">
+</head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="part4.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="x9644.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="INTERNAL" id="INTERNAL"></a>Chapter 15. Internal Commands and Builtins</h1>
+    <p><a name="BUILTINREF" id="BUILTINREF"></a>A <i class="FIRSTTERM">builtin</i> is a <b class="COMMAND">command</b> contained within the Bash tool set, literally <i class="FIRSTTERM">built in</i>. This is either for performance reasons -- builtins execute faster than external commands, which usually require <i class="FIRSTTERM">forking off</i> <a name="AEN8607" href="#FTN.AEN8607" id="AEN8607"><span class="footnote">[1]</span></a> a separate process -- or because a particular builtin needs direct access to the shell internals.</p>
+    <p><a name="FORKREF" id="FORKREF"></a></p>
+    <table class="SIDEBAR" border="1" cellpadding="5">
+      <tr>
+        <td>
+          <div class="SIDEBAR">
+            <a name="AEN8611" id="AEN8611"></a>
+            <p><a name="PARENTREF" id="PARENTREF"></a>When a command or the shell itself initiates (or <i class="FIRSTTERM">spawns</i>) a new subprocess to carry out a task, this is called <i class="FIRSTTERM">forking</i>. This new process is the <i class="FIRSTTERM">child</i>, and the process that <i class="FIRSTTERM">forked</i> it off is the <i class="FIRSTTERM">parent</i>. While the <i class="FIRSTTERM">child process</i> is doing its work, the <i class="FIRSTTERM">parent process</i> is still executing.</p>
+            <p>Note that while a <i class="FIRSTTERM">parent process</i> gets the <i class="FIRSTTERM">process ID</i> of the <i class="FIRSTTERM">child process</i>, and can thus pass arguments to it, <em>the reverse is not true</em>. <a href="gotchas.html#PARCHILDPROBREF">This can create problems that are subtle and hard to track down.</a></p>
+            <div class="EXAMPLE">
+              <a name="SPAWNSCR" id="SPAWNSCR"></a>
+              <p><b>Example 15-1. A script that spawns multiple instances of itself</b></p>
+              <table border="0" bgcolor="#E0E0E0" width="100%">
+                <tr>
+                  <td>
+                    <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # spawn.sh
 
 
@@ -230,420 +70,109 @@ exit 0               # Not necessary; script will never get to here.
 
 #  Is having a script spawn multiple instances of itself
 #+ an advisable scripting technique.
-#  Why or why not?</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="BLTINFRK"
-></A
-></P
-><P
->Generally, a Bash <I
-CLASS="FIRSTTERM"
->builtin</I
->
-		   does not fork a subprocess when it executes within
-		   a script. An external system command or filter in
-		   a script usually <EM
->will</EM
-> fork a
-		   subprocess.</P
-><P
-></P
-></DIV
-></TD
-></TR
-></TABLE
-><P
->A builtin may be a synonym to a system command of the same
-	name, but Bash reimplements it internally.  For example,
-	the Bash <B
-CLASS="COMMAND"
->echo</B
-> command is not the same as
-	<TT
-CLASS="FILENAME"
->/bin/echo</TT
->, although their behavior is
-	almost identical.
-	   <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#  Why or why not?</font></pre>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <p><a name="BLTINFRK" id="BLTINFRK"></a></p>
+            <p>Generally, a Bash <i class="FIRSTTERM">builtin</i> does not fork a subprocess when it executes within a script. An external system command or filter in a script usually <em>will</em> fork a subprocess.</p>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <p>A builtin may be a synonym to a system command of the same name, but Bash reimplements it internally. For example, the Bash <b class="COMMAND">echo</b> command is not the same as <tt class="FILENAME">/bin/echo</tt>, although their behavior is almost identical.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 echo "This line uses the \"echo\" builtin."
-/bin/echo "This line uses the /bin/echo system command."</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	</P
-><P
-><A
-NAME="KEYWORDREF"
-></A
->A <I
-CLASS="FIRSTTERM"
->keyword</I
->
-	is a <I
-CLASS="FIRSTTERM"
->reserved</I
-> word, token or
-	operator. Keywords have a special meaning to the shell,
-	and indeed are the building blocks of the shell's
-	syntax. As examples, <I
-CLASS="FIRSTTERM"
->for</I
->,
-	<I
-CLASS="FIRSTTERM"
->while</I
->, <I
-CLASS="FIRSTTERM"
->do</I
->,
-	and <I
-CLASS="FIRSTTERM"
->!</I
-> are keywords. Similar to a <A
-HREF="internal.html#BUILTINREF"
->builtin</A
->, a keyword is hard-coded into
-	Bash, but unlike a <I
-CLASS="FIRSTTERM"
->builtin</I
->, a keyword is
-	not in itself a command, but <EM
->a subunit of a command
-	construct</EM
->.
-
-	   <A
-NAME="AEN8650"
-HREF="#FTN.AEN8650"
-><SPAN
-CLASS="footnote"
->[2]</SPAN
-></A
->
-
-	</P
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="INTIO1"
-></A
->I/O</B
-></P
-><DL
-><DT
-><A
-NAME="ECHOREF"
-></A
-><B
-CLASS="COMMAND"
->echo</B
-></DT
-><DD
-><P
->prints (to <TT
-CLASS="FILENAME"
->stdout</TT
->) an expression
-	      or variable (see <A
-HREF="varsubn.html#EX9"
->Example 4-1</A
->). 
-	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->echo Hello
-echo $a</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->An <B
-CLASS="COMMAND"
->echo</B
-> requires the
-	      <TT
-CLASS="OPTION"
->-e</TT
-> option to print escaped characters. See
-	      <A
-HREF="escapingsection.html#ESCAPED"
->Example 5-2</A
->.</P
-><P
->Normally, each <B
-CLASS="COMMAND"
->echo</B
-> command prints
-	      a terminal newline, but the <TT
-CLASS="OPTION"
->-n</TT
-> option
-	      suppresses this.</P
-><P
-><A
-NAME="ECHOGREPREF"
-></A
-></P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->An <B
-CLASS="COMMAND"
->echo</B
-> can be used to feed a
-	      sequence of commands down a pipe.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->if echo "$VAR" | grep -q txt   # if [[ $VAR = *txt* ]]
+/bin/echo "This line uses the /bin/echo system command."</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p><a name="KEYWORDREF" id="KEYWORDREF"></a>A <i class="FIRSTTERM">keyword</i> is a <i class="FIRSTTERM">reserved</i> word, token or operator. Keywords have a special meaning to the shell, and indeed are the building blocks of the shell's syntax. As examples, <i class="FIRSTTERM">for</i>, <i class="FIRSTTERM">while</i>, <i class="FIRSTTERM">do</i>, and <i class="FIRSTTERM">!</i> are keywords. Similar to a <a href="internal.html#BUILTINREF">builtin</a>, a keyword is hard-coded into Bash, but unlike a <i class="FIRSTTERM">builtin</i>, a keyword is not in itself a command, but <em>a subunit of a command construct</em>. <a name="AEN8650" href="#FTN.AEN8650" id="AEN8650"><span class="footnote">[2]</span></a></p>
+    <div class="VARIABLELIST">
+      <p><b><a name="INTIO1" id="INTIO1"></a>I/O</b></p>
+      <dl>
+        <dt><a name="ECHOREF" id="ECHOREF"></a><b class="COMMAND">echo</b></dt>
+        <dd>
+          <p>prints (to <tt class="FILENAME">stdout</tt>) an expression or variable (see <a href="varsubn.html#EX9">Example 4-1</a>).</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">echo Hello
+echo $a</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>An <b class="COMMAND">echo</b> requires the <tt class="OPTION">-e</tt> option to print escaped characters. See <a href="escapingsection.html#ESCAPED">Example 5-2</a>.</p>
+          <p>Normally, each <b class="COMMAND">echo</b> command prints a terminal newline, but the <tt class="OPTION">-n</tt> option suppresses this.</p>
+          <p><a name="ECHOGREPREF" id="ECHOGREPREF"></a></p>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>An <b class="COMMAND">echo</b> can be used to feed a sequence of commands down a pipe.</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="PROGRAMLISTING"><font color="#000000">if echo "$VAR" | grep -q txt   # if [[ $VAR = *txt* ]]
 then
   echo "$VAR contains the substring sequence \"txt\""
-fi</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="ECHOCS"
-></A
-></P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->An <B
-CLASS="COMMAND"
->echo</B
->, in combination with
-	      <A
-HREF="commandsub.html#COMMANDSUBREF"
->command substitution</A
->
-	      can set a variable.</P
-><P
-><TT
-CLASS="USERINPUT"
-><B
->a=`echo
-	      "HELLO" | tr A-Z a-z`</B
-></TT
-></P
-><P
->See also <A
-HREF="textproc.html#LOWERCASE"
->Example 16-22</A
->, <A
-HREF="moreadv.html#EX57"
->Example 16-3</A
->, <A
-HREF="mathc.html#MONTHLYPMT"
->Example 16-47</A
->, and <A
-HREF="mathc.html#BASE"
->Example 16-48</A
->.</P
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Be aware that <B
-CLASS="COMMAND"
->echo `command`</B
->
-	      deletes any linefeeds that the output
-	      of <TT
-CLASS="REPLACEABLE"
-><I
->command</I
-></TT
->
-	      generates.</P
-><P
->The <A
-HREF="internalvariables.html#IFSREF"
->$IFS</A
-> (internal field
-	      separator) variable normally contains
-	      <SPAN
-CLASS="TOKEN"
->\n</SPAN
-> (linefeed) as one of its set of
-	      <A
-HREF="special-chars.html#WHITESPACEREF"
->whitespace</A
->
-	      characters. Bash therefore splits the output of
-	      <TT
-CLASS="REPLACEABLE"
-><I
->command</I
-></TT
-> at linefeeds
-	      into arguments to <B
-CLASS="COMMAND"
->echo</B
->.  Then
-	      <B
-CLASS="COMMAND"
->echo</B
-> outputs these arguments,
-	      separated by spaces.</P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->ls -l /usr/share/apps/kjezz/sounds</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->-rw-r--r--    1 root     root         1407 Nov  7  2000 reflect.au
- -rw-r--r--    1 root     root          362 Nov  7  2000 seconds.au</TT
->
+fi</font></pre>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p><a name="ECHOCS" id="ECHOCS"></a></p>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>An <b class="COMMAND">echo</b>, in combination with <a href="commandsub.html#COMMANDSUBREF">command substitution</a> can set a variable.</p>
+                  <p><tt class="USERINPUT"><b>a=`echo "HELLO" | tr A-Z a-z`</b></tt></p>
+                  <p>See also <a href="textproc.html#LOWERCASE">Example 16-22</a>, <a href="moreadv.html#EX57">Example 16-3</a>, <a href="mathc.html#MONTHLYPMT">Example 16-47</a>, and <a href="mathc.html#BASE">Example 16-48</a>.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>Be aware that <b class="COMMAND">echo `command`</b> deletes any linefeeds that the output of <tt class="REPLACEABLE"><i>command</i></tt> generates.</p>
+          <p>The <a href="internalvariables.html#IFSREF">$IFS</a> (internal field separator) variable normally contains <span class="TOKEN">\n</span> (linefeed) as one of its set of <a href="special-chars.html#WHITESPACEREF">whitespace</a> characters. Bash therefore splits the output of <tt class="REPLACEABLE"><i>command</i></tt> at linefeeds into arguments to <b class="COMMAND">echo</b>. Then <b class="COMMAND">echo</b> outputs these arguments, separated by spaces.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>ls -l /usr/share/apps/kjezz/sounds</b></tt>
+<tt class="COMPUTEROUTPUT">-rw-r--r--    1 root     root         1407 Nov  7  2000 reflect.au
+ -rw-r--r--    1 root     root          362 Nov  7  2000 seconds.au</tt>
 
 
 
 
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo `ls -l /usr/share/apps/kjezz/sounds`</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->total 40 -rw-r--r-- 1 root root 716 Nov 7 2000 reflect.au -rw-r--r-- 1 root root ...</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	    </P
-><P
->              So, how can we embed a linefeed within an
-	      <A
-HREF="internal.html#ECHOREF"
->echoed</A
-> character string?
-
-	     <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># Embedding a linefeed?
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo `ls -l /usr/share/apps/kjezz/sounds`</b></tt>
+<tt class="COMPUTEROUTPUT">total 40 -rw-r--r-- 1 root root 716 Nov 7 2000 reflect.au -rw-r--r-- 1 root root ...</tt>
+              </font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>So, how can we embed a linefeed within an <a href="internal.html#ECHOREF">echoed</a> character string?</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000"># Embedding a linefeed?
 echo "Why doesn't this string \n split on two lines?"
 # Doesn't split.
 
 # Let's try something else.
 
 echo
-	     
+             
 echo $"A line of text containing
 a linefeed."
 # Prints as two distinct lines (embedded linefeed).
@@ -680,198 +209,54 @@ echo $string1
 #                                    ^
 # Linefeed becomes a space.
 
-# Thanks, Steve Parker, for pointing this out.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-            </P
-><P
-><A
-NAME="BINECHO"
-></A
-></P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->This command is a shell builtin, and not the same as
-	      <TT
-CLASS="FILENAME"
->/bin/echo</TT
->, although its behavior is
-	      similar.</P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->type -a echo</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->echo is a shell builtin
- echo is /bin/echo</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	  </P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-><DT
-><A
-NAME="PRINTFREF"
-></A
-><B
-CLASS="COMMAND"
->printf</B
-></DT
-><DD
-><P
->The <B
-CLASS="COMMAND"
->printf</B
->, formatted print, command is an
-	      enhanced <B
-CLASS="COMMAND"
->echo</B
->. It is a limited variant
-	      of the <I
-CLASS="FIRSTTERM"
->C</I
-> language
-	      <TT
-CLASS="FUNCTION"
->printf()</TT
-> library function, and its
-	      syntax is somewhat different.</P
-><P
-><B
-CLASS="COMMAND"
->printf</B
->   <TT
-CLASS="REPLACEABLE"
-><I
->format-string</I
-></TT
->...   <TT
-CLASS="REPLACEABLE"
-><I
->parameter</I
-></TT
->... </P
-><P
->This is the Bash <I
-CLASS="FIRSTTERM"
->builtin</I
-> version
-	      of the <TT
-CLASS="FILENAME"
->/bin/printf</TT
-> or
-	      <TT
-CLASS="FILENAME"
->/usr/bin/printf</TT
-> command. See the
-	      <B
-CLASS="COMMAND"
->printf</B
-> <A
-HREF="basic.html#MANREF"
->manpage</A
-> (of the system command)
-	      for in-depth coverage.</P
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->Older versions of Bash may not support
-	      <B
-CLASS="COMMAND"
->printf</B
->.</P
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX47"
-></A
-><P
-><B
->Example 15-2. <I
-CLASS="FIRSTTERM"
->printf</I
-> in action</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# Thanks, Steve Parker, for pointing this out.</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p><a name="BINECHO" id="BINECHO"></a></p>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>This command is a shell builtin, and not the same as <tt class="FILENAME">/bin/echo</tt>, although its behavior is similar.</p>
+                  <table border="1" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>type -a echo</b></tt>
+<tt class="COMPUTEROUTPUT">echo is a shell builtin
+ echo is /bin/echo</tt>
+              </font></pre>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+        <dt><a name="PRINTFREF" id="PRINTFREF"></a><b class="COMMAND">printf</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">printf</b>, formatted print, command is an enhanced <b class="COMMAND">echo</b>. It is a limited variant of the <i class="FIRSTTERM">C</i> language <tt class="FUNCTION">printf()</tt> library function, and its syntax is somewhat different.</p>
+          <p><b class="COMMAND">printf</b> <tt class="REPLACEABLE"><i>format-string</i></tt>... <tt class="REPLACEABLE"><i>parameter</i></tt>...</p>
+          <p>This is the Bash <i class="FIRSTTERM">builtin</i> version of the <tt class="FILENAME">/bin/printf</tt> or <tt class="FILENAME">/usr/bin/printf</tt> command. See the <b class="COMMAND">printf</b> <a href="basic.html#MANREF">manpage</a> (of the system command) for in-depth coverage.</p>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>Older versions of Bash may not support <b class="COMMAND">printf</b>.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="EXAMPLE">
+            <a name="EX47" id="EX47"></a>
+            <p><b>Example 15-2. <i class="FIRSTTERM">printf</i> in action</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # printf demo
 
 declare -r PI=3.14159265358979     # Read-only variable, i.e., a constant.
@@ -911,36 +296,22 @@ echo $Msg; echo $Msg
 #+ as a loadable module to Bash,
 #+ but this is not portable.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Formatting error messages is a useful application of
-	      <B
-CLASS="COMMAND"
->printf</B
-></P
-><P
->	        <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->E_BADDIR=85
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>Formatting error messages is a useful application of <b class="COMMAND">printf</b></p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">E_BADDIR=85
 
 var=nonexistent_directory
 
 error()
 {
-  printf "$@" &#62;&#38;2
+  printf "$@" &gt;&amp;2
   # Formats positional params passed, and sends them to stderr.
   echo
   exit $E_BADDIR
@@ -948,72 +319,22 @@ error()
 
 cd $var || error $"Can't cd to %s." "$var"
 
-# Thanks, S.C.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-            </P
-><P
->See also <A
-HREF="assortedtips.html#PROGRESSBAR"
->Example 36-17</A
->.</P
-></DD
-><DT
-><A
-NAME="READREF"
-></A
-><B
-CLASS="COMMAND"
->read</B
-></DT
-><DD
-><P
-><SPAN
-CLASS="QUOTE"
->"Reads"</SPAN
-> the value
-	    of a variable from <TT
-CLASS="FILENAME"
->stdin</TT
->, that
-	    is, interactively fetches input from the keyboard. The
-	    <TT
-CLASS="OPTION"
->-a</TT
-> option lets <B
-CLASS="COMMAND"
->read</B
->
-	    get array variables (see <A
-HREF="arrays.html#EX67"
->Example 27-6</A
->).</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX36"
-></A
-><P
-><B
->Example 15-3. Variable assignment, using <I
-CLASS="FIRSTTERM"
->read</I
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# Thanks, S.C.</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>See also <a href="assortedtips.html#PROGRESSBAR">Example 36-17</a>.</p>
+        </dd>
+        <dt><a name="READREF" id="READREF"></a><b class="COMMAND">read</b></dt>
+        <dd>
+          <p><span class="QUOTE">"Reads"</span> the value of a variable from <tt class="FILENAME">stdin</tt>, that is, interactively fetches input from the keyboard. The <tt class="OPTION">-a</tt> option lets <b class="COMMAND">read</b> get array variables (see <a href="arrays.html#EX67">Example 27-6</a>).</p>
+          <div class="EXAMPLE">
+            <a name="EX36" id="EX36"></a>
+            <p><b>Example 15-3. Variable assignment, using <i class="FIRSTTERM">read</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # "Reading" variables.
 
 echo -n "Enter the value of variable 'var1': "
@@ -1035,45 +356,19 @@ echo "var2 = $var2      var3 = $var3"
 #  If you input only one value,
 #+ the other variable(s) will remain unset (null).
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->A <B
-CLASS="COMMAND"
->read</B
-> without an associated variable
-	      assigns its input to the dedicated variable <A
-HREF="internalvariables.html#REPLYREF"
->$REPLY</A
->.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="READNOVAR"
-></A
-><P
-><B
->Example 15-4. What happens when <I
-CLASS="FIRSTTERM"
->read</I
-> has no
-	        variable</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>A <b class="COMMAND">read</b> without an associated variable assigns its input to the dedicated variable <a href="internalvariables.html#REPLYREF">$REPLY</a>.</p>
+          <div class="EXAMPLE">
+            <a name="READNOVAR" id="READNOVAR"></a>
+            <p><b>Example 15-4. What happens when <i class="FIRSTTERM">read</i> has no variable</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # read-novar.sh
 
 echo
@@ -1114,69 +409,31 @@ echo
 { # Code block.
 read            # Line 1, to be discarded.
 read line2      # Line 2, saved in variable.
-  } &#60;$0
+  } &lt;$0
 echo "Line 2 of this script is:"
 echo "$line2"   #   # read-novar.sh
 echo            #   #!/bin/bash  line discarded.
 
 # See also the soundcard-on.sh script.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Normally, inputting a <TT
-CLASS="USERINPUT"
-><B
->\</B
-></TT
->
-	      suppresses a newline during input to
-	      a <B
-CLASS="COMMAND"
->read</B
->. The <TT
-CLASS="OPTION"
->-r</TT
->
-	      option causes an inputted <TT
-CLASS="USERINPUT"
-><B
->\</B
-></TT
-> to be
-	      interpreted literally.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="READR"
-></A
-><P
-><B
->Example 15-5. Multi-line input to <I
-CLASS="FIRSTTERM"
->read</I
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>Normally, inputting a <tt class="USERINPUT"><b>\</b></tt> suppresses a newline during input to a <b class="COMMAND">read</b>. The <tt class="OPTION">-r</tt> option causes an inputted <tt class="USERINPUT"><b>\</b></tt> to be interpreted literally.</p>
+          <div class="EXAMPLE">
+            <a name="READR" id="READR"></a>
+            <p><b>Example 15-5. Multi-line input to <i class="FIRSTTERM">read</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 echo
 
-echo "Enter a string terminated by a \\, then press &#60;ENTER&#62;."
-echo "Then, enter a second string (no \\ this time), and again press &#60;ENTER&#62;."
+echo "Enter a string terminated by a \\, then press &lt;ENTER&gt;."
+echo "Then, enter a second string (no \\ this time), and again press &lt;ENTER&gt;."
 
 read var1     # The "\" suppresses the newline, when reading $var1.
               #     first line \
@@ -1190,50 +447,28 @@ echo "var1 = $var1"
 
 echo; echo
 
-echo "Enter another string terminated by a \\ , then press &#60;ENTER&#62;."
+echo "Enter another string terminated by a \\ , then press &lt;ENTER&gt;."
 read -r var2  # The -r option causes the "\" to be read literally.
               #     first line \
 
 echo "var2 = $var2"
 #     var2 = first line \
 
-# Data entry terminates with the first &#60;ENTER&#62;.
+# Data entry terminates with the first &lt;ENTER&gt;.
 
 echo 
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="READOPTIONS"
-></A
-></P
-><P
->The <B
-CLASS="COMMAND"
->read</B
-> command has some interesting
-	      options that permit echoing a prompt and even reading keystrokes
-	      without hitting <B
-CLASS="KEYCAP"
->ENTER</B
->.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># Read a keypress without hitting ENTER.
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p><a name="READOPTIONS" id="READOPTIONS"></a></p>
+          <p>The <b class="COMMAND">read</b> command has some interesting options that permit echoing a prompt and even reading keystrokes without hitting <b class="KEYCAP">ENTER</b>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000"># Read a keypress without hitting ENTER.
 
 read -s -n1 -p "Hit a key " keypress
 echo; echo "Keypress was "\"$keypress\""."
@@ -1242,50 +477,19 @@ echo; echo "Keypress was "\"$keypress\""."
 # -n N option means accept only N characters of input.
 # -p option means echo the following prompt before reading input.
 
-# Using these options is tricky, since they need to be in the correct order.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
-><A
-NAME="READARROW"
-></A
-></P
-><P
->The <TT
-CLASS="OPTION"
->-n</TT
-> option to <B
-CLASS="COMMAND"
->read</B
->
-	      also allows detection of the <B
-CLASS="KEYCAP"
->arrow keys</B
->
-	      and certain of the other unusual keys.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="ARROWDETECT"
-></A
-><P
-><B
->Example 15-6. Detecting the arrow keys</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# Using these options is tricky, since they need to be in the correct order.</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p><a name="READARROW" id="READARROW"></a></p>
+          <p>The <tt class="OPTION">-n</tt> option to <b class="COMMAND">read</b> also allows detection of the <b class="KEYCAP">arrow keys</b> and certain of the other unusual keys.</p>
+          <div class="EXAMPLE">
+            <a name="ARROWDETECT" id="ARROWDETECT"></a>
+            <p><b>Example 15-6. Detecting the arrow keys</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # arrow-detect.sh: Detects the arrow keys, and a few more.
 # Thank you, Sandro Magi, for showing me how.
 
@@ -1410,148 +614,39 @@ done
 
 #  Exercise:
 #  --------
-#  1) Add detection of the "Home," "End," "PgUp," and "PgDn" keys.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The <TT
-CLASS="OPTION"
->-n</TT
-> option to <B
-CLASS="COMMAND"
->read</B
->
-	      will not detect the <B
-CLASS="KEYCAP"
->ENTER</B
-> (newline)
-	      key.</P
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="READTIMED"
-></A
-></P
-><P
->The <TT
-CLASS="OPTION"
->-t</TT
-> option to <B
-CLASS="COMMAND"
->read</B
->
-	      permits timed input (see <A
-HREF="internalvariables.html#TOUT"
->Example 9-4</A
-> and <A
-HREF="contributed-scripts.html#QKY"
->Example A-41</A
->).</P
-><P
-><A
-NAME="READFD"
-></A
->The <TT
-CLASS="OPTION"
->-u</TT
-> option
-                takes the <A
-HREF="io-redirection.html#FDREF"
->file descriptor</A
->
-                of the target file.</P
-><P
-><A
-NAME="READREDIR0"
-></A
-></P
-><P
->The <B
-CLASS="COMMAND"
->read</B
-> command may also
-	      <SPAN
-CLASS="QUOTE"
->"read"</SPAN
-> its variable value from a file
-	      <A
-HREF="io-redirection.html#IOREDIRREF"
->redirected</A
-> to
-	      <TT
-CLASS="FILENAME"
->stdin</TT
->.  If the file contains
-	      more than one line, only the first line is assigned
-	      to the variable. If <B
-CLASS="COMMAND"
->read</B
->
-	      has more than one parameter, then each of
-	      these variables gets assigned a successive <A
-HREF="special-chars.html#WHITESPACEREF"
->whitespace-delineated</A
->
-	      string. Caution!</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="READREDIR"
-></A
-><P
-><B
->Example 15-7. Using <I
-CLASS="FIRSTTERM"
->read</I
-> with
-	        <A
-HREF="io-redirection.html#IOREDIRREF"
->file redirection</A
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#  1) Add detection of the "Home," "End," "PgUp," and "PgDn" keys.</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>The <tt class="OPTION">-n</tt> option to <b class="COMMAND">read</b> will not detect the <b class="KEYCAP">ENTER</b> (newline) key.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p><a name="READTIMED" id="READTIMED"></a></p>
+          <p>The <tt class="OPTION">-t</tt> option to <b class="COMMAND">read</b> permits timed input (see <a href="internalvariables.html#TOUT">Example 9-4</a> and <a href="contributed-scripts.html#QKY">Example A-41</a>).</p>
+          <p><a name="READFD" id="READFD"></a>The <tt class="OPTION">-u</tt> option takes the <a href="io-redirection.html#FDREF">file descriptor</a> of the target file.</p>
+          <p><a name="READREDIR0" id="READREDIR0"></a></p>
+          <p>The <b class="COMMAND">read</b> command may also <span class="QUOTE">"read"</span> its variable value from a file <a href="io-redirection.html#IOREDIRREF">redirected</a> to <tt class="FILENAME">stdin</tt>. If the file contains more than one line, only the first line is assigned to the variable. If <b class="COMMAND">read</b> has more than one parameter, then each of these variables gets assigned a successive <a href="special-chars.html#WHITESPACEREF">whitespace-delineated</a> string. Caution!</p>
+          <div class="EXAMPLE">
+            <a name="READREDIR" id="READREDIR"></a>
+            <p><b>Example 15-7. Using <i class="FIRSTTERM">read</i> with <a href="io-redirection.html#IOREDIRREF">file redirection</a></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
-read var1 &#60;data-file
+read var1 &lt;data-file
 echo "var1 = $var1"
 # var1 set to the entire first line of the input file "data-file"
 
-read var2 var3 &#60;data-file
+read var2 var3 &lt;data-file
 echo "var2 = $var2   var3 = $var3"
 # Note non-intuitive behavior of "read" here.
 # 1) Rewinds back to the beginning of input file.
@@ -1567,7 +662,7 @@ echo "------------------------------------------------"
 while read line
 do
   echo "$line"
-done &#60;data-file
+done &lt;data-file
 # Thanks, Heiner Steven for pointing this out.
 
 echo "------------------------------------------------"
@@ -1580,7 +675,7 @@ OIFS=$IFS; IFS=:       # /etc/passwd uses ":" for field separator.
 while read name passwd uid gid fullname ignore
 do
   echo "$name ($fullname)"
-done &#60;/etc/passwd   # I/O redirection.
+done &lt;/etc/passwd   # I/O redirection.
 IFS=$OIFS              # Restore original $IFS.
 # This code snippet also by Heiner Steven.
 
@@ -1596,116 +691,44 @@ echo "List of all users:"
 while IFS=: read name passwd uid gid fullname ignore
 do
   echo "$name ($fullname)"
-done &#60;/etc/passwd   # I/O redirection.
+done &lt;/etc/passwd   # I/O redirection.
 
 echo
 echo "\$IFS still $IFS"
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
-><A
-NAME="PIPEREADREF0"
-></A
-></P
-><P
-><A
-HREF="special-chars.html#PIPEREF"
->Piping</A
-> output
-	      to a <I
-CLASS="FIRSTTERM"
->read</I
->, using <A
-HREF="internal.html#ECHOREF"
->echo</A
-> to set variables <A
-HREF="gotchas.html#BADREAD0"
->will fail</A
->.</P
-><P
-><A
-NAME="READPIPEREF"
-></A
->Yet, piping the output of <A
-HREF="basic.html#CATREF"
->cat</A
-> <EM
->seems</EM
-> to
-	      work.</P
-><P
-><A
-NAME="WHILEREADREF"
-></A
-></P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->cat file1 file2 |
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p><a name="PIPEREADREF0" id="PIPEREADREF0"></a></p>
+                  <p><a href="special-chars.html#PIPEREF">Piping</a> output to a <i class="FIRSTTERM">read</i>, using <a href="internal.html#ECHOREF">echo</a> to set variables <a href="gotchas.html#BADREAD0">will fail</a>.</p>
+                  <p><a name="READPIPEREF" id="READPIPEREF"></a>Yet, piping the output of <a href="basic.html#CATREF">cat</a> <em>seems</em> to work.</p>
+                  <p><a name="WHILEREADREF" id="WHILEREADREF"></a></p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="PROGRAMLISTING"><font color="#000000">cat file1 file2 |
 while read line
 do
 echo $line
-done</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->However, as Bjön Eriksson shows:</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="READPIPE"
-></A
-><P
-><B
->Example 15-8. Problems reading from a pipe</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/sh
+done</font></pre>
+                      </td>
+                    </tr>
+                  </table>
+                  <p>However, as Bjï¿½n Eriksson shows:</p>
+                  <div class="EXAMPLE">
+                    <a name="READPIPE" id="READPIPE"></a>
+                    <p><b>Example 15-8. Problems reading from a pipe</b></p>
+                    <table border="0" bgcolor="#E0E0E0" width="90%">
+                      <tr>
+                        <td>
+                          <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/sh
 # readpipe.sh
 # This example contributed by Bjon Eriksson.
 
@@ -1747,388 +770,93 @@ exit 0  # End of code.
 All done, last: (null)
 
 The variable (last) is set within the loop/subshell
-but its value does not persist outside the loop.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->The <I
-CLASS="FIRSTTERM"
->gendiff</I
-> script, usually
-              found in <TT
-CLASS="FILENAME"
->/usr/bin</TT
-> on
-              many Linux distros, pipes the output of <A
-HREF="moreadv.html#FINDREF"
->find</A
-> to a <I
-CLASS="FIRSTTERM"
->while
-              read</I
-> construct.
-
-	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->find $1 \( -name "*$2" -o -name ".*$2" \) -print |
+but its value does not persist outside the loop.</font></pre>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <p>The <i class="FIRSTTERM">gendiff</i> script, usually found in <tt class="FILENAME">/usr/bin</tt> on many Linux distros, pipes the output of <a href="moreadv.html#FINDREF">find</a> to a <i class="FIRSTTERM">while read</i> construct.</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="PROGRAMLISTING"><font color="#000000">find $1 \( -name "*$2" -o -name ".*$2" \) -print |
 while read f; do
-. . .</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-            </P
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="TIP"
-><P
-></P
-><TABLE
-CLASS="TIP"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/tip.gif"
-HSPACE="5"
-ALT="Tip"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->It is possible to <I
-CLASS="FIRSTTERM"
->paste</I
-> text into
-	        the input field of a <I
-CLASS="FIRSTTERM"
->read</I
-> (but
-		<EM
->not</EM
-> multiple lines!). See <A
-HREF="contributed-scripts.html#PADSW"
->Example A-38</A
->.</P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-></DL
-></DIV
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="INTFILESYSTEM1"
-></A
->Filesystem</B
-></P
-><DL
-><DT
-><A
-NAME="CDREF"
-></A
-><B
-CLASS="COMMAND"
->cd</B
-></DT
-><DD
-><P
->The familiar <B
-CLASS="COMMAND"
->cd</B
-> change directory
-	      command finds use in scripts where execution of a command
-	      requires being in a specified directory.</P
-><P
->  
-	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->(cd /source/directory &#38;&#38; tar cf - . ) | (cd /dest/directory &#38;&#38; tar xpvf -)</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	      [from the <A
-HREF="special-chars.html#COXEX"
->previously cited</A
->
-	      example by Alan Cox]</P
-><P
->The <TT
-CLASS="OPTION"
->-P</TT
-> (physical) option to
-	      <B
-CLASS="COMMAND"
->cd</B
-> causes it to ignore symbolic
-	      links.</P
-><P
-><B
-CLASS="COMMAND"
->cd -</B
-> changes to <A
-HREF="internalvariables.html#OLDPWD"
->$OLDPWD</A
->, the previous working
-	    directory.</P
-><P
-><A
-NAME="DOUBLESLASHREF"
-></A
-></P
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The <B
-CLASS="COMMAND"
->cd</B
-> command does not function
-	      as expected when presented with two forward slashes.
-
-	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->cd //</B
-></TT
->
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->pwd</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->//</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	      The output should, of course, be <TT
-CLASS="COMPUTEROUTPUT"
->/</TT
->.
-	      This is a problem both from the command-line and in a script.</P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-><DT
-><A
-NAME="PWD2REF"
-></A
-><B
-CLASS="COMMAND"
->pwd</B
-></DT
-><DD
-><P
->Print Working Directory. This gives the user's
-	      (or script's) current directory (see <A
-HREF="internal.html#EX37"
->Example 15-9</A
->). The effect is identical to
-	      reading the value of the builtin variable <A
-HREF="internalvariables.html#PWDREF"
->$PWD</A
->.</P
-></DD
-><DT
-><A
-NAME="DIRSD"
-></A
-><B
-CLASS="COMMAND"
->pushd</B
->, <B
-CLASS="COMMAND"
->popd</B
->, <B
-CLASS="COMMAND"
->dirs</B
-></DT
-><DD
-><P
->This command set is a mechanism for bookmarking
-	      working directories, a means of moving back and forth
-	      through directories in an orderly manner. A pushdown <A
-HREF="internalvariables.html#STACKDEFREF"
->stack</A
-> is used to keep track
-	      of directory names. Options allow various manipulations
-	      of the directory stack.</P
-><P
-><A
-NAME="PUSHDREF"
-></A
-><TT
-CLASS="USERINPUT"
-><B
->pushd
-	      dir-name</B
-></TT
-> pushes the path
-	      <TT
-CLASS="REPLACEABLE"
-><I
->dir-name</I
-></TT
-> onto the directory
-	      stack (to the <I
-CLASS="FIRSTTERM"
->top</I
-> of the stack)
-	      and simultaneously changes the current working directory
-	      to <TT
-CLASS="REPLACEABLE"
-><I
->dir-name</I
-></TT
-></P
-><P
-><A
-NAME="POPDREF"
-></A
-><B
-CLASS="COMMAND"
->popd</B
-> removes
-	      (pops) the top directory path name off the directory stack
-	      and simultaneously changes the current working directory
-	      to the directory now at the <I
-CLASS="FIRSTTERM"
->top</I
-> of
-	      the stack.</P
-><P
-><A
-NAME="DIRSREF"
-></A
-><B
-CLASS="COMMAND"
->dirs</B
-> lists
-	      the contents of the directory stack (compare this
-	      with the <A
-HREF="internalvariables.html#DIRSTACKREF"
->$DIRSTACK</A
->
-	      variable).  A successful <B
-CLASS="COMMAND"
->pushd</B
->
-	      or <B
-CLASS="COMMAND"
->popd</B
-> will automatically invoke
-	      <B
-CLASS="COMMAND"
->dirs</B
->.</P
-><P
->Scripts that require various changes to the current
-	      working directory without hard-coding the directory name
-	      changes can make good use of these commands. Note that
-	      the implicit <TT
-CLASS="VARNAME"
->$DIRSTACK</TT
-> array variable,
-	      accessible from within a script, holds the contents of
-	      the directory stack.
-	    </P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX37"
-></A
-><P
-><B
->Example 15-9. Changing the current working directory</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+. . .</font></pre>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="TIP">
+            <table class="TIP" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/tip.gif" hspace="5" alt="Tip"></td>
+                <td align="left" valign="top">
+                  <p>It is possible to <i class="FIRSTTERM">paste</i> text into the input field of a <i class="FIRSTTERM">read</i> (but <em>not</em> multiple lines!). See <a href="contributed-scripts.html#PADSW">Example A-38</a>.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="INTFILESYSTEM1" id="INTFILESYSTEM1"></a>Filesystem</b></p>
+      <dl>
+        <dt><a name="CDREF" id="CDREF"></a><b class="COMMAND">cd</b></dt>
+        <dd>
+          <p>The familiar <b class="COMMAND">cd</b> change directory command finds use in scripts where execution of a command requires being in a specified directory.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">(cd /source/directory &amp;&amp; tar cf - . ) | (cd /dest/directory &amp;&amp; tar xpvf -)</font></pre>
+              </td>
+            </tr>
+          </table>[from the <a href="special-chars.html#COXEX">previously cited</a> example by Alan Cox]
+          <p>The <tt class="OPTION">-P</tt> (physical) option to <b class="COMMAND">cd</b> causes it to ignore symbolic links.</p>
+          <p><b class="COMMAND">cd -</b> changes to <a href="internalvariables.html#OLDPWD">$OLDPWD</a>, the previous working directory.</p>
+          <p><a name="DOUBLESLASHREF" id="DOUBLESLASHREF"></a></p>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>The <b class="COMMAND">cd</b> command does not function as expected when presented with two forward slashes.</p>
+                  <table border="1" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>cd //</b></tt>
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>pwd</b></tt>
+<tt class="COMPUTEROUTPUT">//</tt>
+              </font></pre>
+                      </td>
+                    </tr>
+                  </table>The output should, of course, be <tt class="COMPUTEROUTPUT">/</tt>. This is a problem both from the command-line and in a script.
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+        <dt><a name="PWD2REF" id="PWD2REF"></a><b class="COMMAND">pwd</b></dt>
+        <dd>
+          <p>Print Working Directory. This gives the user's (or script's) current directory (see <a href="internal.html#EX37">Example 15-9</a>). The effect is identical to reading the value of the builtin variable <a href="internalvariables.html#PWDREF">$PWD</a>.</p>
+        </dd>
+        <dt><a name="DIRSD" id="DIRSD"></a><b class="COMMAND">pushd</b>, <b class="COMMAND">popd</b>, <b class="COMMAND">dirs</b></dt>
+        <dd>
+          <p>This command set is a mechanism for bookmarking working directories, a means of moving back and forth through directories in an orderly manner. A pushdown <a href="internalvariables.html#STACKDEFREF">stack</a> is used to keep track of directory names. Options allow various manipulations of the directory stack.</p>
+          <p><a name="PUSHDREF" id="PUSHDREF"></a><tt class="USERINPUT"><b>pushd dir-name</b></tt> pushes the path <tt class="REPLACEABLE"><i>dir-name</i></tt> onto the directory stack (to the <i class="FIRSTTERM">top</i> of the stack) and simultaneously changes the current working directory to <tt class="REPLACEABLE"><i>dir-name</i></tt></p>
+          <p><a name="POPDREF" id="POPDREF"></a><b class="COMMAND">popd</b> removes (pops) the top directory path name off the directory stack and simultaneously changes the current working directory to the directory now at the <i class="FIRSTTERM">top</i> of the stack.</p>
+          <p><a name="DIRSREF" id="DIRSREF"></a><b class="COMMAND">dirs</b> lists the contents of the directory stack (compare this with the <a href="internalvariables.html#DIRSTACKREF">$DIRSTACK</a> variable). A successful <b class="COMMAND">pushd</b> or <b class="COMMAND">popd</b> will automatically invoke <b class="COMMAND">dirs</b>.</p>
+          <p>Scripts that require various changes to the current working directory without hard-coding the directory name changes can make good use of these commands. Note that the implicit <tt class="VARNAME">$DIRSTACK</tt> array variable, accessible from within a script, holds the contents of the directory stack.</p>
+          <div class="EXAMPLE">
+            <a name="EX37" id="EX37"></a>
+            <p><b>Example 15-9. Changing the current working directory</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 dir1=/usr/local
 dir2=/var/spool
@@ -2153,83 +881,27 @@ echo "Now back in original working directory `pwd`."
 exit 0
 
 # What happens if you don't 'popd' -- then exit the script?
-# Which directory do you end up in? Why?</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-></DL
-></DIV
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="INTVAR1"
-></A
->Variables</B
-></P
-><DL
-><DT
-><A
-NAME="LETREF"
-></A
-><B
-CLASS="COMMAND"
->let</B
-></DT
-><DD
-><P
->The <B
-CLASS="COMMAND"
->let</B
-> command carries out
-                    <I
-CLASS="FIRSTTERM"
->arithmetic</I
-> operations on variables.
-
-          <A
-NAME="AEN9009"
-HREF="#FTN.AEN9009"
-><SPAN
-CLASS="footnote"
->[3]</SPAN
-></A
->
-			  
-		    In many cases, it functions as a less complex version
-                    of <A
-HREF="moreadv.html#EXPRREF"
->expr</A
->.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX46"
-></A
-><P
-><B
->Example 15-10. Letting <I
-CLASS="FIRSTTERM"
->let</I
-> do arithmetic.</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# Which directory do you end up in? Why?</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="INTVAR1" id="INTVAR1"></a>Variables</b></p>
+      <dl>
+        <dt><a name="LETREF" id="LETREF"></a><b class="COMMAND">let</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">let</b> command carries out <i class="FIRSTTERM">arithmetic</i> operations on variables. <a name="AEN9009" href="#FTN.AEN9009" id="AEN9009"><span class="footnote">[3]</span></a> In many cases, it functions as a less complex version of <a href="moreadv.html#EXPRREF">expr</a>.</p>
+          <div class="EXAMPLE">
+            <a name="EX46" id="EX46"></a>
+            <p><b>Example 15-10. Letting <i class="FIRSTTERM">let</i> do arithmetic.</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 echo
 
@@ -2238,7 +910,7 @@ let a=a+5           # Equivalent to  let "a = a + 5"
                     # (Double quotes and spaces make it more readable.)
 echo "11 + 5 = $a"  # 16
 
-let "a &#60;&#60;= 3"       # Equivalent to  let "a = a &#60;&#60; 3"
+let "a &lt;&lt;= 3"       # Equivalent to  let "a = a &lt;&lt; 3"
 echo "\"\$a\" (=16) left-shifted 3 places = $a"
                     # 128
 
@@ -2270,65 +942,29 @@ echo
 # Trinary operator.
 
 # Note that $a is 6, see above.
-let "t = a&#60;7?7:11"   # True
+let "t = a&lt;7?7:11"   # True
 echo $t  # 7
 
 let a++
-let "t = a&#60;7?7:11"   # False
+let "t = a&lt;7?7:11"   # False
 echo $t  #     11
 
-exit</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="EXITVALANOMALY02"
-></A
-></P
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The <I
-CLASS="FIRSTTERM"
->let</I
-> command can,
-                      in certain contexts, return a surprising <A
-HREF="exit-status.html#EXITSTATUSREF"
->exit status</A
->.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># Evgeniy Ivanov points out:
+exit</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p><a name="EXITVALANOMALY02" id="EXITVALANOMALY02"></a></p>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>The <i class="FIRSTTERM">let</i> command can, in certain contexts, return a surprising <a href="exit-status.html#EXITSTATUSREF">exit status</a>.</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="PROGRAMLISTING"><font color="#000000"># Evgeniy Ivanov points out:
 
 var=0
 echo $?     # 0
@@ -2353,152 +989,47 @@ echo $?     # 1
 #  However, as Jeff Gorak points out,
 #+ this is part of the design spec for 'let' . . .
 # "If the last ARG evaluates to 0, let returns 1;
-#  let returns 0 otherwise." ['help let']</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-><DT
-><A
-NAME="EVALREF"
-></A
-><B
-CLASS="COMMAND"
->eval</B
-></DT
-><DD
-><P
-><TT
-CLASS="USERINPUT"
-><B
->eval arg1 [arg2] ... [argN]</B
-></TT
-></P
-><P
->Combines the arguments in an expression or list of
-              expressions and <TT
-CLASS="REPLACEABLE"
-><I
->evaluates</I
-></TT
-> them.
-              Any variables within the expression are expanded. The
-	      net result is to <B
-CLASS="COMMAND"
->convert a string into a
-              command</B
->.</P
-><DIV
-CLASS="TIP"
-><P
-></P
-><TABLE
-CLASS="TIP"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/tip.gif"
-HSPACE="5"
-ALT="Tip"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The <B
-CLASS="COMMAND"
->eval</B
-> command can be used for
-	      code generation from the command-line or within a script.
-	      </P
-></TD
-></TR
-></TABLE
-></DIV
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->command_string="ps ax"</B
-></TT
->
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->process="ps ax"</B
-></TT
->
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->eval "$command_string" | grep "$process"</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->26973 pts/3    R+     0:00 grep --color ps ax
- 26974 pts/3    R+     0:00 ps ax</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	      </P
-><P
-><A
-NAME="EVALFORCED"
-></A
-></P
-><P
->Each invocation of <I
-CLASS="FIRSTTERM"
->eval</I
-> forces
-        a re-<EM
->evaluation</EM
-> of its arguments.
-	<TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->a='$b'
+#  let returns 0 otherwise." ['help let']</font></pre>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+        <dt><a name="EVALREF" id="EVALREF"></a><b class="COMMAND">eval</b></dt>
+        <dd>
+          <p><tt class="USERINPUT"><b>eval arg1 [arg2] ... [argN]</b></tt></p>
+          <p>Combines the arguments in an expression or list of expressions and <tt class="REPLACEABLE"><i>evaluates</i></tt> them. Any variables within the expression are expanded. The net result is to <b class="COMMAND">convert a string into a command</b>.</p>
+          <div class="TIP">
+            <table class="TIP" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/tip.gif" hspace="5" alt="Tip"></td>
+                <td align="left" valign="top">
+                  <p>The <b class="COMMAND">eval</b> command can be used for code generation from the command-line or within a script.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>command_string="ps ax"</b></tt>
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>process="ps ax"</b></tt>
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>eval "$command_string" | grep "$process"</b></tt>
+<tt class="COMPUTEROUTPUT">26973 pts/3    R+     0:00 grep --color ps ax
+ 26974 pts/3    R+     0:00 ps ax</tt>
+              </font></pre>
+              </td>
+            </tr>
+          </table>
+          <p><a name="EVALFORCED" id="EVALFORCED"></a></p>
+          <p>Each invocation of <i class="FIRSTTERM">eval</i> forces a re-<em>evaluation</em> of its arguments.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">a='$b'
 b='$c'
 c=d
 
@@ -2509,40 +1040,18 @@ eval echo $a        # $c
 eval eval echo $a   # d
                     # Third level.
 
-# Thank you, E. Choroba.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
-><A
-NAME="EVALEFF"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX43"
-></A
-><P
-><B
->Example 15-11. Showing the effect of <I
-CLASS="FIRSTTERM"
->eval</I
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# Thank you, E. Choroba.</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p><a name="EVALEFF" id="EVALEFF"></a></p>
+          <div class="EXAMPLE">
+            <a name="EX43" id="EX43"></a>
+            <p><b>Example 15-11. Showing the effect of <i class="FIRSTTERM">eval</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # Exercising "eval" ...
 
 y=`eval ls -l`  #  Similar to y=`ls -l`
@@ -2562,7 +1071,7 @@ echo
 echo "==========================================================="
 echo
 
-eval "`seq 3 | sed -e 's/.*/echo var&#38;=ABCDEFGHIJ/'`"
+eval "`seq 3 | sed -e 's/.*/echo var&amp;=ABCDEFGHIJ/'`"
 # var1=ABCDEFGHIJ
 # var2=ABCDEFGHIJ
 # var3=ABCDEFGHIJ
@@ -2581,41 +1090,19 @@ echo "version = $version"
 eval major=${version/./;minor=}     #  Replaces '.' in version by ';minor='
                                     #  The substitution yields '3; minor=4'
                                     #+ so eval does minor=4, major=3
-echo Major: $major, minor: $minor   #  Major: 3, minor: 4</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="ARRCHOICE0"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="ARRCHOICE"
-></A
-><P
-><B
->Example 15-12. Using <I
-CLASS="FIRSTTERM"
->eval</I
-> to select
-                      among variables</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+echo Major: $major, minor: $minor   #  Major: 3, minor: 4</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p><a name="ARRCHOICE0" id="ARRCHOICE0"></a></p>
+          <div class="EXAMPLE">
+            <a name="ARRCHOICE" id="ARRCHOICE"></a>
+            <p><b>Example 15-12. Using <i class="FIRSTTERM">eval</i> to select among variables</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # arr-choice.sh
 
 #  Passing arguments to a function to select
@@ -2649,39 +1136,18 @@ array_number=3    # Null array (arr3 not allocated).
 element_number=4
 choose_array      # (null)
 
-# Thank you, Antonio Macchi, for pointing this out.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="ECHOPARAMS"
-></A
-><P
-><B
->Example 15-13. <I
-CLASS="FIRSTTERM"
->Echoing</I
-> the
-	        <I
-CLASS="FIRSTTERM"
->command-line parameters</I
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# Thank you, Antonio Macchi, for pointing this out.</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="EXAMPLE">
+            <a name="ECHOPARAMS" id="ECHOPARAMS"></a>
+            <p><b>Example 15-13. <i class="FIRSTTERM">Echoing</i> the <i class="FIRSTTERM">command-line parameters</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # echo-params.sh
 
 # Call this script with a few command-line parameters.
@@ -2719,32 +1185,18 @@ Command-line parameter $1 = first
 Command-line parameter $2 = second
 Command-line parameter $3 = third
 Command-line parameter $4 = fourth
-Command-line parameter $5 = fifth</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX44"
-></A
-><P
-><B
->Example 15-14. Forcing a log-off</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+Command-line parameter $5 = fifth</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="EXAMPLE">
+            <a name="EX44" id="EX44"></a>
+            <p><b>Example 15-14. Forcing a log-off</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # Killing ppp to force a log-off.
 # For dialup connection, of course.
 
@@ -2778,35 +1230,18 @@ exit $?
 # 2) Do a check on whether the process to be killed
 #+   is actually running before attempting to kill it.   
 # 3) Write an alternate version of this script based on 'fuser':
-#+      if [ fuser -s /dev/modem ]; then . . .</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="ROT14"
-></A
-><P
-><B
->Example 15-15. A version of <I
-CLASS="FIRSTTERM"
->rot13</I
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#+      if [ fuser -s /dev/modem ]; then . . .</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="EXAMPLE">
+            <a name="ROT14" id="ROT14"></a>
+            <p><b>Example 15-15. A version of <i class="FIRSTTERM">rot13</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # A version of "rot13" using 'eval'.
 # Compare to "rot13.sh" example.
 
@@ -2827,241 +1262,60 @@ echo $var                    # foobar
 # This example by Stephane Chazelas.
 # Modified by document author.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Here is another example of using
-              <I
-CLASS="FIRSTTERM"
->eval</I
-> to
-              <EM
->evaluate</EM
-> a complex expression,
-              this one from an earlier version of YongYe's <A
-HREF="https://github.com/yongye/shell/blob/master/Tetris_Game.sh"
-TARGET="_top"
->Tetris
-              game script</A
->.</P
-><P
->           <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->eval ${1}+=\"${x} ${y} \"</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-           </P
-><P
-><A
-HREF="contributed-scripts.html#SAMORSE"
->Example A-53</A
-> uses
-	      <I
-CLASS="FIRSTTERM"
->eval</I
-> to convert <A
-HREF="arrays.html#ARRAYREF"
->array</A
-> elements into a command
-              list.</P
-><P
->The <I
-CLASS="FIRSTTERM"
->eval</I
-> command occurs
-	      in the older version of <A
-HREF="ivr.html#IVRREF"
->indirect
-	      referencing</A
->.
-	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->eval var=\$$var</PRE
-></FONT
-></TD
-></TR
-></TABLE
-> 
-	      </P
-><DIV
-CLASS="TIP"
-><P
-></P
-><TABLE
-CLASS="TIP"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/tip.gif"
-HSPACE="5"
-ALT="Tip"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The <I
-CLASS="FIRSTTERM"
->eval</I
-> command can
-                be used to <A
-HREF="bashver3.html#BRACEEXPREF3"
->parameterize
-                <I
-CLASS="FIRSTTERM"
->brace expansion</I
-></A
->.</P
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="EVALRISK"
-></A
-></P
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The <B
-CLASS="COMMAND"
->eval</B
-> command can be
-	      risky, and normally should be avoided when there
-	      exists a reasonable alternative. An <TT
-CLASS="USERINPUT"
-><B
->eval
-	      $COMMANDS</B
-></TT
-> executes the contents of
-	      <TT
-CLASS="REPLACEABLE"
-><I
->COMMANDS</I
-></TT
->, which may
-	      contain such unpleasant surprises as <B
-CLASS="COMMAND"
->rm -rf
-	      *</B
->. Running an <B
-CLASS="COMMAND"
->eval</B
-> on
-	      unfamiliar code written by persons unknown is living
-	      dangerously.</P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-><DT
-><A
-NAME="SETREF"
-></A
-><B
-CLASS="COMMAND"
->set</B
-></DT
-><DD
-><P
->The <B
-CLASS="COMMAND"
->set</B
-> command changes
-	      the value of internal script variables/options. One use for
-	      this is to toggle <A
-HREF="options.html#OPTIONSREF"
->option
-	      flags</A
-> which help determine the behavior of the
-	      script. Another application for it is to reset the <A
-HREF="internalvariables.html#POSPARAMREF"
->positional parameters</A
-> that
-	      a script sees as the result of a command (<TT
-CLASS="USERINPUT"
-><B
->set
-	      `command`</B
-></TT
->). The script can then parse the
-	      <A
-HREF="special-chars.html#FIELDREF"
->fields</A
-> of the command
-	      output.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX34"
-></A
-><P
-><B
->Example 15-16. Using <I
-CLASS="FIRSTTERM"
->set</I
-> with positional
-	        parameters</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>Here is another example of using <i class="FIRSTTERM">eval</i> to <em>evaluate</em> a complex expression, this one from an earlier version of YongYe's <a href="https://github.com/yongye/shell/blob/master/Tetris_Game.sh" target="_top">Tetris game script</a>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">eval ${1}+=\"${x} ${y} \"</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p><a href="contributed-scripts.html#SAMORSE">Example A-53</a> uses <i class="FIRSTTERM">eval</i> to convert <a href="arrays.html#ARRAYREF">array</a> elements into a command list.</p>
+          <p>The <i class="FIRSTTERM">eval</i> command occurs in the older version of <a href="ivr.html#IVRREF">indirect referencing</a>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">eval var=\$$var</font></pre>
+              </td>
+            </tr>
+          </table>
+          <div class="TIP">
+            <table class="TIP" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/tip.gif" hspace="5" alt="Tip"></td>
+                <td align="left" valign="top">
+                  <p>The <i class="FIRSTTERM">eval</i> command can be used to <a href="bashver3.html#BRACEEXPREF3">parameterize <i class="FIRSTTERM">brace expansion</i></a>.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p><a name="EVALRISK" id="EVALRISK"></a></p>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>The <b class="COMMAND">eval</b> command can be risky, and normally should be avoided when there exists a reasonable alternative. An <tt class="USERINPUT"><b>eval $COMMANDS</b></tt> executes the contents of <tt class="REPLACEABLE"><i>COMMANDS</i></tt>, which may contain such unpleasant surprises as <b class="COMMAND">rm -rf *</b>. Running an <b class="COMMAND">eval</b> on unfamiliar code written by persons unknown is living dangerously.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+        <dt><a name="SETREF" id="SETREF"></a><b class="COMMAND">set</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">set</b> command changes the value of internal script variables/options. One use for this is to toggle <a href="options.html#OPTIONSREF">option flags</a> which help determine the behavior of the script. Another application for it is to reset the <a href="internalvariables.html#POSPARAMREF">positional parameters</a> that a script sees as the result of a command (<tt class="USERINPUT"><b>set `command`</b></tt>). The script can then parse the <a href="special-chars.html#FIELDREF">fields</a> of the command output.</p>
+          <div class="EXAMPLE">
+            <a name="EX34" id="EX34"></a>
+            <p><b>Example 15-16. Using <i class="FIRSTTERM">set</i> with positional parameters</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # ex34.sh
 # Script "set-test"
 
@@ -3095,34 +1349,19 @@ echo \#\#\#
 echo $_        # ###
 echo
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->More fun with positional parameters.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="REVPOSPARAMS"
-></A
-><P
-><B
->Example 15-17. Reversing the positional parameters</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>More fun with positional parameters.</p>
+          <div class="EXAMPLE">
+            <a name="REVPOSPARAMS" id="REVPOSPARAMS"></a>
+            <p><b>Example 15-17. Reversing the positional parameters</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # revposparams.sh: Reverse positional parameters.
 # Script by Dan Jacobson, with stylistic revisions by document author.
 
@@ -3186,98 +1425,36 @@ $ ./revposparams.sh
 
 d e
 c
-a b</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Invoking <B
-CLASS="COMMAND"
->set</B
-> without any options or
-	      arguments simply lists all the <A
-HREF="othertypesv.html#ENVREF"
->environmental</A
-> and other variables
-	      that have been initialized.</P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->set</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->AUTHORCOPY=/home/bozo/posts
+a b</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>Invoking <b class="COMMAND">set</b> without any options or arguments simply lists all the <a href="othertypesv.html#ENVREF">environmental</a> and other variables that have been initialized.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>set</b></tt>
+<tt class="COMPUTEROUTPUT">AUTHORCOPY=/home/bozo/posts
  BASH=/bin/bash
  BASH_VERSION=$'2.05.8(1)-release'
  ...
  XAUTHORITY=/home/bozo/.Xauthority
  _=/etc/bashrc
  variable22=abc
- variable23=xzy</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-            </P
-><P
->Using <B
-CLASS="COMMAND"
->set</B
-> with the <TT
-CLASS="OPTION"
->--</TT
->
-	      option explicitly assigns the contents of a variable to
-	      the positional parameters. If no variable follows the
-	      <TT
-CLASS="OPTION"
->--</TT
-> it <I
-CLASS="FIRSTTERM"
->unsets</I
->
-	      the positional parameters.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="SETPOS"
-></A
-><P
-><B
->Example 15-18. Reassigning the positional parameters</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+ variable23=xzy</tt>
+              </font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>Using <b class="COMMAND">set</b> with the <tt class="OPTION">--</tt> option explicitly assigns the contents of a variable to the positional parameters. If no variable follows the <tt class="OPTION">--</tt> it <i class="FIRSTTERM">unsets</i> the positional parameters.</p>
+          <div class="EXAMPLE">
+            <a name="SETPOS" id="SETPOS"></a>
+            <p><b>Example 15-18. Reassigning the positional parameters</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 variable="one two three four five"
 
@@ -3314,108 +1491,34 @@ second_param=$2
 echo "first parameter = $first_param"             # (null value)
 echo "second parameter = $second_param"           # (null value)
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->See also <A
-HREF="loops1.html#EX22A"
->Example 11-2</A
-> and <A
-HREF="extmisc.html#EX33A"
->Example 16-56</A
->.</P
-></DD
-><DT
-><A
-NAME="UNSETREF"
-></A
-><B
-CLASS="COMMAND"
->unset</B
-></DT
-><DD
-><P
->The <B
-CLASS="COMMAND"
->unset</B
-> command deletes a
-	      shell variable, effectively setting it to
-	      <I
-CLASS="FIRSTTERM"
->null</I
->. Note that this command does
-	      not affect positional parameters.</P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->unset PATH</B
-></TT
->
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>See also <a href="loops1.html#EX22A">Example 11-2</a> and <a href="extmisc.html#EX33A">Example 16-56</a>.</p>
+        </dd>
+        <dt><a name="UNSETREF" id="UNSETREF"></a><b class="COMMAND">unset</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">unset</b> command deletes a shell variable, effectively setting it to <i class="FIRSTTERM">null</i>. Note that this command does not affect positional parameters.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>unset PATH</b></tt>
 
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo $PATH</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->&#13;</TT
->
-<TT
-CLASS="PROMPT"
->bash$ </TT
-></PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	    </P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="UNS"
-></A
-><P
-><B
->Example 15-19. <SPAN
-CLASS="QUOTE"
->"Unsetting"</SPAN
-> a variable</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo $PATH</b></tt>
+<tt class="COMPUTEROUTPUT"></tt>
+<tt class="PROMPT">bash$ </tt></font></pre>
+              </td>
+            </tr>
+          </table>
+          <div class="EXAMPLE">
+            <a name="UNS" id="UNS"></a>
+            <p><b>Example 15-19. <span class="QUOTE">"Unsetting"</span> a variable</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # unset.sh: Unsetting a variable.
 
 variable=hello                       #  Initialized.
@@ -3431,157 +1534,44 @@ then
   echo "\$variable has zero length."
 fi
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->In most contexts, an <I
-CLASS="FIRSTTERM"
->undeclared</I
->
-              variable and one that has been <I
-CLASS="FIRSTTERM"
->unset</I
->
-	      are equivalent. However, the <A
-HREF="parameter-substitution.html#UNDDR"
->              ${parameter:-default}</A
-> parameter substitution
-              construct can distinguish between the two.</P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-><DT
-><A
-NAME="EXPORTREF"
-></A
-><B
-CLASS="COMMAND"
->export</B
-></DT
-><DD
-><P
-><A
-NAME="EXPORTREF2"
-></A
-></P
-><P
->The <B
-CLASS="COMMAND"
->export</B
->
-
-	      <A
-NAME="AEN9199"
-HREF="#FTN.AEN9199"
-><SPAN
-CLASS="footnote"
->[4]</SPAN
-></A
->
-	  
-	      command makes available variables to all child processes
-	      of the running script or shell. One important use
-	      of the <B
-CLASS="COMMAND"
->export</B
-> command is in <A
-HREF="files.html#FILESREF1"
->startup files</A
->, to initialize
-	      and make accessible <A
-HREF="othertypesv.html#ENVREF"
->environmental
-	      variables</A
-> to subsequent user processes.</P
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->Unfortunately, <A
-HREF="gotchas.html#PARCHILDPROBREF"
->	     there is no way to export variables back to the parent
-	     process</A
->, to the process that called or invoked the
-	     script or shell.</P
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="EXPORTAWK"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="COLTOTALER3"
-></A
-><P
-><B
->Example 15-20. Using <I
-CLASS="FIRSTTERM"
->export</I
-> to pass a variable to an
-	      embedded <I
-CLASS="FIRSTTERM"
->awk</I
-> script</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>In most contexts, an <i class="FIRSTTERM">undeclared</i> variable and one that has been <i class="FIRSTTERM">unset</i> are equivalent. However, the <a href="parameter-substitution.html#UNDDR">${parameter:-default}</a> parameter substitution construct can distinguish between the two.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+        <dt><a name="EXPORTREF" id="EXPORTREF"></a><b class="COMMAND">export</b></dt>
+        <dd>
+          <p><a name="EXPORTREF2" id="EXPORTREF2"></a></p>
+          <p>The <b class="COMMAND">export</b> <a name="AEN9199" href="#FTN.AEN9199" id="AEN9199"><span class="footnote">[4]</span></a> command makes available variables to all child processes of the running script or shell. One important use of the <b class="COMMAND">export</b> command is in <a href="files.html#FILESREF1">startup files</a>, to initialize and make accessible <a href="othertypesv.html#ENVREF">environmental variables</a> to subsequent user processes.</p>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>Unfortunately, <a href="gotchas.html#PARCHILDPROBREF">there is no way to export variables back to the parent process</a>, to the process that called or invoked the script or shell.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p><a name="EXPORTAWK" id="EXPORTAWK"></a></p>
+          <div class="EXAMPLE">
+            <a name="COLTOTALER3" id="COLTOTALER3"></a>
+            <p><b>Example 15-20. Using <i class="FIRSTTERM">export</i> to pass a variable to an embedded <i class="FIRSTTERM">awk</i> script</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 #  Yet another version of the "column totaler" script (col-totaler.sh)
 #+ that adds up a specified column (of numbers) in the target file.
@@ -3618,361 +1608,85 @@ awk "$awkscript" "$filename"
 
 # Thanks, Stephane Chazelas.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="TIP"
-><P
-></P
-><TABLE
-CLASS="TIP"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/tip.gif"
-HSPACE="5"
-ALT="Tip"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->It is possible to initialize and export
-		  variables in the same operation, as in <B
-CLASS="COMMAND"
->export
-		  var1=xxx</B
->.</P
-><P
->However, as Greg Keraunen points out, in certain
-		  situations this may have a different effect than
-		  setting a variable, then exporting it.</P
-><P
->	        <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->export var=(a b); echo ${var[0]}</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->(a b)</TT
->
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="TIP">
+            <table class="TIP" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/tip.gif" hspace="5" alt="Tip"></td>
+                <td align="left" valign="top">
+                  <p>It is possible to initialize and export variables in the same operation, as in <b class="COMMAND">export var1=xxx</b>.</p>
+                  <p>However, as Greg Keraunen points out, in certain situations this may have a different effect than setting a variable, then exporting it.</p>
+                  <table border="1" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>export var=(a b); echo ${var[0]}</b></tt>
+<tt class="COMPUTEROUTPUT">(a b)</tt>
 
 
 
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->var=(a b); export var; echo ${var[0]}</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->a</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	    </P
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->A variable to be exported may require special
-                treatment.  See <A
-HREF="sample-bashrc.html#BASHPROF"
->Example M-2</A
->.</P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-><DT
-><A
-NAME="DECLARE2REF"
-></A
-><B
-CLASS="COMMAND"
->declare</B
->, <B
-CLASS="COMMAND"
->typeset</B
-></DT
-><DD
-><P
->The <A
-HREF="declareref.html"
->declare</A
-> and
-	      <A
-HREF="declareref.html"
->typeset</A
-> commands specify
-	      and/or restrict properties of variables.</P
-></DD
-><DT
-><A
-NAME="READONLYREF"
-></A
-><B
-CLASS="COMMAND"
->readonly</B
-></DT
-><DD
-><P
->Same as <A
-HREF="declareref.html"
->declare -r</A
->,
-	      sets a variable as read-only, or, in effect, as a
-	      constant. Attempts to change the variable fail with
-	      an error message. This is the shell analog of the
-	      <I
-CLASS="FIRSTTERM"
->C</I
-> language <B
-CLASS="COMMAND"
->const</B
->
-	      type qualifier.</P
-></DD
-><DT
-><A
-NAME="GETOPTSX"
-></A
-><B
-CLASS="COMMAND"
->getopts</B
-></DT
-><DD
-><P
->This powerful tool parses command-line arguments passed
-	      to the script. This is the Bash analog of the <A
-HREF="extmisc.html#GETOPTY"
->getopt</A
-> external command and the
-	      <I
-CLASS="FIRSTTERM"
->getopt</I
-> library function familiar to
-	      <I
-CLASS="FIRSTTERM"
->C</I
-> programmers. It permits passing
-	      and concatenating multiple options
-
-	      <A
-NAME="AEN9289"
-HREF="#FTN.AEN9289"
-><SPAN
-CLASS="footnote"
->[5]</SPAN
-></A
->
-
-	      and associated arguments to a script (for
-	      example <TT
-CLASS="USERINPUT"
-><B
->scriptname -abc -e
-	      /usr/local</B
-></TT
->).</P
-><P
-><A
-NAME="GETOPTSOPT"
-></A
-></P
-><P
->The <B
-CLASS="COMMAND"
->getopts</B
-> construct uses two implicit
-	      variables. <TT
-CLASS="VARNAME"
->$OPTIND</TT
-> is the argument
-	      pointer (<I
-CLASS="WORDASWORD"
->OPTion INDex</I
->)
-	      and <TT
-CLASS="VARNAME"
->$OPTARG</TT
-> (<I
-CLASS="WORDASWORD"
->OPTion
-	      ARGument</I
->) the (optional) argument attached
-	      to an option. A colon following the option name in the
-	      declaration tags that option as having an associated
-	      argument.</P
-><P
->A <B
-CLASS="COMMAND"
->getopts</B
-> construct usually comes
-	      packaged in a <A
-HREF="loops1.html#WHILELOOPREF"
->while
-	      loop</A
->, which processes the options and
-	      arguments one at a time, then increments the implicit
-	      <TT
-CLASS="VARNAME"
->$OPTIND</TT
-> variable to point to the
-	      next.</P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->		<P
-></P
-><OL
-TYPE="1"
-><LI
-><P
->The arguments passed from the command-line to
-		      the script must be preceded by a
-		      dash (<TT
-CLASS="OPTION"
->-</TT
->). It is the
-		      prefixed <TT
-CLASS="OPTION"
->-</TT
-> that lets
-		      <B
-CLASS="COMMAND"
->getopts</B
-> recognize command-line
-		      arguments as <I
-CLASS="FIRSTTERM"
->options</I
->.
-		      In fact, <B
-CLASS="COMMAND"
->getopts</B
-> will not process
-		      arguments without the prefixed <TT
-CLASS="OPTION"
->-</TT
->,
-		      and will terminate option processing at the first
-		      argument encountered lacking them.</P
-></LI
-><LI
-><P
->The <B
-CLASS="COMMAND"
->getopts</B
-> template
-		      differs slightly from the standard <A
-HREF="loops1.html#WHILELOOPREF"
->while loop</A
->, in that
-		      it lacks condition brackets.</P
-></LI
-><LI
-><P
->The <B
-CLASS="COMMAND"
->getopts</B
-> construct is a highly
-		     functional replacement for the traditional
-		     <A
-HREF="extmisc.html#GETOPTY"
->getopt</A
-> external
-		     command.</P
-></LI
-></OL
->
-	      </P
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->while getopts ":abcde:fg" Option
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>var=(a b); export var; echo ${var[0]}</b></tt>
+<tt class="COMPUTEROUTPUT">a</tt>
+              </font></pre>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>A variable to be exported may require special treatment. See <a href="sample-bashrc.html#BASHPROF">Example M-2</a>.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+        <dt><a name="DECLARE2REF" id="DECLARE2REF"></a><b class="COMMAND">declare</b>, <b class="COMMAND">typeset</b></dt>
+        <dd>
+          <p>The <a href="declareref.html">declare</a> and <a href="declareref.html">typeset</a> commands specify and/or restrict properties of variables.</p>
+        </dd>
+        <dt><a name="READONLYREF" id="READONLYREF"></a><b class="COMMAND">readonly</b></dt>
+        <dd>
+          <p>Same as <a href="declareref.html">declare -r</a>, sets a variable as read-only, or, in effect, as a constant. Attempts to change the variable fail with an error message. This is the shell analog of the <i class="FIRSTTERM">C</i> language <b class="COMMAND">const</b> type qualifier.</p>
+        </dd>
+        <dt><a name="GETOPTSX" id="GETOPTSX"></a><b class="COMMAND">getopts</b></dt>
+        <dd>
+          <p>This powerful tool parses command-line arguments passed to the script. This is the Bash analog of the <a href="extmisc.html#GETOPTY">getopt</a> external command and the <i class="FIRSTTERM">getopt</i> library function familiar to <i class="FIRSTTERM">C</i> programmers. It permits passing and concatenating multiple options <a name="AEN9289" href="#FTN.AEN9289" id="AEN9289"><span class="footnote">[5]</span></a> and associated arguments to a script (for example <tt class="USERINPUT"><b>scriptname -abc -e /usr/local</b></tt>).</p>
+          <p><a name="GETOPTSOPT" id="GETOPTSOPT"></a></p>
+          <p>The <b class="COMMAND">getopts</b> construct uses two implicit variables. <tt class="VARNAME">$OPTIND</tt> is the argument pointer (<i class="WORDASWORD">OPTion INDex</i>) and <tt class="VARNAME">$OPTARG</tt> (<i class="WORDASWORD">OPTion ARGument</i>) the (optional) argument attached to an option. A colon following the option name in the declaration tags that option as having an associated argument.</p>
+          <p>A <b class="COMMAND">getopts</b> construct usually comes packaged in a <a href="loops1.html#WHILELOOPREF">while loop</a>, which processes the options and arguments one at a time, then increments the implicit <tt class="VARNAME">$OPTIND</tt> variable to point to the next.</p>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <ol type="1">
+                    <li>
+                      <p>The arguments passed from the command-line to the script must be preceded by a dash (<tt class="OPTION">-</tt>). It is the prefixed <tt class="OPTION">-</tt> that lets <b class="COMMAND">getopts</b> recognize command-line arguments as <i class="FIRSTTERM">options</i>. In fact, <b class="COMMAND">getopts</b> will not process arguments without the prefixed <tt class="OPTION">-</tt>, and will terminate option processing at the first argument encountered lacking them.</p>
+                    </li>
+                    <li>
+                      <p>The <b class="COMMAND">getopts</b> template differs slightly from the standard <a href="loops1.html#WHILELOOPREF">while loop</a>, in that it lacks condition brackets.</p>
+                    </li>
+                    <li>
+                      <p>The <b class="COMMAND">getopts</b> construct is a highly functional replacement for the traditional <a href="extmisc.html#GETOPTY">getopt</a> external command.</p>
+                    </li>
+                  </ol>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">while getopts ":abcde:fg" Option
 # Initial declaration.
 # a, b, c, d, e, f, and g are the options (flags) expected.
 # The : after option 'e' shows it will have an argument passed with it.
@@ -3990,36 +1704,17 @@ done
 shift $(($OPTIND - 1))
 # Move argument pointer to next.
 
-# All this is not nearly as complicated as it looks &#60;grin&#62;.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX33"
-></A
-><P
-><B
->Example 15-21. Using <I
-CLASS="FIRSTTERM"
->getopts</I
-> to read the
-	        options/arguments passed to a script</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# All this is not nearly as complicated as it looks &lt;grin&gt;.</font></pre>
+              </td>
+            </tr>
+          </table>
+          <div class="EXAMPLE">
+            <a name="EX33" id="EX33"></a>
+            <p><b>Example 15-21. Using <i class="FIRSTTERM">getopts</i> to read the options/arguments passed to a script</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # ex33.sh: Exercising getopts and OPTIND
 #          Script modified 10/09/03 at the suggestion of Bill Gradwohl.
 
@@ -4080,104 +1775,27 @@ exit $?
 #  "The getopts mechanism allows one to specify:  scriptname -mnop -mnop
 #+  but there is no reliable way to differentiate what came
 #+ from where by using OPTIND."
-#  There are, however, workarounds.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-></DL
-></DIV
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="INTSCRBEH1"
-></A
->Script Behavior</B
-></P
-><DL
-><DT
-><A
-NAME="SOURCEREF"
-></A
-><B
-CLASS="COMMAND"
->source</B
->, <SPAN
-CLASS="TOKEN"
->.</SPAN
-> (<A
-HREF="special-chars.html#DOTREF"
->dot</A
-> command)</DT
-><DD
-><P
->This command, when invoked from the command-line,
-	      executes a script. Within a script, a
-	      <TT
-CLASS="USERINPUT"
-><B
->source file-name</B
-></TT
->
-	      loads the file <TT
-CLASS="FILENAME"
->file-name</TT
->.
-	      <I
-CLASS="FIRSTTERM"
->Sourcing</I
-> a file (dot-command)
-	      <I
-CLASS="FIRSTTERM"
->imports</I
->
-	     code into the script, appending to the script (same effect
-	     as the <TT
-CLASS="USERINPUT"
-><B
->#include</B
-></TT
-> directive in a
-	     <I
-CLASS="FIRSTTERM"
->C</I
-> program). The net result is the
-	     same as if the <SPAN
-CLASS="QUOTE"
->"sourced"</SPAN
-> lines of code were
-	     physically present in the body of the script. This is useful
-	     in situations when multiple scripts use a common data file
-	     or function library.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX38"
-></A
-><P
-><B
->Example 15-22. <SPAN
-CLASS="QUOTE"
->"Including"</SPAN
-> a data file</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#  There are, however, workarounds.</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="INTSCRBEH1" id="INTSCRBEH1"></a>Script Behavior</b></p>
+      <dl>
+        <dt><a name="SOURCEREF" id="SOURCEREF"></a><b class="COMMAND">source</b>, <span class="TOKEN">.</span> (<a href="special-chars.html#DOTREF">dot</a> command)</dt>
+        <dd>
+          <p>This command, when invoked from the command-line, executes a script. Within a script, a <tt class="USERINPUT"><b>source file-name</b></tt> loads the file <tt class="FILENAME">file-name</tt>. <i class="FIRSTTERM">Sourcing</i> a file (dot-command) <i class="FIRSTTERM">imports</i> code into the script, appending to the script (same effect as the <tt class="USERINPUT"><b>#include</b></tt> directive in a <i class="FIRSTTERM">C</i> program). The net result is the same as if the <span class="QUOTE">"sourced"</span> lines of code were physically present in the body of the script. This is useful in situations when multiple scripts use a common data file or function library.</p>
+          <div class="EXAMPLE">
+            <a name="EX38" id="EX38"></a>
+            <p><b>Example 15-22. <span class="QUOTE">"Including"</span> a data file</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 #  Note that this example must be invoked with bash, i.e., bash ex38.sh
 #+ not  sh ex38.sh !
 
@@ -4201,31 +1819,15 @@ echo "message2 (from data-file) is \"$message2\""
 print_message This is the message-print function in the data-file.
 
 
-exit $?</PRE
-></FONT
-></TD
-></TR
-></TABLE
-><P
->File <TT
-CLASS="FILENAME"
->data-file</TT
-> for <A
-HREF="internal.html#EX38"
->Example 15-22</A
->, above.  Must be present in same
-		directory.</P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># This is a data file loaded by a script.
+exit $?</font></pre>
+                </td>
+              </tr>
+            </table>
+            <p>File <tt class="FILENAME">data-file</tt> for <a href="internal.html#EX38">Example 15-22</a>, above. Must be present in same directory.</p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000"># This is a data file loaded by a script.
 # Files of this type may contain variables, functions, etc.
 # It loads with a 'source' or '.' command from a shell script.
 
@@ -4259,86 +1861,29 @@ print_message ()
   echo
 
   return 0
-}</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->If the <I
-CLASS="FIRSTTERM"
->sourced</I
-> file is itself
-	       an executable script, then it will run, then return
-	       control to the script that called it. A
-	       <I
-CLASS="FIRSTTERM"
->sourced</I
-> executable script may use a
-	      <A
-HREF="complexfunct.html#RETURNREF"
->return</A
-> for this
-	      purpose.</P
-><P
-><A
-NAME="SOURCEPARAMS"
-></A
-></P
-><P
->	      Arguments may be (optionally) passed to the
-	      <I
-CLASS="FIRSTTERM"
->sourced</I
-> file as <A
-HREF="othertypesv.html#POSPARAMREF1"
->positional parameters</A
->.
-	       <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->source $filename $arg1 arg2</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	    </P
-><P
->It is even possible for a script to
-	    <I
-CLASS="FIRSTTERM"
->source</I
-> itself, though this does not
-	    seem to have any practical applications.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="SELFSOURCE"
-></A
-><P
-><B
->Example 15-23. A (useless) script that sources itself</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+}</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>If the <i class="FIRSTTERM">sourced</i> file is itself an executable script, then it will run, then return control to the script that called it. A <i class="FIRSTTERM">sourced</i> executable script may use a <a href="complexfunct.html#RETURNREF">return</a> for this purpose.</p>
+          <p><a name="SOURCEPARAMS" id="SOURCEPARAMS"></a></p>
+          <p>Arguments may be (optionally) passed to the <i class="FIRSTTERM">sourced</i> file as <a href="othertypesv.html#POSPARAMREF1">positional parameters</a>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">source $filename $arg1 arg2</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>It is even possible for a script to <i class="FIRSTTERM">source</i> itself, though this does not seem to have any practical applications.</p>
+          <div class="EXAMPLE">
+            <a name="SELFSOURCE" id="SELFSOURCE"></a>
+            <p><b>Example 15-23. A (useless) script that sources itself</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # self-source.sh: a script sourcing itself "recursively."
 # From "Stupid Script Tricks," Volume II.
 
@@ -4377,185 +1922,46 @@ exit 0   # The net effect is counting from 1 to 100.
 
 # Exercise:
 # --------
-# Write a script that uses this trick to actually do something useful.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-><DT
-><A
-NAME="EXITREF"
-></A
-><B
-CLASS="COMMAND"
->exit</B
-></DT
-><DD
-><P
->Unconditionally terminates a script.
-		    <A
-NAME="AEN9393"
-HREF="#FTN.AEN9393"
-><SPAN
-CLASS="footnote"
->[6]</SPAN
-></A
->
-	        The <B
-CLASS="COMMAND"
->exit</B
-> command may optionally take an
-		integer argument, which is returned to the shell as
-		the <A
-HREF="exit-status.html#EXITSTATUSREF"
->exit status</A
->
-		of the script. It is good practice to end all but the
-		simplest scripts with an <TT
-CLASS="USERINPUT"
-><B
->exit 0</B
-></TT
->,
-		indicating a successful run.</P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->If a script terminates with an <B
-CLASS="COMMAND"
->exit</B
->
-	      lacking an argument, the exit status of the script is the exit
-	      status of the last command executed in the script, not counting
-	      the <B
-CLASS="COMMAND"
->exit</B
->. This is equivalent to an
-	      <B
-CLASS="COMMAND"
->exit $?</B
->.</P
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->An <B
-CLASS="COMMAND"
->exit</B
-> command may also be used to
-	      terminate a <A
-HREF="subshells.html#SUBSHELLSREF"
->subshell</A
->.</P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-><DT
-><A
-NAME="EXECREF"
-></A
-><B
-CLASS="COMMAND"
->exec</B
-></DT
-><DD
-><P
->	      This shell builtin replaces the current process with
-	      a specified command. Normally, when the shell encounters
-	      a command, it <A
-HREF="internal.html#FORKREF"
->forks off</A
-> a
-	      child process to actually execute the command.  Using the
-	      <B
-CLASS="COMMAND"
->exec</B
-> builtin, the shell does not fork,
-	      and the command <I
-CLASS="FIRSTTERM"
->exec</I
->'ed replaces
-	      the shell.  When used in a script, therefore, it forces an
-	      exit from the script when the <B
-CLASS="COMMAND"
->exec</B
->'ed
-	      command terminates.
-		<A
-NAME="AEN9425"
-HREF="#FTN.AEN9425"
-><SPAN
-CLASS="footnote"
->[7]</SPAN
-></A
->
-	    </P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX54"
-></A
-><P
-><B
->Example 15-24. Effects of <I
-CLASS="FIRSTTERM"
->exec</I
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# Write a script that uses this trick to actually do something useful.</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+        <dt><a name="EXITREF" id="EXITREF"></a><b class="COMMAND">exit</b></dt>
+        <dd>
+          <p>Unconditionally terminates a script. <a name="AEN9393" href="#FTN.AEN9393" id="AEN9393"><span class="footnote">[6]</span></a> The <b class="COMMAND">exit</b> command may optionally take an integer argument, which is returned to the shell as the <a href="exit-status.html#EXITSTATUSREF">exit status</a> of the script. It is good practice to end all but the simplest scripts with an <tt class="USERINPUT"><b>exit 0</b></tt>, indicating a successful run.</p>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>If a script terminates with an <b class="COMMAND">exit</b> lacking an argument, the exit status of the script is the exit status of the last command executed in the script, not counting the <b class="COMMAND">exit</b>. This is equivalent to an <b class="COMMAND">exit $?</b>.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>An <b class="COMMAND">exit</b> command may also be used to terminate a <a href="subshells.html#SUBSHELLSREF">subshell</a>.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+        <dt><a name="EXECREF" id="EXECREF"></a><b class="COMMAND">exec</b></dt>
+        <dd>
+          <p>This shell builtin replaces the current process with a specified command. Normally, when the shell encounters a command, it <a href="internal.html#FORKREF">forks off</a> a child process to actually execute the command. Using the <b class="COMMAND">exec</b> builtin, the shell does not fork, and the command <i class="FIRSTTERM">exec</i>'ed replaces the shell. When used in a script, therefore, it forces an exit from the script when the <b class="COMMAND">exec</b>'ed command terminates. <a name="AEN9425" href="#FTN.AEN9425" id="AEN9425"><span class="footnote">[7]</span></a></p>
+          <div class="EXAMPLE">
+            <a name="EX54" id="EX54"></a>
+            <p><b>Example 15-24. Effects of <i class="FIRSTTERM">exec</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 exec echo "Exiting \"$0\" at line $LINENO."   # Exit from script here.
 # $LINENO is an internal Bash variable set to the line number it's on.
@@ -4568,35 +1974,18 @@ echo "This echo fails to echo."
 exit 99                       #  This script will not exit here.
                               #  Check exit value after script terminates
                               #+ with an 'echo $?'.
-                              #  It will *not* be 99.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="SELFEXEC"
-></A
-><P
-><B
->Example 15-25. A script that <I
-CLASS="FIRSTTERM"
->exec's</I
-> itself</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+                              #  It will *not* be 99.</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="EXAMPLE">
+            <a name="SELFEXEC" id="SELFEXEC"></a>
+            <p><b>Example 15-25. A script that <i class="FIRSTTERM">exec's</i> itself</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # self-exec.sh
 
 # Note: Set permissions on this script to 555 or 755,
@@ -4618,171 +2007,47 @@ exec $0   #  Spawns another instance of this same script
 echo "This line will never echo!"  # Why not?
 
 exit 99                            # Will not exit here!
-                                   # Exit code will not be 99!</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->An <B
-CLASS="COMMAND"
->exec</B
-> also serves to <A
-HREF="x17974.html#USINGEXECREF"
->reassign
-	      file descriptors</A
->.	For example, <TT
-CLASS="USERINPUT"
-><B
->exec
-	      &#60;zzz-file</B
-></TT
-> replaces <TT
-CLASS="FILENAME"
->stdin</TT
->
-	      with the file <TT
-CLASS="FILENAME"
->zzz-file</TT
->.</P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The <TT
-CLASS="OPTION"
->-exec</TT
-> option to
-	      <A
-HREF="moreadv.html#FINDREF"
->find</A
-> is
-	      <TT
-CLASS="REPLACEABLE"
-><I
->not</I
-></TT
-> the same as the
-	      <B
-CLASS="COMMAND"
->exec</B
-> shell builtin.</P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-><DT
-><A
-NAME="SHOPTREF"
-></A
-><B
-CLASS="COMMAND"
->shopt</B
-></DT
-><DD
-><P
->This command permits changing <I
-CLASS="FIRSTTERM"
->shell
-	      options</I
-> on the fly (see <A
-HREF="aliases.html#AL"
->Example 25-1</A
->
-	      and <A
-HREF="aliases.html#UNAL"
->Example 25-2</A
->).  It often appears in the Bash
-	      <A
-HREF="files.html#FILESREF1"
->startup files</A
->, but also has
-	      its uses in scripts. Needs <A
-HREF="bashver2.html#BASH2REF"
->version
-	      2</A
-> or later of Bash.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->shopt -s cdspell
+                                   # Exit code will not be 99!</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>An <b class="COMMAND">exec</b> also serves to <a href="x17974.html#USINGEXECREF">reassign file descriptors</a>. For example, <tt class="USERINPUT"><b>exec &lt;zzz-file</b></tt> replaces <tt class="FILENAME">stdin</tt> with the file <tt class="FILENAME">zzz-file</tt>.</p>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>The <tt class="OPTION">-exec</tt> option to <a href="moreadv.html#FINDREF">find</a> is <tt class="REPLACEABLE"><i>not</i></tt> the same as the <b class="COMMAND">exec</b> shell builtin.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+        <dt><a name="SHOPTREF" id="SHOPTREF"></a><b class="COMMAND">shopt</b></dt>
+        <dd>
+          <p>This command permits changing <i class="FIRSTTERM">shell options</i> on the fly (see <a href="aliases.html#AL">Example 25-1</a> and <a href="aliases.html#UNAL">Example 25-2</a>). It often appears in the Bash <a href="files.html#FILESREF1">startup files</a>, but also has its uses in scripts. Needs <a href="bashver2.html#BASH2REF">version 2</a> or later of Bash.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">shopt -s cdspell
 # Allows minor misspelling of directory names with 'cd'
 # Option -s sets, -u unsets.
 
 cd /hpme  # Oops! Mistyped '/home'.
 pwd       # /home
-          # The shell corrected the misspelling.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></DD
-><DT
-><B
-CLASS="COMMAND"
->caller</B
-><A
-NAME="CALLERREF"
-></A
-></DT
-><DD
-><P
->Putting a <B
-CLASS="COMMAND"
->caller</B
-> command
-	       inside a <A
-HREF="functions.html#FUNCTIONREF"
->function</A
->
-	       echoes to <TT
-CLASS="FILENAME"
->stdout</TT
-> information about
-	       the <I
-CLASS="FIRSTTERM"
->caller</I
-> of that function.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+          # The shell corrected the misspelling.</font></pre>
+              </td>
+            </tr>
+          </table>
+        </dd>
+        <dt><b class="COMMAND">caller</b><a name="CALLERREF" id="CALLERREF"></a></dt>
+        <dd>
+          <p>Putting a <b class="COMMAND">caller</b> command inside a <a href="functions.html#FUNCTIONREF">function</a> echoes to <tt class="FILENAME">stdout</tt> information about the <i class="FIRSTTERM">caller</i> of that function.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 function1 ()
 {
@@ -4797,118 +2062,35 @@ function1    # Line 9 of script.
 #   ^^^^            Invoked from "main" part of script.
 #        ^^^^^^^    Name of calling script.
 
-caller 0     # Has no effect because it's not inside a function.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->A <B
-CLASS="COMMAND"
->caller</B
-> command can also return
-	      <I
-CLASS="FIRSTTERM"
->caller</I
-> information from a script <A
-HREF="internal.html#SOURCEREF"
->sourced</A
-> within another
-	      script. Analogous to a function, this is a <SPAN
-CLASS="QUOTE"
->"subroutine
-	      call."</SPAN
-></P
-><P
->You may find this command useful in debugging.</P
-></DD
-></DL
-></DIV
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="INTCOMMAND1"
-></A
->Commands</B
-></P
-><DL
-><DT
-><A
-NAME="TRUEREF"
-></A
-><B
-CLASS="COMMAND"
->true</B
-></DT
-><DD
-><P
->A command that returns a successful
-	    (<SPAN
-CLASS="RETURNVALUE"
->zero</SPAN
->) <A
-HREF="exit-status.html#EXITSTATUSREF"
->exit status</A
->, but does
-	    nothing else.
-	  </P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->true</B
-></TT
->
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo $?</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->0</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	    </P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># Endless loop
+caller 0     # Has no effect because it's not inside a function.</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>A <b class="COMMAND">caller</b> command can also return <i class="FIRSTTERM">caller</i> information from a script <a href="internal.html#SOURCEREF">sourced</a> within another script. Analogous to a function, this is a <span class="QUOTE">"subroutine call."</span></p>
+          <p>You may find this command useful in debugging.</p>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="INTCOMMAND1" id="INTCOMMAND1"></a>Commands</b></p>
+      <dl>
+        <dt><a name="TRUEREF" id="TRUEREF"></a><b class="COMMAND">true</b></dt>
+        <dd>
+          <p>A command that returns a successful (<span class="RETURNVALUE">zero</span>) <a href="exit-status.html#EXITSTATUSREF">exit status</a>, but does nothing else.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>true</b></tt>
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo $?</b></tt>
+<tt class="COMPUTEROUTPUT">0</tt>
+              </font></pre>
+              </td>
+            </tr>
+          </table>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000"># Endless loop
 while true   # alias for ":"
 do
    operation-1
@@ -4916,80 +2098,28 @@ do
    ...
    operation-n
    # Need a way to break out of loop or script will hang.
-done</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></DD
-><DT
-><A
-NAME="FALSEREF"
-></A
-><B
-CLASS="COMMAND"
->false</B
-></DT
-><DD
-><P
->A command that returns an unsuccessful <A
-HREF="exit-status.html#EXITSTATUSREF"
->exit status</A
->,
-	    but does nothing else.</P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->false</B
-></TT
->
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo $?</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->1</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	    </P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># Testing "false" 
+done</font></pre>
+              </td>
+            </tr>
+          </table>
+        </dd>
+        <dt><a name="FALSEREF" id="FALSEREF"></a><b class="COMMAND">false</b></dt>
+        <dd>
+          <p>A command that returns an unsuccessful <a href="exit-status.html#EXITSTATUSREF">exit status</a>, but does nothing else.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>false</b></tt>
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo $?</b></tt>
+<tt class="COMPUTEROUTPUT">1</tt>
+              </font></pre>
+              </td>
+            </tr>
+          </table>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000"># Testing "false" 
 if false
 then
   echo "false evaluates \"true\""
@@ -5008,633 +2138,132 @@ do
    ...
    operation-n
    # Nothing happens!
-done   </PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></DD
-><DT
-><A
-NAME="TYPEREF"
-></A
-><B
-CLASS="COMMAND"
->type [cmd]</B
-></DT
-><DD
-><P
->Similar to the <A
-HREF="filearchiv.html#WHICHREF"
->which</A
-> external command,
-	    <B
-CLASS="COMMAND"
->type cmd</B
-> identifies
-	    <SPAN
-CLASS="QUOTE"
->"cmd."</SPAN
-> Unlike <B
-CLASS="COMMAND"
->which</B
->,
-	    <B
-CLASS="COMMAND"
->type</B
-> is a Bash builtin. The useful
-	    <TT
-CLASS="OPTION"
->-a</TT
-> option to <B
-CLASS="COMMAND"
->type</B
->
-	    identifies <TT
-CLASS="REPLACEABLE"
-><I
->keywords</I
-></TT
->
-	    and <TT
-CLASS="REPLACEABLE"
-><I
->builtins</I
-></TT
->, and also locates
-	    system commands with identical names.</P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->type '['</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->[ is a shell builtin</TT
->
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->type -a '['</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->[ is a shell builtin
- [ is /usr/bin/[</TT
->
+done   </font></pre>
+              </td>
+            </tr>
+          </table>
+        </dd>
+        <dt><a name="TYPEREF" id="TYPEREF"></a><b class="COMMAND">type [cmd]</b></dt>
+        <dd>
+          <p>Similar to the <a href="filearchiv.html#WHICHREF">which</a> external command, <b class="COMMAND">type cmd</b> identifies <span class="QUOTE">"cmd."</span> Unlike <b class="COMMAND">which</b>, <b class="COMMAND">type</b> is a Bash builtin. The useful <tt class="OPTION">-a</tt> option to <b class="COMMAND">type</b> identifies <tt class="REPLACEABLE"><i>keywords</i></tt> and <tt class="REPLACEABLE"><i>builtins</i></tt>, and also locates system commands with identical names.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>type '['</b></tt>
+<tt class="COMPUTEROUTPUT">[ is a shell builtin</tt>
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>type -a '['</b></tt>
+<tt class="COMPUTEROUTPUT">[ is a shell builtin
+ [ is /usr/bin/[</tt>
 
 
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->type type</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->type is a shell builtin</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	    </P
-><P
->The <B
-CLASS="COMMAND"
->type</B
-> command can be useful
-              for <A
-HREF="special-chars.html#DEVNULLREDIRECT"
->testing whether a
-              certain command exists</A
->.</P
-></DD
-><DT
-><A
-NAME="HASHCMDREF"
-></A
-><B
-CLASS="COMMAND"
->hash [cmds]</B
-></DT
-><DD
-><P
->Records the <I
-CLASS="FIRSTTERM"
->path</I
->
-	    name of specified commands -- in the shell <I
-CLASS="FIRSTTERM"
->hash
-	    table</I
->
-
-	        <A
-NAME="AEN9591"
-HREF="#FTN.AEN9591"
-><SPAN
-CLASS="footnote"
->[8]</SPAN
-></A
->
-	      
-              -- so the shell or script will not need to search the
-              <A
-HREF="internalvariables.html#PATHREF"
->$PATH</A
-> on subsequent calls to those
-              commands. When <B
-CLASS="COMMAND"
->hash</B
-> is called with no
-	      arguments, it simply lists the commands that have been hashed.
-	      The <TT
-CLASS="OPTION"
->-r</TT
-> option resets the hash table.</P
-></DD
-><DT
-><A
-NAME="BINDREF"
-></A
-><B
-CLASS="COMMAND"
->bind</B
-></DT
-><DD
-><P
->The <B
-CLASS="COMMAND"
->bind</B
-> builtin displays or modifies
-	  <I
-CLASS="FIRSTTERM"
->readline</I
->
-	    <A
-NAME="AEN9621"
-HREF="#FTN.AEN9621"
-><SPAN
-CLASS="footnote"
->[9]</SPAN
-></A
->
-	  key bindings.</P
-></DD
-><DT
-><A
-NAME="HELPREF"
-></A
-><B
-CLASS="COMMAND"
->help</B
-></DT
-><DD
-><P
->Gets a short usage summary of a shell builtin. This is
-	    the counterpart to <A
-HREF="filearchiv.html#WHATISREF"
->whatis</A
->,
-	    but for builtins. The display of <I
-CLASS="FIRSTTERM"
->help</I
->
-	    information got a much-needed update in the <A
-HREF="bashver4.html#BASH4REF"
->version 4 release</A
-> of Bash.</P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->help exit</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->exit: exit [n]
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>type type</b></tt>
+<tt class="COMPUTEROUTPUT">type is a shell builtin</tt>
+              </font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>The <b class="COMMAND">type</b> command can be useful for <a href="special-chars.html#DEVNULLREDIRECT">testing whether a certain command exists</a>.</p>
+        </dd>
+        <dt><a name="HASHCMDREF" id="HASHCMDREF"></a><b class="COMMAND">hash [cmds]</b></dt>
+        <dd>
+          <p>Records the <i class="FIRSTTERM">path</i> name of specified commands -- in the shell <i class="FIRSTTERM">hash table</i> <a name="AEN9591" href="#FTN.AEN9591" id="AEN9591"><span class="footnote">[8]</span></a> -- so the shell or script will not need to search the <a href="internalvariables.html#PATHREF">$PATH</a> on subsequent calls to those commands. When <b class="COMMAND">hash</b> is called with no arguments, it simply lists the commands that have been hashed. The <tt class="OPTION">-r</tt> option resets the hash table.</p>
+        </dd>
+        <dt><a name="BINDREF" id="BINDREF"></a><b class="COMMAND">bind</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">bind</b> builtin displays or modifies <i class="FIRSTTERM">readline</i> <a name="AEN9621" href="#FTN.AEN9621" id="AEN9621"><span class="footnote">[9]</span></a> key bindings.</p>
+        </dd>
+        <dt><a name="HELPREF" id="HELPREF"></a><b class="COMMAND">help</b></dt>
+        <dd>
+          <p>Gets a short usage summary of a shell builtin. This is the counterpart to <a href="filearchiv.html#WHATISREF">whatis</a>, but for builtins. The display of <i class="FIRSTTERM">help</i> information got a much-needed update in the <a href="bashver4.html#BASH4REF">version 4 release</a> of Bash.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>help exit</b></tt>
+<tt class="COMPUTEROUTPUT">exit: exit [n]
     Exit the shell with a status of N.  If N is omitted, the exit status
-    is that of the last command executed.</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	      </P
-></DD
-></DL
-></DIV
-></DIV
-><H3
-CLASS="FOOTNOTES"
->Notes</H3
-><TABLE
-BORDER="0"
-CLASS="FOOTNOTES"
-WIDTH="100%"
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN8607"
-HREF="internal.html#AEN8607"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->As Nathan Coulter points out, "while forking a
-	  process is a low-cost operation, executing a new program in
-	  the newly-forked child process adds more
-	  overhead."</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN8650"
-HREF="internal.html#AEN8650"
-><SPAN
-CLASS="footnote"
->[2]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->An exception to this is the <A
-HREF="timedate.html#TIMREF"
->time</A
-> command, listed in the
-	     official Bash documentation as a keyword (<SPAN
-CLASS="QUOTE"
->"reserved
-	     word"</SPAN
->).</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN9009"
-HREF="internal.html#AEN9009"
-><SPAN
-CLASS="footnote"
->[3]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->Note that <I
-CLASS="FIRSTTERM"
->let</I
->
-          <A
-HREF="gotchas.html#LETBAD"
->cannot be used
-          for setting <I
-CLASS="FIRSTTERM"
->string</I
->
-          variables.</A
-></P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN9199"
-HREF="internal.html#AEN9199"
-><SPAN
-CLASS="footnote"
->[4]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->To <I
-CLASS="FIRSTTERM"
->Export</I
->
-	      information is to make it available in a more general context.
-	      See also <A
-HREF="subshells.html#SCOPEREF"
->scope</A
->.</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN9289"
-HREF="internal.html#AEN9289"
-><SPAN
-CLASS="footnote"
->[5]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->An <I
-CLASS="FIRSTTERM"
->option</I
-> is an
-		argument that acts as a flag, switching script behaviors
-		on or off. The argument associated with a particular
-		option indicates the behavior that the option (flag)
-		switches on or off.</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN9393"
-HREF="internal.html#AEN9393"
-><SPAN
-CLASS="footnote"
->[6]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->Technically, an
-		    <B
-CLASS="COMMAND"
->exit</B
-> only terminates the
-		    process (or shell) in which it is running,
-		    <EM
->not</EM
-> the <I
-CLASS="FIRSTTERM"
->parent
-		    process</I
->.</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN9425"
-HREF="internal.html#AEN9425"
-><SPAN
-CLASS="footnote"
->[7]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->Unless the <B
-CLASS="COMMAND"
->exec</B
-> is used
-		   to <A
-HREF="x17974.html#USINGEXECREF"
->reassign file
-		   descriptors</A
->.</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN9591"
-HREF="internal.html#AEN9591"
-><SPAN
-CLASS="footnote"
->[8]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
-><A
-NAME="HASHREF"
-></A
-></P
-><P
-><I
-CLASS="FIRSTTERM"
->Hashing</I
-> is a method of
-		creating lookup keys for data stored in a table. The
-		<EM
->data items themselves</EM
-> are
-		<SPAN
-CLASS="QUOTE"
->"scrambled"</SPAN
-> to create keys, using one of
-		a number of simple mathematical
-		<I
-CLASS="FIRSTTERM"
->algorithms</I
-> (methods, or
-		recipes).</P
-><P
->An advantage of <I
-CLASS="FIRSTTERM"
->hashing</I
-> is that
-		it is fast. A disadvantage is that
-		<I
-CLASS="FIRSTTERM"
->collisions</I
-> -- where a single key
-		maps to more than one data item -- are possible.</P
-><P
->For examples of hashing see <A
-HREF="contributed-scripts.html#HASHLIB"
->Example A-20</A
-> and
-		  <A
-HREF="contributed-scripts.html#HASHEXAMPLE"
->Example A-21</A
->.</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN9621"
-HREF="internal.html#AEN9621"
-><SPAN
-CLASS="footnote"
->[9]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
-><A
-NAME="READLINEREF"
-></A
->The
-            <I
-CLASS="FIRSTTERM"
->readline</I
-> library is what
-            Bash uses for reading input in an
-            interactive shell.</P
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="part4.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="x9644.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Commands</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="part4.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Job Control Commands</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+    is that of the last command executed.</tt>
+              </font></pre>
+              </td>
+            </tr>
+          </table>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN8607" href="internal.html#AEN8607" id="FTN.AEN8607"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>As Nathan Coulter points out, "while forking a process is a low-cost operation, executing a new program in the newly-forked child process adds more overhead."</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN8650" href="internal.html#AEN8650" id="FTN.AEN8650"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>An exception to this is the <a href="timedate.html#TIMREF">time</a> command, listed in the official Bash documentation as a keyword (<span class="QUOTE">"reserved word"</span>).</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN9009" href="internal.html#AEN9009" id="FTN.AEN9009"><span class="footnote">[3]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Note that <i class="FIRSTTERM">let</i> <a href="gotchas.html#LETBAD">cannot be used for setting <i class="FIRSTTERM">string</i> variables.</a></p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN9199" href="internal.html#AEN9199" id="FTN.AEN9199"><span class="footnote">[4]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>To <i class="FIRSTTERM">Export</i> information is to make it available in a more general context. See also <a href="subshells.html#SCOPEREF">scope</a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN9289" href="internal.html#AEN9289" id="FTN.AEN9289"><span class="footnote">[5]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>An <i class="FIRSTTERM">option</i> is an argument that acts as a flag, switching script behaviors on or off. The argument associated with a particular option indicates the behavior that the option (flag) switches on or off.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN9393" href="internal.html#AEN9393" id="FTN.AEN9393"><span class="footnote">[6]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Technically, an <b class="COMMAND">exit</b> only terminates the process (or shell) in which it is running, <em>not</em> the <i class="FIRSTTERM">parent process</i>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN9425" href="internal.html#AEN9425" id="FTN.AEN9425"><span class="footnote">[7]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Unless the <b class="COMMAND">exec</b> is used to <a href="x17974.html#USINGEXECREF">reassign file descriptors</a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN9591" href="internal.html#AEN9591" id="FTN.AEN9591"><span class="footnote">[8]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><a name="HASHREF" id="HASHREF"></a></p>
+        <p><i class="FIRSTTERM">Hashing</i> is a method of creating lookup keys for data stored in a table. The <em>data items themselves</em> are <span class="QUOTE">"scrambled"</span> to create keys, using one of a number of simple mathematical <i class="FIRSTTERM">algorithms</i> (methods, or recipes).</p>
+        <p>An advantage of <i class="FIRSTTERM">hashing</i> is that it is fast. A disadvantage is that <i class="FIRSTTERM">collisions</i> -- where a single key maps to more than one data item -- are possible.</p>
+        <p>For examples of hashing see <a href="contributed-scripts.html#HASHLIB">Example A-20</a> and <a href="contributed-scripts.html#HASHEXAMPLE">Example A-21</a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN9621" href="internal.html#AEN9621" id="FTN.AEN9621"><span class="footnote">[9]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><a name="READLINEREF" id="READLINEREF"></a>The <i class="FIRSTTERM">readline</i> library is what Bash uses for reading input in an interactive shell.</p>
+      </td>
+    </tr>
+  </table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="part4.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="x9644.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Commands</td>
+        <td width="34%" align="center" valign="top"><a href="part4.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Job Control Commands</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

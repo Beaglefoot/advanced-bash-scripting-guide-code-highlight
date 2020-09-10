@@ -1,233 +1,63 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->I/O Redirection</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Advanced Topics"
-HREF="part5.html"><LINK
-REL="PREVIOUS"
-TITLE="Here Strings"
-HREF="x17837.html"><LINK
-REL="NEXT"
-TITLE="Using exec"
-HREF="x17974.html"></HEAD
-><BODY
-CLASS="CHAPTER"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="x17837.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="x17974.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="CHAPTER"
-><H1
-><A
-NAME="IO-REDIRECTION"
-></A
->Chapter 20. I/O Redirection</H1
-><DIV
-CLASS="TOC"
-><DL
-><DT
-><B
->Table of Contents</B
-></DT
-><DT
->20.1. <A
-HREF="x17974.html"
->Using <I
-CLASS="FIRSTTERM"
->exec</I
-></A
-></DT
-><DT
->20.2. <A
-HREF="redircb.html"
->Redirecting Code Blocks</A
-></DT
-><DT
->20.3. <A
-HREF="redirapps.html"
->Applications</A
-></DT
-></DL
-></DIV
-><P
-><A
-NAME="IOREDIRREF"
-></A
-></P
-><P
->There are always three default <I
-CLASS="FIRSTTERM"
->files</I
->
-         <A
-NAME="AEN17884"
-HREF="#FTN.AEN17884"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
->
-	open, <TT
-CLASS="FILENAME"
->stdin</TT
-> (the keyboard),
-	<TT
-CLASS="FILENAME"
->stdout</TT
-> (the screen), and
-	<TT
-CLASS="FILENAME"
->stderr</TT
-> (error messages output to the
-	screen).  These, and any other open files, can be redirected.
-	Redirection simply means capturing output from a file, command,
-	program, script, or even code block within a script (see <A
-HREF="special-chars.html#EX8"
->Example 3-1</A
-> and <A
-HREF="special-chars.html#RPMCHECK"
->Example 3-2</A
->) and sending it as
-	input to another file, command, program, or script.</P
-><P
-><A
-NAME="FDREF"
-></A
->Each open file gets assigned a file descriptor.	
-
-               <A
-NAME="AEN17894"
-HREF="#FTN.AEN17894"
-><SPAN
-CLASS="footnote"
->[2]</SPAN
-></A
->
-
-	The file descriptors for <TT
-CLASS="FILENAME"
->stdin</TT
->,
-	<TT
-CLASS="FILENAME"
->stdout</TT
->, and <TT
-CLASS="FILENAME"
->stderr</TT
-> are
-	0, 1, and 2, respectively.  For opening additional files, there
-	remain descriptors 3 to 9. It is sometimes useful to assign one of
-	these additional file descriptors to <TT
-CLASS="FILENAME"
->stdin</TT
->,
-	<TT
-CLASS="FILENAME"
->stdout</TT
->, or <TT
-CLASS="FILENAME"
->stderr</TT
->
-	as a temporary duplicate link.
-	       <A
-NAME="AEN17906"
-HREF="#FTN.AEN17906"
-><SPAN
-CLASS="footnote"
->[3]</SPAN
-></A
->
-	This simplifies restoration to normal after complex redirection
-	and reshuffling (see <A
-HREF="x17974.html#REDIR1"
->Example 20-1</A
->).</P
-><P
-><A
-NAME="IOREDIRECTIONREF"
-></A
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->   COMMAND_OUTPUT &#62;
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>I/O Redirection</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="Here Strings" href="x17837.html">
+  <link rel="NEXT" title="Using exec" href="x17974.html">
+</head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="x17837.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="x17974.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="IO-REDIRECTION" id="IO-REDIRECTION"></a>Chapter 20. I/O Redirection</h1>
+    <div class="TOC">
+      <dl>
+        <dt><b>Table of Contents</b></dt>
+        <dt>20.1. <a href="x17974.html">Using <i class="FIRSTTERM">exec</i></a></dt>
+        <dt>20.2. <a href="redircb.html">Redirecting Code Blocks</a></dt>
+        <dt>20.3. <a href="redirapps.html">Applications</a></dt>
+      </dl>
+    </div>
+    <p><a name="IOREDIRREF" id="IOREDIRREF"></a></p>
+    <p>There are always three default <i class="FIRSTTERM">files</i> <a name="AEN17884" href="#FTN.AEN17884" id="AEN17884"><span class="footnote">[1]</span></a> open, <tt class="FILENAME">stdin</tt> (the keyboard), <tt class="FILENAME">stdout</tt> (the screen), and <tt class="FILENAME">stderr</tt> (error messages output to the screen). These, and any other open files, can be redirected. Redirection simply means capturing output from a file, command, program, script, or even code block within a script (see <a href="special-chars.html#EX8">Example 3-1</a> and <a href="special-chars.html#RPMCHECK">Example 3-2</a>) and sending it as input to another file, command, program, or script.</p>
+    <p><a name="FDREF" id="FDREF"></a>Each open file gets assigned a file descriptor. <a name="AEN17894" href="#FTN.AEN17894" id="AEN17894"><span class="footnote">[2]</span></a> The file descriptors for <tt class="FILENAME">stdin</tt>, <tt class="FILENAME">stdout</tt>, and <tt class="FILENAME">stderr</tt> are 0, 1, and 2, respectively. For opening additional files, there remain descriptors 3 to 9. It is sometimes useful to assign one of these additional file descriptors to <tt class="FILENAME">stdin</tt>, <tt class="FILENAME">stdout</tt>, or <tt class="FILENAME">stderr</tt> as a temporary duplicate link. <a name="AEN17906" href="#FTN.AEN17906" id="AEN17906"><span class="footnote">[3]</span></a> This simplifies restoration to normal after complex redirection and reshuffling (see <a href="x17974.html#REDIR1">Example 20-1</a>).</p>
+    <p><a name="IOREDIRECTIONREF" id="IOREDIRECTIONREF"></a></p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">   COMMAND_OUTPUT &gt;
       # Redirect stdout to a file.
       # Creates the file if not present, otherwise overwrites it.
 
-      ls -lR &#62; dir-tree.list
+      ls -lR &gt; dir-tree.list
       # Creates a file containing a listing of the directory tree.
 
-   : &#62; filename
-      # The &#62; truncates file "filename" to zero length.
+   : &gt; filename
+      # The &gt; truncates file "filename" to zero length.
       # If file not present, creates zero-length file (same effect as 'touch').
       # The : serves as a dummy placeholder, producing no output.
 
-   &#62; filename    
-      # The &#62; truncates file "filename" to zero length.
+   &gt; filename    
+      # The &gt; truncates file "filename" to zero length.
       # If file not present, creates zero-length file (same effect as 'touch').
-      # (Same result as ": &#62;", above, but this does not work with some shells.)
+      # (Same result as ": &gt;", above, but this does not work with some shells.)
 
-   COMMAND_OUTPUT &#62;&#62;
+   COMMAND_OUTPUT &gt;&gt;
       # Redirect stdout to a file.
       # Creates the file if not present, otherwise appends to it.
 
@@ -235,23 +65,23 @@ CLASS="PROGRAMLISTING"
       # Single-line redirection commands (affect only the line they are on):
       # --------------------------------------------------------------------
 
-   1&#62;filename
+   1&gt;filename
       # Redirect stdout to file "filename."
-   1&#62;&#62;filename
+   1&gt;&gt;filename
       # Redirect and append stdout to file "filename."
-   2&#62;filename
+   2&gt;filename
       # Redirect stderr to file "filename."
-   2&#62;&#62;filename
+   2&gt;&gt;filename
       # Redirect and append stderr to file "filename."
-   &#38;&#62;filename
+   &amp;&gt;filename
       # Redirect both stdout and stderr to file "filename."
       # This operator is now functional, as of Bash 4, final release.
 
-   M&#62;N
+   M&gt;N
      # "M" is a file descriptor, which defaults to 1, if not explicitly set.
      # "N" is a filename.
      # File descriptor "M" is redirect to file "N."
-   M&#62;&#38;N
+   M&gt;&amp;N
      # "M" is a file descriptor, which defaults to 1, if not set.
      # "N" is another file descriptor.
 
@@ -260,9 +90,9 @@ CLASS="PROGRAMLISTING"
       # Redirecting stdout, one line at a time.
       LOGFILE=script.log
 
-      echo "This statement is sent to the log file, \"$LOGFILE\"." 1&#62;$LOGFILE
-      echo "This statement is appended to \"$LOGFILE\"." 1&#62;&#62;$LOGFILE
-      echo "This statement is also appended to \"$LOGFILE\"." 1&#62;&#62;$LOGFILE
+      echo "This statement is sent to the log file, \"$LOGFILE\"." 1&gt;$LOGFILE
+      echo "This statement is appended to \"$LOGFILE\"." 1&gt;&gt;$LOGFILE
+      echo "This statement is also appended to \"$LOGFILE\"." 1&gt;&gt;$LOGFILE
       echo "This statement is echoed to stdout, and will not appear in \"$LOGFILE\"."
       # These redirection commands automatically "reset" after each line.
 
@@ -271,106 +101,65 @@ CLASS="PROGRAMLISTING"
       # Redirecting stderr, one line at a time.
       ERRORFILE=script.errors
 
-      bad_command1 2&#62;$ERRORFILE       #  Error message sent to $ERRORFILE.
-      bad_command2 2&#62;&#62;$ERRORFILE      #  Error message appended to $ERRORFILE.
+      bad_command1 2&gt;$ERRORFILE       #  Error message sent to $ERRORFILE.
+      bad_command2 2&gt;&gt;$ERRORFILE      #  Error message appended to $ERRORFILE.
       bad_command3                    #  Error message echoed to stderr,
                                       #+ and does not appear in $ERRORFILE.
       # These redirection commands also automatically "reset" after each line.
-      #=======================================================================</PRE
-></FONT
-></TD
-></TR
-></TABLE
-><P
-><A
-NAME="IOREDIRECTIONREF1"
-></A
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->   2&#62;&#38;1
+      #=======================================================================</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p><a name="IOREDIRECTIONREF1" id="IOREDIRECTIONREF1"></a></p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">   2&gt;&amp;1
       # Redirects stderr to stdout.
       # Error messages get sent to same place as standard output.
-        &#62;&#62;filename 2&#62;&#38;1
-            bad_command &#62;&#62;filename 2&#62;&#38;1
+        &gt;&gt;filename 2&gt;&amp;1
+            bad_command &gt;&gt;filename 2&gt;&amp;1
             # Appends both stdout and stderr to the file "filename" ...
-        2&#62;&#38;1 | [command(s)]
-            bad_command 2&#62;&#38;1 | awk '{print $5}'   # found
+        2&gt;&amp;1 | [command(s)]
+            bad_command 2&gt;&amp;1 | awk '{print $5}'   # found
             # Sends stderr through a pipe.
-            # |&#38; was added to Bash 4 as an abbreviation for 2&#62;&#38;1 |.
+            # |&amp; was added to Bash 4 as an abbreviation for 2&gt;&amp;1 |.
 
-   i&#62;&#38;j
-      # Redirects file descriptor <EM
->i</EM
-> to <EM
->j</EM
->.
-      # All output of file pointed to by <EM
->i</EM
-> gets sent to file pointed to by <EM
->j</EM
->.
+   i&gt;&amp;j
+      # Redirects file descriptor <em>i</em> to <em>j</em>.
+      # All output of file pointed to by <em>i</em> gets sent to file pointed to by <em>j</em>.
 
-   &#62;&#38;j
-      # Redirects, by default, file descriptor <EM
->1</EM
-> (stdout) to <EM
->j</EM
->.
-      # All stdout gets sent to file pointed to by <EM
->j</EM
->.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-><P
-><A
-NAME="IOREDIRECTIONREF2"
-></A
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->   0&#60; FILENAME
-    &#60; FILENAME
+   &gt;&amp;j
+      # Redirects, by default, file descriptor <em>1</em> (stdout) to <em>j</em>.
+      # All stdout gets sent to file pointed to by <em>j</em>.</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p><a name="IOREDIRECTIONREF2" id="IOREDIRECTIONREF2"></a></p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">   0&lt; FILENAME
+    &lt; FILENAME
       # Accept input from a file.
-      # Companion command to <SPAN
-CLASS="QUOTE"
->"&#62;"</SPAN
->, and often used in combination with it.
+      # Companion command to <span class="QUOTE">"&gt;"</span>, and often used in combination with it.
       #
-      # grep search-word &#60;filename
+      # grep search-word &lt;filename
 
 
-   [j]&#60;&#62;filename
+   [j]&lt;&gt;filename
       #  Open file "filename" for reading and writing,
       #+ and assign file descriptor "j" to it.
       #  If "filename" does not exist, create it.
       #  If file descriptor "j" is not specified, default to fd 0, stdin.
       #
       #  An application of this is writing at a specified place in a file. 
-      echo 1234567890 &#62; File    # Write string to "File".
-      exec 3&#60;&#62; File             # Open "File" and assign fd 3 to it.
-      read -n 4 &#60;&#38;3             # Read only 4 characters.
-      echo -n . &#62;&#38;3             # Write a decimal point there.
-      exec 3&#62;&#38;-                 # Close fd 3.
-      cat File                  # ==&#62; 1234.67890
+      echo 1234567890 &gt; File    # Write string to "File".
+      exec 3&lt;&gt; File             # Open "File" and assign fd 3 to it.
+      read -n 4 &lt;&amp;3             # Read only 4 characters.
+      echo -n . &gt;&amp;3             # Write a decimal point there.
+      exec 3&gt;&amp;-                 # Close fd 3.
+      cat File                  # ==&gt; 1234.67890
       #  Random access, by golly.
 
 
@@ -378,372 +167,120 @@ CLASS="QUOTE"
    |
       # Pipe.
       # General purpose process and command chaining tool.
-      # Similar to <SPAN
-CLASS="QUOTE"
->"&#62;"</SPAN
->, but more general in effect.
+      # Similar to <span class="QUOTE">"&gt;"</span>, but more general in effect.
       # Useful for chaining commands, scripts, files, and programs together.
-      cat *.txt | sort | uniq &#62; result-file
+      cat *.txt | sort | uniq &gt; result-file
       # Sorts the output of all the .txt files and deletes duplicate lines,
-      # finally saves results to <SPAN
-CLASS="QUOTE"
->"result-file"</SPAN
->.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-><P
->Multiple instances of input and output redirection
-        and/or pipes can be combined in a single command
-        line.
-
-       <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->command &#60; input-file &#62; output-file
+      # finally saves results to <span class="QUOTE">"result-file"</span>.</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>Multiple instances of input and output redirection and/or pipes can be combined in a single command line.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">command &lt; input-file &gt; output-file
 # Or the equivalent:
-&#60; input-file command &#62; output-file   # Although this is non-standard.
+&lt; input-file command &gt; output-file   # Although this is non-standard.
 
-command1 | command2 | command3 &#62; output-file</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-        See <A
-HREF="filearchiv.html#DERPM"
->Example 16-31</A
-> and <A
-HREF="contributed-scripts.html#FIFO"
->Example A-14</A
->.</P
-><P
->Multiple output streams may be redirected to one file.
-
-         <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->ls -yz &#62;&#62; command.log 2&#62;&#38;1
+command1 | command2 | command3 &gt; output-file</font></pre>
+        </td>
+      </tr>
+    </table>See <a href="filearchiv.html#DERPM">Example 16-31</a> and <a href="contributed-scripts.html#FIFO">Example A-14</a>.
+    <p>Multiple output streams may be redirected to one file.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">ls -yz &gt;&gt; command.log 2&gt;&amp;1
 #  Capture result of illegal options "yz" in file "command.log."
 #  Because stderr is redirected to the file,
 #+ any error messages will also be there.
 
 #  Note, however, that the following does *not* give the same result.
-ls -yz 2&#62;&#38;1 &#62;&#62; command.log
+ls -yz 2&gt;&amp;1 &gt;&gt; command.log
 #  Outputs an error message, but does not write to file.
 #  More precisely, the command output (in this case, null)
 #+ writes to the file, but the error message goes only to stdout.
 
 #  If redirecting both stdout and stderr,
-#+ the order of the commands makes a difference.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="CFD"
-></A
->Closing File Descriptors</B
-></P
-><DL
-><DT
-><SPAN
-CLASS="TOKEN"
->n&#60;&#38;-</SPAN
-></DT
-><DD
-><P
->Close input file descriptor
-	    <TT
-CLASS="REPLACEABLE"
-><I
->n</I
-></TT
->.</P
-></DD
-><DT
-><SPAN
-CLASS="TOKEN"
->0&#60;&#38;-</SPAN
->, <SPAN
-CLASS="TOKEN"
->&#60;&#38;-</SPAN
-></DT
-><DD
-><P
->Close <TT
-CLASS="FILENAME"
->stdin</TT
->.</P
-></DD
-><DT
-><SPAN
-CLASS="TOKEN"
->n&#62;&#38;-</SPAN
-></DT
-><DD
-><P
->Close output file descriptor <TT
-CLASS="REPLACEABLE"
-><I
->n</I
-></TT
->.</P
-></DD
-><DT
-><SPAN
-CLASS="TOKEN"
->1&#62;&#38;-</SPAN
->, <SPAN
-CLASS="TOKEN"
->&#62;&#38;-</SPAN
-></DT
-><DD
-><P
->Close <TT
-CLASS="FILENAME"
->stdout</TT
->.</P
-></DD
-></DL
-></DIV
-><P
-><A
-NAME="FDREF2"
-></A
-></P
-><P
->Child processes inherit open file descriptors. This is
-          why pipes work. To prevent an fd from being inherited, close it.
-	    <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># Redirecting only stderr to a pipe.
+#+ the order of the commands makes a difference.</font></pre>
+        </td>
+      </tr>
+    </table>
+    <div class="VARIABLELIST">
+      <p><b><a name="CFD" id="CFD"></a>Closing File Descriptors</b></p>
+      <dl>
+        <dt><span class="TOKEN">n&lt;&amp;-</span></dt>
+        <dd>
+          <p>Close input file descriptor <tt class="REPLACEABLE"><i>n</i></tt>.</p>
+        </dd>
+        <dt><span class="TOKEN">0&lt;&amp;-</span>, <span class="TOKEN">&lt;&amp;-</span></dt>
+        <dd>
+          <p>Close <tt class="FILENAME">stdin</tt>.</p>
+        </dd>
+        <dt><span class="TOKEN">n&gt;&amp;-</span></dt>
+        <dd>
+          <p>Close output file descriptor <tt class="REPLACEABLE"><i>n</i></tt>.</p>
+        </dd>
+        <dt><span class="TOKEN">1&gt;&amp;-</span>, <span class="TOKEN">&gt;&amp;-</span></dt>
+        <dd>
+          <p>Close <tt class="FILENAME">stdout</tt>.</p>
+        </dd>
+      </dl>
+    </div>
+    <p><a name="FDREF2" id="FDREF2"></a></p>
+    <p>Child processes inherit open file descriptors. This is why pipes work. To prevent an fd from being inherited, close it.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000"># Redirecting only stderr to a pipe.
 
-exec 3&#62;&#38;1                              # Save current "value" of stdout.
-ls -l 2&#62;&#38;1 &#62;&#38;3 3&#62;&#38;- | grep bad 3&#62;&#38;-    # Close fd 3 for 'grep' (but not 'ls').
+exec 3&gt;&amp;1                              # Save current "value" of stdout.
+ls -l 2&gt;&amp;1 &gt;&amp;3 3&gt;&amp;- | grep bad 3&gt;&amp;-    # Close fd 3 for 'grep' (but not 'ls').
 #              ^^^^   ^^^^
-exec 3&#62;&#38;-                              # Now close it for the remainder of the script.
+exec 3&gt;&amp;-                              # Now close it for the remainder of the script.
 
-# Thanks, S.C.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-        </P
-><P
->For a more detailed introduction to I/O redirection see
-	  <A
-HREF="ioredirintro.html"
->Appendix F</A
->.</P
-></DIV
-><H3
-CLASS="FOOTNOTES"
->Notes</H3
-><TABLE
-BORDER="0"
-CLASS="FOOTNOTES"
-WIDTH="100%"
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN17884"
-HREF="io-redirection.html#AEN17884"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->By convention in UNIX and Linux, data streams
-	 and peripherals (<A
-HREF="devref1.html#DEVFILEREF"
->device files</A
->)
-	 are treated as files, in a fashion analogous to ordinary
-	 files.</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN17894"
-HREF="io-redirection.html#AEN17894"
-><SPAN
-CLASS="footnote"
->[2]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
-><A
-NAME="FDREF1"
-></A
->A <I
-CLASS="FIRSTTERM"
->file
-		 descriptor</I
-> is simply a number that
-		 the operating system assigns to an open file
-		 to keep track of it.  Consider it a simplified
-		 type of file pointer. It is analogous
-		 to a <I
-CLASS="FIRSTTERM"
->file handle</I
-> in
-		 <B
-CLASS="COMMAND"
->C</B
->.</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN17906"
-HREF="io-redirection.html#AEN17906"
-><SPAN
-CLASS="footnote"
->[3]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->Using <TT
-CLASS="REPLACEABLE"
-><I
->file
-	       descriptor 5</I
-></TT
-> might cause problems.
-	       When Bash creates a child process, as with <A
-HREF="internal.html#EXECREF"
->exec</A
->, the child inherits
-	       fd 5 (see Chet Ramey's archived e-mail, <A
-HREF="http://groups.google.com/group/gnu.bash.bug/browse_thread/thread/13955daafded3b5c/18c17050087f9f37"
-TARGET="_top"
->	       SUBJECT: RE:  File descriptor 5 is held open</A
->).
-	       Best leave this particular fd alone.</P
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="x17837.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="x17974.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Here Strings</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="part5.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Using <I
-CLASS="FIRSTTERM"
->exec</I
-></TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+# Thanks, S.C.</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>For a more detailed introduction to I/O redirection see <a href="ioredirintro.html">Appendix F</a>.</p>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN17884" href="io-redirection.html#AEN17884" id="FTN.AEN17884"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>By convention in UNIX and Linux, data streams and peripherals (<a href="devref1.html#DEVFILEREF">device files</a>) are treated as files, in a fashion analogous to ordinary files.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN17894" href="io-redirection.html#AEN17894" id="FTN.AEN17894"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><a name="FDREF1" id="FDREF1"></a>A <i class="FIRSTTERM">file descriptor</i> is simply a number that the operating system assigns to an open file to keep track of it. Consider it a simplified type of file pointer. It is analogous to a <i class="FIRSTTERM">file handle</i> in <b class="COMMAND">C</b>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN17906" href="io-redirection.html#AEN17906" id="FTN.AEN17906"><span class="footnote">[3]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Using <tt class="REPLACEABLE"><i>file descriptor 5</i></tt> might cause problems. When Bash creates a child process, as with <a href="internal.html#EXECREF">exec</a>, the child inherits fd 5 (see Chet Ramey's archived e-mail, <a href="http://groups.google.com/group/gnu.bash.bug/browse_thread/thread/13955daafded3b5c/18c17050087f9f37" target="_top">SUBJECT: RE: File descriptor 5 is held open</a>). Best leave this particular fd alone.</p>
+      </td>
+    </tr>
+  </table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="x17837.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="x17974.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Here Strings</td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Using <i class="FIRSTTERM">exec</i></td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

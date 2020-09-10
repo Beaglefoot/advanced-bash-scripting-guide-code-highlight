@@ -1,142 +1,47 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Complex Functions and Function Complexities</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Functions"
-HREF="functions.html"><LINK
-REL="PREVIOUS"
-TITLE="Functions"
-HREF="functions.html"><LINK
-REL="NEXT"
-TITLE="Local Variables"
-HREF="localvar.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="functions.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 24. Functions</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="localvar.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="COMPLEXFUNCT"
-></A
->24.1. Complex Functions and Function Complexities</H1
-><P
->Functions may process arguments passed to them and return
-	an <A
-HREF="exit-status.html#EXITSTATUSREF"
->exit status</A
-> to the script
-	for further processing.</P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->function_name $arg1 $arg2</PRE
-></FONT
-></TD
-></TR
-></TABLE
-><P
-><A
-NAME="PASSEDARGS"
-></A
-></P
-><P
->The function refers to the passed arguments by position (as if they were
-	<A
-HREF="internalvariables.html#POSPARAMREF"
->positional parameters</A
->),
-	that is, <TT
-CLASS="VARNAME"
->$1</TT
->, <TT
-CLASS="VARNAME"
->$2</TT
->, and
-	so forth.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX60"
-></A
-><P
-><B
->Example 24-2. Function Taking Parameters</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Complex Functions and Function Complexities</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Functions" href="functions.html">
+  <link rel="PREVIOUS" title="Functions" href="functions.html">
+  <link rel="NEXT" title="Local Variables" href="localvar.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="functions.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 24. Functions</td>
+        <td width="10%" align="right" valign="bottom"><a href="localvar.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="COMPLEXFUNCT" id="COMPLEXFUNCT"></a>24.1. Complex Functions and Function Complexities</h1>
+    <p>Functions may process arguments passed to them and return an <a href="exit-status.html#EXITSTATUSREF">exit status</a> to the script for further processing.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">function_name $arg1 $arg2</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p><a name="PASSEDARGS" id="PASSEDARGS"></a></p>
+    <p>The function refers to the passed arguments by position (as if they were <a href="internalvariables.html#POSPARAMREF">positional parameters</a>), that is, <tt class="VARNAME">$1</tt>, <tt class="VARNAME">$2</tt>, and so forth.</p>
+    <div class="EXAMPLE">
+      <a name="EX60" id="EX60"></a>
+      <p><b>Example 24-2. Function Taking Parameters</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # Functions and parameters
 
 DEFAULT=default                             # Default param value.
@@ -190,73 +95,30 @@ echo "\"\" \"second\" passed."
 func2 "" second       # Called with zero-length first parameter
 echo                  # and ASCII string as a second one.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="FSHIFTREF"
-></A
-></P
-><DIV
-CLASS="IMPORTANT"
-><P
-></P
-><TABLE
-CLASS="IMPORTANT"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/important.gif"
-HSPACE="5"
-ALT="Important"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The <A
-HREF="othertypesv.html#SHIFTREF"
->shift</A
->
-        command works on arguments passed to functions (see <A
-HREF="assortedtips.html#MULTIPLICATION"
->Example 36-18</A
->).</P
-></TD
-></TR
-></TABLE
-></DIV
-><P
->But, what about command-line arguments passed to the script? 
-        Does a function see them? Well, let's clear up the confusion.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="FUNCCMDLINEARG"
-></A
-><P
-><B
->Example 24-3. Functions and command-line args passed to the script</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><a name="FSHIFTREF" id="FSHIFTREF"></a></p>
+    <div class="IMPORTANT">
+      <table class="IMPORTANT" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/important.gif" hspace="5" alt="Important"></td>
+          <td align="left" valign="top">
+            <p>The <a href="othertypesv.html#SHIFTREF">shift</a> command works on arguments passed to functions (see <a href="assortedtips.html#MULTIPLICATION">Example 36-18</a>).</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>But, what about command-line arguments passed to the script? Does a function see them? Well, let's clear up the confusion.</p>
+    <div class="EXAMPLE">
+      <a name="FUNCCMDLINEARG" id="FUNCCMDLINEARG"></a>
+      <p><b>Example 24-3. Functions and command-line args passed to the script</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # func-cmdlinearg.sh
 #  Call this script with a command-line argument,
 #+ something like $0 arg1.
@@ -279,61 +141,21 @@ echo "Second call to function: command-line arg passed explicitly."
 func $1
 # Now it's seen!
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->In contrast to certain other programming languages,
-	shell scripts normally pass only value parameters to
-	functions. Variable names (which are actually
-	<I
-CLASS="FIRSTTERM"
->pointers</I
->), if
-	passed as parameters to functions, will be treated as string
-	literals.  <EM
->Functions interpret their arguments
-	literally.</EM
-></P
-><P
-><A
-NAME="FUNCPOINTERS"
-></A
-></P
-><P
-><A
-HREF="ivr.html#IVRREF"
->Indirect variable
-	    references</A
-> (see <A
-HREF="bashver2.html#EX78"
->Example 37-2</A
->) provide a clumsy
-	    sort of mechanism for passing variable pointers to
-	    functions.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="INDFUNC"
-></A
-><P
-><B
->Example 24-4. Passing an indirect reference to a function</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>In contrast to certain other programming languages, shell scripts normally pass only value parameters to functions. Variable names (which are actually <i class="FIRSTTERM">pointers</i>), if passed as parameters to functions, will be treated as string literals. <em>Functions interpret their arguments literally.</em></p>
+    <p><a name="FUNCPOINTERS" id="FUNCPOINTERS"></a></p>
+    <p><a href="ivr.html#IVRREF">Indirect variable references</a> (see <a href="bashver2.html#EX78">Example 37-2</a>) provide a clumsy sort of mechanism for passing variable pointers to functions.</p>
+    <div class="EXAMPLE">
+      <a name="INDFUNC" id="INDFUNC"></a>
+      <p><b>Example 24-4. Passing an indirect reference to a function</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # ind-func.sh: Passing an indirect reference to a function.
 
 echo_var ()
@@ -355,38 +177,19 @@ Hello="Hello, again!"
 echo_var "$message"        # Hello
 echo_var "${!message}"     # Hello, again!
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->The next logical question is whether parameters can be
-	  dereferenced <EM
->after</EM
-> being passed to a
-	  function.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="DEREFERENCECL"
-></A
-><P
-><B
->Example 24-5. Dereferencing a parameter passed to a function</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>The next logical question is whether parameters can be dereferenced <em>after</em> being passed to a function.</p>
+    <div class="EXAMPLE">
+      <a name="DEREFERENCECL" id="DEREFERENCECL"></a>
+      <p><b>Example 24-5. Dereferencing a parameter passed to a function</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # dereference.sh
 # Dereferencing parameter passed to a function.
 # Script by Bruce W. Clare.
@@ -407,32 +210,18 @@ echo $Junk "before"    # Some Text before
 dereference Junk
 echo $Junk "after"     # Some Different Text after
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="REFPARAMS"
-></A
-><P
-><B
->Example 24-6. Again, dereferencing a parameter passed to a function</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="REFPARAMS" id="REFPARAMS"></a>
+      <p><b>Example 24-6. Again, dereferencing a parameter passed to a function</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # ref-params.sh: Dereferencing a parameter passed to a function.
 #                (Complex Example)
 
@@ -451,7 +240,7 @@ my_read () {
 # eval echo -n "[\$$1] "     #  Easier to understand,
                              #+ but loses trailing space in user prompt.
   read local_var
-  [ -n "$local_var" ] &#38;&#38; eval $1=\$local_var
+  [ -n "$local_var" ] &amp;&amp; eval $1=\$local_var
 
   # "And-list": if "local_var" then set "$1" to its value.
 }
@@ -469,121 +258,29 @@ done
 
 # Thanks to Stephane Chazelas for providing this instructive example.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="EXITRETURN1"
-></A
->Exit and Return</B
-></P
-><DL
-><DT
-><B
-CLASS="COMMAND"
->exit status</B
-></DT
-><DD
-><P
->Functions return a value, called an <I
-CLASS="FIRSTTERM"
->exit
-	      status</I
->. This is analogous to the <A
-HREF="exit-status.html#EXITSTATUSREF"
->exit status</A
-> returned by a
-	      command. The exit status may be explicitly specified
-	      by a <B
-CLASS="COMMAND"
->return</B
-> statement, otherwise it
-	      is the exit status of the last command in the function
-	      (<SPAN
-CLASS="RETURNVALUE"
->0</SPAN
-> if successful, and a non-zero
-	      error code if not). This <A
-HREF="exit-status.html#EXITSTATUSREF"
->exit
-	      status</A
-> may be used in the script by referencing it
-	      as <A
-HREF="internalvariables.html#XSTATVARREF"
->$?</A
->.  This mechanism
-	      effectively permits script functions to have a <SPAN
-CLASS="QUOTE"
->"return
-	      value"</SPAN
-> similar to C functions.</P
-></DD
-><DT
-><B
-CLASS="COMMAND"
->return</B
-></DT
-><DD
-><P
-><A
-NAME="RETURNREF"
-></A
-></P
-><P
->Terminates a function. A <B
-CLASS="COMMAND"
->return</B
-> command
-	       <A
-NAME="AEN18474"
-HREF="#FTN.AEN18474"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
->
-	      optionally takes an <I
-CLASS="FIRSTTERM"
->integer</I
->
-	      argument, which is returned to the calling script as
-	      the <SPAN
-CLASS="QUOTE"
->"exit status"</SPAN
-> of the function, and
-	      this exit status is assigned to the variable <A
-HREF="internalvariables.html#XSTATVARREF"
->$?</A
->.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="MAX"
-></A
-><P
-><B
->Example 24-7. Maximum of two numbers</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="EXITRETURN1" id="EXITRETURN1"></a>Exit and Return</b></p>
+      <dl>
+        <dt><b class="COMMAND">exit status</b></dt>
+        <dd>
+          <p>Functions return a value, called an <i class="FIRSTTERM">exit status</i>. This is analogous to the <a href="exit-status.html#EXITSTATUSREF">exit status</a> returned by a command. The exit status may be explicitly specified by a <b class="COMMAND">return</b> statement, otherwise it is the exit status of the last command in the function (<span class="RETURNVALUE">0</span> if successful, and a non-zero error code if not). This <a href="exit-status.html#EXITSTATUSREF">exit status</a> may be used in the script by referencing it as <a href="internalvariables.html#XSTATVARREF">$?</a>. This mechanism effectively permits script functions to have a <span class="QUOTE">"return value"</span> similar to C functions.</p>
+        </dd>
+        <dt><b class="COMMAND">return</b></dt>
+        <dd>
+          <p><a name="RETURNREF" id="RETURNREF"></a></p>
+          <p>Terminates a function. A <b class="COMMAND">return</b> command <a name="AEN18474" href="#FTN.AEN18474" id="AEN18474"><span class="footnote">[1]</span></a> optionally takes an <i class="FIRSTTERM">integer</i> argument, which is returned to the calling script as the <span class="QUOTE">"exit status"</span> of the function, and this exit status is assigned to the variable <a href="internalvariables.html#XSTATVARREF">$?</a>.</p>
+          <div class="EXAMPLE">
+            <a name="MAX" id="MAX"></a>
+            <p><b>Example 24-7. Maximum of two numbers</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # max.sh: Maximum of two integers.
 
 E_PARAM_ERR=250    # If less than 2 params passed to function.
@@ -630,48 +327,23 @@ exit 0
 #  Exercise (easy):
 #  ---------------
 #  Convert this to an interactive script,
-#+ that is, have the script ask for input (two numbers).</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="TIP"
-><P
-></P
-><TABLE
-CLASS="TIP"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/tip.gif"
-HSPACE="5"
-ALT="Tip"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->For a function to return a string or array, use a
-	      dedicated variable.
-	        <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->count_lines_in_etc_passwd()
+#+ that is, have the script ask for input (two numbers).</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="TIP">
+            <table class="TIP" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/tip.gif" hspace="5" alt="Tip"></td>
+                <td align="left" valign="top">
+                  <p>For a function to return a string or array, use a dedicated variable.</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="PROGRAMLISTING"><font color="#000000">count_lines_in_etc_passwd()
 {
-  [[ -r /etc/passwd ]] &#38;&#38; REPLY=$(echo $(wc -l &#60; /etc/passwd))
+  [[ -r /etc/passwd ]] &amp;&amp; REPLY=$(echo $(wc -l &lt; /etc/passwd))
   #  If /etc/passwd is readable, set REPLY to line count.
   #  Returns both a parameter value and status information.
   #  The 'echo' seems unnecessary, but . . .
@@ -685,37 +357,21 @@ else
   echo "Cannot count lines in /etc/passwd."
 fi  
 
-# Thanks, S.C.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	    </P
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX61"
-></A
-><P
-><B
->Example 24-8. Converting numbers to Roman numerals</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# Thanks, S.C.</font></pre>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="EXAMPLE">
+            <a name="EX61" id="EX61"></a>
+            <p><b>Example 24-8. Converting numbers to Roman numerals</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 # Arabic number to Roman numeral conversion
 # Range: 0 - 200
@@ -787,74 +443,25 @@ to_roman $num 1 I
 
 echo
 
-exit</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->See also <A
-HREF="testbranch.html#ISALPHA"
->Example 11-29</A
->.</P
-><DIV
-CLASS="IMPORTANT"
-><P
-></P
-><TABLE
-CLASS="IMPORTANT"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/important.gif"
-HSPACE="5"
-ALT="Important"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The largest positive integer a function can return is
-	      255. The <B
-CLASS="COMMAND"
->return</B
-> command is closely tied
-	      to the concept of <A
-HREF="exit-status.html#EXITSTATUSREF"
->exit
-	      status</A
->, which accounts for this particular
-	      limitation.  Fortunately, there are various <A
-HREF="assortedtips.html#RVT"
->workarounds</A
-> for those situations
-	      requiring a large integer return value from a
-	      function.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="RETURNTEST"
-></A
-><P
-><B
->Example 24-9. Testing large return values in a function</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>See also <a href="testbranch.html#ISALPHA">Example 11-29</a>.</p>
+          <div class="IMPORTANT">
+            <table class="IMPORTANT" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/important.gif" hspace="5" alt="Important"></td>
+                <td align="left" valign="top">
+                  <p>The largest positive integer a function can return is 255. The <b class="COMMAND">return</b> command is closely tied to the concept of <a href="exit-status.html#EXITSTATUSREF">exit status</a>, which accounts for this particular limitation. Fortunately, there are various <a href="assortedtips.html#RVT">workarounds</a> for those situations requiring a large integer return value from a function.</p>
+                  <div class="EXAMPLE">
+                    <a name="RETURNTEST" id="RETURNTEST"></a>
+                    <p><b>Example 24-9. Testing large return values in a function</b></p>
+                    <table border="0" bgcolor="#E0E0E0" width="90%">
+                      <tr>
+                        <td>
+                          <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # return-test.sh
 
 # The largest positive value a function can return is 255.
@@ -885,34 +492,16 @@ echo $?                # Will this return -151896?
 #  Caution!
 # =========================================================
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->A workaround for obtaining large integer <SPAN
-CLASS="QUOTE"
->"return
-	      values"</SPAN
-> is to simply assign the <SPAN
-CLASS="QUOTE"
->"return
-	      value"</SPAN
-> to a global variable.
-
-	        <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->Return_Val=   # Global variable to hold oversize return value of function.
+exit 0</font></pre>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <p>A workaround for obtaining large integer <span class="QUOTE">"return values"</span> is to simply assign the <span class="QUOTE">"return value"</span> to a global variable.</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="PROGRAMLISTING"><font color="#000000">Return_Val=   # Global variable to hold oversize return value of function.
 
 alt_return_test ()
 {
@@ -932,63 +521,19 @@ alt_return_test 257
 echo "return value = $Return_Val"    # 257
 
 alt_return_test 25701
-echo "return value = $Return_Val"    #25701</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-            </P
-><P
-><A
-NAME="CAPTURERETVAL"
-></A
-></P
-><P
->A more elegant method is to have the function
-              <B
-CLASS="COMMAND"
->echo</B
-> its <SPAN
-CLASS="QUOTE"
->"return
-              value to <TT
-CLASS="FILENAME"
->stdout</TT
->,"</SPAN
-> and
-              then capture it by <A
-HREF="commandsub.html#COMMANDSUBREF"
->command
-	      substitution</A
->. See the <A
-HREF="assortedtips.html#RVT"
->discussion
-	      of this</A
-> in <A
-HREF="assortedtips.html"
->Section 36.7</A
->.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="MAX2"
-></A
-><P
-><B
->Example 24-10. Comparing two large integers</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+echo "return value = $Return_Val"    #25701</font></pre>
+                      </td>
+                    </tr>
+                  </table>
+                  <p><a name="CAPTURERETVAL" id="CAPTURERETVAL"></a></p>
+                  <p>A more elegant method is to have the function <b class="COMMAND">echo</b> its <span class="QUOTE">"return value to <tt class="FILENAME">stdout</tt>,"</span> and then capture it by <a href="commandsub.html#COMMANDSUBREF">command substitution</a>. See the <a href="assortedtips.html#RVT">discussion of this</a> in <a href="assortedtips.html">Section 36.7</a>.</p>
+                  <div class="EXAMPLE">
+                    <a name="MAX2" id="MAX2"></a>
+                    <p><b>Example 24-10. Comparing two large integers</b></p>
+                    <table border="0" bgcolor="#E0E0E0" width="90%">
+                      <tr>
+                        <td>
+                          <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # max2.sh: Maximum of two LARGE integers.
 
 #  This is the previous "max.sh" example,
@@ -1051,34 +596,16 @@ exit 0
 #  1) Find a more elegant way of testing
 #+    the parameters passed to the function.
 #  2) Simplify the if/then structure at "OUTPUT."
-#  3) Rewrite the script to take input from command-line parameters.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Here is another example of capturing a function
-	      <SPAN
-CLASS="QUOTE"
->"return value."</SPAN
-> Understanding it requires some
-	      knowledge of <A
-HREF="awk.html#AWKREF"
->awk</A
->.
-
-	    <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->month_length ()  # Takes month number as an argument.
+#  3) Rewrite the script to take input from command-line parameters.</font></pre>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                  <p>Here is another example of capturing a function <span class="QUOTE">"return value."</span> Understanding it requires some knowledge of <a href="awk.html#AWKREF">awk</a>.</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="PROGRAMLISTING"><font color="#000000">month_length ()  # Takes month number as an argument.
 {                # Returns number of days in month.
 monthD="31 28 31 30 31 30 31 31 30 31 30 31"  # Declare as local?
 echo "$monthD" | awk '{ print $'"${1}"' }'    # Tricky.
@@ -1103,93 +630,32 @@ echo "$monthD" | awk '{ print $'"${1}"' }'    # Tricky.
 month=4        # April, for example (4th month).
 days_in=$(month_length $month)
 echo $days_in  # 30
-# ----------------------------------------------</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->See also <A
-HREF="contributed-scripts.html#DAYSBETWEEN"
->Example A-7</A
->
-	      and <A
-HREF="contributed-scripts.html#STDDEV"
->Example A-37</A
->.</P
-><P
-><TT
-CLASS="USERINPUT"
-><B
->Exercise:</B
-></TT
-> Using what we have
-	      just learned, extend the previous <A
-HREF="complexfunct.html#EX61"
->Roman numerals example</A
-> to accept
-	      arbitrarily large input.</P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-></DL
-></DIV
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="REDSTDINFUNC1"
-></A
->Redirection</B
-></P
-><DL
-><DT
-><TT
-CLASS="REPLACEABLE"
-><I
->Redirecting the stdin
-	    of a function</I
-></TT
-></DT
-><DD
-><P
->A function is essentially a <A
-HREF="special-chars.html#CODEBLOCKREF"
->code block</A
->, which means its
-	      <TT
-CLASS="FILENAME"
->stdin</TT
-> can be redirected (as in <A
-HREF="special-chars.html#EX8"
->Example 3-1</A
->).</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="REALNAME"
-></A
-><P
-><B
->Example 24-11. Real name from username</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# ----------------------------------------------</font></pre>
+                      </td>
+                    </tr>
+                  </table>
+                  <p>See also <a href="contributed-scripts.html#DAYSBETWEEN">Example A-7</a> and <a href="contributed-scripts.html#STDDEV">Example A-37</a>.</p>
+                  <p><tt class="USERINPUT"><b>Exercise:</b></tt> Using what we have just learned, extend the previous <a href="complexfunct.html#EX61">Roman numerals example</a> to accept arbitrarily large input.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="REDSTDINFUNC1" id="REDSTDINFUNC1"></a>Redirection</b></p>
+      <dl>
+        <dt><tt class="REPLACEABLE"><i>Redirecting the stdin of a function</i></tt></dt>
+        <dd>
+          <p>A function is essentially a <a href="special-chars.html#CODEBLOCKREF">code block</a>, which means its <tt class="FILENAME">stdin</tt> can be redirected (as in <a href="special-chars.html#EX8">Example 3-1</a>).</p>
+          <div class="EXAMPLE">
+            <a name="REALNAME" id="REALNAME"></a>
+            <p><b>Example 24-11. Real name from username</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # realname.sh
 #
 # From username, gets "real name" from /etc/passwd.
@@ -1214,7 +680,7 @@ file_excerpt ()    #  Scan file for pattern,
     echo "$line" | grep $1 | awk -F":" '{ print $5 }'
     # Have awk use ":" delimiter.
   done
-} &#60;$file  # Redirect into function's stdin.
+} &lt;$file  # Redirect into function's stdin.
 
 file_excerpt $pattern
 
@@ -1226,47 +692,27 @@ file_excerpt $pattern
 #       awk -F: '($1 == "username") { print $5 }' # real name from username
 # However, it might not be as instructive.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->There is an alternate, and perhaps less confusing
-	     method of redirecting a function's
-	     <TT
-CLASS="FILENAME"
->stdin</TT
->.  This involves redirecting the
-	     <TT
-CLASS="FILENAME"
->stdin</TT
-> to an embedded bracketed code
-	     block within the function.
-
-	       <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># Instead of:
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>There is an alternate, and perhaps less confusing method of redirecting a function's <tt class="FILENAME">stdin</tt>. This involves redirecting the <tt class="FILENAME">stdin</tt> to an embedded bracketed code block within the function.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000"># Instead of:
 Function ()
 {
  ...
- } &#60; file
+ } &lt; file
 
 # Try this:
 Function ()
 {
   {
     ...
-   } &#60; file
+   } &lt; file
 }
 
 # Similarly,
@@ -1284,149 +730,47 @@ Function ()  # This doesn't work.
 } | tr a b   # A nested code block is mandatory here.
 
 
-# Thanks, S.C.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-           </P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->Emmanuel Rouat's <A
-HREF="sample-bashrc.html"
->sample <TT
-CLASS="FILENAME"
->bashrc</TT
->
-             file</A
-> contains some instructive examples of
-             functions.</P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-></DL
-></DIV
-></DIV
-><H3
-CLASS="FOOTNOTES"
->Notes</H3
-><TABLE
-BORDER="0"
-CLASS="FOOTNOTES"
-WIDTH="100%"
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN18474"
-HREF="complexfunct.html#AEN18474"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->The <B
-CLASS="COMMAND"
->return</B
-> command is a
-		 Bash <A
-HREF="internal.html#BUILTINREF"
->builtin</A
->.</P
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="functions.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="localvar.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Functions</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="functions.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Local Variables</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+# Thanks, S.C.</font></pre>
+              </td>
+            </tr>
+          </table>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>Emmanuel Rouat's <a href="sample-bashrc.html">sample <tt class="FILENAME">bashrc</tt> file</a> contains some instructive examples of functions.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN18474" href="complexfunct.html#AEN18474" id="FTN.AEN18474"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>The <b class="COMMAND">return</b> command is a Bash <a href="internal.html#BUILTINREF">builtin</a>.</p>
+      </td>
+    </tr>
+  </table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="functions.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="localvar.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Functions</td>
+        <td width="34%" align="center" valign="top"><a href="functions.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Local Variables</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

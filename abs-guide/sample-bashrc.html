@@ -1,134 +1,39 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Sample .bashrc  and
-	    .bash_profile Files</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="PREVIOUS"
-TITLE="History Commands"
-HREF="histcommands.html"><LINK
-REL="NEXT"
-TITLE="Converting DOS Batch Files to Shell Scripts"
-HREF="dosbatch.html"></HEAD
-><BODY
-CLASS="APPENDIX"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="histcommands.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="dosbatch.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="APPENDIX"
-><H1
-><A
-NAME="SAMPLE-BASHRC"
-></A
->Appendix M. Sample <TT
-CLASS="FILENAME"
->.bashrc</TT
->  and
-	    <TT
-CLASS="FILENAME"
->.bash_profile</TT
-> Files</H1
-><P
->The <TT
-CLASS="FILENAME"
->~/.bashrc</TT
-> file determines the
-       behavior of interactive shells. A good look at this file can
-       lead to a better understanding of Bash.</P
-><P
-><A
-HREF="mailto:emmanuel.rouat@wanadoo.fr"
-TARGET="_top"
->Emmanuel
-        Rouat</A
-> contributed the following very elaborate
-        <TT
-CLASS="FILENAME"
->.bashrc</TT
-> file, written for a Linux system.
-        He welcomes reader feedback on it.</P
-><P
->Study the file carefully, and feel free to reuse code
-        snippets and functions from it in your own
-        <TT
-CLASS="FILENAME"
->.bashrc</TT
-> file or even in your scripts.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="BASHRC"
-></A
-><P
-><B
->Example M-1. Sample <TT
-CLASS="FILENAME"
->.bashrc</TT
-> file</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># =============================================================== #
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Sample .bashrc and .bash_profile Files</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="PREVIOUS" title="History Commands" href="histcommands.html">
+  <link rel="NEXT" title="Converting DOS Batch Files to Shell Scripts" href="dosbatch.html">
+</head>
+<body class="APPENDIX" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="histcommands.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="dosbatch.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="APPENDIX">
+    <h1><a name="SAMPLE-BASHRC" id="SAMPLE-BASHRC"></a>Appendix M. Sample <tt class="FILENAME">.bashrc</tt> and <tt class="FILENAME">.bash_profile</tt> Files</h1>
+    <p>The <tt class="FILENAME">~/.bashrc</tt> file determines the behavior of interactive shells. A good look at this file can lead to a better understanding of Bash.</p>
+    <p><a href="mailto:emmanuel.rouat@wanadoo.fr" target="_top">Emmanuel Rouat</a> contributed the following very elaborate <tt class="FILENAME">.bashrc</tt> file, written for a Linux system. He welcomes reader feedback on it.</p>
+    <p>Study the file carefully, and feel free to reuse code snippets and functions from it in your own <tt class="FILENAME">.bashrc</tt> file or even in your scripts.</p>
+    <div class="EXAMPLE">
+      <a name="BASHRC" id="BASHRC"></a>
+      <p><b>Example M-1. Sample <tt class="FILENAME">.bashrc</tt> file</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000"># =============================================================== #
 #
 # PERSONAL $HOME/.bashrc FILE for bash-3.0 (or later)
 # By Emmanuel Rouat [no-email]
@@ -160,10 +65,10 @@ CLASS="PROGRAMLISTING"
 #
 # =============================================================== #
 
-# --&#62; Comments added by HOWTO author.
+# --&gt; Comments added by HOWTO author.
 
 # If not running interactively, don't do anything
-[ -z "$PS1" ] &#38;&#38; return
+[ -z "$PS1" ] &amp;&amp; return
 
 
 #-------------------------------------------------------------
@@ -172,7 +77,7 @@ CLASS="PROGRAMLISTING"
 
 
 if [ -f /etc/bashrc ]; then
-      . /etc/bashrc   # --&#62; Read /etc/bashrc, if present.
+      . /etc/bashrc   # --&gt; Read /etc/bashrc, if present.
 fi
 
 
@@ -311,7 +216,7 @@ trap _exit EXIT
 #       http://tldp.org/HOWTO/Bash-Prompt-HOWTO
 #       https://github.com/nojhan/liquidprompt
 #-------------------------------------------------------------
-# Current Format: [TIME USER@HOST PWD] &#62;
+# Current Format: [TIME USER@HOST PWD] &gt;
 # TIME:
 #    Green     == machine load is low
 #    Orange    == machine load is medium
@@ -331,7 +236,7 @@ trap _exit EXIT
 #    ALERT     == less than 5% free disk space
 #    Red       == current user does not have write privileges
 #    Cyan      == current filesystem is size zero (like /proc)
-# &#62;:
+# &gt;:
 #    White     == no background or suspended jobs in this shell
 #    Cyan      == at least one background job in this shell
 #    Orange    == at least one suspended job in this shell
@@ -398,7 +303,7 @@ function disk_color()
         local used=$(command df -P "$PWD" |
                    awk 'END {print $5} {sub(/%/,"")}')
         if [ ${used} -gt 95 ]; then
-            echo -en ${ALERT}           # Disk almost full (&#62;95%).
+            echo -en ${ALERT}           # Disk almost full (&gt;95%).
         elif [ ${used} -gt 90 ]; then
             echo -en ${BRed}            # Free disk space almost gone.
         else
@@ -435,20 +340,20 @@ case ${TERM} in
         # PWD (with 'disk space' info):
         PS1=${PS1}"\[\$(disk_color)\]\W]\[${NC}\] "
         # Prompt (with 'job' info):
-        PS1=${PS1}"\[\$(job_color)\]&#62;\[${NC}\] "
+        PS1=${PS1}"\[\$(job_color)\]&gt;\[${NC}\] "
         # Set title of current xterm:
         PS1=${PS1}"\[\e]0;[\u@\h] \w\a\]"
         ;;
     *)
-        PS1="(\A \u@\h \W) &#62; " # --&#62; PS1="(\A \u@\h \w) &#62; "
-                               # --&#62; Shows full pathname of current dir.
+        PS1="(\A \u@\h \W) &gt; " # --&gt; PS1="(\A \u@\h \w) &gt; "
+                               # --&gt; Shows full pathname of current dir.
         ;;
 esac
 
 
 
 export TIMEFORMAT=$'\nreal %3R\tuser %3U\tsys %3S\tpcpu %P\n'
-export HISTIGNORE="&#38;:bg:fg:ll:h"
+export HISTIGNORE="&amp;:bg:fg:ll:h"
 export HISTTIMEFORMAT="$(echo -e ${BCyan})[%d/%m %H:%M:%S]$(echo -e ${NC}) "
 export HISTCONTROL=ignoredups
 export HOSTFILE=$HOME/.hosts    # Put a list of remote hosts in ~/.hosts
@@ -471,7 +376,7 @@ export HOSTFILE=$HOME/.hosts    # Put a list of remote hosts in ~/.hosts
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-# -&#62; Prevents accidentally clobbering files.
+# -&gt; Prevents accidentally clobbering files.
 alias mkdir='mkdir -p'
 
 alias h='history'
@@ -513,7 +418,7 @@ alias tree='tree -Csuh'    #  Nice alternative to 'recursive ls' ...
 alias more='less'
 export PAGER=less
 export LESSCHARSET='latin1'
-export LESSOPEN='|/usr/bin/lesspipe.sh %s 2&#62;&#38;-'
+export LESSOPEN='|/usr/bin/lesspipe.sh %s 2&gt;&amp;-'
                 # Use this if lesspipe.sh exists.
 export LESS='-i -N -w  -z-4 -g -e -M -X -F -R -P%t?f%f \
 :stdin .?pb%pb\%:?lbLine %lb:?bbByte %bb:-...'
@@ -556,7 +461,7 @@ function xtitle()
 
 
 # Aliases that use xtitle
-alias top='xtitle Processes on $HOST &#38;&#38; top'
+alias top='xtitle Processes on $HOST &amp;&amp; top'
 alias make='xtitle Making $(basename $PWD) ; make'
 
 # .. and functions
@@ -575,20 +480,20 @@ function man()
 
 function te()  # wrapper around xemacs/gnuserv
 {
-    if [ "$(gnuclient -batch -eval t 2&#62;&#38;-)" == "t" ]; then
+    if [ "$(gnuclient -batch -eval t 2&gt;&amp;-)" == "t" ]; then
        gnuclient -q "$@";
     else
-       ( xemacs "$@" &#38;);
+       ( xemacs "$@" &amp;);
     fi
 }
 
-function soffice() { command soffice "$@" &#38; }
-function firefox() { command firefox "$@" &#38; }
-function xpdf() { command xpdf "$@" &#38; }
+function soffice() { command soffice "$@" &amp; }
+function firefox() { command firefox "$@" &amp; }
+function xpdf() { command xpdf "$@" &amp; }
 
 
 #-------------------------------------------------------------
-# File &#38; strings related functions:
+# File &amp; strings related functions:
 #-------------------------------------------------------------
 
 
@@ -620,7 +525,7 @@ Usage: fstr [-i] \"pattern\" [\"filename pattern\"] "
         return;
     fi
     find . -type f -name "${2:-*}" -print0 | \
-xargs -0 egrep --color=always -sn ${case} "$1" 2&#62;&#38;- | more
+xargs -0 egrep --color=always -sn ${case} "$1" 2&gt;&amp;- | more
 
 }
 
@@ -629,9 +534,9 @@ function swap()
 { # Swap 2 filenames around, if they exist (from Uzi's bashrc).
     local TMPFILE=tmp.$$
 
-    [ $# -ne 2 ] &#38;&#38; echo "swap: 2 arguments needed" &#38;&#38; return 1
-    [ ! -e $1 ] &#38;&#38; echo "swap: $1 does not exist" &#38;&#38; return 1
-    [ ! -e $2 ] &#38;&#38; echo "swap: $2 does not exist" &#38;&#38; return 1
+    [ $# -ne 2 ] &amp;&amp; echo "swap: 2 arguments needed" &amp;&amp; return 1
+    [ ! -e $1 ] &amp;&amp; echo "swap: $1 does not exist" &amp;&amp; return 1
+    [ ! -e $2 ] &amp;&amp; echo "swap: $2 does not exist" &amp;&amp; return 1
 
     mv "$1" $TMPFILE
     mv "$2" "$1"
@@ -653,7 +558,7 @@ function extract()      # Handy Extract Program
             *.zip)       unzip $1        ;;
             *.Z)         uncompress $1   ;;
             *.7z)        7z x $1         ;;
-            *)           echo "'$1' cannot be extracted via &#62;extract&#60;" ;;
+            *)           echo "'$1' cannot be extracted via &gt;extract&lt;" ;;
         esac
     else
         echo "'$1' is not a valid file!"
@@ -676,7 +581,7 @@ function sanitize() { chmod -R u=rwX,g=rX,o= "$@" ;}
 
 
 function my_ps() { ps $@ -u $USER -o pid,%cpu,%mem,bsdtime,command ; }
-function pp() { my_ps f | awk '!/awk/ &#38;&#38; $0~var' var=${1:-".*"} ; }
+function pp() { my_ps f | awk '!/awk/ &amp;&amp; $0~var' var=${1:-".*"} ; }
 
 
 function killps()   # kill by process name
@@ -687,10 +592,10 @@ function killps()   # kill by process name
         return;
     fi
     if [ $# = 2 ]; then sig=$1 ; fi
-    for pid in $(my_ps| awk '!/awk/ &#38;&#38; $0~pat { print $1 }' pat=${!#} )
+    for pid in $(my_ps| awk '!/awk/ &amp;&amp; $0~pat { print $1 }' pat=${!#} )
     do
         pname=$(my_ps | awk '$1~var { print $5 }' var=$pid )
-        if ask "Kill process $pid &#60;$pname&#62; with signal $sig?"
+        if ask "Kill process $pid &lt;$pname&gt; with signal $sig?"
             then kill $sig $pid
         fi
     done
@@ -709,7 +614,7 @@ function mydf()         # Pretty-print of 'df' output.
         local free=( $(command df -Pkh $fs | awk 'END{ print $4 }') )
         local nbstars=$(( 20 * ${info[1]} / ${info[0]} ))
         local out="["
-        for ((j=0;j&#60;20;j++)); do
+        for ((j=0;j&lt;20;j++)); do
             if [ ${j} -lt ${nbstars} ]; then
                out=$out"*"
             else
@@ -752,7 +657,7 @@ function repeat()       # Repeat n times command.
 {
     local i max
     max=$1; shift;
-    for ((i=1; i &#60;= max ; i++)); do  # --&#62; C-like syntax
+    for ((i=1; i &lt;= max ; i++)); do  # --&gt; C-like syntax
         eval "$@";
     done
 }
@@ -788,7 +693,7 @@ function corename()   # Get name of app that created a corefile.
 #  so I kept those here as examples.
 #=========================================================================
 
-if [ "${BASH_VERSION%.*}" \&#60; "3.0" ]; then
+if [ "${BASH_VERSION%.*}" \&lt; "3.0" ]; then
     echo "You will need to upgrade to version 3.0 for full \
           programmable completion features"
     return
@@ -943,7 +848,7 @@ _tar()
         untar=t${COMP_WORDS[1]//[^Izjyf]/}
 
         COMPREPLY=( $( compgen -W "$( echo $( tar $untar $tar \
-                                2&#62;/dev/null ) )" -- "$cur" ) )
+                                2&gt;/dev/null ) )" -- "$cur" ) )
         return 0
 
     else
@@ -994,20 +899,20 @@ _make()
 
     #  Before we scan for targets, see if a Makefile name was
     #+ specified with -f.
-    for (( i=0; i &#60; ${#COMP_WORDS[@]}; i++ )); do
+    for (( i=0; i &lt; ${#COMP_WORDS[@]}; i++ )); do
         if [[ ${COMP_WORDS[i]} == -f ]]; then
             # eval for tilde expansion
             eval makef=${COMP_WORDS[i+1]}
             break
         fi
     done
-    [ ! -f $makef ] &#38;&#38; return 0
+    [ ! -f $makef ] &amp;&amp; return 0
 
     # Deal with included Makefiles.
     makef_inc=$( grep -E '^-?include' $makef |
                  sed -e "s,^.* ,"$makef_dir"/," )
     for file in $makef_inc; do
-        [ -f $file ] &#38;&#38; makef="$makef $file"
+        [ -f $file ] &amp;&amp; makef="$makef $file"
     done
 
 
@@ -1017,7 +922,7 @@ _make()
 
     COMPREPLY=( $( awk -F':' '/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ \
                                {split($1,A,/ /);for(i in A)print A[i]}' \
-                                $makef 2&#62;/dev/null | eval $gcmd  ))
+                                $makef 2&gt;/dev/null | eval $gcmd  ))
 
 }
 
@@ -1050,41 +955,19 @@ complete -F _killall killall killps
 # Local Variables:
 # mode:shell-script
 # sh-shell:bash
-# End:</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->And, here is a snippet from Andrzej Szelachowski's instructive
-        <TT
-CLASS="FILENAME"
->.bash_profile</TT
-> file.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="BASHPROF"
-></A
-><P
-><B
->Example M-2. <TT
-CLASS="FILENAME"
->.bash_profile</TT
-> file</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># From Andrzej Szelachowski's ~/.bash_profile:
+# End:</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>And, here is a snippet from Andrzej Szelachowski's instructive <tt class="FILENAME">.bash_profile</tt> file.</p>
+    <div class="EXAMPLE">
+      <a name="BASHPROF" id="BASHPROF"></a>
+      <p><b>Example M-2. <tt class="FILENAME">.bash_profile</tt> file</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000"># From Andrzej Szelachowski's ~/.bash_profile:
 
 
 #  Note that a variable may require special treatment
@@ -1109,7 +992,7 @@ echo \$T \`"
 
 
 PS1="\n$GREEN[\w] \n$DARKGRAY($PCT\t$DARKGRAY)-($PCT\u$DARKGRAY)-($PCT\!
-$DARKGRAY)$YELLOW-&#62; $NC"
+$DARKGRAY)$YELLOW-&gt; $NC"
 
 #  Escape a variables whose value changes:
 #        if [[ \$EUID -eq 0 ]],
@@ -1132,73 +1015,28 @@ $DARKGRAY)$YELLOW-&#62; $NC"
 PS1="\`if [[ \$EUID -eq 0 ]]; then PCT='$LIGHTRED';
 else PCT='$LIGHTBLUE'; fi; 
 echo '\n$GREEN[\w] \n$DARKGRAY('\$PCT'\t$DARKGRAY)-\
-('\$PCT'\u$DARKGRAY)-('\$PCT'\!$DARKGRAY)$YELLOW-&#62; $NC'\`"
+('\$PCT'\u$DARKGRAY)-('\$PCT'\!$DARKGRAY)$YELLOW-&gt; $NC'\`"
 
-# The trick is to use strong quoting for parts of old PS1 variable.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="histcommands.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="dosbatch.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->History Commands</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
->&nbsp;</TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Converting DOS Batch Files to Shell Scripts</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+# The trick is to use strong quoting for parts of old PS1 variable.</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="histcommands.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="dosbatch.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">History Commands</td>
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+        <td width="33%" align="right" valign="top">Converting DOS Batch Files to Shell Scripts</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

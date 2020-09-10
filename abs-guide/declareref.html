@@ -1,467 +1,142 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Typing variables: declare or
-	  typeset</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Another Look at Variables"
-HREF="variables2.html"><LINK
-REL="PREVIOUS"
-TITLE="Internal Variables"
-HREF="internalvariables.html"><LINK
-REL="NEXT"
-TITLE="$RANDOM: generate random integer"
-HREF="randomvar.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="internalvariables.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 9. Another Look at Variables</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="randomvar.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="DECLAREREF"
-></A
->9.2. Typing variables: <B
-CLASS="COMMAND"
->declare</B
-> or
-	  <B
-CLASS="COMMAND"
->typeset</B
-></H1
-><P
-><A
-NAME="DECLARE1REF"
-></A
-></P
-><P
->The <I
-CLASS="FIRSTTERM"
->declare</I
-> or
-	  <I
-CLASS="FIRSTTERM"
->typeset</I
-> <A
-HREF="internal.html#BUILTINREF"
->builtins</A
->, which are exact synonyms,
-	  permit modifying the properties of variables. This is
-	  a very weak form of the <I
-CLASS="FIRSTTERM"
->typing</I
->
-
-	    <A
-NAME="AEN5685"
-HREF="#FTN.AEN5685"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
->
-
-	  available in certain programming languages. The
-	  <I
-CLASS="FIRSTTERM"
->declare</I
-> command is specific to version
-	  2 or later of Bash. The <I
-CLASS="FIRSTTERM"
->typeset</I
-> command
-	  also works in ksh scripts.</P
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="DECLAREOPSREF1"
-></A
->declare/typeset options</B
-></P
-><DL
-><DT
-><SPAN
-CLASS="TOKEN"
->-r</SPAN
->
-	    <TT
-CLASS="REPLACEABLE"
-><I
->readonly</I
-></TT
-></DT
-><DD
-><P
->(<TT
-CLASS="USERINPUT"
-><B
->declare -r var1</B
-></TT
-> works the same as
-		<TT
-CLASS="USERINPUT"
-><B
->readonly var1</B
-></TT
->)</P
-><P
->This is the rough equivalent of the <B
-CLASS="COMMAND"
->C</B
->
-		<I
-CLASS="FIRSTTERM"
->const</I
-> type qualifier. An attempt
-		to change the value of a <I
-CLASS="FIRSTTERM"
->readonly</I
->
-		variable fails with an error message.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->declare -r var1=1
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Typing variables: declare or typeset</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Another Look at Variables" href="variables2.html">
+  <link rel="PREVIOUS" title="Internal Variables" href="internalvariables.html">
+  <link rel="NEXT" title="$RANDOM: generate random integer" href="randomvar.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="internalvariables.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 9. Another Look at Variables</td>
+        <td width="10%" align="right" valign="bottom"><a href="randomvar.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="DECLAREREF" id="DECLAREREF"></a>9.2. Typing variables: <b class="COMMAND">declare</b> or <b class="COMMAND">typeset</b></h1>
+    <p><a name="DECLARE1REF" id="DECLARE1REF"></a></p>
+    <p>The <i class="FIRSTTERM">declare</i> or <i class="FIRSTTERM">typeset</i> <a href="internal.html#BUILTINREF">builtins</a>, which are exact synonyms, permit modifying the properties of variables. This is a very weak form of the <i class="FIRSTTERM">typing</i> <a name="AEN5685" href="#FTN.AEN5685" id="AEN5685"><span class="footnote">[1]</span></a> available in certain programming languages. The <i class="FIRSTTERM">declare</i> command is specific to version 2 or later of Bash. The <i class="FIRSTTERM">typeset</i> command also works in ksh scripts.</p>
+    <div class="VARIABLELIST">
+      <p><b><a name="DECLAREOPSREF1" id="DECLAREOPSREF1"></a>declare/typeset options</b></p>
+      <dl>
+        <dt><span class="TOKEN">-r</span> <tt class="REPLACEABLE"><i>readonly</i></tt></dt>
+        <dd>
+          <p>(<tt class="USERINPUT"><b>declare -r var1</b></tt> works the same as <tt class="USERINPUT"><b>readonly var1</b></tt>)</p>
+          <p>This is the rough equivalent of the <b class="COMMAND">C</b> <i class="FIRSTTERM">const</i> type qualifier. An attempt to change the value of a <i class="FIRSTTERM">readonly</i> variable fails with an error message.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">declare -r var1=1
 echo "var1 = $var1"   # var1 = 1
 
-(( var1++ ))          # x.sh: line 4: var1: readonly variable</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-              </P
-></DD
-><DT
-><SPAN
-CLASS="TOKEN"
->-i</SPAN
-> <TT
-CLASS="REPLACEABLE"
-><I
->integer</I
-></TT
-></DT
-><DD
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->declare -i number
-# The script will treat subsequent occurrences of "number" as an integer.		
+(( var1++ ))          # x.sh: line 4: var1: readonly variable</font></pre>
+              </td>
+            </tr>
+          </table>
+        </dd>
+        <dt><span class="TOKEN">-i</span> <tt class="REPLACEABLE"><i>integer</i></tt></dt>
+        <dd>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">declare -i number
+# The script will treat subsequent occurrences of "number" as an integer.               
 
 number=3
 echo "Number = $number"     # Number = 3
 
 number=three
 echo "Number = $number"     # Number = 0
-# Tries to evaluate the string "three" as an integer.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->Certain arithmetic operations are permitted
-		for declared integer variables without the need
-		for <A
-HREF="moreadv.html#EXPRREF"
->expr</A
-> or <A
-HREF="internal.html#LETREF"
->let</A
->.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->n=6/3
+# Tries to evaluate the string "three" as an integer.</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>Certain arithmetic operations are permitted for declared integer variables without the need for <a href="moreadv.html#EXPRREF">expr</a> or <a href="internal.html#LETREF">let</a>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">n=6/3
 echo "n = $n"       # n = 6/3
 
 declare -i n
 n=6/3
-echo "n = $n"       # n = 2</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></DD
-><DT
-><A
-NAME="ARRAYDECLARE"
-></A
-><SPAN
-CLASS="TOKEN"
->-a</SPAN
->
-	    <TT
-CLASS="REPLACEABLE"
-><I
->array</I
-></TT
-></DT
-><DD
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->declare -a indices</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->The variable <TT
-CLASS="PARAMETER"
-><I
->indices</I
-></TT
-> will be treated as
-		an <A
-HREF="arrays.html#ARRAYREF"
->array</A
->.</P
-></DD
-><DT
-><SPAN
-CLASS="TOKEN"
->-f</SPAN
-> <TT
-CLASS="REPLACEABLE"
-><I
->function(s)</I
-></TT
-></DT
-><DD
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->declare -f</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->A <TT
-CLASS="USERINPUT"
-><B
->declare -f</B
-></TT
-> line with no
-		arguments in a script causes a listing of all the
-		<A
-HREF="functions.html#FUNCTIONREF"
->functions</A
-> previously
-		defined in that script.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->declare -f function_name</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->A <TT
-CLASS="USERINPUT"
-><B
->declare -f function_name</B
-></TT
->
-		in a script lists just the function named.</P
-></DD
-><DT
-><SPAN
-CLASS="TOKEN"
->-x</SPAN
-> <A
-HREF="internal.html#EXPORTREF"
->export</A
-></DT
-><DD
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->declare -x var3</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->This declares a variable as available for exporting outside the
-		environment of the script itself.</P
-></DD
-><DT
->-x var=$value</DT
-><DD
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->declare -x var3=373</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->The <B
-CLASS="COMMAND"
->declare</B
-> command permits
-		  assigning a value to a variable in the same statement
-		  as setting its properties.</P
-></DD
-></DL
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX20"
-></A
-><P
-><B
->Example 9-10. Using <I
-CLASS="FIRSTTERM"
->declare</I
-> to type variables</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+echo "n = $n"       # n = 2</font></pre>
+              </td>
+            </tr>
+          </table>
+        </dd>
+        <dt><a name="ARRAYDECLARE" id="ARRAYDECLARE"></a><span class="TOKEN">-a</span> <tt class="REPLACEABLE"><i>array</i></tt></dt>
+        <dd>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">declare -a indices</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>The variable <tt class="PARAMETER"><i>indices</i></tt> will be treated as an <a href="arrays.html#ARRAYREF">array</a>.</p>
+        </dd>
+        <dt><span class="TOKEN">-f</span> <tt class="REPLACEABLE"><i>function(s)</i></tt></dt>
+        <dd>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">declare -f</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>A <tt class="USERINPUT"><b>declare -f</b></tt> line with no arguments in a script causes a listing of all the <a href="functions.html#FUNCTIONREF">functions</a> previously defined in that script.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">declare -f function_name</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>A <tt class="USERINPUT"><b>declare -f function_name</b></tt> in a script lists just the function named.</p>
+        </dd>
+        <dt><span class="TOKEN">-x</span> <a href="internal.html#EXPORTREF">export</a></dt>
+        <dd>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">declare -x var3</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>This declares a variable as available for exporting outside the environment of the script itself.</p>
+        </dd>
+        <dt>-x var=$value</dt>
+        <dd>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">declare -x var3=373</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>The <b class="COMMAND">declare</b> command permits assigning a value to a variable in the same statement as setting its properties.</p>
+        </dd>
+      </dl>
+    </div>
+    <div class="EXAMPLE">
+      <a name="EX20" id="EX20"></a>
+      <p><b>Example 9-10. Using <i class="FIRSTTERM">declare</i> to type variables</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 func1 ()
 {
@@ -491,55 +166,21 @@ var2=13.37                    # Generates error message, and exit from script.
 
 echo "var2 is still $var2"    # This line will not execute.
 
-exit 0                        # Script will not exit here.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->Using the <I
-CLASS="FIRSTTERM"
->declare</I
-> builtin
-	  restricts the <A
-HREF="subshells.html#SCOPEREF"
->scope</A
->
-	  of a variable.
-
-
-	  <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->foo ()
+exit 0                        # Script will not exit here.</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="CAUTION">
+      <table class="CAUTION" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+          <td align="left" valign="top">
+            <p>Using the <i class="FIRSTTERM">declare</i> builtin restricts the <a href="subshells.html#SCOPEREF">scope</a> of a variable.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">foo ()
 {
 FOO="bar"
 }
@@ -550,26 +191,15 @@ foo
 echo $FOO
 }
 
-bar   # Prints bar.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->However . . .
-
-	  <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->foo (){
+bar   # Prints bar.</font></pre>
+                </td>
+              </tr>
+            </table>
+            <p>However . . .</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">foo (){
 declare FOO="bar"
 }
 
@@ -582,268 +212,75 @@ echo $FOO
 bar  # Prints nothing.
 
 
-# Thank you, Michael Iatrou, for pointing this out.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="SECT2"
-><H2
-CLASS="SECT2"
-><A
-NAME="DECLARE2X"
-></A
->9.2.1. Another use for <I
-CLASS="FIRSTTERM"
->declare</I
-></H2
-><P
->The <I
-CLASS="FIRSTTERM"
->declare</I
-> command can be
-	     helpful in identifying variables, <A
-HREF="othertypesv.html#ENVREF"
->environmental</A
-> or otherwise.
-	     This can be especially useful with <A
-HREF="arrays.html#ARRAYREF"
->arrays</A
->.</P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->declare | grep HOME</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->HOME=/home/bozo</TT
->
+# Thank you, Michael Iatrou, for pointing this out.</font></pre>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="SECT2">
+      <h2 class="SECT2"><a name="DECLARE2X" id="DECLARE2X"></a>9.2.1. Another use for <i class="FIRSTTERM">declare</i></h2>
+      <p>The <i class="FIRSTTERM">declare</i> command can be helpful in identifying variables, <a href="othertypesv.html#ENVREF">environmental</a> or otherwise. This can be especially useful with <a href="arrays.html#ARRAYREF">arrays</a>.</p>
+      <table border="1" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>declare | grep HOME</b></tt>
+<tt class="COMPUTEROUTPUT">HOME=/home/bozo</tt>
 
 
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->zzy=68</B
-></TT
->
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->declare | grep zzy</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->zzy=68</TT
->
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>zzy=68</b></tt>
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>declare | grep zzy</b></tt>
+<tt class="COMPUTEROUTPUT">zzy=68</tt>
 
 
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->Colors=([0]="purple" [1]="reddish-orange" [2]="light green")</B
-></TT
->
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo ${Colors[@]}</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->purple reddish-orange light green</TT
->
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->declare | grep Colors</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->Colors=([0]="purple" [1]="reddish-orange" [2]="light green")</TT
->
-	     </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	   </P
-></DIV
-></DIV
-><H3
-CLASS="FOOTNOTES"
->Notes</H3
-><TABLE
-BORDER="0"
-CLASS="FOOTNOTES"
-WIDTH="100%"
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN5685"
-HREF="declareref.html#AEN5685"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
-><A
-NAME="TYPINGREF"
-></A
->In this context,
-	    <I
-CLASS="FIRSTTERM"
->typing</I
->
-	    a variable means to classify it and restrict its properties.
-	    For example, a variable <I
-CLASS="FIRSTTERM"
->declared</I
->
-	    or <I
-CLASS="FIRSTTERM"
->typed</I
-> as an integer
-	    is no longer available for <A
-HREF="refcards.html#STRINGOPSTAB"
->string
-	    operations</A
->.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->declare -i intvar
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>Colors=([0]="purple" [1]="reddish-orange" [2]="light green")</b></tt>
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo ${Colors[@]}</b></tt>
+<tt class="COMPUTEROUTPUT">purple reddish-orange light green</tt>
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>declare | grep Colors</b></tt>
+<tt class="COMPUTEROUTPUT">Colors=([0]="purple" [1]="reddish-orange" [2]="light green")</tt>
+             </font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN5685" href="declareref.html#AEN5685" id="FTN.AEN5685"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><a name="TYPINGREF" id="TYPINGREF"></a>In this context, <i class="FIRSTTERM">typing</i> a variable means to classify it and restrict its properties. For example, a variable <i class="FIRSTTERM">declared</i> or <i class="FIRSTTERM">typed</i> as an integer is no longer available for <a href="refcards.html#STRINGOPSTAB">string operations</a>.</p>
+        <table border="0" bgcolor="#E0E0E0" width="100%">
+          <tr>
+            <td>
+              <pre class="PROGRAMLISTING"><font color="#000000">declare -i intvar
 
 intvar=23
 echo "$intvar"   # 23
 intvar=stringval
-echo "$intvar"   # 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="internalvariables.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="randomvar.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Internal Variables</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="variables2.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->$RANDOM: generate random integer</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+echo "$intvar"   # 0</font></pre>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="internalvariables.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="randomvar.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Internal Variables</td>
+        <td width="34%" align="center" valign="top"><a href="variables2.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">$RANDOM: generate random integer</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

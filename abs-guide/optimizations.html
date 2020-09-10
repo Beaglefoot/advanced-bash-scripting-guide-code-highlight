@@ -1,183 +1,60 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Optimizations</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Miscellany"
-HREF="miscellany.html"><LINK
-REL="PREVIOUS"
-TITLE="Colorizing Scripts"
-HREF="colorizing.html"><LINK
-REL="NEXT"
-TITLE="Assorted Tips"
-HREF="assortedtips.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="colorizing.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 36. Miscellany</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="assortedtips.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="OPTIMIZATIONS"
-></A
->36.6. Optimizations</H1
-><P
->Most shell scripts are quick 'n dirty solutions to non-complex
-	  problems. As such, optimizing them for speed is not much of an
-	  issue.  Consider the case, though, where a script carries out
-	  an important task, does it well, but runs too slowly. Rewriting
-	  it in a compiled language may not be a palatable option. The
-	  simplest fix would be to rewrite the parts of the script
-	  that slow it down. Is it possible to apply principles of code
-	  optimization even to a lowly shell script?</P
-><P
->Check the loops in the script. Time consumed by repetitive
-	  operations adds up quickly. If at all possible, remove
-	  time-consuming operations from within loops.</P
-><P
->Use <A
-HREF="internal.html#BUILTINREF"
->builtin</A
-> commands in
-	  preference to system commands. Builtins execute faster and
-	  usually do not launch a subshell when invoked.</P
-><P
-><A
-NAME="CATABUSE"
-></A
-></P
-><P
->Avoid unnecessary commands, particularly in a <A
-HREF="special-chars.html#PIPEREF"
->pipe</A
->.
-	    <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->cat "$file" | grep "$word"
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Optimizations</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Miscellany" href="miscellany.html">
+  <link rel="PREVIOUS" title="Colorizing Scripts" href="colorizing.html">
+  <link rel="NEXT" title="Assorted Tips" href="assortedtips.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="colorizing.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 36. Miscellany</td>
+        <td width="10%" align="right" valign="bottom"><a href="assortedtips.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="OPTIMIZATIONS" id="OPTIMIZATIONS"></a>36.6. Optimizations</h1>
+    <p>Most shell scripts are quick 'n dirty solutions to non-complex problems. As such, optimizing them for speed is not much of an issue. Consider the case, though, where a script carries out an important task, does it well, but runs too slowly. Rewriting it in a compiled language may not be a palatable option. The simplest fix would be to rewrite the parts of the script that slow it down. Is it possible to apply principles of code optimization even to a lowly shell script?</p>
+    <p>Check the loops in the script. Time consumed by repetitive operations adds up quickly. If at all possible, remove time-consuming operations from within loops.</p>
+    <p>Use <a href="internal.html#BUILTINREF">builtin</a> commands in preference to system commands. Builtins execute faster and usually do not launch a subshell when invoked.</p>
+    <p><a name="CATABUSE" id="CATABUSE"></a></p>
+    <p>Avoid unnecessary commands, particularly in a <a href="special-chars.html#PIPEREF">pipe</a>.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">cat "$file" | grep "$word"
 
 grep "$word" "$file"
 
 #  The above command-lines have an identical effect,
-#+ but the second runs faster since it launches one fewer subprocess.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	  The <A
-HREF="basic.html#CATREF"
->cat</A
-> command seems especially
-	  prone to overuse in scripts.</P
-><P
-><A
-NAME="LCALL"
-></A
-></P
-><TABLE
-CLASS="SIDEBAR"
-BORDER="1"
-CELLPADDING="5"
-><TR
-><TD
-><DIV
-CLASS="SIDEBAR"
-><A
-NAME="AEN20414"
-></A
-><P
-></P
-><P
->Disabling certain Bash options can speed up scripts.</P
-><P
->As Erik Brandsberg points out:</P
-><P
->If you don't need <A
-HREF="bashver4.html#UNICODEREF"
->Unicode</A
-> support, you can
-                 get potentially a 2x or more improvement in speed by
-		 simply setting the <TT
-CLASS="USERINPUT"
-><B
->LC_ALL</B
-></TT
-> variable.
-
-<TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->   export LC_ALL=C
+#+ but the second runs faster since it launches one fewer subprocess.</font></pre>
+        </td>
+      </tr>
+    </table>The <a href="basic.html#CATREF">cat</a> command seems especially prone to overuse in scripts.
+    <p><a name="LCALL" id="LCALL"></a></p>
+    <table class="SIDEBAR" border="1" cellpadding="5">
+      <tr>
+        <td>
+          <div class="SIDEBAR">
+            <a name="AEN20414" id="AEN20414"></a>
+            <p>Disabling certain Bash options can speed up scripts.</p>
+            <p>As Erik Brandsberg points out:</p>
+            <p>If you don't need <a href="bashver4.html#UNICODEREF">Unicode</a> support, you can get potentially a 2x or more improvement in speed by simply setting the <tt class="USERINPUT"><b>LC_ALL</b></tt> variable.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">   export LC_ALL=C
 
    [specifies the locale as ANSI C,
    thereby disabling Unicode support]
@@ -186,7 +63,7 @@ CLASS="PROGRAMLISTING"
 
 Without [Unicode support]:
 erik@erik-desktop:~/capture$ time ./cap-ngrep.sh
-live2.pcap &#62; out.txt
+live2.pcap &gt; out.txt
 
   real        0m20.483s
   user        1m34.470s
@@ -194,7 +71,7 @@ live2.pcap &#62; out.txt
 
 With [Unicode support]:
 erik@erik-desktop:~/capture$ time ./cap-ngrep.sh
-live2.pcap &#62; out.txt
+live2.pcap &gt; out.txt
 
   real        0m50.232s
   user        3m51.118s
@@ -205,69 +82,25 @@ regex match using [[ string =~ REGEX ]],
 but it may help with other portions of the code as well.
 I hadn't [seen it] mentioned that this optimization helped
 with Bash, but I had seen it helped with "grep,"
-so why not try?</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
-></P
-></DIV
-></TD
-></TR
-></TABLE
-><P
-><A
-NAME="OPTIMES"
-></A
-></P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->Certain operators, notably <A
-HREF="moreadv.html#EXPRREF"
->expr</A
->, are very inefficient
-          and might be replaced by <A
-HREF="dblparens.html"
->double
-          parentheses</A
-> arithmetic expansion.
-          See <A
-HREF="contributed-scripts.html#TESTEXECTIME"
->Example A-59</A
->.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->Math tests
+so why not try?</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <p><a name="OPTIMES" id="OPTIMES"></a></p>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>Certain operators, notably <a href="moreadv.html#EXPRREF">expr</a>, are very inefficient and might be replaced by <a href="dblparens.html">double parentheses</a> arithmetic expansion. See <a href="contributed-scripts.html#TESTEXECTIME">Example A-59</a>.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">Math tests
 
 math via $(( ))
 real          0m0.294s
@@ -282,42 +115,15 @@ sys           0m8.765s
 math via let:
 real          0m0.364s
 user          0m0.372s
-sys           0m0.000s</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
-><A
-HREF="tests.html#IFTHEN"
->Condition testing</A
->
-            constructs in scripts deserve close scrutiny. Substitute
-	    <A
-HREF="testbranch.html#CASEESAC1"
->case</A
-> for <A
-HREF="tests.html#IFTHEN"
->if-then</A
-> constructs and combine tests
-	    when possible, to minimize script execution time. Again,
-	    refer to <A
-HREF="contributed-scripts.html#TESTEXECTIME"
->Example A-59</A
->.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->Test using "case" construct:
+sys           0m0.000s</font></pre>
+                </td>
+              </tr>
+            </table>
+            <p><a href="tests.html#IFTHEN">Condition testing</a> constructs in scripts deserve close scrutiny. Substitute <a href="testbranch.html#CASEESAC1">case</a> for <a href="tests.html#IFTHEN">if-then</a> constructs and combine tests when possible, to minimize script execution time. Again, refer to <a href="contributed-scripts.html#TESTEXECTIME">Example A-59</a>.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">Test using "case" construct:
 real          0m0.329s
 user          0m0.320s
 sys           0m0.000s
@@ -338,65 +144,25 @@ sys           0m0.024s
 Test with if [], using -eq:
 real          0m0.457s
 user          0m0.456s
-sys           0m0.000s</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="ASSOCARRTST"
-></A
-></P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->Erik Brandsberg recommends using <A
-HREF="bashver4.html#ASSOCARR"
->associative arrays</A
-> in preference to
-	  conventional numeric-indexed arrays in most cases. When
-	  overwriting values in a numeric array, there is a significant
-	  performance penalty vs. associative arrays. Running a test
-	  script confirms this. See <A
-HREF="contributed-scripts.html#ASSOCARRTEST"
->Example A-60</A
->.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->Assignment tests
+sys           0m0.000s</font></pre>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><a name="ASSOCARRTST" id="ASSOCARRTST"></a></p>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>Erik Brandsberg recommends using <a href="bashver4.html#ASSOCARR">associative arrays</a> in preference to conventional numeric-indexed arrays in most cases. When overwriting values in a numeric array, there is a significant performance penalty vs. associative arrays. Running a test script confirms this. See <a href="contributed-scripts.html#ASSOCARRTEST">Example A-60</a>.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">Assignment tests
 
 Assigning a simple variable
 real          0m0.418s
@@ -456,160 +222,42 @@ sys           0m0.004s
 Reading sparse associative index array entry
 real          0m0.083s
 user          0m0.084s
-sys           0m0.000s</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Use the <A
-HREF="timedate.html#TIMREF"
->time</A
-> and <A
-HREF="x9644.html#TIMESREF"
->times</A
-> tools to profile
-	  computation-intensive commands. Consider rewriting time-critical
-	  code sections in C, or even in assembler.</P
-><P
->Try to minimize file I/O. Bash is not particularly
-	   efficient at handling files, so consider using
-	   more appropriate tools for this within the script,
-	   such as <A
-HREF="awk.html#AWKREF"
->awk</A
-> or <A
-HREF="wrapper.html#PERLREF"
->Perl</A
->.</P
-><P
->Write your scripts in a modular and coherent form,
-	   <A
-NAME="AEN20452"
-HREF="#FTN.AEN20452"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
->
-	   so they can be reorganized and tightened up as necessary. Some
-	   of the optimization techniques applicable to high-level
-	   languages may work for scripts, but others, such as
-	   <I
-CLASS="FIRSTTERM"
->loop unrolling</I
->, are mostly
-	   irrelevant. Above all, use common sense.</P
-><P
->For an excellent demonstration of how optimization can
-	   dramatically reduce the  execution time of a script, see <A
-HREF="mathc.html#MONTHLYPMT"
->Example 16-47</A
->.</P
-></DIV
-><H3
-CLASS="FOOTNOTES"
->Notes</H3
-><TABLE
-BORDER="0"
-CLASS="FOOTNOTES"
-WIDTH="100%"
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN20452"
-HREF="optimizations.html#AEN20452"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->This usually means liberal use of
-	   <A
-HREF="functions.html#FUNCTIONREF"
->functions</A
->.</P
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="colorizing.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="assortedtips.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><SPAN
-CLASS="QUOTE"
->"Colorizing"</SPAN
-> Scripts</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="miscellany.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Assorted Tips</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+sys           0m0.000s</font></pre>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>Use the <a href="timedate.html#TIMREF">time</a> and <a href="x9644.html#TIMESREF">times</a> tools to profile computation-intensive commands. Consider rewriting time-critical code sections in C, or even in assembler.</p>
+    <p>Try to minimize file I/O. Bash is not particularly efficient at handling files, so consider using more appropriate tools for this within the script, such as <a href="awk.html#AWKREF">awk</a> or <a href="wrapper.html#PERLREF">Perl</a>.</p>
+    <p>Write your scripts in a modular and coherent form, <a name="AEN20452" href="#FTN.AEN20452" id="AEN20452"><span class="footnote">[1]</span></a> so they can be reorganized and tightened up as necessary. Some of the optimization techniques applicable to high-level languages may work for scripts, but others, such as <i class="FIRSTTERM">loop unrolling</i>, are mostly irrelevant. Above all, use common sense.</p>
+    <p>For an excellent demonstration of how optimization can dramatically reduce the execution time of a script, see <a href="mathc.html#MONTHLYPMT">Example 16-47</a>.</p>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN20452" href="optimizations.html#AEN20452" id="FTN.AEN20452"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>This usually means liberal use of <a href="functions.html#FUNCTIONREF">functions</a>.</p>
+      </td>
+    </tr>
+  </table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="colorizing.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="assortedtips.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top"><span class="QUOTE">"Colorizing"</span> Scripts</td>
+        <td width="34%" align="center" valign="top"><a href="miscellany.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Assorted Tips</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

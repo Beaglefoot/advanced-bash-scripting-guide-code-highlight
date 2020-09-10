@@ -1,150 +1,40 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->The Double-Parentheses Construct</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Operations and Related Topics"
-HREF="operations.html"><LINK
-REL="PREVIOUS"
-TITLE="Numerical Constants"
-HREF="numerical-constants.html"><LINK
-REL="NEXT"
-TITLE="Operator Precedence"
-HREF="opprecedence.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="numerical-constants.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 8. Operations and Related Topics</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="opprecedence.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="DBLPARENS"
-></A
->8.3. The Double-Parentheses Construct</H1
-><P
-><A
-NAME="DBLPARENSREF"
-></A
-></P
-><P
->Similar to the <A
-HREF="internal.html#LETREF"
->let</A
-> command,
-	  the <B
-CLASS="COMMAND"
->(( ... ))</B
-> construct permits
-	  arithmetic expansion and evaluation. In its simplest
-	  form, <TT
-CLASS="USERINPUT"
-><B
->a=$(( 5 + 3 ))</B
-></TT
-> would set
-	  <TT
-CLASS="USERINPUT"
-><B
->a</B
-></TT
-> to <TT
-CLASS="USERINPUT"
-><B
->5 + 3</B
-></TT
->, or
-	  <TT
-CLASS="USERINPUT"
-><B
->8</B
-></TT
->. However, this double-parentheses
-	  construct is also a mechanism for allowing C-style
-	  manipulation of variables in Bash, for example,
-	  <TT
-CLASS="VARNAME"
->(( var++ ))</TT
->.</P
-><P
-><A
-NAME="PLUSPLUSREF"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="CVARS"
-></A
-><P
-><B
->Example 8-5. C-style manipulation of variables</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>The Double-Parentheses Construct</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Operations and Related Topics" href="operations.html">
+  <link rel="PREVIOUS" title="Numerical Constants" href="numerical-constants.html">
+  <link rel="NEXT" title="Operator Precedence" href="opprecedence.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="numerical-constants.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 8. Operations and Related Topics</td>
+        <td width="10%" align="right" valign="bottom"><a href="opprecedence.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="DBLPARENS" id="DBLPARENS"></a>8.3. The Double-Parentheses Construct</h1>
+    <p><a name="DBLPARENSREF" id="DBLPARENSREF"></a></p>
+    <p>Similar to the <a href="internal.html#LETREF">let</a> command, the <b class="COMMAND">(( ... ))</b> construct permits arithmetic expansion and evaluation. In its simplest form, <tt class="USERINPUT"><b>a=$(( 5 + 3 ))</b></tt> would set <tt class="USERINPUT"><b>a</b></tt> to <tt class="USERINPUT"><b>5 + 3</b></tt>, or <tt class="USERINPUT"><b>8</b></tt>. However, this double-parentheses construct is also a mechanism for allowing C-style manipulation of variables in Bash, for example, <tt class="VARNAME">(( var++ ))</tt>.</p>
+    <p><a name="PLUSPLUSREF" id="PLUSPLUSREF"></a></p>
+    <div class="EXAMPLE">
+      <a name="CVARS" id="CVARS"></a>
+      <p><b>Example 8-5. C-style manipulation of variables</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # c-vars.sh
 # Manipulating a variable, C-style, using the (( ... )) construct.
 
@@ -174,17 +64,17 @@ echo
 #  Note that, as in C, pre- and post-decrement operators
 #+ have different side-effects.
 
-n=1; let --n &#38;&#38; echo "True" || echo "False"  # False
-n=1; let n-- &#38;&#38; echo "True" || echo "False"  # True
+n=1; let --n &amp;&amp; echo "True" || echo "False"  # False
+n=1; let n-- &amp;&amp; echo "True" || echo "False"  # True
 
 #  Thanks, Jeroen Domburg.
 ########################################################
 
 echo
 
-(( t = a&#60;45?7:11 ))   # C-style trinary operator.
+(( t = a&lt;45?7:11 ))   # C-style trinary operator.
 #       ^  ^ ^
-echo "If a &#60; 45, then t = 7, else t = 11."  # a = 23
+echo "If a &lt; 45, then t = 7, else t = 11."  # a = 23
 echo "t = $t "                              # t = 7
 
 echo
@@ -203,83 +93,27 @@ echo
 
 # These work only with version 2.04 or later of Bash.
 
-exit</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->See also <A
-HREF="loops1.html#FORLOOPC"
->Example 11-13</A
-> and <A
-HREF="numerical-constants.html#NUMBERS"
->Example 8-4</A
->.</P
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="numerical-constants.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="opprecedence.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Numerical Constants</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="operations.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Operator Precedence</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+exit</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>See also <a href="loops1.html#FORLOOPC">Example 11-13</a> and <a href="numerical-constants.html#NUMBERS">Example 8-4</a>.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="numerical-constants.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="opprecedence.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Numerical Constants</td>
+        <td width="34%" align="center" valign="top"><a href="operations.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Operator Precedence</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

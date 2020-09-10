@@ -1,166 +1,48 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->$RANDOM: generate random integer</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Another Look at Variables"
-HREF="variables2.html"><LINK
-REL="PREVIOUS"
-TITLE="Typing variables: declare or
-	  typeset"
-HREF="declareref.html"><LINK
-REL="NEXT"
-TITLE="Manipulating Variables"
-HREF="manipulatingvars.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="declareref.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 9. Another Look at Variables</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="manipulatingvars.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="RANDOMVAR"
-></A
->9.3. $RANDOM: generate random integer</H1
-><TABLE
-BORDER="0"
-WIDTH="100%"
-CELLSPACING="0"
-CELLPADDING="0"
-CLASS="EPIGRAPH"
-><TR
-><TD
-WIDTH="45%"
->&nbsp;</TD
-><TD
-WIDTH="45%"
-ALIGN="LEFT"
-VALIGN="TOP"
-><I
-><P
-><I
->Anyone who attempts to generate random numbers by
-        deterministic means is, of course, living in a state of
-        sin.</I
-></P
-><P
-><I
->--John von Neumann</I
-></P
-></I
-></TD
-></TR
-></TABLE
-><P
-><A
-NAME="RANDOMVAR01"
-></A
-></P
-><P
-><TT
-CLASS="VARNAME"
->$RANDOM</TT
-> is an internal Bash <A
-HREF="functions.html#FUNCTIONREF"
->function</A
-> (not a constant) that
-	  returns a <I
-CLASS="FIRSTTERM"
->pseudorandom</I
->
-
-	    <A
-NAME="AEN5817"
-HREF="#FTN.AEN5817"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
->
-
-	  integer in the range 0 - 32767. It should
-	  <TT
-CLASS="REPLACEABLE"
-><I
->not</I
-></TT
-> be used to generate an encryption
-	  key.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX21"
-></A
-><P
-><B
->Example 9-11. Generating random numbers</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>$RANDOM: generate random integer</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Another Look at Variables" href="variables2.html">
+  <link rel="PREVIOUS" title="Typing variables: declare or typeset" href="declareref.html">
+  <link rel="NEXT" title="Manipulating Variables" href="manipulatingvars.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="declareref.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 9. Another Look at Variables</td>
+        <td width="10%" align="right" valign="bottom"><a href="manipulatingvars.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="RANDOMVAR" id="RANDOMVAR"></a>9.3. $RANDOM: generate random integer</h1>
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" class="EPIGRAPH">
+      <tr>
+        <td width="45%">&nbsp;</td>
+        <td width="45%" align="left" valign="top">
+          <p><i>Anyone who attempts to generate random numbers by deterministic means is, of course, living in a state of sin.</i></p>
+          <p><i>--John von Neumann</i></p>
+        </td>
+      </tr>
+    </table>
+    <p><a name="RANDOMVAR01" id="RANDOMVAR01"></a></p>
+    <p><tt class="VARNAME">$RANDOM</tt> is an internal Bash <a href="functions.html#FUNCTIONREF">function</a> (not a constant) that returns a <i class="FIRSTTERM">pseudorandom</i> <a name="AEN5817" href="#FTN.AEN5817" id="AEN5817"><span class="footnote">[1]</span></a> integer in the range 0 - 32767. It should <tt class="REPLACEABLE"><i>not</i></tt> be used to generate an encryption key.</p>
+    <div class="EXAMPLE">
+      <a name="EX21" id="EX21"></a>
+      <p><b>Example 9-11. Generating random numbers</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 # $RANDOM returns a different random integer at each invocation.
 # Nominal range: 0 - 32767 (signed 16-bit integer).
@@ -233,7 +115,7 @@ T=1
 number=$RANDOM
 
 let "number %= $BINARY"
-#  Note that    let "number &#62;&#62;= 14"    gives a better random distribution
+#  Note that    let "number &gt;&gt;= 14"    gives a better random distribution
 #+ (right shifts out everything except last binary digit).
 if [ "$number" -eq $T ]
 then
@@ -266,32 +148,18 @@ echo "Throw of the dice = $throw"
 echo
 
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="PICKCARD"
-></A
-><P
-><B
->Example 9-12. Picking a random card from a deck</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="PICKCARD" id="PICKCARD"></a>
+      <p><b>Example 9-12. Picking a random card from a deck</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # pick-card.sh
 
 # This is an example of choosing random elements of an array.
@@ -336,37 +204,19 @@ echo ${suite[$((RANDOM%num_suites))]}
 
 
 # Thank you, "jipe," for pointing out this use of $RANDOM.
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="BROWNIANREF"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="BROWNIAN"
-></A
-><P
-><B
->Example 9-13. Brownian Motion Simulation</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><a name="BROWNIANREF" id="BROWNIANREF"></a></p>
+    <div class="EXAMPLE">
+      <a name="BROWNIAN" id="BROWNIAN"></a>
+      <p><b>Example 9-13. Brownian Motion Simulation</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # brownian.sh
 # Author: Mendel Cooper
 # Reldate: 10/26/07
@@ -488,30 +338,17 @@ exit $?
 #  2) Alter the script to use /dev/urandom instead of $RANDOM.
 #     Will this make the results more random?
 #  3) Provide some sort of "animation" or graphic output
-#     for each marble played.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->	<EM
->Jipe</EM
-> points out a set of techniques for
-	generating random numbers within a range.
-
-	<TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#  Generate random number between 6 and 30.
-   rnumber=$((RANDOM%25+6))	
+#     for each marble played.</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><em>Jipe</em> points out a set of techniques for generating random numbers within a range.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">#  Generate random number between 6 and 30.
+   rnumber=$((RANDOM%25+6))     
 
 #  Generate random number in the same 6 - 30 range,
 #+ but the number must be evenly divisible by 3.
@@ -521,58 +358,26 @@ CLASS="PROGRAMLISTING"
 #  It fails if $RANDOM%30 returns 0.
 
 #  Frank Wang suggests the following alternative:
-   rnumber=$(( RANDOM%27/3*3+6 ))</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	</P
-><P
->	<EM
->Bill Gradwohl</EM
-> came up with an improved
-	formula that works for positive numbers.
-	<TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->rnumber=$(((RANDOM%(max-min+divisibleBy))/divisibleBy*divisibleBy+min))</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	</P
-><P
->Here Bill presents a versatile function that returns
-	  a random number between two specified values.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="RANDOMBETWEEN"
-></A
-><P
-><B
->Example 9-14. Random between values</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+   rnumber=$(( RANDOM%27/3*3+6 ))</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p><em>Bill Gradwohl</em> came up with an improved formula that works for positive numbers.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">rnumber=$(((RANDOM%(max-min+divisibleBy))/divisibleBy*divisibleBy+min))</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>Here Bill presents a versatile function that returns a random number between two specified values.</p>
+    <div class="EXAMPLE">
+      <a name="RANDOMBETWEEN" id="RANDOMBETWEEN"></a>
+      <p><b>Example 9-14. Random between values</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # random-between.sh
 # Random number between two specified values. 
 # Script by Bill Gradwohl, with minor modifications by the document author.
@@ -620,7 +425,7 @@ randomBetween() {
    local spread
 
    # Let's make sure the divisibleBy value is positive.
-   [ ${divisibleBy} -lt 0 ] &#38;&#38; divisibleBy=$((0-divisibleBy))
+   [ ${divisibleBy} -lt 0 ] &amp;&amp; divisibleBy=$((0-divisibleBy))
 
    # Sanity check.
    if [ $# -gt 3 -o ${divisibleBy} -eq 0 -o  ${min} -eq ${max} ]; then 
@@ -675,7 +480,7 @@ randomBetween() {
    spread=$((max-min))
    #  Omair Eshkenazi points out that this test is unnecessary,
    #+ since max and min have already been switched around.
-   [ ${spread} -lt 0 ] &#38;&#38; spread=$((0-spread))
+   [ ${spread} -lt 0 ] &amp;&amp; spread=$((0-spread))
    let spread+=divisibleBy
    randomBetweenAnswer=$(((RANDOM%spread)/divisibleBy*divisibleBy+min))   
 
@@ -728,7 +533,7 @@ maximum=${max}
 #+ positive results.
 
 disp=$((0-minimum))
-for ((i=${minimum}; i&#60;=${maximum}; i+=divisibleBy)); do
+for ((i=${minimum}; i&lt;=${maximum}; i+=divisibleBy)); do
    answer[i+disp]=0
 done
 
@@ -737,7 +542,7 @@ done
 loopIt=1000   #  The script author suggests 100000,
               #+ but that takes a good long while.
 
-for ((i=0; i&#60;${loopIt}; ++i)); do
+for ((i=0; i&lt;${loopIt}; ++i)); do
 
    #  Note that we are specifying min and max in reversed order here to
    #+ make the function correct for this case.
@@ -746,9 +551,9 @@ for ((i=0; i&#60;${loopIt}; ++i)); do
 
    # Report an error if an answer is unexpected.
    [ ${randomBetweenAnswer} -lt ${min} -o ${randomBetweenAnswer} -gt ${max} ] \
-   &#38;&#38; echo MIN or MAX error - ${randomBetweenAnswer}!
+   &amp;&amp; echo MIN or MAX error - ${randomBetweenAnswer}!
    [ $((randomBetweenAnswer%${divisibleBy})) -ne 0 ] \
-   &#38;&#38; echo DIVISIBLE BY error - ${randomBetweenAnswer}!
+   &amp;&amp; echo DIVISIBLE BY error - ${randomBetweenAnswer}!
 
    # Store the answer away statistically.
    answer[randomBetweenAnswer+disp]=$((answer[randomBetweenAnswer+disp]+1))
@@ -758,57 +563,26 @@ done
 
 # Let's check the results
 
-for ((i=${minimum}; i&#60;=${maximum}; i+=divisibleBy)); do
+for ((i=${minimum}; i&lt;=${maximum}; i+=divisibleBy)); do
    [ ${answer[i+disp]} -eq 0 ] \
-   &#38;&#38; echo "We never got an answer of $i." \
+   &amp;&amp; echo "We never got an answer of $i." \
    || echo "${i} occurred ${answer[i+disp]} times."
 done
 
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Just how random is <TT
-CLASS="VARNAME"
->$RANDOM</TT
->? The best
-	  way to test this is to write a script that tracks
-	  the distribution of <SPAN
-CLASS="QUOTE"
->"random"</SPAN
-> numbers
-	  generated by <TT
-CLASS="VARNAME"
->$RANDOM</TT
->. Let's roll a
-	  <TT
-CLASS="VARNAME"
->$RANDOM</TT
-> die a few times . . .</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="RANDOMTEST"
-></A
-><P
-><B
->Example 9-15. Rolling a single die with RANDOM</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>Just how random is <tt class="VARNAME">$RANDOM</tt>? The best way to test this is to write a script that tracks the distribution of <span class="QUOTE">"random"</span> numbers generated by <tt class="VARNAME">$RANDOM</tt>. Let's roll a <tt class="VARNAME">$RANDOM</tt> die a few times . . .</p>
+    <div class="EXAMPLE">
+      <a name="RANDOMTEST" id="RANDOMTEST"></a>
+      <p><b>Example 9-15. Rolling a single die with RANDOM</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # How random is RANDOM?
 
 RANDOM=$$       # Reseed the random number generator using script process ID.
@@ -876,70 +650,19 @@ exit $?
 # Exercise (easy):
 # ---------------
 # Rewrite this script to flip a coin 1000 times.
-# Choices are "HEADS" and "TAILS."</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->As we have seen in the last example, it is best to
-	  <I
-CLASS="FIRSTTERM"
->reseed</I
-> the <TT
-CLASS="PARAMETER"
-><I
->RANDOM</I
-></TT
->
-	  generator each time it is invoked. Using the same seed
-	  for <TT
-CLASS="PARAMETER"
-><I
->RANDOM</I
-></TT
-> repeats the same series
-	  of numbers.
-	    <A
-NAME="AEN5857"
-HREF="#FTN.AEN5857"
-><SPAN
-CLASS="footnote"
->[2]</SPAN
-></A
->
-	  (This mirrors the behavior of the
-	  <TT
-CLASS="REPLACEABLE"
-><I
->random()</I
-></TT
-> function in
-	  <I
-CLASS="FIRSTTERM"
->C</I
->.)</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="SEEDINGRANDOM"
-></A
-><P
-><B
->Example 9-16. Reseeding RANDOM</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# Choices are "HEADS" and "TAILS."</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>As we have seen in the last example, it is best to <i class="FIRSTTERM">reseed</i> the <tt class="PARAMETER"><i>RANDOM</i></tt> generator each time it is invoked. Using the same seed for <tt class="PARAMETER"><i>RANDOM</i></tt> repeats the same series of numbers. <a name="AEN5857" href="#FTN.AEN5857" id="AEN5857"><span class="footnote">[2]</span></a> (This mirrors the behavior of the <tt class="REPLACEABLE"><i>random()</i></tt> function in <i class="FIRSTTERM">C</i>.)</p>
+    <div class="EXAMPLE">
+      <a name="SEEDINGRANDOM" id="SEEDINGRANDOM"></a>
+      <p><b>Example 9-16. Reseeding RANDOM</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # seeding-random.sh: Seeding the RANDOM variable.
 # v 1.1, reldate 09 Feb 2013
 
@@ -999,113 +722,27 @@ random_numbers
 
 echo; echo
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="URANDOMREF"
-></A
-></P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The <TT
-CLASS="FILENAME"
->/dev/urandom</TT
-> pseudo-device file
-	  provides a method of generating much more <SPAN
-CLASS="QUOTE"
->"random"</SPAN
->
-	  pseudorandom numbers than the <TT
-CLASS="VARNAME"
->$RANDOM</TT
->
-	  variable.  <TT
-CLASS="USERINPUT"
-><B
->dd if=/dev/urandom of=targetfile
-	  bs=1 count=XX</B
-></TT
-> creates a file of well-scattered
-	  pseudorandom numbers.  However, assigning these numbers
-	  to a variable in a script requires a workaround, such
-	  as filtering through <A
-HREF="extmisc.html#ODREF"
->od</A
->
-	  (as in above example, <A
-HREF="textproc.html#RND"
->Example 16-14</A
->, and
-	  <A
-HREF="contributed-scripts.html#INSERTIONSORT"
->Example A-36</A
->), or even piping to
-	  <A
-HREF="filearchiv.html#MD5SUMREF"
->md5sum</A
-> (see <A
-HREF="colorizing.html#HORSERACE"
->Example 36-16</A
->).</P
-><P
-><A
-NAME="AWKRANDOMREF"
-></A
-></P
-><P
->There are also other ways to generate pseudorandom
-          numbers in a script. <B
-CLASS="COMMAND"
->Awk</B
-> provides a
-	  convenient means of doing this.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="RANDOM2"
-></A
-><P
-><B
->Example 9-17. Pseudorandom numbers, using <A
-HREF="awk.html#AWKREF"
->awk</A
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><a name="URANDOMREF" id="URANDOMREF"></a></p>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>The <tt class="FILENAME">/dev/urandom</tt> pseudo-device file provides a method of generating much more <span class="QUOTE">"random"</span> pseudorandom numbers than the <tt class="VARNAME">$RANDOM</tt> variable. <tt class="USERINPUT"><b>dd if=/dev/urandom of=targetfile bs=1 count=XX</b></tt> creates a file of well-scattered pseudorandom numbers. However, assigning these numbers to a variable in a script requires a workaround, such as filtering through <a href="extmisc.html#ODREF">od</a> (as in above example, <a href="textproc.html#RND">Example 16-14</a>, and <a href="contributed-scripts.html#INSERTIONSORT">Example A-36</a>), or even piping to <a href="filearchiv.html#MD5SUMREF">md5sum</a> (see <a href="colorizing.html#HORSERACE">Example 36-16</a>).</p>
+            <p><a name="AWKRANDOMREF" id="AWKRANDOMREF"></a></p>
+            <p>There are also other ways to generate pseudorandom numbers in a script. <b class="COMMAND">Awk</b> provides a convenient means of doing this.</p>
+            <div class="EXAMPLE">
+              <a name="RANDOM2" id="RANDOM2"></a>
+              <p><b>Example 9-17. Pseudorandom numbers, using <a href="awk.html#AWKREF">awk</a></b></p>
+              <table border="0" bgcolor="#E0E0E0" width="100%">
+                <tr>
+                  <td>
+                    <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 #  random2.sh: Returns a pseudorandom number in the range 0 - 1,
 #+ to 6 decimal places. For example: 0.822725
 #  Uses the awk rand() function.
@@ -1133,183 +770,47 @@ exit 0
 # 2) Using an integer multiplier as a scaling factor, generate random numbers 
 #+   in the range of 10 to 100.
 
-# 3) Same as exercise #2, above, but generate random integers this time.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->The <A
-HREF="timedate.html#DATEREF"
->date</A
-> command also lends
-	  itself to <A
-HREF="timedate.html#DATERANDREF"
->generating pseudorandom
-	  integer sequences</A
->.</P
-></TD
-></TR
-></TABLE
-></DIV
-></DIV
-><H3
-CLASS="FOOTNOTES"
->Notes</H3
-><TABLE
-BORDER="0"
-CLASS="FOOTNOTES"
-WIDTH="100%"
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN5817"
-HREF="randomvar.html#AEN5817"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->True <SPAN
-CLASS="QUOTE"
->"randomness,"</SPAN
-> insofar as
-	    it exists at all, can only be found in certain incompletely
-	    understood natural phenomena, such as radioactive
-	    decay. Computers only <I
-CLASS="FIRSTTERM"
->simulate</I
->
-	    randomness, and computer-generated sequences of
-	    <SPAN
-CLASS="QUOTE"
->"random"</SPAN
-> numbers are therefore referred to as
-	    <I
-CLASS="FIRSTTERM"
->pseudorandom</I
->.</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN5857"
-HREF="randomvar.html#AEN5857"
-><SPAN
-CLASS="footnote"
->[2]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->The <I
-CLASS="FIRSTTERM"
->seed</I
-> of a
-	      computer-generated pseudorandom number series
-	      can be considered an identification label. For
-	      example, think of the pseudorandom series with a
-	      seed of <EM
->23</EM
-> as <TT
-CLASS="REPLACEABLE"
-><I
->Series
-	      #23</I
-></TT
->.</P
-><P
->A property of a pseurandom number series is the length of
-	      the cycle before it starts repeating itself. A good pseurandom
-	      generator will produce series with very long cycles.</P
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="declareref.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="manipulatingvars.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Typing variables: <B
-CLASS="COMMAND"
->declare</B
-> or
-	  <B
-CLASS="COMMAND"
->typeset</B
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="variables2.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Manipulating Variables</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+# 3) Same as exercise #2, above, but generate random integers this time.</font></pre>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <p>The <a href="timedate.html#DATEREF">date</a> command also lends itself to <a href="timedate.html#DATERANDREF">generating pseudorandom integer sequences</a>.</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN5817" href="randomvar.html#AEN5817" id="FTN.AEN5817"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>True <span class="QUOTE">"randomness,"</span> insofar as it exists at all, can only be found in certain incompletely understood natural phenomena, such as radioactive decay. Computers only <i class="FIRSTTERM">simulate</i> randomness, and computer-generated sequences of <span class="QUOTE">"random"</span> numbers are therefore referred to as <i class="FIRSTTERM">pseudorandom</i>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN5857" href="randomvar.html#AEN5857" id="FTN.AEN5857"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>The <i class="FIRSTTERM">seed</i> of a computer-generated pseudorandom number series can be considered an identification label. For example, think of the pseudorandom series with a seed of <em>23</em> as <tt class="REPLACEABLE"><i>Series #23</i></tt>.</p>
+        <p>A property of a pseurandom number series is the length of the cycle before it starts repeating itself. A good pseurandom generator will produce series with very long cycles.</p>
+      </td>
+    </tr>
+  </table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="declareref.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="manipulatingvars.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Typing variables: <b class="COMMAND">declare</b> or <b class="COMMAND">typeset</b></td>
+        <td width="34%" align="center" valign="top"><a href="variables2.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Manipulating Variables</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

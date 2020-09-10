@@ -1,112 +1,39 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Recursion: a script calling itself</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Miscellany"
-HREF="miscellany.html"><LINK
-REL="PREVIOUS"
-TITLE="Tests and Comparisons: Alternatives"
-HREF="testsandcomparisons.html"><LINK
-REL="NEXT"
-TITLE="Colorizing Scripts"
-HREF="colorizing.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="testsandcomparisons.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 36. Miscellany</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="colorizing.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="RECURSIONSCT"
-></A
->36.4. Recursion: a script calling itself</H1
-><P
-><A
-NAME="SCRIPTRECURSION"
-></A
-></P
-><P
->Can a script <A
-HREF="localvar.html#RECURSIONREF"
->recursively</A
->
-	  call itself? Indeed.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="RECURSE"
-></A
-><P
-><B
->Example 36-10. A (useless) script that recursively calls itself</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Recursion: a script calling itself</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Miscellany" href="miscellany.html">
+  <link rel="PREVIOUS" title="Tests and Comparisons: Alternatives" href="testsandcomparisons.html">
+  <link rel="NEXT" title="Colorizing Scripts" href="colorizing.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="testsandcomparisons.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 36. Miscellany</td>
+        <td width="10%" align="right" valign="bottom"><a href="colorizing.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="RECURSIONSCT" id="RECURSIONSCT"></a>36.4. Recursion: a script calling itself</h1>
+    <p><a name="SCRIPTRECURSION" id="SCRIPTRECURSION"></a></p>
+    <p>Can a script <a href="localvar.html#RECURSIONREF">recursively</a> call itself? Indeed.</p>
+    <div class="EXAMPLE">
+      <a name="RECURSE" id="RECURSE"></a>
+      <p><b>Example 36-10. A (useless) script that recursively calls itself</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # recurse.sh
 
 #  Can a script recursively call itself?
@@ -135,32 +62,18 @@ exit 0
 # ----
 # This script must have execute permission for it to work properly.
 # This is the case even if it is invoked by an "sh" command.
-# Explain why.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="PBOOK"
-></A
-><P
-><B
->Example 36-11. A (useful) script that recursively calls itself</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# Explain why.</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="PBOOK" id="PBOOK"></a>
+      <p><b>Example 36-11. A (useful) script that recursively calls itself</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # pb.sh: phone book
 
 # Written by Rick Boivie, and used with permission.
@@ -209,32 +122,18 @@ $bash pb.sh Roe Sam
 Sam Roe         956 E. 8th St., New York, NY 10009          (212) 444-5678
 
 #  When more than one argument is passed to this script,
-#+ it prints *only* the line(s) containing all the arguments.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="USRMNT"
-></A
-><P
-><B
->Example 36-12. Another (useful) script that recursively calls itself</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#+ it prints *only* the line(s) containing all the arguments.</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="USRMNT" id="USRMNT"></a>
+      <p><b>Example 36-12. Another (useful) script that recursively calls itself</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # usrmnt.sh, written by Anthony Richardson
 # Used in ABS Guide with permission.
 
@@ -287,105 +186,36 @@ exit 0
 #    about who you allow access.
 #    You can get finer control over which access can be mounted
 #    by using this same technique in separate mntfloppy, mntcdrom,
-#    and mntsamba scripts.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->Too many levels of recursion can exhaust the
-	  script's stack space, causing a segfault.</P
-></TD
-></TR
-></TABLE
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="testsandcomparisons.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="colorizing.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Tests and Comparisons: Alternatives</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="miscellany.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><SPAN
-CLASS="QUOTE"
->"Colorizing"</SPAN
-> Scripts</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+#    and mntsamba scripts.</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="CAUTION">
+      <table class="CAUTION" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+          <td align="left" valign="top">
+            <p>Too many levels of recursion can exhaust the script's stack space, causing a segfault.</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="testsandcomparisons.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="colorizing.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Tests and Comparisons: Alternatives</td>
+        <td width="34%" align="center" valign="top"><a href="miscellany.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top"><span class="QUOTE">"Colorizing"</span> Scripts</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

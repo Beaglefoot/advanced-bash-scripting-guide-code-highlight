@@ -1,275 +1,89 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Basics</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="PREVIOUS"
-TITLE="Preliminary Exercises"
-HREF="prelimexer.html"><LINK
-REL="NEXT"
-TITLE="Special Characters"
-HREF="special-chars.html"></HEAD
-><BODY
-CLASS="PART"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="prelimexer.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="special-chars.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="PART"
-><A
-NAME="PART2"
-></A
-><DIV
-CLASS="TITLEPAGE"
-><H1
-CLASS="TITLE"
->Part 2. Basics</H1
-><DIV
-CLASS="TOC"
-><DL
-><DT
-><B
->Table of Contents</B
-></DT
-><DT
->3. <A
-HREF="special-chars.html"
->Special Characters</A
-></DT
-><DT
->4. <A
-HREF="variables.html"
->Introduction to Variables and Parameters</A
-></DT
-><DD
-><DL
-><DT
->4.1. <A
-HREF="varsubn.html"
->Variable Substitution</A
-></DT
-><DT
->4.2. <A
-HREF="varassignment.html"
->Variable Assignment</A
-></DT
-><DT
->4.3. <A
-HREF="untyped.html"
->Bash Variables Are Untyped</A
-></DT
-><DT
->4.4. <A
-HREF="othertypesv.html"
->Special Variable Types</A
-></DT
-></DL
-></DD
-><DT
->5. <A
-HREF="quoting.html"
->Quoting</A
-></DT
-><DD
-><DL
-><DT
->5.1. <A
-HREF="quotingvar.html"
->Quoting Variables</A
-></DT
-><DT
->5.2. <A
-HREF="escapingsection.html"
->Escaping</A
-></DT
-></DL
-></DD
-><DT
->6. <A
-HREF="exit-status.html"
->Exit and Exit Status</A
-></DT
-><DT
->7. <A
-HREF="tests.html"
->Tests</A
-></DT
-><DD
-><DL
-><DT
->7.1. <A
-HREF="testconstructs.html"
->Test Constructs</A
-></DT
-><DT
->7.2. <A
-HREF="fto.html"
->File test operators</A
-></DT
-><DT
->7.3. <A
-HREF="comparison-ops.html"
->Other Comparison Operators</A
-></DT
-><DT
->7.4. <A
-HREF="nestedifthen.html"
->Nested <TT
-CLASS="REPLACEABLE"
-><I
->if/then</I
-></TT
-> Condition Tests</A
-></DT
-><DT
->7.5. <A
-HREF="testtest.html"
->Testing Your Knowledge of Tests</A
-></DT
-></DL
-></DD
-><DT
->8. <A
-HREF="operations.html"
->Operations and Related Topics</A
-></DT
-><DD
-><DL
-><DT
->8.1. <A
-HREF="ops.html"
->Operators</A
-></DT
-><DT
->8.2. <A
-HREF="numerical-constants.html"
->Numerical Constants</A
-></DT
-><DT
->8.3. <A
-HREF="dblparens.html"
->The Double-Parentheses Construct</A
-></DT
-><DT
->8.4. <A
-HREF="opprecedence.html"
->Operator Precedence</A
-></DT
-></DL
-></DD
-></DL
-></DIV
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="prelimexer.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="special-chars.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Preliminary Exercises</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
->&nbsp;</TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Special Characters</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Basics</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="PREVIOUS" title="Preliminary Exercises" href="prelimexer.html">
+  <link rel="NEXT" title="Special Characters" href="special-chars.html">
+</head>
+<body class="PART" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="prelimexer.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="special-chars.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="PART">
+    <a name="PART2" id="PART2"></a>
+    <div class="TITLEPAGE">
+      <h1 class="TITLE">Part 2. Basics</h1>
+      <div class="TOC">
+        <dl>
+          <dt><b>Table of Contents</b></dt>
+          <dt>3. <a href="special-chars.html">Special Characters</a></dt>
+          <dt>4. <a href="variables.html">Introduction to Variables and Parameters</a></dt>
+          <dd>
+            <dl>
+              <dt>4.1. <a href="varsubn.html">Variable Substitution</a></dt>
+              <dt>4.2. <a href="varassignment.html">Variable Assignment</a></dt>
+              <dt>4.3. <a href="untyped.html">Bash Variables Are Untyped</a></dt>
+              <dt>4.4. <a href="othertypesv.html">Special Variable Types</a></dt>
+            </dl>
+          </dd>
+          <dt>5. <a href="quoting.html">Quoting</a></dt>
+          <dd>
+            <dl>
+              <dt>5.1. <a href="quotingvar.html">Quoting Variables</a></dt>
+              <dt>5.2. <a href="escapingsection.html">Escaping</a></dt>
+            </dl>
+          </dd>
+          <dt>6. <a href="exit-status.html">Exit and Exit Status</a></dt>
+          <dt>7. <a href="tests.html">Tests</a></dt>
+          <dd>
+            <dl>
+              <dt>7.1. <a href="testconstructs.html">Test Constructs</a></dt>
+              <dt>7.2. <a href="fto.html">File test operators</a></dt>
+              <dt>7.3. <a href="comparison-ops.html">Other Comparison Operators</a></dt>
+              <dt>7.4. <a href="nestedifthen.html">Nested <tt class="REPLACEABLE"><i>if/then</i></tt> Condition Tests</a></dt>
+              <dt>7.5. <a href="testtest.html">Testing Your Knowledge of Tests</a></dt>
+            </dl>
+          </dd>
+          <dt>8. <a href="operations.html">Operations and Related Topics</a></dt>
+          <dd>
+            <dl>
+              <dt>8.1. <a href="ops.html">Operators</a></dt>
+              <dt>8.2. <a href="numerical-constants.html">Numerical Constants</a></dt>
+              <dt>8.3. <a href="dblparens.html">The Double-Parentheses Construct</a></dt>
+              <dt>8.4. <a href="opprecedence.html">Operator Precedence</a></dt>
+            </dl>
+          </dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="prelimexer.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="special-chars.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Preliminary Exercises</td>
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+        <td width="33%" align="right" valign="top">Special Characters</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

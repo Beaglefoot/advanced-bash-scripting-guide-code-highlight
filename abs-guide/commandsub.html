@@ -1,176 +1,51 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Command Substitution</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Beyond the Basics"
-HREF="part3.html"><LINK
-REL="PREVIOUS"
-TITLE="Testing and Branching"
-HREF="testbranch.html"><LINK
-REL="NEXT"
-TITLE="Arithmetic Expansion"
-HREF="arithexp.html"></HEAD
-><BODY
-CLASS="CHAPTER"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="testbranch.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="arithexp.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="CHAPTER"
-><H1
-><A
-NAME="COMMANDSUB"
-></A
->Chapter 12. Command Substitution</H1
-><P
->	     <A
-NAME="COMMANDSUBREF"
-></A
-><B
-CLASS="COMMAND"
->Command
-	     substitution</B
-> reassigns the output of a command
-		<A
-NAME="AEN7205"
-HREF="#FTN.AEN7205"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
->
-	     or even multiple commands; it literally plugs the command
-	     output into another context.
-
-	        <A
-NAME="AEN7211"
-HREF="#FTN.AEN7211"
-><SPAN
-CLASS="footnote"
->[2]</SPAN
-></A
->
-	     </P
-><P
-><A
-NAME="BACKQUOTESREF"
-></A
->The classic form of command
-	      substitution uses <I
-CLASS="FIRSTTERM"
->backquotes</I
->
-	      (`...`). Commands within backquotes (backticks) generate
-	      command-line text.
-
-	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->script_name=`basename $0`
-echo "The name of this script is $script_name."</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><DIV
-CLASS="FORMALPARA"
-><P
-><B
->The output of commands can be used as arguments to
-	      another command, to set a variable, and even for generating
-	      the argument list in a <A
-HREF="loops1.html#FORLOOPREF1"
->for</A
->
-	      loop. </B
-></P
-></DIV
-><P
->	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->rm `cat filename`   # <SPAN
-CLASS="QUOTE"
->"filename"</SPAN
-> contains a list of files to delete.
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Command Substitution</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Beyond the Basics" href="part3.html">
+  <link rel="PREVIOUS" title="Testing and Branching" href="testbranch.html">
+  <link rel="NEXT" title="Arithmetic Expansion" href="arithexp.html">
+</head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="testbranch.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="arithexp.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="COMMANDSUB" id="COMMANDSUB"></a>Chapter 12. Command Substitution</h1>
+    <p><a name="COMMANDSUBREF" id="COMMANDSUBREF"></a><b class="COMMAND">Command substitution</b> reassigns the output of a command <a name="AEN7205" href="#FTN.AEN7205" id="AEN7205"><span class="footnote">[1]</span></a> or even multiple commands; it literally plugs the command output into another context. <a name="AEN7211" href="#FTN.AEN7211" id="AEN7211"><span class="footnote">[2]</span></a></p>
+    <p><a name="BACKQUOTESREF" id="BACKQUOTESREF"></a>The classic form of command substitution uses <i class="FIRSTTERM">backquotes</i> (`...`). Commands within backquotes (backticks) generate command-line text.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">script_name=`basename $0`
+echo "The name of this script is $script_name."</font></pre>
+        </td>
+      </tr>
+    </table>
+    <div class="FORMALPARA">
+      <p><b>The output of commands can be used as arguments to another command, to set a variable, and even for generating the argument list in a <a href="loops1.html#FORLOOPREF1">for</a> loop.</b></p>
+    </div>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">rm `cat filename`   # <span class="QUOTE">"filename"</span> contains a list of files to delete.
 #
 # S. C. points out that "arg list too long" error might result.
-# Better is              xargs rm -- &#60; filename 
-# ( -- covers those cases where <SPAN
-CLASS="QUOTE"
->"filename"</SPAN
-> begins with a <SPAN
-CLASS="QUOTE"
->"-"</SPAN
-> )
+# Better is              xargs rm -- &lt; filename 
+# ( -- covers those cases where <span class="QUOTE">"filename"</span> begins with a <span class="QUOTE">"-"</span> )
 
 textfile_listing=`ls *.txt`
 # Variable contains names of all *.txt files in current working directory.
@@ -187,86 +62,30 @@ echo $textfile_listing2
 #      shopt -s nullglob    # If no match, filename expands to nothing.
 #      textfile_listing=( *.txt )
 #
-# Thanks, S.C.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-            </P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
-><A
-NAME="CSSUBSH"
-></A
->Command substitution
-              invokes a <A
-HREF="subshells.html#SUBSHELLSREF"
->subshell</A
->.</P
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
-><A
-NAME="CSWS"
-></A
->Command substitution may
-                result in <A
-HREF="quotingvar.html#WSPLITREF"
->word splitting</A
->.
-	        <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->COMMAND `echo a b`     # 2 args: a and b
+# Thanks, S.C.</font></pre>
+        </td>
+      </tr>
+    </table>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p><a name="CSSUBSH" id="CSSUBSH"></a>Command substitution invokes a <a href="subshells.html#SUBSHELLSREF">subshell</a>.</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="CAUTION">
+      <table class="CAUTION" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+          <td align="left" valign="top">
+            <p><a name="CSWS" id="CSWS"></a>Command substitution may result in <a href="quotingvar.html#WSPLITREF">word splitting</a>.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">COMMAND `echo a b`     # 2 args: a and b
 
 COMMAND "`echo a b`"   # 1 arg: "a b"
 
@@ -275,32 +94,16 @@ COMMAND `echo`         # no arg
 COMMAND "`echo`"       # one empty arg
 
 
-# Thanks, S.C.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
-><A
-NAME="CSTRNL"
-></A
-></P
-><P
->Even when there is no word splitting, command
-	        substitution can remove trailing newlines.
-
-		<TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># cd "`pwd`"  # This should always work.
+# Thanks, S.C.</font></pre>
+                </td>
+              </tr>
+            </table>
+            <p><a name="CSTRNL" id="CSTRNL"></a></p>
+            <p>Even when there is no word splitting, command substitution can remove trailing newlines.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000"># cd "`pwd`"  # This should always work.
 # However...
 
 mkdir 'dir with trailing newline
@@ -322,7 +125,7 @@ old_tty_setting=$(stty -g)   # Save old terminal setting.
 echo "Hit a key "
 stty -icanon -echo           # Disable "canonical" mode for terminal.
                              # Also, disable *local* echo.
-key=$(dd bs=1 count=1 2&#62; /dev/null)   # Using 'dd' to get a keypress.
+key=$(dd bs=1 count=1 2&gt; /dev/null)   # Using 'dd' to get a keypress.
 stty "$old_tty_setting"      # Restore old setting. 
 echo "You hit ${#key} key."  # ${#variable} = number of characters in $variable
 #
@@ -330,61 +133,24 @@ echo "You hit ${#key} key."  # ${#variable} = number of characters in $variable
 # Hit RETURN, and it's "You hit 0 key."
 # The newline gets eaten in the command substitution.
 
-#Code snippet by Stéphane Chazelas.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-              </P
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->Using <B
-CLASS="COMMAND"
->echo</B
-> to output an
-		<I
-CLASS="FIRSTTERM"
->unquoted</I
-> variable set with command
-		substitution removes trailing newlines characters from
-		the output of the reassigned command(s). This can cause
-		unpleasant surprises.
-
-		<TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->dir_listing=`ls -l`
+#Code snippet by Stï¿½phane Chazelas.</font></pre>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="CAUTION">
+      <table class="CAUTION" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+          <td align="left" valign="top">
+            <p>Using <b class="COMMAND">echo</b> to output an <i class="FIRSTTERM">unquoted</i> variable set with command substitution removes trailing newlines characters from the output of the reassigned command(s). This can cause unpleasant surprises.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">dir_listing=`ls -l`
 echo $dir_listing     # unquoted
 
 # Expecting a nicely ordered directory listing.
@@ -399,38 +165,19 @@ echo $dir_listing     # unquoted
 echo "$dir_listing"   # quoted
 # -rw-rw-r--    1 bozo       30 May 13 17:15 1.txt
 # -rw-rw-r--    1 bozo       51 May 15 20:57 t2.sh
-# -rwxr-xr-x    1 bozo      217 Mar  5 21:13 wi.sh</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-              </P
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Command substitution even permits setting a variable to the
-	       contents of a file, using either <A
-HREF="io-redirection.html#IOREDIRREF"
->redirection</A
-> or the <A
-HREF="basic.html#CATREF"
->cat</A
-> command.</P
-><P
->	         <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->variable1=`&#60;file1`      #  Set "variable1" to contents of "file1".
+# -rwxr-xr-x    1 bozo      217 Mar  5 21:13 wi.sh</font></pre>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>Command substitution even permits setting a variable to the contents of a file, using either <a href="io-redirection.html#IOREDIRREF">redirection</a> or the <a href="basic.html#CATREF">cat</a> command.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">variable1=`&lt;file1`      #  Set "variable1" to contents of "file1".
 variable2=`cat file2`   #  Set "variable2" to contents of "file2".
                         #  This, however, forks a new process,
                         #+ so the line of code executes slower than the above version.
@@ -439,25 +186,14 @@ variable2=`cat file2`   #  Set "variable2" to contents of "file2".
 #+ or even (horrors), control characters.
 
 #  It is not necessary to explicitly assign a variable.
-echo "` &#60;$0`"           # Echoes the script itself to stdout.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-             </P
-><P
->	         <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#  Excerpts from system file, /etc/rc.d/rc.sysinit
+echo "` &lt;$0`"           # Echoes the script itself to stdout.</font></pre>
+        </td>
+      </tr>
+    </table>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">#  Excerpts from system file, /etc/rc.d/rc.sysinit
 #+ (on a Red Hat Linux installation)
 
 
@@ -481,66 +217,26 @@ fi
 #
 if [ $usb = "1" ]; then
     sleep 5
-    mouseoutput=`cat /proc/bus/usb/devices 2&#62;/dev/null|grep -E "^I.*Cls=03.*Prot=02"`
-    kbdoutput=`cat /proc/bus/usb/devices 2&#62;/dev/null|grep -E "^I.*Cls=03.*Prot=01"`
+    mouseoutput=`cat /proc/bus/usb/devices 2&gt;/dev/null|grep -E "^I.*Cls=03.*Prot=02"`
+    kbdoutput=`cat /proc/bus/usb/devices 2&gt;/dev/null|grep -E "^I.*Cls=03.*Prot=01"`
 ...
-fi</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-             </P
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->Do not set a variable to the contents of a
-	       <EM
->long</EM
-> text file unless you have a very good
-	       reason for doing so. Do not set a variable to the contents of a
-	       <I
-CLASS="FIRSTTERM"
->binary</I
-> file, even as a joke.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="STUPSCR"
-></A
-><P
-><B
->Example 12-1. Stupid script tricks</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+fi</font></pre>
+        </td>
+      </tr>
+    </table>
+    <div class="CAUTION">
+      <table class="CAUTION" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+          <td align="left" valign="top">
+            <p>Do not set a variable to the contents of a <em>long</em> text file unless you have a very good reason for doing so. Do not set a variable to the contents of a <i class="FIRSTTERM">binary</i> file, even as a joke.</p>
+            <div class="EXAMPLE">
+              <a name="STUPSCR" id="STUPSCR"></a>
+              <p><b>Example 12-1. Stupid script tricks</b></p>
+              <table border="0" bgcolor="#E0E0E0" width="100%">
+                <tr>
+                  <td>
+                    <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # stupid-script-tricks.sh: Don't try this at home, folks.
 # From "Stupid Script Tricks," Volume I.
 
@@ -560,60 +256,25 @@ echo "string-length of \$dangerous_variable = ${#dangerous_variable}"
 #  The document author is aware of no useful applications for
 #+ setting a variable to the contents of a binary file.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Notice that a <I
-CLASS="FIRSTTERM"
->buffer overrun</I
->
-	       does not occur. This is one instance where an interpreted
-	       language, such as Bash, provides more protection from
-	       programmer mistakes than a compiled language.</P
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="CSVL"
-></A
-></P
-><P
->Command substitution permits setting a variable to the
-		output of a <A
-HREF="loops1.html#FORLOOPREF1"
->loop</A
->. The
-		key to this is grabbing the output of an <A
-HREF="internal.html#ECHOREF"
->echo</A
-> command within the
-		loop.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="CSUBLOOP"
-></A
-><P
-><B
->Example 12-2. Generating a variable from a loop</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <p>Notice that a <i class="FIRSTTERM">buffer overrun</i> does not occur. This is one instance where an interpreted language, such as Bash, provides more protection from programmer mistakes than a compiled language.</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><a name="CSVL" id="CSVL"></a></p>
+    <p>Command substitution permits setting a variable to the output of a <a href="loops1.html#FORLOOPREF1">loop</a>. The key to this is grabbing the output of an <a href="internal.html#ECHOREF">echo</a> command within the loop.</p>
+    <div class="EXAMPLE">
+      <a name="CSUBLOOP" id="CSUBLOOP"></a>
+      <p><b>Example 12-2. Generating a variable from a loop</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # csubloop.sh: Setting a variable to the output of a loop.
 
 variable1=`for i in 1 2 3 4 5
@@ -636,315 +297,112 @@ echo "variable2 = $variable2"  # variable2 = 0123456789
 #  Demonstrates that it's possible to embed a loop
 #+ inside a variable declaration.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="CSTOOLSET"
-></A
-></P
-><TABLE
-CLASS="SIDEBAR"
-BORDER="1"
-CELLPADDING="5"
-><TR
-><TD
-><DIV
-CLASS="SIDEBAR"
-><A
-NAME="AEN7273"
-></A
-><P
-></P
-><P
->Command substitution makes it possible to extend the
-		toolset available to Bash. It is simply a matter
-		of writing a program or script that outputs to
-		<TT
-CLASS="FILENAME"
->stdout</TT
-> (like a well-behaved UNIX
-		tool should) and assigning that output to a variable.</P
-><P
->		<TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#include &#60;stdio.h&#62;
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><a name="CSTOOLSET" id="CSTOOLSET"></a></p>
+    <table class="SIDEBAR" border="1" cellpadding="5">
+      <tr>
+        <td>
+          <div class="SIDEBAR">
+            <a name="AEN7273" id="AEN7273"></a>
+            <p>Command substitution makes it possible to extend the toolset available to Bash. It is simply a matter of writing a program or script that outputs to <tt class="FILENAME">stdout</tt> (like a well-behaved UNIX tool should) and assigning that output to a variable.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#include &lt;stdio.h&gt;
 
-/*  "Hello, world." C program  */		
+/*  "Hello, world." C program  */               
 
 int main()
 {
   printf( "Hello, world.\n" );
   return (0);
-}</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->gcc -o hello hello.c</B
-></TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-		</P
-><P
->                <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
-# hello.sh		
+}</font></pre>
+                </td>
+              </tr>
+            </table>
+            <table border="1" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>gcc -o hello hello.c</b></tt>
+              </font></pre>
+                </td>
+              </tr>
+            </table>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
+# hello.sh              
 
 greeting=`./hello`
-echo $greeting</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->sh hello.sh</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->Hello, world.</TT
->
-	        </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	        </P
-><P
-></P
-></DIV
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
-><A
-NAME="CSPARENS"
-></A
->The <B
-CLASS="COMMAND"
->$(...)</B
->
-		form has superseded backticks for command
-		substitution.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->output=$(sed -n /"$1"/p $file)   # From "grp.sh"	example.
-	      
+echo $greeting</font></pre>
+                </td>
+              </tr>
+            </table>
+            <table border="1" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>sh hello.sh</b></tt>
+<tt class="COMPUTEROUTPUT">Hello, world.</tt>
+                </font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p><a name="CSPARENS" id="CSPARENS"></a>The <b class="COMMAND">$(...)</b> form has superseded backticks for command substitution.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">output=$(sed -n /"$1"/p $file)   # From "grp.sh"       example.
+              
 # Setting a variable to the contents of a text file.
 File_contents1=$(cat $file1)      
-File_contents2=$(&#60;$file2)        # Bash permits this also.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->The <B
-CLASS="COMMAND"
->$(...)</B
-> form of command substitution
-	        treats a double backslash in a different way than
-		<B
-CLASS="COMMAND"
->`...`</B
->.</P
-><P
->		
-	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo `echo \\`</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
-></TT
->
+File_contents2=$(&lt;$file2)        # Bash permits this also.</font></pre>
+                </td>
+              </tr>
+            </table>
+            <p>The <b class="COMMAND">$(...)</b> form of command substitution treats a double backslash in a different way than <b class="COMMAND">`...`</b>.</p>
+            <table border="1" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo `echo \\`</b></tt>
 
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo $(echo \\)</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->\</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-              </P
-><P
-><A
-NAME="CSNEST"
-></A
-></P
-><P
->The <B
-CLASS="COMMAND"
->$(...)</B
-> form of command
-                substitution permits nesting.
-		  <A
-NAME="AEN7308"
-HREF="#FTN.AEN7308"
-><SPAN
-CLASS="footnote"
->[3]</SPAN
-></A
->
-		
-		</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->word_count=$( wc -w $(echo * | awk '{print $8}') )</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-              </P
-><P
->Or, for something a bit more elaborate . . .</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="AGRAM2"
-></A
-><P
-><B
->Example 12-3. Finding anagrams</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo $(echo \\)</b></tt>
+<tt class="COMPUTEROUTPUT">\</tt>
+              </font></pre>
+                </td>
+              </tr>
+            </table>
+            <p><a name="CSNEST" id="CSNEST"></a></p>
+            <p>The <b class="COMMAND">$(...)</b> form of command substitution permits nesting. <a name="AEN7308" href="#FTN.AEN7308" id="AEN7308"><span class="footnote">[3]</span></a></p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">word_count=$( wc -w $(echo * | awk '{print $8}') )</font></pre>
+                </td>
+              </tr>
+            </table>
+            <p>Or, for something a bit more elaborate . . .</p>
+            <div class="EXAMPLE">
+              <a name="AGRAM2" id="AGRAM2"></a>
+              <p><b>Example 12-3. Finding anagrams</b></p>
+              <table border="0" bgcolor="#E0E0E0" width="100%">
+                <tr>
+                  <td>
+                    <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # agram2.sh
 # Example of nested command substitution.
 
@@ -989,318 +447,109 @@ echo ${Anagrams[1]}      # Second anagram.
 
 # See also the agram.sh script for an exercise in anagram finding.
 
-exit $?</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Examples of command substitution in shell scripts:
-       <P
-></P
-><OL
-TYPE="1"
-><LI
-><P
-><A
-HREF="loops1.html#BINGREP"
->Example 11-8</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="testbranch.html#CASECMD"
->Example 11-27</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="randomvar.html#SEEDINGRANDOM"
->Example 9-16</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="moreadv.html#EX57"
->Example 16-3</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#LOWERCASE"
->Example 16-22</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="textproc.html#GRP"
->Example 16-17</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="extmisc.html#EX53"
->Example 16-54</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="loops1.html#EX24"
->Example 11-14</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="loops1.html#SYMLINKS"
->Example 11-11</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="filearchiv.html#STRIPC"
->Example 16-32</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="redircb.html#REDIR4"
->Example 20-8</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="contributed-scripts.html#TREE"
->Example A-16</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="procref1.html#PIDID"
->Example 29-3</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="mathc.html#MONTHLYPMT"
->Example 16-47</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="mathc.html#BASE"
->Example 16-48</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="mathc.html#ALTBC"
->Example 16-49</A
-></P
-></LI
-></OL
->
-     </P
-></DIV
-><H3
-CLASS="FOOTNOTES"
->Notes</H3
-><TABLE
-BORDER="0"
-CLASS="FOOTNOTES"
-WIDTH="100%"
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN7205"
-HREF="commandsub.html#AEN7205"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->For purposes of <I
-CLASS="FIRSTTERM"
->command
-		substitution</I
->, a <B
-CLASS="COMMAND"
->command</B
->
-		may be an external system command, an internal scripting
-		<A
-HREF="internal.html#BUILTINREF"
->builtin</A
->, or even <A
-HREF="assortedtips.html#RVT"
->a script function</A
->.</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN7211"
-HREF="commandsub.html#AEN7211"
-><SPAN
-CLASS="footnote"
->[2]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->In a more technically correct sense,
-		<I
-CLASS="FIRSTTERM"
->command substitution</I
-> extracts the
-		<TT
-CLASS="FILENAME"
->stdout</TT
-> of a command, then assigns
-		it to a variable using the <SPAN
-CLASS="TOKEN"
->=</SPAN
->
-		operator.</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN7308"
-HREF="commandsub.html#AEN7308"
-><SPAN
-CLASS="footnote"
->[3]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->		    In fact, nesting with backticks is also possible,
-		    but only by escaping the inner backticks, as John
-		    Default points out.
-		      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->word_count=` wc -w \`echo * | awk '{print $8}'\` `</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-		    </P
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="testbranch.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="arithexp.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Testing and Branching</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="part3.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Arithmetic Expansion</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+exit $?</font></pre>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>Examples of command substitution in shell scripts:</p>
+    <ol type="1">
+      <li>
+        <p><a href="loops1.html#BINGREP">Example 11-8</a></p>
+      </li>
+      <li>
+        <p><a href="testbranch.html#CASECMD">Example 11-27</a></p>
+      </li>
+      <li>
+        <p><a href="randomvar.html#SEEDINGRANDOM">Example 9-16</a></p>
+      </li>
+      <li>
+        <p><a href="moreadv.html#EX57">Example 16-3</a></p>
+      </li>
+      <li>
+        <p><a href="textproc.html#LOWERCASE">Example 16-22</a></p>
+      </li>
+      <li>
+        <p><a href="textproc.html#GRP">Example 16-17</a></p>
+      </li>
+      <li>
+        <p><a href="extmisc.html#EX53">Example 16-54</a></p>
+      </li>
+      <li>
+        <p><a href="loops1.html#EX24">Example 11-14</a></p>
+      </li>
+      <li>
+        <p><a href="loops1.html#SYMLINKS">Example 11-11</a></p>
+      </li>
+      <li>
+        <p><a href="filearchiv.html#STRIPC">Example 16-32</a></p>
+      </li>
+      <li>
+        <p><a href="redircb.html#REDIR4">Example 20-8</a></p>
+      </li>
+      <li>
+        <p><a href="contributed-scripts.html#TREE">Example A-16</a></p>
+      </li>
+      <li>
+        <p><a href="procref1.html#PIDID">Example 29-3</a></p>
+      </li>
+      <li>
+        <p><a href="mathc.html#MONTHLYPMT">Example 16-47</a></p>
+      </li>
+      <li>
+        <p><a href="mathc.html#BASE">Example 16-48</a></p>
+      </li>
+      <li>
+        <p><a href="mathc.html#ALTBC">Example 16-49</a></p>
+      </li>
+    </ol>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN7205" href="commandsub.html#AEN7205" id="FTN.AEN7205"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>For purposes of <i class="FIRSTTERM">command substitution</i>, a <b class="COMMAND">command</b> may be an external system command, an internal scripting <a href="internal.html#BUILTINREF">builtin</a>, or even <a href="assortedtips.html#RVT">a script function</a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN7211" href="commandsub.html#AEN7211" id="FTN.AEN7211"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>In a more technically correct sense, <i class="FIRSTTERM">command substitution</i> extracts the <tt class="FILENAME">stdout</tt> of a command, then assigns it to a variable using the <span class="TOKEN">=</span> operator.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN7308" href="commandsub.html#AEN7308" id="FTN.AEN7308"><span class="footnote">[3]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>In fact, nesting with backticks is also possible, but only by escaping the inner backticks, as John Default points out.</p>
+        <table border="0" bgcolor="#E0E0E0" width="100%">
+          <tr>
+            <td>
+              <pre class="PROGRAMLISTING"><font color="#000000">word_count=` wc -w \`echo * | awk '{print $8}'\` `</font></pre>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="testbranch.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="arithexp.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Testing and Branching</td>
+        <td width="34%" align="center" valign="top"><a href="part3.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Arithmetic Expansion</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,218 +1,67 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->List Constructs</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Advanced Topics"
-HREF="part5.html"><LINK
-REL="PREVIOUS"
-TITLE="Aliases"
-HREF="aliases.html"><LINK
-REL="NEXT"
-TITLE="Arrays"
-HREF="arrays.html"></HEAD
-><BODY
-CLASS="CHAPTER"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="aliases.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="arrays.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="CHAPTER"
-><H1
-><A
-NAME="LIST-CONS"
-></A
->Chapter 26. List Constructs</H1
-><P
-><A
-NAME="LISTCONSREF"
-></A
-></P
-><P
->The <I
-CLASS="FIRSTTERM"
->and list</I
-> and <I
-CLASS="FIRSTTERM"
->or
-	list</I
-> constructs provide a means of processing a
-	number of commands consecutively. These can effectively replace
-	complex nested <A
-HREF="testconstructs.html#TESTCONSTRUCTS1"
->if/then</A
->
-	or even <A
-HREF="testbranch.html#CASEESAC1"
->case</A
-> statements.</P
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="LCONS1"
-></A
->Chaining together commands</B
-></P
-><DL
-><DT
->and list</DT
-><DD
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->command-1 &#38;&#38; command-2 &#38;&#38; command-3 &#38;&#38; ... command-n</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	      Each command executes in turn, provided that
-	      the previous command has given a return value of
-	      <TT
-CLASS="REPLACEABLE"
-><I
->true</I
-></TT
-> (zero). At the first
-	      <TT
-CLASS="REPLACEABLE"
-><I
->false</I
-></TT
-> (non-zero) return, the
-	      command chain terminates (the first command returning
-	      <TT
-CLASS="REPLACEABLE"
-><I
->false</I
-></TT
-> is the last one to
-	      execute).</P
-><P
->An interesting use of a two-condition <I
-CLASS="FIRSTTERM"
->and
-	      list</I
-> from an early version of YongYe's <A
-HREF="http://bash.deta.in/Tetris_Game.sh"
-TARGET="_top"
->Tetris
-	      game script</A
->:</P
-><P
->           <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->equation()
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>List Constructs</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="Aliases" href="aliases.html">
+  <link rel="NEXT" title="Arrays" href="arrays.html">
+</head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="aliases.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="arrays.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="LIST-CONS" id="LIST-CONS"></a>Chapter 26. List Constructs</h1>
+    <p><a name="LISTCONSREF" id="LISTCONSREF"></a></p>
+    <p>The <i class="FIRSTTERM">and list</i> and <i class="FIRSTTERM">or list</i> constructs provide a means of processing a number of commands consecutively. These can effectively replace complex nested <a href="testconstructs.html#TESTCONSTRUCTS1">if/then</a> or even <a href="testbranch.html#CASEESAC1">case</a> statements.</p>
+    <div class="VARIABLELIST">
+      <p><b><a name="LCONS1" id="LCONS1"></a>Chaining together commands</b></p>
+      <dl>
+        <dt>and list</dt>
+        <dd>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">command-1 &amp;&amp; command-2 &amp;&amp; command-3 &amp;&amp; ... command-n</font></pre>
+              </td>
+            </tr>
+          </table>Each command executes in turn, provided that the previous command has given a return value of <tt class="REPLACEABLE"><i>true</i></tt> (zero). At the first <tt class="REPLACEABLE"><i>false</i></tt> (non-zero) return, the command chain terminates (the first command returning <tt class="REPLACEABLE"><i>false</i></tt> is the last one to execute).
+          <p>An interesting use of a two-condition <i class="FIRSTTERM">and list</i> from an early version of YongYe's <a href="http://bash.deta.in/Tetris_Game.sh" target="_top">Tetris game script</a>:</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">equation()
 
 {  # core algorithm used for doubling and halving the coordinates
-   [[ ${cdx} ]] &#38;&#38; ((y=cy+(ccy-cdy)${2}2))
+   [[ ${cdx} ]] &amp;&amp; ((y=cy+(ccy-cdy)${2}2))
    eval ${1}+=\"${x} ${y} \"
-}</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-           </P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX64"
-></A
-><P
-><B
->Example 26-1. Using an <I
-CLASS="FIRSTTERM"
->and list</I
-> to test
-	      for command-line arguments</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+}</font></pre>
+              </td>
+            </tr>
+          </table>
+          <div class="EXAMPLE">
+            <a name="EX64" id="EX64"></a>
+            <p><b>Example 26-1. Using an <i class="FIRSTTERM">and list</i> to test for command-line arguments</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # and list
 
-if [ ! -z "$1" ] &#38;&#38; echo "Argument #1 = $1" &#38;&#38; [ ! -z "$2" ] &#38;&#38; \
+if [ ! -z "$1" ] &amp;&amp; echo "Argument #1 = $1" &amp;&amp; [ ! -z "$2" ] &amp;&amp; \
 #                ^^                         ^^               ^^
 echo "Argument #2 = $2"
 then
@@ -245,43 +94,25 @@ fi
 # It's longer and more ponderous than using an "and list".
 
 
-exit $?</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="ANDLIST2"
-></A
-><P
-><B
->Example 26-2. Another command-line arg test using an <I
-CLASS="FIRSTTERM"
->and
-	      list</I
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit $?</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="EXAMPLE">
+            <a name="ANDLIST2" id="ANDLIST2"></a>
+            <p><b>Example 26-2. Another command-line arg test using an <i class="FIRSTTERM">and list</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 ARGS=1        # Number of arguments expected.
 E_BADARGS=85  # Exit value if incorrect number of args passed.
 
-test $# -ne $ARGS &#38;&#38; \
+test $# -ne $ARGS &amp;&amp; \
 #    ^^^^^^^^^^^^ condition #1
-echo "Usage: `basename $0` $ARGS argument(s)" &#38;&#38; exit $E_BADARGS
+echo "Usage: `basename $0` $ARGS argument(s)" &amp;&amp; exit $E_BADARGS
 #                                             ^^
 #  If condition #1 tests true (wrong number of args passed to script),
 #+ then the rest of the line executes, and script terminates.
@@ -291,116 +122,40 @@ echo "Correct number of arguments passed to this script."
 
 exit 0
 
-# To check exit value, do a "echo $?" after script termination.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="ANDDEFAULT"
-></A
-></P
-><P
->	      Of course, an <I
-CLASS="FIRSTTERM"
->and list</I
-> can also
-	      <I
-CLASS="FIRSTTERM"
->set</I
-> variables to a default value.
-	        <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->arg1=$@ &#38;&#38; [ -z "$arg1" ] &#38;&#38; arg1=DEFAULT
-		
+# To check exit value, do a "echo $?" after script termination.</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p><a name="ANDDEFAULT" id="ANDDEFAULT"></a></p>
+          <p>Of course, an <i class="FIRSTTERM">and list</i> can also <i class="FIRSTTERM">set</i> variables to a default value.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">arg1=$@ &amp;&amp; [ -z "$arg1" ] &amp;&amp; arg1=DEFAULT
+                
               # Set $arg1 to command-line arguments, if any.
-              # But . . . set to DEFAULT if not specified on command-line.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-            </P
-></DD
-><DT
-><A
-NAME="ORLISTREF"
-></A
->or list</DT
-><DD
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->command-1 || command-2 || command-3 || ... command-n</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	      Each command executes in turn for as long as the previous
-	      command returns <SPAN
-CLASS="RETURNVALUE"
->false</SPAN
->. At
-	      the first <SPAN
-CLASS="RETURNVALUE"
->true</SPAN
-> return, the
-	      command chain terminates (the first command returning
-	      <SPAN
-CLASS="RETURNVALUE"
->true</SPAN
-> is the last one to
-	      execute). This is obviously the inverse of the <SPAN
-CLASS="QUOTE"
->"and
-	      list"</SPAN
->.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX65"
-></A
-><P
-><B
->Example 26-3. Using <I
-CLASS="FIRSTTERM"
->or lists</I
-> in combination
-	      with an <I
-CLASS="FIRSTTERM"
->and list</I
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+              # But . . . set to DEFAULT if not specified on command-line.</font></pre>
+              </td>
+            </tr>
+          </table>
+        </dd>
+        <dt><a name="ORLISTREF" id="ORLISTREF"></a>or list</dt>
+        <dd>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">command-1 || command-2 || command-3 || ... command-n</font></pre>
+              </td>
+            </tr>
+          </table>Each command executes in turn for as long as the previous command returns <span class="RETURNVALUE">false</span>. At the first <span class="RETURNVALUE">true</span> return, the command chain terminates (the first command returning <span class="RETURNVALUE">true</span> is the last one to execute). This is obviously the inverse of the <span class="QUOTE">"and list"</span>.
+          <div class="EXAMPLE">
+            <a name="EX65" id="EX65"></a>
+            <p><b>Example 26-3. Using <i class="FIRSTTERM">or lists</i> in combination with an <i class="FIRSTTERM">and list</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 #  delete.sh, a not-so-cunning file deletion utility.
 #  Usage: delete filename
@@ -416,7 +171,7 @@ else
 fi  
 
 
-[ ! -f "$file" ] &#38;&#38; echo "File \"$file\" not found. \
+[ ! -f "$file" ] &amp;&amp; echo "File \"$file\" not found. \
 Cowardly refusing to delete a nonexistent file."
 # AND LIST, to give error message if file not present.
 # Note echo message continuing on to a second line after an escape.
@@ -427,262 +182,105 @@ Cowardly refusing to delete a nonexistent file."
 # Note logic inversion above.
 # AND LIST executes on true, OR LIST on false.
 
-exit $?</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->If the first command in an <I
-CLASS="FIRSTTERM"
->or
-	      list</I
-> returns <SPAN
-CLASS="RETURNVALUE"
->true</SPAN
->,
-	      it <TT
-CLASS="REPLACEABLE"
-><I
->will</I
-></TT
-> execute.</P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-></DL
-></DIV
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># ==&#62; The following snippets from the /etc/rc.d/init.d/single
-#+==&#62; script by Miquel van Smoorenburg
-#+==&#62; illustrate use of "and" and "or" lists.
-# ==&#62; "Arrowed" comments added by document author.
+exit $?</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>If the first command in an <i class="FIRSTTERM">or list</i> returns <span class="RETURNVALUE">true</span>, it <tt class="REPLACEABLE"><i>will</i></tt> execute.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000"># ==&gt; The following snippets from the /etc/rc.d/init.d/single
+#+==&gt; script by Miquel van Smoorenburg
+#+==&gt; illustrate use of "and" and "or" lists.
+# ==&gt; "Arrowed" comments added by document author.
 
-[ -x /usr/bin/clear ] &#38;&#38; /usr/bin/clear
-  # ==&#62; If /usr/bin/clear exists, then invoke it.
-  # ==&#62; Checking for the existence of a command before calling it
-  #+==&#62; avoids error messages and other awkward consequences.
+[ -x /usr/bin/clear ] &amp;&amp; /usr/bin/clear
+  # ==&gt; If /usr/bin/clear exists, then invoke it.
+  # ==&gt; Checking for the existence of a command before calling it
+  #+==&gt; avoids error messages and other awkward consequences.
 
-  # ==&#62; . . .
+  # ==&gt; . . .
 
 # If they want to run something in single user mode, might as well run it...
 for i in /etc/rc1.d/S[0-9][0-9]* ; do
         # Check if the script is there.
         [ -x "$i" ] || continue
-  # ==&#62; If corresponding file in $PWD *not* found,
-  #+==&#62; then "continue" by jumping to the top of the loop.
+  # ==&gt; If corresponding file in $PWD *not* found,
+  #+==&gt; then "continue" by jumping to the top of the loop.
 
         # Reject backup files and files generated by rpm.
         case "$1" in
                 *.rpmsave|*.rpmorig|*.rpmnew|*~|*.orig)
                         continue;;
         esac
-        [ "$i" = "/etc/rc1.d/S00single" ] &#38;&#38; continue
-  # ==&#62; Set script name, but don't execute it yet.
+        [ "$i" = "/etc/rc1.d/S00single" ] &amp;&amp; continue
+  # ==&gt; Set script name, but don't execute it yet.
         $i start
 done
 
-  # ==&#62; . . .</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><DIV
-CLASS="IMPORTANT"
-><P
-></P
-><TABLE
-CLASS="IMPORTANT"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/important.gif"
-HSPACE="5"
-ALT="Important"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The <A
-HREF="exit-status.html#EXITSTATUSREF"
->exit
-	  status</A
-> of an <TT
-CLASS="USERINPUT"
-><B
->and list</B
-></TT
-> or an
-	  <TT
-CLASS="USERINPUT"
-><B
->or list</B
-></TT
-> is the exit status of the last
-	  command executed.</P
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Clever combinations of <I
-CLASS="FIRSTTERM"
->and</I
-> and
-	<I
-CLASS="FIRSTTERM"
->or</I
-> lists are possible, but the logic may
-	easily become convoluted and require close attention to <A
-HREF="opprecedence.html#OPPRECEDENCE1"
->operator precedence rules</A
->, and
-	possibly extensive debugging.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->false &#38;&#38; true || echo false         # false
+  # ==&gt; . . .</font></pre>
+        </td>
+      </tr>
+    </table>
+    <div class="IMPORTANT">
+      <table class="IMPORTANT" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/important.gif" hspace="5" alt="Important"></td>
+          <td align="left" valign="top">
+            <p>The <a href="exit-status.html#EXITSTATUSREF">exit status</a> of an <tt class="USERINPUT"><b>and list</b></tt> or an <tt class="USERINPUT"><b>or list</b></tt> is the exit status of the last command executed.</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>Clever combinations of <i class="FIRSTTERM">and</i> and <i class="FIRSTTERM">or</i> lists are possible, but the logic may easily become convoluted and require close attention to <a href="opprecedence.html#OPPRECEDENCE1">operator precedence rules</a>, and possibly extensive debugging.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">false &amp;&amp; true || echo false         # false
 
 # Same result as
-( false &#38;&#38; true ) || echo false     # false
+( false &amp;&amp; true ) || echo false     # false
 # But NOT
-false &#38;&#38; ( true || echo false )     # (nothing echoed)
+false &amp;&amp; ( true || echo false )     # (nothing echoed)
 
 #  Note left-to-right grouping and evaluation of statements.
 
 #  It's usually best to avoid such complexities.
 
-#  Thanks, S.C.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	</P
-><P
->See <A
-HREF="contributed-scripts.html#DAYSBETWEEN"
->Example A-7</A
-> and <A
-HREF="fto.html#BROKENLINK"
->Example 7-4</A
-> for illustrations of using <TT
-CLASS="USERINPUT"
-><B
->and
-	/ or list</B
-></TT
-> constructs to test variables.</P
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="aliases.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="arrays.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Aliases</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="part5.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Arrays</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+#  Thanks, S.C.</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>See <a href="contributed-scripts.html#DAYSBETWEEN">Example A-7</a> and <a href="fto.html#BROKENLINK">Example 7-4</a> for illustrations of using <tt class="USERINPUT"><b>and / or list</b></tt> constructs to test variables.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="aliases.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="arrays.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Aliases</td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Arrays</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,172 +1,48 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Subshells</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Advanced Topics"
-HREF="part5.html"><LINK
-REL="PREVIOUS"
-TITLE="Applications"
-HREF="redirapps.html"><LINK
-REL="NEXT"
-TITLE="Restricted Shells"
-HREF="restricted-sh.html"></HEAD
-><BODY
-CLASS="CHAPTER"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="redirapps.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="restricted-sh.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="CHAPTER"
-><H1
-><A
-NAME="SUBSHELLS"
-></A
->Chapter 21. Subshells</H1
-><P
-><A
-NAME="SUBSHELLSREF"
-></A
-></P
-><P
->Running a shell script launches a new process, a
-        <I
-CLASS="FIRSTTERM"
->subshell</I
->.</P
-><TABLE
-CLASS="SIDEBAR"
-BORDER="1"
-CELLPADDING="5"
-><TR
-><TD
-><DIV
-CLASS="SIDEBAR"
-><A
-NAME="AEN18083"
-></A
-><P
-></P
-><P
-><TT
-CLASS="USERINPUT"
-><B
->Definition:</B
-></TT
->
-          A <I
-CLASS="FIRSTTERM"
->subshell</I
-> is a
-          <A
-HREF="othertypesv.html#CHILDREF2"
->child process</A
-> launched by a
-          shell (or <I
-CLASS="FIRSTTERM"
->shell script</I
->).</P
-><P
-></P
-></DIV
-></TD
-></TR
-></TABLE
-><P
->A subshell is a separate instance of the command processor
-        -- the <I
-CLASS="FIRSTTERM"
->shell</I
-> that gives you the prompt at
-        the console or in an <I
-CLASS="FIRSTTERM"
->xterm</I
-> window. Just
-        as your commands are interpreted at the command-line prompt,
-        similarly does a script <A
-HREF="timedate.html#BATCHPROCREF"
->batch-process</A
-> a list of
-        commands. Each shell script running is, in effect, a subprocess
-        (<I
-CLASS="FIRSTTERM"
->child process</I
->) of the <A
-HREF="internal.html#FORKREF"
->parent</A
-> shell.</P
-><P
->A shell script can itself launch subprocesses. These
-	<I
-CLASS="FIRSTTERM"
->subshells</I
-> let the script do
-	parallel processing, in effect executing multiple subtasks
-	simultaneously.</P
-><P
->      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Subshells</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="Applications" href="redirapps.html">
+  <link rel="NEXT" title="Restricted Shells" href="restricted-sh.html">
+</head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="redirapps.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="restricted-sh.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="SUBSHELLS" id="SUBSHELLS"></a>Chapter 21. Subshells</h1>
+    <p><a name="SUBSHELLSREF" id="SUBSHELLSREF"></a></p>
+    <p>Running a shell script launches a new process, a <i class="FIRSTTERM">subshell</i>.</p>
+    <table class="SIDEBAR" border="1" cellpadding="5">
+      <tr>
+        <td>
+          <div class="SIDEBAR">
+            <a name="AEN18083" id="AEN18083"></a>
+            <p><tt class="USERINPUT"><b>Definition:</b></tt> A <i class="FIRSTTERM">subshell</i> is a <a href="othertypesv.html#CHILDREF2">child process</a> launched by a shell (or <i class="FIRSTTERM">shell script</i>).</p>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <p>A subshell is a separate instance of the command processor -- the <i class="FIRSTTERM">shell</i> that gives you the prompt at the console or in an <i class="FIRSTTERM">xterm</i> window. Just as your commands are interpreted at the command-line prompt, similarly does a script <a href="timedate.html#BATCHPROCREF">batch-process</a> a list of commands. Each shell script running is, in effect, a subprocess (<i class="FIRSTTERM">child process</i>) of the <a href="internal.html#FORKREF">parent</a> shell.</p>
+    <p>A shell script can itself launch subprocesses. These <i class="FIRSTTERM">subshells</i> let the script do parallel processing, in effect executing multiple subtasks simultaneously.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # subshell-test.sh
 
 (
@@ -200,107 +76,28 @@ Analysis:
 PID 2698, the script, launched PID 2699, the subshell.
 
 Note: The "UID ..." line would be filtered out by the "grep" command,
-but is shown here for illustrative purposes.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-      </P
-><P
->In general, an <A
-HREF="external.html#EXTERNALREF"
->external
-	command</A
-> in a script <A
-HREF="internal.html#FORKREF"
->forks
-	off</A
-> a subprocess,
-           <A
-NAME="AEN18102"
-HREF="#FTN.AEN18102"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
->
-        whereas a Bash <A
-HREF="internal.html#BUILTINREF"
->builtin</A
->
-        does not. For this reason, builtins execute more quickly
-        and use fewer system resources than their external command
-        equivalents.</P
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="SUBSHELLPARENS1"
-></A
->Command List within
-	Parentheses</B
-></P
-><DL
-><DT
->( command1; command2; command3; ... )</DT
-><DD
-><P
->A command list embedded between
-	  <TT
-CLASS="REPLACEABLE"
-><I
->parentheses</I
-></TT
-> runs as a
-	  subshell.</P
-></DD
-></DL
-></DIV
-><P
-><A
-NAME="PARVIS"
-></A
->Variables in a subshell are
-        <EM
->not</EM
-> visible outside the block of code
-        in the subshell. They are not accessible to the <A
-HREF="internal.html#FORKREF"
->parent process</A
->, to the shell
-        that launched the subshell. These are, in effect,
-        variables <A
-HREF="localvar.html#LOCALREF"
->local</A
-> to the
-	<I
-CLASS="FIRSTTERM"
->child process</I
->.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="SUBSHELL"
-></A
-><P
-><B
->Example 21-1. Variable scope in a subshell</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+but is shown here for illustrative purposes.</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>In general, an <a href="external.html#EXTERNALREF">external command</a> in a script <a href="internal.html#FORKREF">forks off</a> a subprocess, <a name="AEN18102" href="#FTN.AEN18102" id="AEN18102"><span class="footnote">[1]</span></a> whereas a Bash <a href="internal.html#BUILTINREF">builtin</a> does not. For this reason, builtins execute more quickly and use fewer system resources than their external command equivalents.</p>
+    <div class="VARIABLELIST">
+      <p><b><a name="SUBSHELLPARENS1" id="SUBSHELLPARENS1"></a>Command List within Parentheses</b></p>
+      <dl>
+        <dt>( command1; command2; command3; ... )</dt>
+        <dd>
+          <p>A command list embedded between <tt class="REPLACEABLE"><i>parentheses</i></tt> runs as a subshell.</p>
+        </dd>
+      </dl>
+    </div>
+    <p><a name="PARVIS" id="PARVIS"></a>Variables in a subshell are <em>not</em> visible outside the block of code in the subshell. They are not accessible to the <a href="internal.html#FORKREF">parent process</a>, to the shell that launched the subshell. These are, in effect, variables <a href="localvar.html#LOCALREF">local</a> to the <i class="FIRSTTERM">child process</i>.</p>
+    <div class="EXAMPLE">
+      <a name="SUBSHELL" id="SUBSHELL"></a>
+      <p><b>Example 21-1. Variable scope in a subshell</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # subshell.sh
 
 echo
@@ -368,123 +165,34 @@ exit 0
 #  --------
 #  Once having exited a subshell,
 #+ is there any way to reenter that very same subshell
-#+ to modify or access the subshell variables?</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->See also <A
-HREF="internalvariables.html#BASHPIDREF"
->$BASHPID</A
-> and
-        <A
-HREF="gotchas.html#SUBPIT"
->Example 34-2</A
->.</P
-><TABLE
-CLASS="SIDEBAR"
-BORDER="1"
-CELLPADDING="5"
-><TR
-><TD
-><DIV
-CLASS="SIDEBAR"
-><A
-NAME="AEN18127"
-></A
-><P
-></P
-><P
-><A
-NAME="SCOPEREF"
-></A
-></P
-><P
-><TT
-CLASS="USERINPUT"
-><B
->Definition:</B
-></TT
-> The
-	    <I
-CLASS="FIRSTTERM"
->scope</I
-> of a variable is the
-	    context in which it has meaning, in which it has a
-	    <I
-CLASS="FIRSTTERM"
->value</I
-> that can be referenced. For
-	    example, the scope of a <A
-HREF="localvar.html#LOCALREF1"
->local
-	    variable</A
-> lies only within the function,
-	    block of code, or subshell within which it is defined,
-	    while the scope of a <I
-CLASS="FIRSTTERM"
->global</I
-> variable
-	    is the entire script in which it appears.</P
-><P
-></P
-></DIV
-></TD
-></TR
-></TABLE
-><P
-><A
-NAME="SUBSHNLEVREF"
-></A
-></P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->While the <A
-HREF="internalvariables.html#BASHSUBSHELLREF"
->$BASH_SUBSHELL</A
->
-	      internal variable indicates the nesting level of a
-	      subshell, the <A
-HREF="internalvariables.html#SHLVLREF"
->$SHLVL</A
->
-	      variable <EM
->shows no change</EM
-> within
-	      a subshell.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->echo " \$BASH_SUBSHELL outside subshell       = $BASH_SUBSHELL"           # 0
+#+ to modify or access the subshell variables?</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>See also <a href="internalvariables.html#BASHPIDREF">$BASHPID</a> and <a href="gotchas.html#SUBPIT">Example 34-2</a>.</p>
+    <table class="SIDEBAR" border="1" cellpadding="5">
+      <tr>
+        <td>
+          <div class="SIDEBAR">
+            <a name="AEN18127" id="AEN18127"></a>
+            <p><a name="SCOPEREF" id="SCOPEREF"></a></p>
+            <p><tt class="USERINPUT"><b>Definition:</b></tt> The <i class="FIRSTTERM">scope</i> of a variable is the context in which it has meaning, in which it has a <i class="FIRSTTERM">value</i> that can be referenced. For example, the scope of a <a href="localvar.html#LOCALREF1">local variable</a> lies only within the function, block of code, or subshell within which it is defined, while the scope of a <i class="FIRSTTERM">global</i> variable is the entire script in which it appears.</p>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <p><a name="SUBSHNLEVREF" id="SUBSHNLEVREF"></a></p>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>While the <a href="internalvariables.html#BASHSUBSHELLREF">$BASH_SUBSHELL</a> internal variable indicates the nesting level of a subshell, the <a href="internalvariables.html#SHLVLREF">$SHLVL</a> variable <em>shows no change</em> within a subshell.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">echo " \$BASH_SUBSHELL outside subshell       = $BASH_SUBSHELL"           # 0
   ( echo " \$BASH_SUBSHELL inside subshell        = $BASH_SUBSHELL" )     # 1
   ( ( echo " \$BASH_SUBSHELL inside nested subshell = $BASH_SUBSHELL" ) ) # 2
 # ^ ^                           *** nested ***                        ^ ^
@@ -492,40 +200,22 @@ CLASS="PROGRAMLISTING"
 echo
 
 echo " \$SHLVL outside subshell = $SHLVL"       # 3
-( echo " \$SHLVL inside subshell  = $SHLVL" )   # 3 (No change!)</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-            </P
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Directory changes made in a subshell do not carry over to the
-        parent shell.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="ALLPROFS"
-></A
-><P
-><B
->Example 21-2. List User Profiles</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+( echo " \$SHLVL inside subshell  = $SHLVL" )   # 3 (No change!)</font></pre>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>Directory changes made in a subshell do not carry over to the parent shell.</p>
+    <div class="EXAMPLE">
+      <a name="ALLPROFS" id="ALLPROFS"></a>
+      <p><b>Example 21-2. List User Profiles</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # allprofs.sh: Print all user profiles.
 
 # This script written by Heiner Steven, and modified by the document author.
@@ -537,35 +227,22 @@ for home in `awk -F: '{print $6}' /etc/passwd`
 do
   [ -d "$home" ] || continue    # If no home directory, go to next.
   [ -r "$home" ] || continue    # If not readable, go to next.
-  (cd $home; [ -e $FILE ] &#38;&#38; less $FILE)
+  (cd $home; [ -e $FILE ] &amp;&amp; less $FILE)
 done
 
 #  When script terminates, there is no need to 'cd' back to original directory,
 #+ because 'cd $home' takes place in a subshell.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->A subshell may be used to set up a <SPAN
-CLASS="QUOTE"
->"dedicated
-	      environment"</SPAN
-> for a command group.
-	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->COMMAND1
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>A subshell may be used to set up a <span class="QUOTE">"dedicated environment"</span> for a command group.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">COMMAND1
 COMMAND2
 COMMAND3
 (
@@ -580,38 +257,15 @@ COMMAND3
 )
 # The parent shell has not been affected, and the environment is preserved.
 COMMAND6
-COMMAND7</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-
-    As seen here, the <A
-HREF="internal.html#EXITREF"
->exit</A
->
-    command only terminates the subshell in which it is running,
-    <EM
->not</EM
-> the parent shell or script.</P
-><P
->One application of such a <SPAN
-CLASS="QUOTE"
->"dedicated environment"</SPAN
->
-        is testing whether a variable is defined.
-              <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->if (set -u; : $variable) 2&#62; /dev/null
+COMMAND7</font></pre>
+        </td>
+      </tr>
+    </table>As seen here, the <a href="internal.html#EXITREF">exit</a> command only terminates the subshell in which it is running, <em>not</em> the parent shell or script.
+    <p>One application of such a <span class="QUOTE">"dedicated environment"</span> is testing whether a variable is defined.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">if (set -u; : $variable) 2&gt; /dev/null
 then
   echo "Variable is set."
 fi     #  Variable has been set in current script,
@@ -621,25 +275,15 @@ fi     #  Variable has been set in current script,
 # Could also be written [[ ${variable-x} != x || ${variable-y} != y ]]
 # or                    [[ ${variable-x} != x$variable ]]
 # or                    [[ ${variable+x} = x ]]
-# or                    [[ ${variable-x} != x ]]</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->Another application is checking for a lock file:
-	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->if (set -C; : &#62; lock_file) 2&#62; /dev/null
+# or                    [[ ${variable-x} != x ]]</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>Another application is checking for a lock file:</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">if (set -C; : &gt; lock_file) 2&gt; /dev/null
 then
   :   # lock_file didn't exist: no user running the script
 else
@@ -647,220 +291,82 @@ else
 exit 65
 fi
 
-#  Code snippet by Stéphane Chazelas,
-#+ with modifications by Paulo Marcel Coelho Aragao.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-      </P
-><P
->+</P
-><P
->Processes may execute in parallel within different
-        subshells. This permits breaking a complex task into subcomponents
-        processed concurrently.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="PARALLEL-PROCESSES"
-></A
-><P
-><B
->Example 21-3. Running parallel processes in subshells</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->	(cat list1 list2 list3 | sort | uniq &#62; list123) &#38;
-	(cat list4 list5 list6 | sort | uniq &#62; list456) &#38;
-	# Merges and sorts both sets of lists simultaneously.
-	# Running in background ensures parallel execution.
-	#
-	# Same effect as
-	#   cat list1 list2 list3 | sort | uniq &#62; list123 &#38;
-	#   cat list4 list5 list6 | sort | uniq &#62; list456 &#38;
-	
-	wait   # Don't execute the next command until subshells finish.
-	
-	diff list123 list456</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Redirecting I/O to a subshell uses the <SPAN
-CLASS="QUOTE"
->"|"</SPAN
-> pipe
-	  operator, as in <TT
-CLASS="USERINPUT"
-><B
->ls -al | (command)</B
-></TT
->.</P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->A code block between <A
-HREF="special-chars.html#CODEBLOCKREF"
->curly brackets</A
-> does
-	      <EM
->not</EM
-> launch a subshell.</P
-><P
->{ command1; command2; command3; . . . commandN; }</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->var1=23
+#  Code snippet by Stï¿½phane Chazelas,
+#+ with modifications by Paulo Marcel Coelho Aragao.</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>+</p>
+    <p>Processes may execute in parallel within different subshells. This permits breaking a complex task into subcomponents processed concurrently.</p>
+    <div class="EXAMPLE">
+      <a name="PARALLEL-PROCESSES" id="PARALLEL-PROCESSES"></a>
+      <p><b>Example 21-3. Running parallel processes in subshells</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">       (cat list1 list2 list3 | sort | uniq &gt; list123) &amp;
+        (cat list4 list5 list6 | sort | uniq &gt; list456) &amp;
+        # Merges and sorts both sets of lists simultaneously.
+        # Running in background ensures parallel execution.
+        #
+        # Same effect as
+        #   cat list1 list2 list3 | sort | uniq &gt; list123 &amp;
+        #   cat list4 list5 list6 | sort | uniq &gt; list456 &amp;
+        
+        wait   # Don't execute the next command until subshells finish.
+        
+        diff list123 list456</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>Redirecting I/O to a subshell uses the <span class="QUOTE">"|"</span> pipe operator, as in <tt class="USERINPUT"><b>ls -al | (command)</b></tt>.</p>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>A code block between <a href="special-chars.html#CODEBLOCKREF">curly brackets</a> does <em>not</em> launch a subshell.</p>
+            <p>{ command1; command2; command3; . . . commandN; }</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">var1=23
 echo "$var1"   # 23
 
 { var1=76; }
-echo "$var1"   # 76</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></TD
-></TR
-></TABLE
-></DIV
-></DIV
-><H3
-CLASS="FOOTNOTES"
->Notes</H3
-><TABLE
-BORDER="0"
-CLASS="FOOTNOTES"
-WIDTH="100%"
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN18102"
-HREF="subshells.html#AEN18102"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->An external command invoked with an <A
-HREF="internal.html#EXECREF"
->exec</A
-> does <EM
->not</EM
->
-             (usually) fork off a subprocess / subshell.</P
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="redirapps.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="restricted-sh.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Applications</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="part5.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Restricted Shells</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+echo "$var1"   # 76</font></pre>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN18102" href="subshells.html#AEN18102" id="FTN.AEN18102"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>An external command invoked with an <a href="internal.html#EXECREF">exec</a> does <em>not</em> (usually) fork off a subprocess / subshell.</p>
+      </td>
+    </tr>
+  </table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="redirapps.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="restricted-sh.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Applications</td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Restricted Shells</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

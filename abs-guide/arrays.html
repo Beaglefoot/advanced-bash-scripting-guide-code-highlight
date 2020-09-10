@@ -1,141 +1,40 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Arrays</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Advanced Topics"
-HREF="part5.html"><LINK
-REL="PREVIOUS"
-TITLE="List Constructs"
-HREF="list-cons.html"><LINK
-REL="NEXT"
-TITLE="Indirect References"
-HREF="ivr.html"></HEAD
-><BODY
-CLASS="CHAPTER"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="list-cons.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="ivr.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="CHAPTER"
-><H1
-><A
-NAME="ARRAYS"
-></A
->Chapter 27. Arrays</H1
-><P
-><A
-NAME="ARRAYREF"
-></A
-></P
-><P
->Newer versions of Bash support one-dimensional arrays.
-        <A
-NAME="BRACKARRAY"
-></A
->
-	Array elements may be initialized with the
-	<TT
-CLASS="USERINPUT"
-><B
->variable[xx]</B
-></TT
-> notation. Alternatively,
-	a script may introduce the entire array by an explicit
-	<TT
-CLASS="USERINPUT"
-><B
->declare -a variable</B
-></TT
-> statement. To
-	dereference (retrieve the contents of) an array element, use
-	<I
-CLASS="FIRSTTERM"
->curly bracket</I
-> notation, that is,
-	<TT
-CLASS="USERINPUT"
-><B
->${element[xx]}</B
-></TT
->.</P
-><P
-><A
-NAME="ARRAYNOTATION"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX66"
-></A
-><P
-><B
->Example 27-1. Simple array usage</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Arrays</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="List Constructs" href="list-cons.html">
+  <link rel="NEXT" title="Indirect References" href="ivr.html">
+</head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="list-cons.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="ivr.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="ARRAYS" id="ARRAYS"></a>Chapter 27. Arrays</h1>
+    <p><a name="ARRAYREF" id="ARRAYREF"></a></p>
+    <p>Newer versions of Bash support one-dimensional arrays. <a name="BRACKARRAY" id="BRACKARRAY"></a> Array elements may be initialized with the <tt class="USERINPUT"><b>variable[xx]</b></tt> notation. Alternatively, a script may introduce the entire array by an explicit <tt class="USERINPUT"><b>declare -a variable</b></tt> statement. To dereference (retrieve the contents of) an array element, use <i class="FIRSTTERM">curly bracket</i> notation, that is, <tt class="USERINPUT"><b>${element[xx]}</b></tt>.</p>
+    <p><a name="ARRAYNOTATION" id="ARRAYNOTATION"></a></p>
+    <div class="EXAMPLE">
+      <a name="EX66" id="EX66"></a>
+      <p><b>Example 27-1. Simple array usage</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 
 area[11]=23
@@ -210,78 +109,35 @@ echo -n "area3[24] = "
 echo ${area3[24]}
 # -----------------------------------------------
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="ARRAYINIT0"
-></A
-></P
-><P
->As we have seen, a convenient way of initializing an entire array
-        is the <TT
-CLASS="VARNAME"
->array=( element1 element2 ... elementN )</TT
->
-	notation.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->base64_charset=( {A..Z} {a..z} {0..9} + / = )
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><a name="ARRAYINIT0" id="ARRAYINIT0"></a></p>
+    <p>As we have seen, a convenient way of initializing an entire array is the <tt class="VARNAME">array=( element1 element2 ... elementN )</tt> notation.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">base64_charset=( {A..Z} {a..z} {0..9} + / = )
                #  Using extended brace expansion
                #+ to initialize the elements of the array.                
                #  Excerpted from vladz's "base64.sh" script
-               #+ in the "Contributed Scripts" appendix.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
-><A
-NAME="ARRAYOPSVARS"
-></A
-></P
-><TABLE
-CLASS="SIDEBAR"
-BORDER="1"
-CELLPADDING="5"
-><TR
-><TD
-><DIV
-CLASS="SIDEBAR"
-><A
-NAME="AEN18812"
-></A
-><P
-></P
-><P
->Bash permits array operations on variables, even if
-        the variables are not explicitly declared as arrays.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->string=abcABC123ABCabc
+               #+ in the "Contributed Scripts" appendix.</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p><a name="ARRAYOPSVARS" id="ARRAYOPSVARS"></a></p>
+    <table class="SIDEBAR" border="1" cellpadding="5">
+      <tr>
+        <td>
+          <div class="SIDEBAR">
+            <a name="AEN18812" id="AEN18812"></a>
+            <p>Bash permits array operations on variables, even if the variables are not explicitly declared as arrays.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">string=abcABC123ABCabc
 echo ${string[@]}               # abcABC123ABCabc
 echo ${string[*]}               # abcABC123ABCabc 
 echo ${string[0]}               # abcABC123ABCabc
@@ -291,44 +147,21 @@ echo ${#string[@]}              # 1
                                 # One element in the array.
                                 # The string itself.
 
-# Thank you, Michael Zick, for pointing this out.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-      Once again this demonstrates that <A
-HREF="untyped.html#BVUNTYPED"
->Bash
-      variables are untyped</A
->.
-      </P
-><P
-></P
-></DIV
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="POEM"
-></A
-><P
-><B
->Example 27-2. Formatting a poem</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# Thank you, Michael Zick, for pointing this out.</font></pre>
+                </td>
+              </tr>
+            </table>Once again this demonstrates that <a href="untyped.html#BVUNTYPED">Bash variables are untyped</a>.
+          </div>
+        </td>
+      </tr>
+    </table>
+    <div class="EXAMPLE">
+      <a name="POEM" id="POEM"></a>
+      <p><b>Example 27-2. Formatting a poem</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # poem.sh: Pretty-prints one of the ABS Guide author's favorite poems.
 
 # Lines of the poem (single stanza).
@@ -367,41 +200,20 @@ exit 0
 
 # Exercise:
 # --------
-# Modify this script to pretty-print a poem from a text data file.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="ARRAYSYNTAX"
-></A
-></P
-><P
->Array variables have a syntax all their own, and even
-	standard Bash commands and operators have special options adapted
-	for array use.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="ARRAYOPS"
-></A
-><P
-><B
->Example 27-3. Various array operations</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# Modify this script to pretty-print a poem from a text data file.</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><a name="ARRAYSYNTAX" id="ARRAYSYNTAX"></a></p>
+    <p>Array variables have a syntax all their own, and even standard Bash commands and operators have special options adapted for array use.</p>
+    <div class="EXAMPLE">
+      <a name="ARRAYOPS" id="ARRAYOPS"></a>
+      <p><b>Example 27-3. Various array operations</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # array-ops.sh: More fun with arrays.
 
 
@@ -447,43 +259,20 @@ echo ${array2[3]}      # fourth element
 echo ${#array2[0]}     # 13    (length of first element)
 echo ${#array2[*]}     # 3     (number of elements in array)
 
-exit</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="ARRAYSTRINGOPS"
-></A
-></P
-><P
->Many of the standard <A
-HREF="string-manipulation.html#STRINGMANIP"
->string
-       operations</A
-> work on arrays.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="ARRAYSTROPS"
-></A
-><P
-><B
->Example 27-4. String operations on arrays</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><a name="ARRAYSTRINGOPS" id="ARRAYSTRINGOPS"></a></p>
+    <p>Many of the standard <a href="string-manipulation.html#STRINGMANIP">string operations</a> work on arrays.</p>
+    <div class="EXAMPLE">
+      <a name="ARRAYSTROPS" id="ARRAYSTROPS"></a>
+      <p><b>Example 27-4. String operations on arrays</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # array-strops.sh: String operations on arrays.
 
 # Script by Michael Zick.
@@ -600,38 +389,19 @@ exit 0
 #+   can read a function's stdout.
 #    The name[@] notation specifies (the equivalent of) a "for-each"
 #+   operation.
-#  Bash is more powerful than you think!</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-HREF="commandsub.html#COMMANDSUBREF"
->Command substitution</A
-> can
-        construct the individual elements of an array.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="SCRIPTARRAY"
-></A
-><P
-><B
->Example 27-5. Loading the contents of a script into an array</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#  Bash is more powerful than you think!</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><a href="commandsub.html#COMMANDSUBREF">Command substitution</a> can construct the individual elements of an array.</p>
+    <div class="EXAMPLE">
+      <a name="SCRIPTARRAY" id="SCRIPTARRAY"></a>
+      <p><b>Example 27-5. Loading the contents of a script into an array</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # script-array.sh: Loads this script into an array.
 # Inspired by an e-mail from Chris Martin (thanks!).
 
@@ -659,50 +429,20 @@ exit 0
 # --------
 #  Modify this script so it lists itself
 #+ in its original format,
-#+ complete with whitespace, line breaks, etc.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->In an array context, some Bash <A
-HREF="internal.html#BUILTINREF"
->builtins</A
-> have a slightly
-	altered meaning. <A
-NAME="ARRAYUNSET"
-></A
->For example, <A
-HREF="internal.html#UNSETREF"
->unset</A
-> deletes array elements, or even
-	an entire array.</P
-><P
-><A
-NAME="ARRAYSPECIALPROPS"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX67"
-></A
-><P
-><B
->Example 27-6. Some special properties of arrays</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#+ complete with whitespace, line breaks, etc.</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>In an array context, some Bash <a href="internal.html#BUILTINREF">builtins</a> have a slightly altered meaning. <a name="ARRAYUNSET" id="ARRAYUNSET"></a>For example, <a href="internal.html#UNSETREF">unset</a> deletes array elements, or even an entire array.</p>
+    <p><a name="ARRAYSPECIALPROPS" id="ARRAYSPECIALPROPS"></a></p>
+    <div class="EXAMPLE">
+      <a name="EX67" id="EX67"></a>
+      <p><b>Example 27-6. Some special properties of arrays</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 declare -a colors
 #  All subsequent commands in this script will treat
@@ -761,76 +501,24 @@ echo  ${colors[@]}           # List array again, missing 2nd element.
 unset colors                 # Delete entire array.
                              #  unset colors[*] and
                              #+ unset colors[@] also work.
-echo; echo -n "Colors gone."			   
+echo; echo -n "Colors gone."                       
 echo ${colors[@]}            # List array again, now empty.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="ARRAYNUMELEMENTS"
-></A
-></P
-><P
->As seen in the previous example, either
-	<B
-CLASS="COMMAND"
->${array_name[@]}</B
-> or
-	<B
-CLASS="COMMAND"
->${array_name[*]}</B
-> refers to
-	<EM
->all</EM
-> the elements of the array.
-	Similarly, to get a count of the number of elements in an
-	array, use either <B
-CLASS="COMMAND"
->${#array_name[@]}</B
->
-	or <B
-CLASS="COMMAND"
->${#array_name[*]}</B
->.
-	<B
-CLASS="COMMAND"
->${#array_name}</B
-> is the length (number of
-	characters) of <B
-CLASS="COMMAND"
->${array_name[0]}</B
->, the first
-	element of the array.</P
-><P
-><A
-NAME="EMPTYARRAY0"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EMPTYARRAY"
-></A
-><P
-><B
->Example 27-7. Of empty arrays and empty elements</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><a name="ARRAYNUMELEMENTS" id="ARRAYNUMELEMENTS"></a></p>
+    <p>As seen in the previous example, either <b class="COMMAND">${array_name[@]}</b> or <b class="COMMAND">${array_name[*]}</b> refers to <em>all</em> the elements of the array. Similarly, to get a count of the number of elements in an array, use either <b class="COMMAND">${#array_name[@]}</b> or <b class="COMMAND">${#array_name[*]}</b>. <b class="COMMAND">${#array_name}</b> is the length (number of characters) of <b class="COMMAND">${array_name[0]}</b>, the first element of the array.</p>
+    <p><a name="EMPTYARRAY0" id="EMPTYARRAY0"></a></p>
+    <div class="EXAMPLE">
+      <a name="EMPTYARRAY" id="EMPTYARRAY"></a>
+      <p><b>Example 27-7. Of empty arrays and empty elements</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # empty-array.sh
 
 #  Thanks to Stephane Chazelas for the original example,
@@ -905,7 +593,7 @@ echo "New stack height for array2 = $height"
 ListArray
 
 # List only 2nd and 3rd elements of array0.
-from=1		    # Zero-based numbering.
+from=1              # Zero-based numbering.
 to=2
 array3=( ${array0[@]:1:2} )
 echo
@@ -986,43 +674,17 @@ echo "Elements in array10:  ${array10[@]}"
 #+ parameter expansion and *before* quote removal.
 #  In the normal case, pattern matching is done *after* quote removal.
  
-exit</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->The relationship of <B
-CLASS="COMMAND"
->${array_name[@]}</B
->
-	and <B
-CLASS="COMMAND"
->${array_name[*]}</B
-> is analogous to that
-	between <A
-HREF="internalvariables.html#APPREF"
->$@ and $*</A
->. This powerful
-	array notation has a number of uses.</P
-><P
-><A
-NAME="COPYARRAY0"
-></A
-></P
-><P
->      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># Copying an array.
+exit</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>The relationship of <b class="COMMAND">${array_name[@]}</b> and <b class="COMMAND">${array_name[*]}</b> is analogous to that between <a href="internalvariables.html#APPREF">$@ and $*</a>. This powerful array notation has a number of uses.</p>
+    <p><a name="COPYARRAY0" id="COPYARRAY0"></a></p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000"># Copying an array.
 array2=( "${array1[@]}" )
 # or
 array2="${array1[@]}"
@@ -1047,61 +709,21 @@ array=( "${array[@]}" "new element" )
 # or
 array[${#array[*]}]="new element"
 
-# Thanks, S.C.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-      </P
-><P
-><A
-NAME="ARRAYINITCS"
-></A
-></P
-><DIV
-CLASS="TIP"
-><P
-></P
-><TABLE
-CLASS="TIP"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/tip.gif"
-HSPACE="5"
-ALT="Tip"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The <B
-CLASS="COMMAND"
->array=( element1 element2 ... elementN )</B
->
-	initialization operation, with the help of <A
-HREF="commandsub.html#COMMANDSUBREF"
->command substitution</A
->, makes it
-	possible to load the contents of a text file into an array.</P
-><P
->  	
-      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# Thanks, S.C.</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p><a name="ARRAYINITCS" id="ARRAYINITCS"></a></p>
+    <div class="TIP">
+      <table class="TIP" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/tip.gif" hspace="5" alt="Tip"></td>
+          <td align="left" valign="top">
+            <p>The <b class="COMMAND">array=( element1 element2 ... elementN )</b> initialization operation, with the help of <a href="commandsub.html#COMMANDSUBREF">command substitution</a>, makes it possible to load the contents of a text file into an array.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 filename=sample_file
 
@@ -1128,44 +750,23 @@ echo ${array1[@]}            # List the array.
 #+ has been assigned to an element of the array.
 
 element_count=${#array1[*]}
-echo $element_count          # 8</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-      </P
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Clever scripting makes it possible to add array operations.</P
-><P
-><A
-NAME="ARRAYASSIGN0"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="ARRAYASSIGN"
-></A
-><P
-><B
->Example 27-8. Initializing arrays</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#! /bin/bash
+echo $element_count          # 8</font></pre>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>Clever scripting makes it possible to add array operations.</p>
+    <p><a name="ARRAYASSIGN0" id="ARRAYASSIGN0"></a></p>
+    <div class="EXAMPLE">
+      <a name="ARRAYASSIGN" id="ARRAYASSIGN"></a>
+      <p><b>Example 27-8. Initializing arrays</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#! /bin/bash
 # array-assign.bash
 
 #  Array operations are Bash-specific,
@@ -1182,8 +783,8 @@ CLASS="PROGRAMLISTING"
 #+ Advanced Bash Scripting Guide.
 
 # Output format of the 'times' command:
-# User CPU &#60;space&#62; System CPU
-# User CPU of dead children &#60;space&#62; System CPU of dead children
+# User CPU &lt;space&gt; System CPU
+# User CPU of dead children &lt;space&gt; System CPU of dead children
 
 #  Bash has two versions of assigning all elements of an array
 #+ to a new array variable.
@@ -1252,74 +853,35 @@ times
 #+ the execution of the following sections of the script.
 #  Try it, and see.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->Adding a superfluous <B
-CLASS="COMMAND"
->declare -a</B
->
-	statement to an array declaration may speed up execution of
-	subsequent operations on the array.</P
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="ARRAYAPPEND0"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="COPYARRAY"
-></A
-><P
-><B
->Example 27-9. Copying and concatenating arrays</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#! /bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>Adding a superfluous <b class="COMMAND">declare -a</b> statement to an array declaration may speed up execution of subsequent operations on the array.</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><a name="ARRAYAPPEND0" id="ARRAYAPPEND0"></a></p>
+    <div class="EXAMPLE">
+      <a name="COPYARRAY" id="COPYARRAY"></a>
+      <p><b>Example 27-9. Copying and concatenating arrays</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#! /bin/bash
 # CopyArray.sh
 #
 # This script written by Michael Zick.
 # Used here with permission.
 
-#  How-To "Pass by Name &#38; Return by Name"
+#  How-To "Pass by Name &amp; Return by Name"
 #+ or "Building your own assignment statement".
 
 
@@ -1377,32 +939,18 @@ echo "Array Modest = ${modest[@]}"
 
 echo "Array Before = ${before[@]}"
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="ARRAYAPPEND"
-></A
-><P
-><B
->Example 27-10. More on concatenating arrays</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#! /bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="ARRAYAPPEND" id="ARRAYAPPEND"></a>
+      <p><b>Example 27-10. More on concatenating arrays</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#! /bin/bash
 # array-append.bash
 
 # Copyright (c) Michael S. Zick, 2003, All rights reserved.
@@ -1429,7 +977,7 @@ declare -a array2=( [0]=zero2 [2]=two2 [3]=three2 )
 echo
 echo '- Confirm that the array is really subscript sparse. -'
 echo "Number of elements: 4"        # Hard-coded for illustration.
-for (( i = 0 ; i &#60; 4 ; i++ ))
+for (( i = 0 ; i &lt; 4 ; i++ ))
 do
     echo "Element [$i]: ${array2[$i]}"
 done
@@ -1453,7 +1001,7 @@ echo '- - Testing Array Append - -'
 cnt=${#dest[@]}
 
 echo "Number of elements: $cnt"
-for (( i = 0 ; i &#60; cnt ; i++ ))
+for (( i = 0 ; i &lt; cnt ; i++ ))
 do
     echo "Element [$i]: ${dest[$i]}"
 done
@@ -1468,7 +1016,7 @@ echo '- - Testing modified array - -'
 cnt=${#dest[@]}
 
 echo "Number of elements: $cnt"
-for (( i = 0 ; i &#60; cnt ; i++ ))
+for (( i = 0 ; i &lt; cnt ; i++ ))
 do
     echo "Element [$i]: ${dest[$i]}"
 done
@@ -1481,7 +1029,7 @@ declare -a subArray=${dest[1]}
 cnt=${#subArray[@]}
 
 echo "Number of elements: $cnt"
-for (( i = 0 ; i &#60; cnt ; i++ ))
+for (( i = 0 ; i &lt; cnt ; i++ ))
 do
     echo "Element [$i]: ${subArray[$i]}"
 done
@@ -1503,7 +1051,7 @@ declare -a subArray=( ${dest[1]} )
 cnt=${#subArray[@]}
 
 echo "Number of elements: $cnt"
-for (( i = 0 ; i &#60; cnt ; i++ ))
+for (( i = 0 ; i &lt; cnt ; i++ ))
 do
     echo "Element [$i]: ${subArray[$i]}"
 done
@@ -1513,43 +1061,21 @@ echo '- - in versions of Bash newer than version 2.05b - -'
 
 # MSZ: Sorry about any earlier confusion folks.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->--</P
-><P
->Arrays permit deploying old familiar algorithms as shell scripts.
-        Whether this is necessarily a good idea is left for the reader to
-	decide.</P
-><P
-><A
-NAME="BUBBLESORT"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="BUBBLE"
-></A
-><P
-><B
->Example 27-11. The Bubble Sort</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>--</p>
+    <p>Arrays permit deploying old familiar algorithms as shell scripts. Whether this is necessarily a good idea is left for the reader to decide.</p>
+    <p><a name="BUBBLESORT" id="BUBBLESORT"></a></p>
+    <div class="EXAMPLE">
+      <a name="BUBBLE" id="BUBBLE"></a>
+      <p><b>Example 27-11. The Bubble Sort</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # bubble.sh: Bubble sort, of sorts.
 
 # Recall the algorithm for a bubble sort. In this particular version...
@@ -1606,12 +1132,12 @@ do
 
   while [ "$index" -lt "$comparisons" ] # Beginning of inner loop
   do
-    if [ ${Countries[$index]} \&#62; ${Countries[`expr $index + 1`]} ]
+    if [ ${Countries[$index]} \&gt; ${Countries[`expr $index + 1`]} ]
     #  If out of order...
-    #  Recalling that \&#62; is ASCII comparison operator
+    #  Recalling that \&gt; is ASCII comparison operator
     #+ within single brackets.
 
-    #  if [[ ${Countries[$index]} &#62; ${Countries[`expr $index + 1`]} ]]
+    #  if [[ ${Countries[$index]} &gt; ${Countries[`expr $index + 1`]} ]]
     #+ also works.
     then
       exchange $index `expr $index + 1`  # Swap.
@@ -1622,13 +1148,13 @@ do
 # ----------------------------------------------------------------------
 # Paulo Marcel Coelho Aragao suggests for-loops as a simpler altenative.
 #
-# for (( last = $number_of_elements - 1 ; last &#62; 0 ; last-- ))
+# for (( last = $number_of_elements - 1 ; last &gt; 0 ; last-- ))
 ##                     Fix by C.Y. Hunt          ^   (Thanks!)
 # do
-#     for (( i = 0 ; i &#60; last ; i++ ))
+#     for (( i = 0 ; i &lt; last ; i++ ))
 #     do
-#         [[ "${Countries[$i]}" &#62; "${Countries[$((i+1))]}" ]] \
-#             &#38;&#38; exchange $i $((i+1))
+#         [[ "${Countries[$i]}" &gt; "${Countries[$((i+1))]}" ]] \
+#             &amp;&amp; exchange $i $((i+1))
 #     done
 # done
 # ----------------------------------------------------------------------
@@ -1645,41 +1171,26 @@ let "count += 1"                # Increment pass count.
 done                            # End of outer loop
                                 # All done.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->--</P
-><P
-><A
-NAME="ARRAYNEST"
-></A
-></P
-><P
->Is it possible to nest arrays within arrays?</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>--</p>
+    <p><a name="ARRAYNEST" id="ARRAYNEST"></a></p>
+    <p>Is it possible to nest arrays within arrays?</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # "Nested" array.
 
 #  Michael Zick provided this example,
 #+ with corrections and clarifications by William Park.
 
 AnArray=( $(ls --inode --ignore-backups --almost-all \
-	--directory --full-time --color=none --time=status \
-	--sort=time -l ${PWD} ) )  # Commands and options.
+        --directory --full-time --color=none --time=status \
+        --sort=time -l ${PWD} ) )  # Commands and options.
 
 # Spaces are significant . . . and don't quote anything in the above.
 
@@ -1696,45 +1207,20 @@ SubArray=( ${AnArray[@]:11:1}  ${AnArray[@]:6:5} )
 echo "Current directory and date of last status change:"
 echo "${SubArray[@]}"
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->--</P
-><P
->Embedded arrays in combination with <A
-HREF="bashver2.html#VARREFNEW"
->indirect references</A
-> create some fascinating
-	possibilities</P
-><P
-><A
-NAME="ARRAYINDIR"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EMBARR"
-></A
-><P
-><B
->Example 27-12. Embedded arrays and indirect references</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>--</p>
+    <p>Embedded arrays in combination with <a href="bashver2.html#VARREFNEW">indirect references</a> create some fascinating possibilities</p>
+    <p><a name="ARRAYINDIR" id="ARRAYINDIR"></a></p>
+    <div class="EXAMPLE">
+      <a name="EMBARR" id="EMBARR"></a>
+      <p><b>Example 27-12. Embedded arrays and indirect references</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # embedded-arrays.sh
 # Embedded arrays and indirect references.
 
@@ -1762,8 +1248,8 @@ function print () {
         TEST1="ARRAY2[*]"
         local ${!TEST1} # See what happens if you delete this line.
         #  Indirect reference.
-	#  This makes the components of $TEST1
-	#+ accessible to this function.
+        #  This makes the components of $TEST1
+        #+ accessible to this function.
 
 
         #  Let's see what we've got so far.
@@ -1780,7 +1266,7 @@ function print () {
 
         # Print variable
         echo "Variable VARIABLE: $VARIABLE"
-	
+        
         # Print a string element
         IFS="$OLD_IFS"
         TEST2="STRING[*]"
@@ -1800,48 +1286,21 @@ exit 0
 
 #   As the author of the script notes,
 #+ "you can easily expand it to create named-hashes in bash."
-#   (Difficult) exercise for the reader: implement this.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->--</P
-><P
-><A
-NAME="PRIMES0"
-></A
-></P
-><P
->Arrays enable implementing a shell script version of the
-	<I
-CLASS="FIRSTTERM"
->Sieve of Eratosthenes</I
->. Of course, a
-	resource-intensive application of this nature should really be
-	written in a compiled language, such as C. It runs excruciatingly
-	slowly as a script.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX68"
-></A
-><P
-><B
->Example 27-13. The Sieve of Eratosthenes</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#   (Difficult) exercise for the reader: implement this.</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>--</p>
+    <p><a name="PRIMES0" id="PRIMES0"></a></p>
+    <p>Arrays enable implementing a shell script version of the <i class="FIRSTTERM">Sieve of Eratosthenes</i>. Of course, a resource-intensive application of this nature should really be written in a compiled language, such as C. It runs excruciatingly slowly as a script.</p>
+    <div class="EXAMPLE">
+      <a name="EX68" id="EX68"></a>
+      <p><b>Example 27-13. The Sieve of Eratosthenes</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # sieve.sh (ex68.sh)
 
 # Sieve of Eratosthenes
@@ -1961,12 +1420,12 @@ let SPLIT=UPPER_LIMIT/2         # Halfway to max number.
 Primes=( '' $(seq $UPPER_LIMIT) )
 
 i=1
-until (( ( i += 1 ) &#62; SPLIT ))  # Need check only halfway.
+until (( ( i += 1 ) &gt; SPLIT ))  # Need check only halfway.
 do
   if [[ -n ${Primes[i]} ]]
   then
     t=$i
-    until (( ( t += i ) &#62; UPPER_LIMIT ))
+    until (( ( t += i ) &gt; UPPER_LIMIT ))
     do
       Primes[t]=
     done
@@ -1974,32 +1433,18 @@ do
 done  
 echo ${Primes[*]}
 
-exit $?</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX68A"
-></A
-><P
-><B
->Example 27-14. The Sieve of Eratosthenes, Optimized</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit $?</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="EX68A" id="EX68A"></a>
+      <p><b>Example 27-14. The Sieve of Eratosthenes, Optimized</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # Optimized Sieve of Eratosthenes
 # Script by Jared Martin, with very minor changes by ABS Guide author.
 # Used in ABS Guide with permission (thanks!).
@@ -2011,7 +1456,7 @@ CLASS="PROGRAMLISTING"
 # Check results against http://primes.utm.edu/lists/small/1000.txt
 
 # Necessary but not sufficient would be, e.g.,
-#     (($(sieve 7919 | wc -w) == 1000)) &#38;&#38; echo "7919 is the 1000th prime"
+#     (($(sieve 7919 | wc -w) == 1000)) &amp;&amp; echo "7919 is the 1000th prime"
 
 UPPER_LIMIT=${1:?"Need an upper limit of primes to search."}
 
@@ -2019,12 +1464,12 @@ Primes=( '' $(seq ${UPPER_LIMIT}) )
 
 typeset -i i t
 Primes[i=1]='' # 1 is not a prime.
-until (( ( i += 1 ) &#62; (${UPPER_LIMIT}/i) ))  # Need check only ith-way.
+until (( ( i += 1 ) &gt; (${UPPER_LIMIT}/i) ))  # Need check only ith-way.
   do                                         # Why?
     if ((${Primes[t=i*(i-1), i]}))
     # Obscure, but instructive, use of arithmetic expansion in subscript.
     then
-      until (( ( t += i ) &#62; ${UPPER_LIMIT} ))
+      until (( ( t += i ) &gt; ${UPPER_LIMIT} ))
         do Primes[t]=; done
     fi
   done
@@ -2034,52 +1479,22 @@ echo   # Change to original script for pretty-printing (80-col. display).
 printf "%8d" ${Primes[*]}
 echo; echo
 
-exit $?</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Compare these array-based prime number generators with
-        alternatives that do not use arrays, <A
-HREF="contributed-scripts.html#PRIMES"
->Example A-15</A
->,
-        and <A
-HREF="mathc.html#PRIMES2"
->Example 16-46</A
->.</P
-><P
->--</P
-><P
->Arrays lend themselves, to some extent, to emulating data
-        structures for which Bash has no native support.</P
-><P
-><A
-NAME="STACKEX0"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="STACKEX"
-></A
-><P
-><B
->Example 27-15. Emulating a push-down stack</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit $?</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>Compare these array-based prime number generators with alternatives that do not use arrays, <a href="contributed-scripts.html#PRIMES">Example A-15</a>, and <a href="mathc.html#PRIMES2">Example 16-46</a>.</p>
+    <p>--</p>
+    <p>Arrays lend themselves, to some extent, to emulating data structures for which Bash has no native support.</p>
+    <p><a name="STACKEX0" id="STACKEX0"></a></p>
+    <div class="EXAMPLE">
+      <a name="STACKEX" id="STACKEX"></a>
+      <p><b>Example 27-15. Emulating a push-down stack</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # stack.sh: push-down stack simulation
 
 #  Similar to the CPU stack, a push-down stack stores data items
@@ -2097,11 +1512,11 @@ Data=             #  Contents of stack location.
                   #+ because of limitation on function return range.
 
 
-                  # 100     Base pointer       &#60;-- Base Pointer
+                  # 100     Base pointer       &lt;-- Base Pointer
                   #  99     First data item
                   #  98     Second data item
                   # ...     More data
-                  #         Last data item     &#60;-- Stack pointer
+                  #         Last data item     &lt;-- Stack pointer
 
 
 declare -a stack
@@ -2197,49 +1612,25 @@ exit 0
 #   + and take appropriate action.
 
 # 4)  Using this script as a starting point,
-#   + write a stack-based 4-function calculator.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->--</P
-><P
->Fancy manipulation of array <SPAN
-CLASS="QUOTE"
->"subscripts"</SPAN
-> may require
-        intermediate variables. For projects involving this, again consider
-	using a more powerful programming language, such as Perl or C.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="QFUNCTION"
-></A
-><P
-><B
->Example 27-16. Complex array application:
-             <EM
->Exploring a weird mathematical series</EM
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#   + write a stack-based 4-function calculator.</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>--</p>
+    <p>Fancy manipulation of array <span class="QUOTE">"subscripts"</span> may require intermediate variables. For projects involving this, again consider using a more powerful programming language, such as Perl or C.</p>
+    <div class="EXAMPLE">
+      <a name="QFUNCTION" id="QFUNCTION"></a>
+      <p><b>Example 27-16. Complex array application: <em>Exploring a weird mathematical series</em></b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 # Douglas Hofstadter's notorious "Q-series":
 
 # Q(1) = Q(2) = 1
-# Q(n) = Q(n - Q(n-1)) + Q(n - Q(n-2)), for n&#62;2
+# Q(n) = Q(n - Q(n-1)) + Q(n - Q(n-2)), for n&gt;2
 
 #  This is a "chaotic" integer series with strange
 #+ and unpredictable behavior.
@@ -2261,8 +1652,8 @@ echo "Q-series [$LIMIT terms]:"
 echo -n "${Q[1]} "             # Output first two terms.
 echo -n "${Q[2]} "
 
-for ((n=3; n &#60;= $LIMIT; n++))  # C-like loop expression.
-do   # Q[n] = Q[n - Q[n-1]] + Q[n - Q[n-2]]  for n&#62;2
+for ((n=3; n &lt;= $LIMIT; n++))  # C-like loop expression.
+do   # Q[n] = Q[n - Q[n-1]] + Q[n - Q[n-2]]  for n&gt;2
 #    Need to break the expression into intermediate terms,
 #+   since Bash doesn't handle complex array arithmetic very well.
 
@@ -2292,42 +1683,21 @@ exit 0
 #  This is an iterative implementation of the Q-series.
 #  The more intuitive recursive implementation is left as an exercise.
 #  Warning: calculating this series recursively takes a VERY long time
-#+ via a script. C/C++ would be orders of magnitude faster.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->--</P
-><P
-><A
-NAME="ARRAYMULTIDIM"
-></A
-></P
-><P
->Bash supports only one-dimensional arrays, though a little
-        trickery permits simulating multi-dimensional ones.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="TWODIM"
-></A
-><P
-><B
->Example 27-17. Simulating a two-dimensional array, then tilting it</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#+ via a script. C/C++ would be orders of magnitude faster.</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>--</p>
+    <p><a name="ARRAYMULTIDIM" id="ARRAYMULTIDIM"></a></p>
+    <p>Bash supports only one-dimensional arrays, though a little trickery permits simulating multi-dimensional ones.</p>
+    <div class="EXAMPLE">
+      <a name="TWODIM" id="TWODIM"></a>
+      <p><b>Example 27-17. Simulating a two-dimensional array, then tilting it</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # twodim.sh: Simulating a two-dimensional array.
 
 # A one-dimensional array consists of a single row.
@@ -2398,7 +1768,7 @@ filter ()     # Filter out negative array indices.
 echo -n "  "  # Provides the tilt.
               # Explain how.
 
-if [[ "$1" -ge 0 &#38;&#38;  "$1" -lt "$Rows" &#38;&#38; "$2" -ge 0 &#38;&#38; "$2" -lt "$Columns" ]]
+if [[ "$1" -ge 0 &amp;&amp;  "$1" -lt "$Rows" &amp;&amp; "$2" -ge 0 &amp;&amp; "$2" -lt "$Columns" ]]
 then
     let "index = $1 * $Rows + $2"
     # Now, print it rotated.
@@ -2416,10 +1786,10 @@ rotate ()  #  Rotate the array 45 degrees --
 local row
 local column
 
-for (( row = Rows; row &#62; -Rows; row-- ))
+for (( row = Rows; row &gt; -Rows; row-- ))
   do       # Step through the array backwards. Why?
 
-  for (( column = 0; column &#60; Columns; column++ ))
+  for (( column = 0; column &lt; Columns; column++ ))
   do
 
     if [ "$row" -ge 0 ]
@@ -2468,145 +1838,50 @@ exit 0
 #
 # 3)  Rewrite this script to handle a non-square array,
 #     such as a 6 X 4 one.
-#     Try to minimize "distortion" when the array is rotated.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->A two-dimensional array is essentially equivalent to a
-	one-dimensional one, but with additional addressing modes
-	for referencing and manipulating the individual elements by
-	<I
-CLASS="FIRSTTERM"
->row</I
-> and <I
-CLASS="FIRSTTERM"
->column</I
->
-	position.</P
-><P
->For an even more elaborate example of simulating a
-        two-dimensional array, see <A
-HREF="contributed-scripts.html#LIFESLOW"
->Example A-10</A
->.</P
-><P
->--</P
-><P
->For more interesting scripts using arrays, see:
-       <P
-></P
-><UL
-><LI
-><P
-><A
-HREF="commandsub.html#AGRAM2"
->Example 12-3</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="mathc.html#PRIMES2"
->Example 16-46</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="contributed-scripts.html#HASHEX2"
->Example A-22</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="contributed-scripts.html#HOMEWORK"
->Example A-44</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="contributed-scripts.html#QKY"
->Example A-41</A
-></P
-></LI
-><LI
-><P
-><A
-HREF="contributed-scripts.html#NIM"
->Example A-42</A
-></P
-></LI
-></UL
->
-     </P
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="list-cons.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="ivr.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->List Constructs</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="part5.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Indirect References</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+#     Try to minimize "distortion" when the array is rotated.</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>A two-dimensional array is essentially equivalent to a one-dimensional one, but with additional addressing modes for referencing and manipulating the individual elements by <i class="FIRSTTERM">row</i> and <i class="FIRSTTERM">column</i> position.</p>
+    <p>For an even more elaborate example of simulating a two-dimensional array, see <a href="contributed-scripts.html#LIFESLOW">Example A-10</a>.</p>
+    <p>--</p>
+    <p>For more interesting scripts using arrays, see:</p>
+    <ul>
+      <li>
+        <p><a href="commandsub.html#AGRAM2">Example 12-3</a></p>
+      </li>
+      <li>
+        <p><a href="mathc.html#PRIMES2">Example 16-46</a></p>
+      </li>
+      <li>
+        <p><a href="contributed-scripts.html#HASHEX2">Example A-22</a></p>
+      </li>
+      <li>
+        <p><a href="contributed-scripts.html#HOMEWORK">Example A-44</a></p>
+      </li>
+      <li>
+        <p><a href="contributed-scripts.html#QKY">Example A-41</a></p>
+      </li>
+      <li>
+        <p><a href="contributed-scripts.html#NIM">Example A-42</a></p>
+      </li>
+    </ul>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="list-cons.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="ivr.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">List Constructs</td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Indirect References</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

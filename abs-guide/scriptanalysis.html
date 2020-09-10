@@ -1,102 +1,40 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Analyzing Scripts</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Exercises"
-HREF="exercises.html"><LINK
-REL="PREVIOUS"
-TITLE="Exercises"
-HREF="exercises.html"><LINK
-REL="NEXT"
-TITLE="Writing Scripts"
-HREF="writingscripts.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="exercises.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Appendix O. Exercises</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="writingscripts.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="SCRIPTANALYSIS"
-></A
->O.1. Analyzing Scripts</H1
-><P
->Examine the following script. Run it, then explain what it
-        does.  Annotate the script and rewrite it in a more compact and
-        elegant manner.</P
-><P
->       <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Analyzing Scripts</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Exercises" href="exercises.html">
+  <link rel="PREVIOUS" title="Exercises" href="exercises.html">
+  <link rel="NEXT" title="Writing Scripts" href="writingscripts.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="exercises.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Appendix O. Exercises</td>
+        <td width="10%" align="right" valign="bottom"><a href="writingscripts.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="SCRIPTANALYSIS" id="SCRIPTANALYSIS"></a>O.1. Analyzing Scripts</h1>
+    <p>Examine the following script. Run it, then explain what it does. Annotate the script and rewrite it in a more compact and elegant manner.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 MAX=10000
 
 
-  for((nr=1; nr&#60;$MAX; nr++))
+  for((nr=1; nr&lt;$MAX; nr++))
   do
 
     let "t1 = nr % 5"
@@ -124,30 +62,16 @@ MAX=10000
   echo "Number = $nr"
 
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-       </P
-><P
->---</P
-><P
->Explain what the following script does. It is really just
-        a parameterized command-line pipe.</P
-><P
->        <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>---</p>
+    <p>Explain what the following script does. It is really just a parameterized command-line pipe.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 DIRNAME=/usr/bin
 FILETYPE="shell script"
@@ -155,36 +79,16 @@ LOGFILE=logfile
 
 file "$DIRNAME"/* | fgrep "$FILETYPE" | tee $LOGFILE | wc -l
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-      </P
-><P
->---</P
-><P
->Examine and explain the following script. For hints, you
-        might refer to the listings for <A
-HREF="moreadv.html#FINDREF"
->find</A
-> and <A
-HREF="system.html#STATREF"
->stat</A
->.</P
-><P
->        <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>---</p>
+    <p>Examine and explain the following script. For hints, you might refer to the listings for <a href="moreadv.html#FINDREF">find</a> and <a href="system.html#STATREF">stat</a>.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 # Author:  Nathan Coulter
 # This code is released to the public domain.
@@ -198,197 +102,52 @@ find -maxdepth 1 -type f -printf '%f\000'  | {
 }
 
 # Warning: Test-drive this script in a "scratch" directory.
-# It will somehow affect all the files there.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-      </P
-><P
->---</P
-><P
->A reader sent in the following code snippet.</P
-><P
->         <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->while read LINE
+# It will somehow affect all the files there.</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>---</p>
+    <p>A reader sent in the following code snippet.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">while read LINE
 do
   echo $LINE
-done &#60; `tail -f /var/log/messages`</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	 </P
-><P
->He wished to write a script tracking changes to the system log
-	   file, <TT
-CLASS="FILENAME"
->/var/log/messages</TT
->. Unfortunately,
-	   the above code block hangs and does nothing
-	   useful. Why? Fix this so it does work. (Hint:
-	   rather than <A
-HREF="redircb.html#REDIRREF"
->redirecting the
-	   <TT
-CLASS="FILENAME"
->stdin</TT
-> of the loop</A
->, try a <A
-HREF="special-chars.html#PIPEREF"
->pipe</A
->.)</P
-><P
->---</P
-><P
->Analyze the following <SPAN
-CLASS="QUOTE"
->"one-liner"</SPAN
-> (here
-        split into two lines for clarity) contributed by Rory
-        Winston:</P
-><P
->      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->export SUM=0; for f in $(find src -name "*.java");
-do export SUM=$(($SUM + $(wc -l $f | awk '{ print $1 }'))); done; echo $SUM</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	 </P
-><P
->Hint: First, break the script up into bite-sized
-	sections. Then, carefully examine its use of <A
-HREF="dblparens.html"
->double-parentheses</A
-> arithmetic,
-	the <A
-HREF="internal.html#EXPORTREF"
->export</A
-> command,
-	the <A
-HREF="moreadv.html#FINDREF"
->find</A
-> command, the
-	<A
-HREF="textproc.html#WCREF"
->wc</A
-> command, and <A
-HREF="awk.html#AWKREF"
->awk</A
->.</P
-><P
->---</P
-><P
->Analyze <A
-HREF="contributed-scripts.html#LIFESLOW"
->Example A-10</A
->, and reorganize it in a
-	simplified and more logical style. See how many of the variables
-	can be eliminated, and try to optimize the script to speed up
-	its execution time.</P
-><P
->Alter the script so that it accepts any ordinary ASCII
-	text file as input for its initial <SPAN
-CLASS="QUOTE"
->"generation"</SPAN
->. The
-	script will read the first <TT
-CLASS="PARAMETER"
-><I
->$ROW*$COL</I
-></TT
->
-	characters, and set the occurrences of vowels as
-	<SPAN
-CLASS="QUOTE"
->"living"</SPAN
-> cells. Hint: be sure to translate the
-	spaces in the input file to underscore characters.</P
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="exercises.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="writingscripts.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Exercises</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="exercises.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Writing Scripts</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+done &lt; `tail -f /var/log/messages`</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>He wished to write a script tracking changes to the system log file, <tt class="FILENAME">/var/log/messages</tt>. Unfortunately, the above code block hangs and does nothing useful. Why? Fix this so it does work. (Hint: rather than <a href="redircb.html#REDIRREF">redirecting the <tt class="FILENAME">stdin</tt> of the loop</a>, try a <a href="special-chars.html#PIPEREF">pipe</a>.)</p>
+    <p>---</p>
+    <p>Analyze the following <span class="QUOTE">"one-liner"</span> (here split into two lines for clarity) contributed by Rory Winston:</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">export SUM=0; for f in $(find src -name "*.java");
+do export SUM=$(($SUM + $(wc -l $f | awk '{ print $1 }'))); done; echo $SUM</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>Hint: First, break the script up into bite-sized sections. Then, carefully examine its use of <a href="dblparens.html">double-parentheses</a> arithmetic, the <a href="internal.html#EXPORTREF">export</a> command, the <a href="moreadv.html#FINDREF">find</a> command, the <a href="textproc.html#WCREF">wc</a> command, and <a href="awk.html#AWKREF">awk</a>.</p>
+    <p>---</p>
+    <p>Analyze <a href="contributed-scripts.html#LIFESLOW">Example A-10</a>, and reorganize it in a simplified and more logical style. See how many of the variables can be eliminated, and try to optimize the script to speed up its execution time.</p>
+    <p>Alter the script so that it accepts any ordinary ASCII text file as input for its initial <span class="QUOTE">"generation"</span>. The script will read the first <tt class="PARAMETER"><i>$ROW*$COL</i></tt> characters, and set the occurrences of vowels as <span class="QUOTE">"living"</span> cells. Hint: be sure to translate the spaces in the input file to underscore characters.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="exercises.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="writingscripts.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Exercises</td>
+        <td width="34%" align="center" valign="top"><a href="exercises.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Writing Scripts</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

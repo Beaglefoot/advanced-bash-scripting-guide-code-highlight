@@ -1,226 +1,104 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->History Commands</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="PREVIOUS"
-TITLE="Localization"
-HREF="localization.html"><LINK
-REL="NEXT"
-TITLE="Sample .bashrc  and
-	    .bash_profile Files"
-HREF="sample-bashrc.html"></HEAD
-><BODY
-CLASS="APPENDIX"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="localization.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="sample-bashrc.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="APPENDIX"
-><H1
-><A
-NAME="HISTCOMMANDS"
-></A
->Appendix L. History Commands</H1
-><P
->The Bash shell provides command-line tools for editing and
-       manipulating a user's <I
-CLASS="FIRSTTERM"
->command history</I
->. This
-       is primarily a convenience, a means of saving keystrokes.</P
-><P
->Bash history commands:
-       <P
-></P
-><OL
-TYPE="1"
-><LI
-><P
-><B
-CLASS="COMMAND"
->history</B
-></P
-></LI
-><LI
-><P
-><B
-CLASS="COMMAND"
->fc</B
-></P
-></LI
-></OL
->
-     </P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->history</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->   1  mount /mnt/cdrom
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>History Commands</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="PREVIOUS" title="Localization" href="localization.html">
+  <link rel="NEXT" title="Sample .bashrc and .bash_profile Files" href="sample-bashrc.html">
+</head>
+<body class="APPENDIX" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="localization.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="sample-bashrc.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="APPENDIX">
+    <h1><a name="HISTCOMMANDS" id="HISTCOMMANDS"></a>Appendix L. History Commands</h1>
+    <p>The Bash shell provides command-line tools for editing and manipulating a user's <i class="FIRSTTERM">command history</i>. This is primarily a convenience, a means of saving keystrokes.</p>
+    <p>Bash history commands:</p>
+    <ol type="1">
+      <li>
+        <p><b class="COMMAND">history</b></p>
+      </li>
+      <li>
+        <p><b class="COMMAND">fc</b></p>
+      </li>
+    </ol>
+    <table border="1" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>history</b></tt>
+<tt class="COMPUTEROUTPUT">   1  mount /mnt/cdrom
     2  cd /mnt/cdrom
     3  ls
-     ...</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	    </P
-><P
->Internal variables associated with Bash history commands:
-       <P
-></P
-><OL
-TYPE="1"
-><LI
-><P
->$HISTCMD</P
-></LI
-><LI
-><P
->$HISTCONTROL</P
-></LI
-><LI
-><P
->$HISTIGNORE</P
-></LI
-><LI
-><P
->$HISTFILE</P
-></LI
-><LI
-><P
->$HISTFILESIZE</P
-></LI
-><LI
-><P
->$HISTSIZE</P
-></LI
-><LI
-><P
->$HISTTIMEFORMAT (Bash, ver. 3.0 or later)</P
-></LI
-><LI
-><P
->!!</P
-></LI
-><LI
-><P
->!$</P
-></LI
-><LI
-><P
->!#</P
-></LI
-><LI
-><P
->!N</P
-></LI
-><LI
-><P
->!-N</P
-></LI
-><LI
-><P
->!STRING</P
-></LI
-><LI
-><P
->!?STRING?</P
-></LI
-><LI
-><P
->^STRING^string^</P
-></LI
-></OL
->
-     </P
-><P
->Unfortunately, the Bash history tools find no use in
-       scripting.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+     ...</tt>
+              </font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>Internal variables associated with Bash history commands:</p>
+    <ol type="1">
+      <li>
+        <p>$HISTCMD</p>
+      </li>
+      <li>
+        <p>$HISTCONTROL</p>
+      </li>
+      <li>
+        <p>$HISTIGNORE</p>
+      </li>
+      <li>
+        <p>$HISTFILE</p>
+      </li>
+      <li>
+        <p>$HISTFILESIZE</p>
+      </li>
+      <li>
+        <p>$HISTSIZE</p>
+      </li>
+      <li>
+        <p>$HISTTIMEFORMAT (Bash, ver. 3.0 or later)</p>
+      </li>
+      <li>
+        <p>!!</p>
+      </li>
+      <li>
+        <p>!$</p>
+      </li>
+      <li>
+        <p>!#</p>
+      </li>
+      <li>
+        <p>!N</p>
+      </li>
+      <li>
+        <p>!-N</p>
+      </li>
+      <li>
+        <p>!STRING</p>
+      </li>
+      <li>
+        <p>!?STRING?</p>
+      </li>
+      <li>
+        <p>^STRING^string^</p>
+      </li>
+    </ol>
+    <p>Unfortunately, the Bash history tools find no use in scripting.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # history.sh
 # A (vain) attempt to use the 'history' command in a script.
 
@@ -234,118 +112,35 @@ var=$(history); echo "$var"  # $var is empty.
 #+ enables the history mechanism.
 
 set -o history
-var=$(history); echo "$var"   # 1  var=$(history)</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-     </P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->./history.sh</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->(no output)</TT
->	      
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	  </P
-><P
->The <A
-HREF="http://samrowe.com/wordpress/advancing-in-the-bash-shell/"
-TARGET="_top"
->Advancing
-	    in the Bash Shell</A
-> site gives a good introduction to
-	    the use of history commands in Bash.</P
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="localization.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="sample-bashrc.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Localization</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
->&nbsp;</TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Sample <TT
-CLASS="FILENAME"
->.bashrc</TT
->  and
-	    <TT
-CLASS="FILENAME"
->.bash_profile</TT
-> Files</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+var=$(history); echo "$var"   # 1  var=$(history)</font></pre>
+        </td>
+      </tr>
+    </table>
+    <table border="1" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>./history.sh</b></tt>
+<tt class="COMPUTEROUTPUT">(no output)</tt>             
+              </font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>The <a href="http://samrowe.com/wordpress/advancing-in-the-bash-shell/" target="_top">Advancing in the Bash Shell</a> site gives a good introduction to the use of history commands in Bash.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="localization.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="sample-bashrc.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Localization</td>
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+        <td width="33%" align="right" valign="top">Sample <tt class="FILENAME">.bashrc</tt> and <tt class="FILENAME">.bash_profile</tt> Files</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

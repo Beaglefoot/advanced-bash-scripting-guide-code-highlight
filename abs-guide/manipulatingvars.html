@@ -1,176 +1,58 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Manipulating Variables</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Beyond the Basics"
-HREF="part3.html"><LINK
-REL="PREVIOUS"
-TITLE="$RANDOM: generate random integer"
-HREF="randomvar.html"><LINK
-REL="NEXT"
-TITLE="Manipulating Strings"
-HREF="string-manipulation.html"></HEAD
-><BODY
-CLASS="CHAPTER"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="randomvar.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="string-manipulation.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="CHAPTER"
-><H1
-><A
-NAME="MANIPULATINGVARS"
-></A
->Chapter 10. Manipulating Variables</H1
-><DIV
-CLASS="TOC"
-><DL
-><DT
-><B
->Table of Contents</B
-></DT
-><DT
->10.1. <A
-HREF="string-manipulation.html"
->Manipulating Strings</A
-></DT
-><DD
-><DL
-><DT
->10.1.1. <A
-HREF="string-manipulation.html#AWKSTRINGMANIP"
->Manipulating strings using awk</A
-></DT
-><DT
->10.1.2. <A
-HREF="string-manipulation.html#STRFDISC"
->Further Reference</A
-></DT
-></DL
-></DD
-><DT
->10.2. <A
-HREF="parameter-substitution.html"
->Parameter Substitution</A
-></DT
-></DL
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="randomvar.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="string-manipulation.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->$RANDOM: generate random integer</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="part3.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Manipulating Strings</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Manipulating Variables</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Beyond the Basics" href="part3.html">
+  <link rel="PREVIOUS" title="$RANDOM: generate random integer" href="randomvar.html">
+  <link rel="NEXT" title="Manipulating Strings" href="string-manipulation.html">
+</head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="randomvar.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="string-manipulation.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="MANIPULATINGVARS" id="MANIPULATINGVARS"></a>Chapter 10. Manipulating Variables</h1>
+    <div class="TOC">
+      <dl>
+        <dt><b>Table of Contents</b></dt>
+        <dt>10.1. <a href="string-manipulation.html">Manipulating Strings</a></dt>
+        <dd>
+          <dl>
+            <dt>10.1.1. <a href="string-manipulation.html#AWKSTRINGMANIP">Manipulating strings using awk</a></dt>
+            <dt>10.1.2. <a href="string-manipulation.html#STRFDISC">Further Reference</a></dt>
+          </dl>
+        </dd>
+        <dt>10.2. <a href="parameter-substitution.html">Parameter Substitution</a></dt>
+      </dl>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="randomvar.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="string-manipulation.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">$RANDOM: generate random integer</td>
+        <td width="34%" align="center" valign="top"><a href="part3.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Manipulating Strings</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,207 +1,63 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Miscellaneous Commands</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="External Filters, Programs and Commands"
-HREF="external.html"><LINK
-REL="PREVIOUS"
-TITLE="Math Commands"
-HREF="mathc.html"><LINK
-REL="NEXT"
-TITLE="System and Administrative Commands"
-HREF="system.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="mathc.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 16. External Filters, Programs and Commands</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="system.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="EXTMISC"
-></A
->16.9. Miscellaneous Commands</H1
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="MISCCOMMANDLISTING1"
-></A
->Command that fit in no
-	   special category</B
-></P
-><DL
-><DT
-><A
-NAME="JOTREF"
-></A
-><B
-CLASS="COMMAND"
->jot</B
->, <A
-NAME="SEQREF"
-></A
-><B
-CLASS="COMMAND"
->seq</B
-></DT
-><DD
-><P
->These utilities emit a sequence of integers, with a
-	      user-selectable increment.</P
-><P
->The default separator character between each integer is a
-	      newline, but this can be changed with the <TT
-CLASS="OPTION"
->-s</TT
->
-	      option.</P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->seq 5</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->1
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Miscellaneous Commands</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="External Filters, Programs and Commands" href="external.html">
+  <link rel="PREVIOUS" title="Math Commands" href="mathc.html">
+  <link rel="NEXT" title="System and Administrative Commands" href="system.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="mathc.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 16. External Filters, Programs and Commands</td>
+        <td width="10%" align="right" valign="bottom"><a href="system.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="EXTMISC" id="EXTMISC"></a>16.9. Miscellaneous Commands</h1>
+    <div class="VARIABLELIST">
+      <p><b><a name="MISCCOMMANDLISTING1" id="MISCCOMMANDLISTING1"></a>Command that fit in no special category</b></p>
+      <dl>
+        <dt><a name="JOTREF" id="JOTREF"></a><b class="COMMAND">jot</b>, <a name="SEQREF" id="SEQREF"></a><b class="COMMAND">seq</b></dt>
+        <dd>
+          <p>These utilities emit a sequence of integers, with a user-selectable increment.</p>
+          <p>The default separator character between each integer is a newline, but this can be changed with the <tt class="OPTION">-s</tt> option.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>seq 5</b></tt>
+<tt class="COMPUTEROUTPUT">1
  2
  3
  4
- 5</TT
->
+ 5</tt>
 
 
 
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->seq -s : 5</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->1:2:3:4:5</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	    </P
-><P
->Both <B
-CLASS="COMMAND"
->jot</B
-> and <B
-CLASS="COMMAND"
->seq</B
->
-	      come in handy in a <A
-HREF="loops1.html#FORLOOPREF1"
->for
-	      loop</A
->.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX53"
-></A
-><P
-><B
->Example 16-54. Using <I
-CLASS="FIRSTTERM"
->seq</I
-> to generate loop
-	      arguments</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>seq -s : 5</b></tt>
+<tt class="COMPUTEROUTPUT">1:2:3:4:5</tt>
+              </font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>Both <b class="COMMAND">jot</b> and <b class="COMMAND">seq</b> come in handy in a <a href="loops1.html#FORLOOPREF1">for loop</a>.</p>
+          <div class="EXAMPLE">
+            <a name="EX53" id="EX53"></a>
+            <p><b>Example 16-54. Using <i class="FIRSTTERM">seq</i> to generate loop arguments</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # Using "seq"
 
 echo
@@ -253,26 +109,16 @@ done      # 45 50 55 60 65 70 75 80
 
 echo; echo
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->A simpler example:</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#  Create a set of 10 files,
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>A simpler example:</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">#  Create a set of 10 files,
 #+ named file.1, file.2 . . . file.10.
 COUNT=10
 PREFIX=file
@@ -282,32 +128,17 @@ do
   touch $PREFIX.$filename
   #  Or, can do other operations,
   #+ such as rm, grep, etc.
-done</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="LETTERCOUNT"
-></A
-><P
-><B
->Example 16-55. Letter Count"</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+done</font></pre>
+              </td>
+            </tr>
+          </table>
+          <div class="EXAMPLE">
+            <a name="LETTERCOUNT" id="LETTERCOUNT"></a>
+            <p><b>Example 16-55. Letter Count"</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # letter-count.sh: Counting letter occurrences in a text file.
 # Written by Stefano Palmeri.
 # Used in ABS Guide with permission.
@@ -322,11 +153,11 @@ let LETTERS=$#-1   # How many letters specified (as command-line args).
 
 
 show_help(){
-	   echo
+           echo
            echo Usage: `basename $0` file letters  
            echo Note: `basename $0` arguments are case sensitive.
            echo Example: `basename $0` foobar.txt G n U L i N U x.
-	   echo
+           echo
 }
 
 # Checks number of arguments.
@@ -351,7 +182,7 @@ fi
 for n in `seq $LETTERS`; do
       shift
       if [[ `echo -n "$1" | wc -c` -eq 1 ]]; then             #  Checks arg.
-             echo "$1" -\&#62; `cat $FILE | tr -cd  "$1" | wc -c` #  Counting.
+             echo "$1" -\&gt; `cat $FILE | tr -cd  "$1" | wc -c` #  Counting.
       else
              echo "$1 is not a  single char."
       fi  
@@ -361,160 +192,44 @@ exit $?
 
 #  This script has exactly the same functionality as letter-count2.sh,
 #+ but executes faster.
-#  Why?</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->Somewhat more capable than <I
-CLASS="FIRSTTERM"
->seq</I
->,
-	<B
-CLASS="COMMAND"
->jot</B
-> is a classic UNIX
-	utility that is not normally included in a standard Linux
-	distro. However, the source <I
-CLASS="FIRSTTERM"
->rpm</I
->
-	is available for download from the <A
-HREF="http://www.mit.edu/afs/athena/system/rhlinux/athena-9.0/free/SRPMS/athena-jot-9.0-3.src.rpm"
-TARGET="_top"
->	MIT repository</A
->.</P
-><P
-><A
-NAME="JOTRANDOM"
-></A
-></P
-><P
->Unlike <I
-CLASS="FIRSTTERM"
->seq</I
->, <B
-CLASS="COMMAND"
->jot</B
-> can
-        generate a sequence of random numbers, using the <TT
-CLASS="OPTION"
->-r</TT
->
-	option.</P
-><P
-><TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->jot -r 3 999</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->1069
+#  Why?</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>Somewhat more capable than <i class="FIRSTTERM">seq</i>, <b class="COMMAND">jot</b> is a classic UNIX utility that is not normally included in a standard Linux distro. However, the source <i class="FIRSTTERM">rpm</i> is available for download from the <a href="http://www.mit.edu/afs/athena/system/rhlinux/athena-9.0/free/SRPMS/athena-jot-9.0-3.src.rpm" target="_top">MIT repository</a>.</p>
+                  <p><a name="JOTRANDOM" id="JOTRANDOM"></a></p>
+                  <p>Unlike <i class="FIRSTTERM">seq</i>, <b class="COMMAND">jot</b> can generate a sequence of random numbers, using the <tt class="OPTION">-r</tt> option.</p>
+                  <table border="1" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>jot -r 3 999</b></tt>
+<tt class="COMPUTEROUTPUT">1069
  1272
- 1428</TT
-></PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-><DT
-><A
-NAME="GETOPTY"
-></A
-><B
-CLASS="COMMAND"
->getopt</B
-></DT
-><DD
-><P
->The <B
-CLASS="COMMAND"
->getopt</B
-> command
-	      parses command-line options preceded by a <A
-HREF="special-chars.html#DASHREF"
->dash</A
->. This external command
-	      corresponds to the <A
-HREF="internal.html#GETOPTSX"
->getopts</A
->
-	      Bash builtin. Using <B
-CLASS="COMMAND"
->getopt</B
-> permits
-	      handling long options by means of the <TT
-CLASS="OPTION"
->-l</TT
->
-	      flag, and this also allows parameter reshuffling.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX33A"
-></A
-><P
-><B
->Example 16-56. Using <I
-CLASS="FIRSTTERM"
->getopt</I
-> to parse command-line
-	        options</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+ 1428</tt></font></pre>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+        <dt><a name="GETOPTY" id="GETOPTY"></a><b class="COMMAND">getopt</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">getopt</b> command parses command-line options preceded by a <a href="special-chars.html#DASHREF">dash</a>. This external command corresponds to the <a href="internal.html#GETOPTSX">getopts</a> Bash builtin. Using <b class="COMMAND">getopt</b> permits handling long options by means of the <tt class="OPTION">-l</tt> flag, and this also allows parameter reshuffling.</p>
+          <div class="EXAMPLE">
+            <a name="EX33A" id="EX33A"></a>
+            <p><b>Example 16-56. Using <i class="FIRSTTERM">getopt</i> to parse command-line options</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # Using getopt
 
 # Try the following when invoking this script:
@@ -558,387 +273,92 @@ done
 #  It is usually better to use the 'getopts' builtin in a script.
 #  See "ex33.sh."
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->As <EM
->Peggy Russell</EM
-> points out:</P
-><P
->It is often necessary to include an <A
-HREF="internal.html#EVALREF"
->eval</A
-> to correctly process
-              <A
-HREF="special-chars.html#WHITESPACEREF"
->whitespace</A
-> and
-	      <I
-CLASS="FIRSTTERM"
->quotes</I
->.
-	        <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->args=$(getopt -o a:bc:d -- "$@")
-eval set -- "$args"</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></TD
-></TR
-></TABLE
-></DIV
-><P
->See <A
-HREF="string-manipulation.html#GETOPTSIMPLE"
->Example 10-5</A
-> for a simplified emulation
-	      of <B
-CLASS="COMMAND"
->getopt</B
->.</P
-></DD
-><DT
-><A
-NAME="RUNPARTSREF"
-></A
-><B
-CLASS="COMMAND"
->run-parts</B
-></DT
-><DD
-><P
->The <B
-CLASS="COMMAND"
->run-parts</B
-> command
-
-		<A
-NAME="AEN14105"
-HREF="#FTN.AEN14105"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
->
-	      
-	      executes all the scripts in a target directory, sequentially
-	      in ASCII-sorted filename order. Of course, the scripts
-	      need to have execute permission.</P
-><P
->The <A
-HREF="system.html#CRONREF"
->cron</A
-> <A
-HREF="communications.html#DAEMONREF"
->daemon</A
-> invokes
-	      <B
-CLASS="COMMAND"
->run-parts</B
-> to run the scripts in
-	      the <TT
-CLASS="FILENAME"
->/etc/cron.*</TT
->
-	      directories.</P
-></DD
-><DT
-><A
-NAME="YESREF"
-></A
-><B
-CLASS="COMMAND"
->yes</B
-></DT
-><DD
-><P
->In its default behavior the <B
-CLASS="COMMAND"
->yes</B
->
-	      command feeds a continuous string of the character
-	      <TT
-CLASS="COMPUTEROUTPUT"
->y</TT
-> followed
-	      by a line feed to <TT
-CLASS="FILENAME"
->stdout</TT
->. A
-	      <B
-CLASS="KEYCAP"
->control</B
->-<B
-CLASS="KEYCAP"
->C</B
->
-	      terminates the run. A different output string
-	      may be specified, as in <TT
-CLASS="USERINPUT"
-><B
->yes different
-	      string</B
-></TT
->, which would continually output
-	      <TT
-CLASS="COMPUTEROUTPUT"
->different string</TT
-> to
-	      <TT
-CLASS="FILENAME"
->stdout</TT
->.</P
-><P
->One might well ask the purpose of this. From the
-	      command-line or in a script, the output of
-	      <B
-CLASS="COMMAND"
->yes</B
-> can be redirected or piped into a
-	      program expecting user input. In effect, this becomes a sort
-	      of poor man's version of <I
-CLASS="FIRSTTERM"
->expect</I
->.</P
-><P
-><TT
-CLASS="USERINPUT"
-><B
->yes | fsck /dev/hda1</B
-></TT
-> runs
-	      <B
-CLASS="COMMAND"
->fsck</B
-> non-interactively (careful!).</P
-><P
-><TT
-CLASS="USERINPUT"
-><B
->yes | rm -r dirname</B
-></TT
-> has same effect as
-	     <TT
-CLASS="USERINPUT"
-><B
->rm -rf dirname</B
-></TT
-> (careful!).</P
-><DIV
-CLASS="WARNING"
-><P
-></P
-><TABLE
-CLASS="WARNING"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/warning.gif"
-HSPACE="5"
-ALT="Warning"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->Caution advised when piping
-	     <I
-CLASS="FIRSTTERM"
->yes</I
-> to a potentially dangerous
-	     system command, such as <A
-HREF="system.html#FSCKREF"
->fsck</A
->
-	     or <A
-HREF="system.html#FDISKREF"
->fdisk</A
->. It might have
-	     unintended consequences.</P
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The <I
-CLASS="FIRSTTERM"
->yes</I
-> command parses variables,
-	       or more accurately, it echoes parsed variables.
-	       For example:</P
-><P
->	        <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->yes $BASH_VERSION</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->3.1.17(1)-release
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>As <em>Peggy Russell</em> points out:</p>
+                  <p>It is often necessary to include an <a href="internal.html#EVALREF">eval</a> to correctly process <a href="special-chars.html#WHITESPACEREF">whitespace</a> and <i class="FIRSTTERM">quotes</i>.</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="PROGRAMLISTING"><font color="#000000">args=$(getopt -o a:bc:d -- "$@")
+eval set -- "$args"</font></pre>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>See <a href="string-manipulation.html#GETOPTSIMPLE">Example 10-5</a> for a simplified emulation of <b class="COMMAND">getopt</b>.</p>
+        </dd>
+        <dt><a name="RUNPARTSREF" id="RUNPARTSREF"></a><b class="COMMAND">run-parts</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">run-parts</b> command <a name="AEN14105" href="#FTN.AEN14105" id="AEN14105"><span class="footnote">[1]</span></a> executes all the scripts in a target directory, sequentially in ASCII-sorted filename order. Of course, the scripts need to have execute permission.</p>
+          <p>The <a href="system.html#CRONREF">cron</a> <a href="communications.html#DAEMONREF">daemon</a> invokes <b class="COMMAND">run-parts</b> to run the scripts in the <tt class="FILENAME">/etc/cron.*</tt> directories.</p>
+        </dd>
+        <dt><a name="YESREF" id="YESREF"></a><b class="COMMAND">yes</b></dt>
+        <dd>
+          <p>In its default behavior the <b class="COMMAND">yes</b> command feeds a continuous string of the character <tt class="COMPUTEROUTPUT">y</tt> followed by a line feed to <tt class="FILENAME">stdout</tt>. A <b class="KEYCAP">control</b>-<b class="KEYCAP">C</b> terminates the run. A different output string may be specified, as in <tt class="USERINPUT"><b>yes different string</b></tt>, which would continually output <tt class="COMPUTEROUTPUT">different string</tt> to <tt class="FILENAME">stdout</tt>.</p>
+          <p>One might well ask the purpose of this. From the command-line or in a script, the output of <b class="COMMAND">yes</b> can be redirected or piped into a program expecting user input. In effect, this becomes a sort of poor man's version of <i class="FIRSTTERM">expect</i>.</p>
+          <p><tt class="USERINPUT"><b>yes | fsck /dev/hda1</b></tt> runs <b class="COMMAND">fsck</b> non-interactively (careful!).</p>
+          <p><tt class="USERINPUT"><b>yes | rm -r dirname</b></tt> has same effect as <tt class="USERINPUT"><b>rm -rf dirname</b></tt> (careful!).</p>
+          <div class="WARNING">
+            <table class="WARNING" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/warning.gif" hspace="5" alt="Warning"></td>
+                <td align="left" valign="top">
+                  <p>Caution advised when piping <i class="FIRSTTERM">yes</i> to a potentially dangerous system command, such as <a href="system.html#FSCKREF">fsck</a> or <a href="system.html#FDISKREF">fdisk</a>. It might have unintended consequences.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>The <i class="FIRSTTERM">yes</i> command parses variables, or more accurately, it echoes parsed variables. For example:</p>
+                  <table border="1" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>yes $BASH_VERSION</b></tt>
+<tt class="COMPUTEROUTPUT">3.1.17(1)-release
  3.1.17(1)-release
  3.1.17(1)-release
  3.1.17(1)-release
  3.1.17(1)-release
- . . .</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	        </P
-><P
->	       This particular <SPAN
-CLASS="QUOTE"
->"feature"</SPAN
-> may be used
-	       to create a <EM
->very large</EM
-> ASCII file on the fly:
-	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->yes $PATH &#62; huge_file.txt</B
-></TT
->
-<TT
-CLASS="USERINPUT"
-><B
->Ctl-C</B
-></TT
->	      
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	      Hit <TT
-CLASS="USERINPUT"
-><B
->Ctl-C</B
-></TT
-> <EM
->very
-	      quickly</EM
->, or you just might get more than you
-	      bargained for. . . .
-	      </P
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="YESEMU"
-></A
->The <I
-CLASS="FIRSTTERM"
->yes</I
->
-	     command may be emulated in a very simple script <A
-HREF="functions.html#FUNCTIONREF"
->function</A
->.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->yes ()
+ . . .</tt>
+              </font></pre>
+                      </td>
+                    </tr>
+                  </table>
+                  <p>This particular <span class="QUOTE">"feature"</span> may be used to create a <em>very large</em> ASCII file on the fly:</p>
+                  <table border="1" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>yes $PATH &gt; huge_file.txt</b></tt>
+<tt class="USERINPUT"><b>Ctl-C</b></tt>             
+              </font></pre>
+                      </td>
+                    </tr>
+                  </table>Hit <tt class="USERINPUT"><b>Ctl-C</b></tt> <em>very quickly</em>, or you just might get more than you bargained for. . . .
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p><a name="YESEMU" id="YESEMU"></a>The <i class="FIRSTTERM">yes</i> command may be emulated in a very simple script <a href="functions.html#FUNCTIONREF">function</a>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">yes ()
 { # Trivial emulation of "yes" ...
   local DEFAULT_TEXT="y"
   while [ true ]   # Endless loop.
@@ -950,341 +370,83 @@ CLASS="PROGRAMLISTING"
       echo "$1"    # ... expand and echo it.
     fi
   done             #  The only things missing are the
-}                  #+ --help and --version options.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></DD
-><DT
-><A
-NAME="BANNERREF"
-></A
-><B
-CLASS="COMMAND"
->banner</B
-></DT
-><DD
-><P
->Prints arguments as a large vertical banner to
-	      <TT
-CLASS="FILENAME"
->stdout</TT
->, using an <A
-HREF="special-chars.html#ASCIIDEF"
->ASCII</A
-> character (default
-	      '#'). This may be redirected to a printer for
-	      hardcopy.</P
-><P
->Note that <I
-CLASS="FIRSTTERM"
->banner</I
-> has been
-               dropped from many Linux distros, presumably because it
-               is no longer considered useful.</P
-></DD
-><DT
-><A
-NAME="PRINTENVREF"
-></A
-><B
-CLASS="COMMAND"
->printenv</B
-></DT
-><DD
-><P
->Show all the <A
-HREF="othertypesv.html#ENVREF"
->environmental
-	      variables</A
-> set for a particular user.</P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->printenv | grep HOME</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->HOME=/home/bozo</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	    </P
-></DD
-><DT
-><A
-NAME="LPREF"
-></A
-><B
-CLASS="COMMAND"
->lp</B
-></DT
-><DD
-><P
->The <B
-CLASS="COMMAND"
->lp</B
-> and <B
-CLASS="COMMAND"
->lpr</B
->
-	      commands send file(s) to the print queue, to be printed as
-	      hard copy.
-
-	      <A
-NAME="AEN14214"
-HREF="#FTN.AEN14214"
-><SPAN
-CLASS="footnote"
->[2]</SPAN
-></A
->
-
-	      These commands trace the origin of their names to the
-	      line printers of another era.
-		<A
-NAME="AEN14218"
-HREF="#FTN.AEN14218"
-><SPAN
-CLASS="footnote"
->[3]</SPAN
-></A
->
-      
-      </P
-><P
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->lp file1.txt</B
-></TT
->
-	        or <TT
-CLASS="PROMPT"
->bash </TT
-><TT
-CLASS="USERINPUT"
-><B
->lp
-		&#60;file1.txt</B
-></TT
-></P
-><P
->It is often useful to pipe the formatted output from
-	        <B
-CLASS="COMMAND"
->pr</B
-> to <B
-CLASS="COMMAND"
->lp</B
->.</P
-><P
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->pr -options file1.txt | lp</B
-></TT
->
-	        </P
-><P
->Formatting packages, such as <A
-HREF="textproc.html#GROFFREF"
->groff</A
-> and
-		<I
-CLASS="FIRSTTERM"
->Ghostscript</I
-> may send their output
-		directly to <B
-CLASS="COMMAND"
->lp</B
->.</P
-><P
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->groff -Tascii file.tr | lp</B
-></TT
->
-	        </P
-><P
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->gs -options | lp file.ps</B
-></TT
->
-	        </P
-><P
->Related commands are <B
-CLASS="COMMAND"
->lpq</B
->, for viewing
-	        the print queue, and <B
-CLASS="COMMAND"
->lprm</B
->, for removing
-		jobs from the print queue.</P
-></DD
-><DT
-><A
-NAME="TEEREF"
-></A
-><B
-CLASS="COMMAND"
->tee</B
-></DT
-><DD
-><P
->[UNIX borrows an idea from the plumbing trade.]</P
-><P
->This is a redirection operator, but with a difference. Like the
-	      plumber's <I
-CLASS="FIRSTTERM"
->tee,</I
-> it permits <SPAN
-CLASS="QUOTE"
->"siphoning
-              off"</SPAN
-> <EM
->to a file </EM
->the output of a command 
-	      or commands within a pipe, but without affecting the result. This is
-	      useful for printing an ongoing process to a file or paper, perhaps to
-	      keep track of it for debugging purposes.</P
-><TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
->                             (redirection)
-                            |----&#62; to file
+}                  #+ --help and --version options.</font></pre>
+              </td>
+            </tr>
+          </table>
+        </dd>
+        <dt><a name="BANNERREF" id="BANNERREF"></a><b class="COMMAND">banner</b></dt>
+        <dd>
+          <p>Prints arguments as a large vertical banner to <tt class="FILENAME">stdout</tt>, using an <a href="special-chars.html#ASCIIDEF">ASCII</a> character (default '#'). This may be redirected to a printer for hardcopy.</p>
+          <p>Note that <i class="FIRSTTERM">banner</i> has been dropped from many Linux distros, presumably because it is no longer considered useful.</p>
+        </dd>
+        <dt><a name="PRINTENVREF" id="PRINTENVREF"></a><b class="COMMAND">printenv</b></dt>
+        <dd>
+          <p>Show all the <a href="othertypesv.html#ENVREF">environmental variables</a> set for a particular user.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>printenv | grep HOME</b></tt>
+<tt class="COMPUTEROUTPUT">HOME=/home/bozo</tt>
+              </font></pre>
+              </td>
+            </tr>
+          </table>
+        </dd>
+        <dt><a name="LPREF" id="LPREF"></a><b class="COMMAND">lp</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">lp</b> and <b class="COMMAND">lpr</b> commands send file(s) to the print queue, to be printed as hard copy. <a name="AEN14214" href="#FTN.AEN14214" id="AEN14214"><span class="footnote">[2]</span></a> These commands trace the origin of their names to the line printers of another era. <a name="AEN14218" href="#FTN.AEN14218" id="AEN14218"><span class="footnote">[3]</span></a></p>
+          <p><tt class="PROMPT">bash$</tt> <tt class="USERINPUT"><b>lp file1.txt</b></tt> or <tt class="PROMPT">bash</tt> <tt class="USERINPUT"><b>lp &lt;file1.txt</b></tt></p>
+          <p>It is often useful to pipe the formatted output from <b class="COMMAND">pr</b> to <b class="COMMAND">lp</b>.</p>
+          <p><tt class="PROMPT">bash$</tt> <tt class="USERINPUT"><b>pr -options file1.txt | lp</b></tt></p>
+          <p>Formatting packages, such as <a href="textproc.html#GROFFREF">groff</a> and <i class="FIRSTTERM">Ghostscript</i> may send their output directly to <b class="COMMAND">lp</b>.</p>
+          <p><tt class="PROMPT">bash$</tt> <tt class="USERINPUT"><b>groff -Tascii file.tr | lp</b></tt></p>
+          <p><tt class="PROMPT">bash$</tt> <tt class="USERINPUT"><b>gs -options | lp file.ps</b></tt></p>
+          <p>Related commands are <b class="COMMAND">lpq</b>, for viewing the print queue, and <b class="COMMAND">lprm</b>, for removing jobs from the print queue.</p>
+        </dd>
+        <dt><a name="TEEREF" id="TEEREF"></a><b class="COMMAND">tee</b></dt>
+        <dd>
+          <p>[UNIX borrows an idea from the plumbing trade.]</p>
+          <p>This is a redirection operator, but with a difference. Like the plumber's <i class="FIRSTTERM">tee,</i> it permits <span class="QUOTE">"siphoning off"</span> <em>to a file</em> the output of a command or commands within a pipe, but without affecting the result. This is useful for printing an ongoing process to a file or paper, perhaps to keep track of it for debugging purposes.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000">                             (redirection)
+                            |----&gt; to file
                             |
   ==========================|====================
-  command ---&#62; command ---&#62; |tee ---&#62; command ---&#62; ---&#62; output of pipe
+  command ---&gt; command ---&gt; |tee ---&gt; command ---&gt; ---&gt; output of pipe
   ===============================================
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->cat listfile* | sort | tee check.file | uniq &#62; result.file
+              </font></pre>
+              </td>
+            </tr>
+          </table>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">cat listfile* | sort | tee check.file | uniq &gt; result.file
 #                      ^^^^^^^^^^^^^^   ^^^^    
 
 #  The file "check.file" contains the concatenated sorted "listfiles,"
-#+ before the duplicate lines are removed by 'uniq.'</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></DD
-><DT
-><A
-NAME="MKFIFOREF"
-></A
-><B
-CLASS="COMMAND"
->mkfifo</B
-></DT
-><DD
-><P
-><A
-NAME="NAMEDPIPEREF"
-></A
->This obscure command
-	      creates a <I
-CLASS="FIRSTTERM"
->named pipe</I
->, a temporary
-	      <I
-CLASS="FIRSTTERM"
->first-in-first-out buffer</I
-> for
-	      transferring data between processes.
-
-		<A
-NAME="AEN14280"
-HREF="#FTN.AEN14280"
-><SPAN
-CLASS="footnote"
->[4]</SPAN
-></A
->
-
-	      Typically, one process writes to the FIFO, and the other
-	      reads from it. See <A
-HREF="contributed-scripts.html#FIFO"
->Example A-14</A
->.</P
-><P
->	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#+ before the duplicate lines are removed by 'uniq.'</font></pre>
+              </td>
+            </tr>
+          </table>
+        </dd>
+        <dt><a name="MKFIFOREF" id="MKFIFOREF"></a><b class="COMMAND">mkfifo</b></dt>
+        <dd>
+          <p><a name="NAMEDPIPEREF" id="NAMEDPIPEREF"></a>This obscure command creates a <i class="FIRSTTERM">named pipe</i>, a temporary <i class="FIRSTTERM">first-in-first-out buffer</i> for transferring data between processes. <a name="AEN14280" href="#FTN.AEN14280" id="AEN14280"><span class="footnote">[4]</span></a> Typically, one process writes to the FIFO, and the other reads from it. See <a href="contributed-scripts.html#FIFO">Example A-14</a>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # This short script by Omair Eshkenazi.
 # Used in ABS Guide with permission (thanks!).
 
 mkfifo pipe1   # Yes, pipes can be given names.
 mkfifo pipe2   # Hence the designation "named pipe."
 
-(cut -d' ' -f1 | tr "a-z" "A-Z") &#62;pipe2 &#60;pipe1 &#38;
+(cut -d' ' -f1 | tr "a-z" "A-Z") &gt;pipe2 &lt;pipe1 &amp;
 ls -l | tr -s ' ' | cut -d' ' -f3,9- | tee pipe1 |
 cut -d' ' -f2 | paste - pipe2
 
@@ -1302,257 +464,94 @@ sh mkfifo-example.sh
 pipe1   BOZO
 pipe2   BOZO
 mkfifo-example.sh    BOZO
-Mixed.msg BOZO</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-            </P
-></DD
-><DT
-><A
-NAME="PATHCHKREF"
-></A
-><B
-CLASS="COMMAND"
->pathchk</B
-></DT
-><DD
-><P
->This command checks the validity of a filename. If the
-	      filename exceeds the maximum allowable length (255
-	      characters) or one or more of the directories in
-	      its path is not searchable, then an error message
-	      results.</P
-><P
->Unfortunately, <B
-CLASS="COMMAND"
->pathchk</B
-> does
-	      not return a recognizable error code, and it is therefore
-	      pretty much useless in a script. Consider instead the
-	      <A
-HREF="fto.html#RTIF"
->file test operators</A
->.</P
-></DD
-><DT
-><A
-NAME="DDREF"
-></A
-><B
-CLASS="COMMAND"
->dd</B
-></DT
-><DD
-><P
->Though this somewhat obscure and much feared
-              <B
-CLASS="COMMAND"
->d</B
->ata <B
-CLASS="COMMAND"
->d</B
->uplicator
-              command originated as a utility for exchanging
-              data on magnetic tapes between UNIX minicomputers
-              and IBM mainframes, it still has its uses.
-              The <B
-CLASS="COMMAND"
->dd</B
-> command simply copies a
-              file (or <TT
-CLASS="FILENAME"
->stdin/stdout</TT
->), but with
-              conversions. <A
-NAME="DDCONVERSIONS"
-></A
->Possible conversions
-              include ASCII/EBCDIC,
-	        
-		<A
-NAME="AEN14318"
-HREF="#FTN.AEN14318"
-><SPAN
-CLASS="footnote"
->[5]</SPAN
-></A
->
+Mixed.msg BOZO</font></pre>
+              </td>
+            </tr>
+          </table>
+        </dd>
+        <dt><a name="PATHCHKREF" id="PATHCHKREF"></a><b class="COMMAND">pathchk</b></dt>
+        <dd>
+          <p>This command checks the validity of a filename. If the filename exceeds the maximum allowable length (255 characters) or one or more of the directories in its path is not searchable, then an error message results.</p>
+          <p>Unfortunately, <b class="COMMAND">pathchk</b> does not return a recognizable error code, and it is therefore pretty much useless in a script. Consider instead the <a href="fto.html#RTIF">file test operators</a>.</p>
+        </dd>
+        <dt><a name="DDREF" id="DDREF"></a><b class="COMMAND">dd</b></dt>
+        <dd>
+          <p>Though this somewhat obscure and much feared <b class="COMMAND">d</b>ata <b class="COMMAND">d</b>uplicator command originated as a utility for exchanging data on magnetic tapes between UNIX minicomputers and IBM mainframes, it still has its uses. The <b class="COMMAND">dd</b> command simply copies a file (or <tt class="FILENAME">stdin/stdout</tt>), but with conversions. <a name="DDCONVERSIONS" id="DDCONVERSIONS"></a>Possible conversions include ASCII/EBCDIC, <a name="AEN14318" href="#FTN.AEN14318" id="AEN14318"><span class="footnote">[5]</span></a> upper/lower case, swapping of byte pairs between input and output, and skipping and/or truncating the head or tail of the input file.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000"># Converting a file to all uppercase:
 
-	      upper/lower case, swapping of byte pairs between input
-	      and output, and skipping and/or truncating the head or
-	      tail of the input file.</P
-><P
->	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># Converting a file to all uppercase:
-
-dd if=$filename conv=ucase &#62; $filename.uppercase
-#                    lcase   # For lower case conversion</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-            </P
-><P
-><A
-NAME="DDOPTIONS"
-></A
-></P
-><P
->Some basic options to <B
-CLASS="COMMAND"
->dd</B
-> are:
-                <P
-></P
-><UL
-><LI
-><P
->if=INFILE</P
-><P
->INFILE is the <I
-CLASS="FIRSTTERM"
->source</I
->
-		        file.</P
-></LI
-><LI
-><P
->of=OUTFILE</P
-><P
->OUTFILE is the <I
-CLASS="FIRSTTERM"
->target</I
->
-		        file, the file that will have the data written to it.</P
-></LI
-><LI
-><P
->bs=BLOCKSIZE</P
-><P
->This is the size of each block of data being read
-		        and written, usually a power of 2.</P
-></LI
-><LI
-><P
->skip=BLOCKS</P
-><P
->How many blocks of data to skip in INFILE before
-		        starting to copy. This is useful when the INFILE has
-			<SPAN
-CLASS="QUOTE"
->"garbage"</SPAN
-> or garbled data in its
-			header or when it is desirable to copy only a portion
-			of the INFILE.</P
-></LI
-><LI
-><P
->seek=BLOCKS</P
-><P
->How many blocks of data to skip in OUTFILE before
-		        starting to copy, leaving blank data at beginning
-			of OUTFILE.</P
-></LI
-><LI
-><P
->count=BLOCKS</P
-><P
->Copy only this many blocks of data, rather than the
-		        entire INFILE.</P
-></LI
-><LI
-><P
->conv=CONVERSION</P
-><P
->Type of conversion to be applied to INFILE data
-                        before copying operation.</P
-></LI
-></UL
->
-            </P
-><P
->A <TT
-CLASS="USERINPUT"
-><B
->dd --help</B
-></TT
-> lists all the
-	      options this powerful utility takes.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="SELFCOPY"
-></A
-><P
-><B
->Example 16-57. A script that copies itself</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+dd if=$filename conv=ucase &gt; $filename.uppercase
+#                    lcase   # For lower case conversion</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p><a name="DDOPTIONS" id="DDOPTIONS"></a></p>
+          <p>Some basic options to <b class="COMMAND">dd</b> are:</p>
+          <ul>
+            <li>
+              <p>if=INFILE</p>
+              <p>INFILE is the <i class="FIRSTTERM">source</i> file.</p>
+            </li>
+            <li>
+              <p>of=OUTFILE</p>
+              <p>OUTFILE is the <i class="FIRSTTERM">target</i> file, the file that will have the data written to it.</p>
+            </li>
+            <li>
+              <p>bs=BLOCKSIZE</p>
+              <p>This is the size of each block of data being read and written, usually a power of 2.</p>
+            </li>
+            <li>
+              <p>skip=BLOCKS</p>
+              <p>How many blocks of data to skip in INFILE before starting to copy. This is useful when the INFILE has <span class="QUOTE">"garbage"</span> or garbled data in its header or when it is desirable to copy only a portion of the INFILE.</p>
+            </li>
+            <li>
+              <p>seek=BLOCKS</p>
+              <p>How many blocks of data to skip in OUTFILE before starting to copy, leaving blank data at beginning of OUTFILE.</p>
+            </li>
+            <li>
+              <p>count=BLOCKS</p>
+              <p>Copy only this many blocks of data, rather than the entire INFILE.</p>
+            </li>
+            <li>
+              <p>conv=CONVERSION</p>
+              <p>Type of conversion to be applied to INFILE data before copying operation.</p>
+            </li>
+          </ul>
+          <p>A <tt class="USERINPUT"><b>dd --help</b></tt> lists all the options this powerful utility takes.</p>
+          <div class="EXAMPLE">
+            <a name="SELFCOPY" id="SELFCOPY"></a>
+            <p><b>Example 16-57. A script that copies itself</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # self-copy.sh
 
 # This script copies itself.
 
 file_subscript=copy
 
-dd if=$0 of=$0.$file_subscript 2&#62;/dev/null
+dd if=$0 of=$0.$file_subscript 2&gt;/dev/null
 # Suppress messages from dd:   ^^^^^^^^^^^
 
 exit $?
 
 #  A program whose only output is its own source code
 #+ is called a "quine" per Willard Quine.
-#  Does this script qualify as a quine?</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EXERCISINGDD"
-></A
-><P
-><B
->Example 16-58. Exercising <I
-CLASS="FIRSTTERM"
->dd</I
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#  Does this script qualify as a quine?</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="EXAMPLE">
+            <a name="EXERCISINGDD" id="EXERCISINGDD"></a>
+            <p><b>Example 16-58. Exercising <i class="FIRSTTERM">dd</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # exercising-dd.sh
 
 # Script by Stephane Chazelas.
@@ -1563,52 +562,29 @@ outfile=log.txt     # Output file left behind.
 n=8
 p=11
 
-dd if=$infile of=$outfile bs=1 skip=$((n-1)) count=$((p-n+1)) 2&#62; /dev/null
+dd if=$infile of=$outfile bs=1 skip=$((n-1)) count=$((p-n+1)) 2&gt; /dev/null
 # Extracts characters n to p (8 to 11) from this script ("bash").
 
 # ----------------------------------------------------------------
 
-echo -n "hello vertical world" | dd cbs=1 conv=unblock 2&#62; /dev/null
+echo -n "hello vertical world" | dd cbs=1 conv=unblock 2&gt; /dev/null
 # Echoes "hello vertical world" vertically downward.
 # Why? A newline follows each character dd emits.
 
-exit $?</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="DDKEYSTROKES"
-></A
-></P
-><P
->To demonstrate just how versatile <B
-CLASS="COMMAND"
->dd</B
-> is,
-	     let's use it to capture keystrokes.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="DDKEYPRESS"
-></A
-><P
-><B
->Example 16-59. Capturing Keystrokes</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit $?</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p><a name="DDKEYSTROKES" id="DDKEYSTROKES"></a></p>
+          <p>To demonstrate just how versatile <b class="COMMAND">dd</b> is, let's use it to capture keystrokes.</p>
+          <div class="EXAMPLE">
+            <a name="DDKEYPRESS" id="DDKEYPRESS"></a>
+            <p><b>Example 16-59. Capturing Keystrokes</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # dd-keypress.sh: Capture keystrokes without needing to press ENTER.
 
 
@@ -1620,7 +596,7 @@ old_tty_setting=$(stty -g)        # Save old terminal settings.
 echo "Press $keypresses keys."
 stty -icanon -echo                # Disable canonical mode.
                                   # Disable local echo.
-keys=$(dd bs=1 count=$keypresses 2&#62; /dev/null)
+keys=$(dd bs=1 count=$keypresses 2&gt; /dev/null)
 # 'dd' uses stdin, if "if" (input file) not specified.
 
 stty "$old_tty_setting"           # Restore old terminal settings.
@@ -1628,132 +604,39 @@ stty "$old_tty_setting"           # Restore old terminal settings.
 echo "You pressed the \"$keys\" keys."
 
 # Thanks, Stephane Chazelas, for showing the way.
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="DDRANDOM"
-></A
-></P
-><P
->The <B
-CLASS="COMMAND"
->dd</B
-> command can do random access on a
-	      data stream.
-
-	        <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->echo -n . | dd bs=1 seek=4 of=file conv=notrunc
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p><a name="DDRANDOM" id="DDRANDOM"></a></p>
+          <p>The <b class="COMMAND">dd</b> command can do random access on a data stream.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">echo -n . | dd bs=1 seek=4 of=file conv=notrunc
 #  The "conv=notrunc" option means that the output file
 #+ will not be truncated.
 
-# Thanks, S.C.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-            </P
-><P
-><A
-NAME="DDCOPY"
-></A
-></P
-><P
->The <B
-CLASS="COMMAND"
->dd</B
-> command can copy raw data
-	      and disk images to and from devices, such as floppies and
-	      tape drives (<A
-HREF="contributed-scripts.html#COPYCD"
->Example A-5</A
->). A common use is
-	      creating boot floppies.</P
-><P
->		<TT
-CLASS="USERINPUT"
-><B
->dd if=kernel-image of=/dev/fd0H1440</B
-></TT
->
-             </P
-><P
->Similarly, <B
-CLASS="COMMAND"
->dd</B
-> can copy the entire
-	       contents of a floppy, even one formatted with a
-	       <SPAN
-CLASS="QUOTE"
->"foreign"</SPAN
-> OS, to the hard drive as an
-	       image file.</P
-><P
->		<TT
-CLASS="USERINPUT"
-><B
->dd if=/dev/fd0 of=/home/bozo/projects/floppy.img</B
-></TT
->
-             </P
-><P
-><A
-NAME="BFS"
-></A
->Likewise, <B
-CLASS="COMMAND"
->dd</B
->
-             can create bootable flash drives and SD cards.</P
-><P
-><TT
-CLASS="USERINPUT"
-><B
->dd if=image.iso of=/dev/sdb</B
-></TT
-></P
-><P
-><A
-NAME="RPSDCARD01"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="RPSDCARD"
-></A
-><P
-><B
->Example 16-60. Preparing a bootable SD card for the
-		    <EM
->Raspberry Pi</EM
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# Thanks, S.C.</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p><a name="DDCOPY" id="DDCOPY"></a></p>
+          <p>The <b class="COMMAND">dd</b> command can copy raw data and disk images to and from devices, such as floppies and tape drives (<a href="contributed-scripts.html#COPYCD">Example A-5</a>). A common use is creating boot floppies.</p>
+          <p><tt class="USERINPUT"><b>dd if=kernel-image of=/dev/fd0H1440</b></tt></p>
+          <p>Similarly, <b class="COMMAND">dd</b> can copy the entire contents of a floppy, even one formatted with a <span class="QUOTE">"foreign"</span> OS, to the hard drive as an image file.</p>
+          <p><tt class="USERINPUT"><b>dd if=/dev/fd0 of=/home/bozo/projects/floppy.img</b></tt></p>
+          <p><a name="BFS" id="BFS"></a>Likewise, <b class="COMMAND">dd</b> can create bootable flash drives and SD cards.</p>
+          <p><tt class="USERINPUT"><b>dd if=image.iso of=/dev/sdb</b></tt></p>
+          <p><a name="RPSDCARD01" id="RPSDCARD01"></a></p>
+          <div class="EXAMPLE">
+            <a name="RPSDCARD" id="RPSDCARD"></a>
+            <p><b>Example 16-60. Preparing a bootable SD card for the <em>Raspberry Pi</em></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # rp.sdcard.sh
 # Preparing an SD card with a bootable image for the Raspberry Pi.
 
@@ -1808,64 +691,22 @@ exit $?
 # ---------
 # 1) Provide additional error checking.
 # 2) Have script autodetect device file for SD card (difficult!).
-# 3) Have script sutodetect image file (*img) in $PWD.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="DDSWAP"
-></A
-></P
-><P
->	      Other applications of <B
-CLASS="COMMAND"
->dd</B
-> include
-	      initializing temporary swap files (<A
-HREF="zeros.html#EX73"
->Example 31-2</A
->)
-	      and ramdisks (<A
-HREF="zeros.html#RAMDISK"
->Example 31-3</A
->). It can even do a
-	      low-level copy of an entire hard drive partition, although
-	      this is not necessarily recommended.</P
-><P
->People (with presumably nothing better to do with
-	      their time) are constantly thinking of interesting
-	      applications of <B
-CLASS="COMMAND"
->dd</B
->.</P
-><P
-><A
-NAME="DDFDEL"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="BLOTOUT"
-></A
-><P
-><B
->Example 16-61. Securely deleting a file</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# 3) Have script sutodetect image file (*img) in $PWD.</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p><a name="DDSWAP" id="DDSWAP"></a></p>
+          <p>Other applications of <b class="COMMAND">dd</b> include initializing temporary swap files (<a href="zeros.html#EX73">Example 31-2</a>) and ramdisks (<a href="zeros.html#RAMDISK">Example 31-3</a>). It can even do a low-level copy of an entire hard drive partition, although this is not necessarily recommended.</p>
+          <p>People (with presumably nothing better to do with their time) are constantly thinking of interesting applications of <b class="COMMAND">dd</b>.</p>
+          <p><a name="DDFDEL" id="DDFDEL"></a></p>
+          <div class="EXAMPLE">
+            <a name="BLOTOUT" id="BLOTOUT"></a>
+            <p><b>Example 16-61. Securely deleting a file</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # blot-out.sh: Erase "all" traces of a file.
 
 #  This script overwrites a target file alternately
@@ -1958,274 +799,88 @@ exit 0
 #  For an in-depth analysis on the topic of file deletion and security,
 #+ see Peter Gutmann's paper,
 #+     "Secure Deletion of Data From Magnetic and Solid-State Memory".
-#       http://www.cs.auckland.ac.nz/~pgut001/pubs/secure_del.html</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->See also the <A
-HREF="biblio.html#DDLINK"
->dd
-	      thread</A
-> entry in the <A
-HREF="biblio.html#BIBLIOREF"
->bibliography</A
->.</P
-></DD
-><DT
-><A
-NAME="ODREF"
-></A
-><B
-CLASS="COMMAND"
->od</B
-></DT
-><DD
-><P
->The <B
-CLASS="COMMAND"
->od</B
->, or <I
-CLASS="FIRSTTERM"
->octal
-	      dump</I
-> filter converts input (or files) to octal
-	      (base-8) or other bases. This is useful for viewing or
-	      processing binary data files or otherwise unreadable system
-	      <A
-HREF="devref1.html#DEVFILEREF"
->device files</A
->, such as
-	      <TT
-CLASS="FILENAME"
->/dev/urandom</TT
->, and as a filter for
-	      binary data.</P
-><P
->	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->head -c4 /dev/urandom | od -N4 -tu4 | sed -ne '1s/.* //p'
+#       http://www.cs.auckland.ac.nz/~pgut001/pubs/secure_del.html</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>See also the <a href="biblio.html#DDLINK">dd thread</a> entry in the <a href="biblio.html#BIBLIOREF">bibliography</a>.</p>
+        </dd>
+        <dt><a name="ODREF" id="ODREF"></a><b class="COMMAND">od</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">od</b>, or <i class="FIRSTTERM">octal dump</i> filter converts input (or files) to octal (base-8) or other bases. This is useful for viewing or processing binary data files or otherwise unreadable system <a href="devref1.html#DEVFILEREF">device files</a>, such as <tt class="FILENAME">/dev/urandom</tt>, and as a filter for binary data.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">head -c4 /dev/urandom | od -N4 -tu4 | sed -ne '1s/.* //p'
 # Sample output: 1324725719, 3918166450, 2989231420, etc.
 
-# From rnd.sh example script, by Stéphane Chazelas</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	  </P
-><P
->See also <A
-HREF="randomvar.html#SEEDINGRANDOM"
->Example 9-16</A
-> and <A
-HREF="contributed-scripts.html#INSERTIONSORT"
->Example A-36</A
->.</P
-></DD
-><DT
-><A
-NAME="HEXDUMPREF"
-></A
-><B
-CLASS="COMMAND"
->hexdump</B
-></DT
-><DD
-><P
->Performs a hexadecimal, octal, decimal, or ASCII
-	      dump of a binary file. This command is the rough equivalent
-	      of <B
-CLASS="COMMAND"
->od</B
->, above, but not nearly as
-	      useful. May be used to view the contents of a binary file,
-	      in combination with <A
-HREF="extmisc.html#DDREF"
->dd</A
-> and <A
-HREF="filearchiv.html#LESSREF"
->less</A
->.</P
-><P
->	  <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->dd if=/bin/ls | hexdump -C | less
-# The -C option nicely formats the output in tabular form.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	    </P
-></DD
-><DT
-><A
-NAME="OBJDUMPREF"
-></A
-><B
-CLASS="COMMAND"
->objdump</B
-></DT
-><DD
-><P
->Displays information about an object file or binary
-	      executable in either hexadecimal form or as a disassembled
-	      listing (with the <TT
-CLASS="OPTION"
->-d</TT
-> option).</P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->objdump -d /bin/ls</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->/bin/ls:     file format elf32-i386
+# From rnd.sh example script, by Stï¿½phane Chazelas</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>See also <a href="randomvar.html#SEEDINGRANDOM">Example 9-16</a> and <a href="contributed-scripts.html#INSERTIONSORT">Example A-36</a>.</p>
+        </dd>
+        <dt><a name="HEXDUMPREF" id="HEXDUMPREF"></a><b class="COMMAND">hexdump</b></dt>
+        <dd>
+          <p>Performs a hexadecimal, octal, decimal, or ASCII dump of a binary file. This command is the rough equivalent of <b class="COMMAND">od</b>, above, but not nearly as useful. May be used to view the contents of a binary file, in combination with <a href="extmisc.html#DDREF">dd</a> and <a href="filearchiv.html#LESSREF">less</a>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">dd if=/bin/ls | hexdump -C | less
+# The -C option nicely formats the output in tabular form.</font></pre>
+              </td>
+            </tr>
+          </table>
+        </dd>
+        <dt><a name="OBJDUMPREF" id="OBJDUMPREF"></a><b class="COMMAND">objdump</b></dt>
+        <dd>
+          <p>Displays information about an object file or binary executable in either hexadecimal form or as a disassembled listing (with the <tt class="OPTION">-d</tt> option).</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>objdump -d /bin/ls</b></tt>
+<tt class="COMPUTEROUTPUT">/bin/ls:     file format elf32-i386
 
  Disassembly of section .init:
 
- 080490bc &#60;.init&#62;:
+ 080490bc &lt;.init&gt;:
   80490bc:       55                      push   %ebp
   80490bd:       89 e5                   mov    %esp,%ebp
-  . . .</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	    </P
-></DD
-><DT
-><A
-NAME="MCOOKIEREF"
-></A
-><B
-CLASS="COMMAND"
->mcookie</B
-></DT
-><DD
-><P
->This command generates a <SPAN
-CLASS="QUOTE"
->"magic cookie,"</SPAN
-> a
-	      128-bit (32-character) pseudorandom hexadecimal number,
-	      normally used as an authorization <SPAN
-CLASS="QUOTE"
->"signature"</SPAN
->
-	      by the X server. This also available for use in a script
-	      as a <SPAN
-CLASS="QUOTE"
->"quick 'n dirty"</SPAN
-> random number.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->random000=$(mcookie)</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->Of course, a script could use <A
-HREF="filearchiv.html#MD5SUMREF"
->md5sum</A
-> for the same purpose.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># Generate md5 checksum on the script itself.
+  . . .</tt>
+              </font></pre>
+              </td>
+            </tr>
+          </table>
+        </dd>
+        <dt><a name="MCOOKIEREF" id="MCOOKIEREF"></a><b class="COMMAND">mcookie</b></dt>
+        <dd>
+          <p>This command generates a <span class="QUOTE">"magic cookie,"</span> a 128-bit (32-character) pseudorandom hexadecimal number, normally used as an authorization <span class="QUOTE">"signature"</span> by the X server. This also available for use in a script as a <span class="QUOTE">"quick 'n dirty"</span> random number.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">random000=$(mcookie)</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>Of course, a script could use <a href="filearchiv.html#MD5SUMREF">md5sum</a> for the same purpose.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000"># Generate md5 checksum on the script itself.
 random001=`md5sum $0 | awk '{print $1}'`
-# Uses 'awk' to strip off the filename.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->The <B
-CLASS="COMMAND"
->mcookie</B
-> command gives yet another way
-	      to generate a <SPAN
-CLASS="QUOTE"
->"unique"</SPAN
-> filename.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="TEMPFILENAME"
-></A
-><P
-><B
->Example 16-62. Filename generator</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# Uses 'awk' to strip off the filename.</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>The <b class="COMMAND">mcookie</b> command gives yet another way to generate a <span class="QUOTE">"unique"</span> filename.</p>
+          <div class="EXAMPLE">
+            <a name="TEMPFILENAME" id="TEMPFILENAME"></a>
+            <p><b>Example 16-62. Filename generator</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # tempfile-name.sh:  temp filename generator
 
 BASE_STR=`mcookie`   # 32-character magic cookie.
@@ -2252,53 +907,22 @@ echo "Temp filename = "$temp_filename""
 #  Compare this method of generating "unique" filenames
 #+ with the 'date' method in ex51.sh.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-><DT
-><A
-NAME="UNITSREF"
-></A
-><B
-CLASS="COMMAND"
->units</B
-></DT
-><DD
-><P
->This utility converts between different <I
-CLASS="FIRSTTERM"
->units
-	      of measure</I
->. While normally invoked in interactive
-	      mode, <B
-CLASS="COMMAND"
->units</B
-> may find use in a
-	      script.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="UNITCONVERSION"
-></A
-><P
-><B
->Example 16-63. Converting meters to miles</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+        <dt><a name="UNITSREF" id="UNITSREF"></a><b class="COMMAND">units</b></dt>
+        <dd>
+          <p>This utility converts between different <i class="FIRSTTERM">units of measure</i>. While normally invoked in interactive mode, <b class="COMMAND">units</b> may find use in a script.</p>
+          <div class="EXAMPLE">
+            <a name="UNITCONVERSION" id="UNITCONVERSION"></a>
+            <p><b>Example 16-63. Converting meters to miles</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # unit-conversion.sh
 # Must have 'units' utility installed.
 
@@ -2325,678 +949,162 @@ echo "There are $result $Unit2 in $quantity $Unit1."
 exit 0
 
 # Exercise: Edit this script to accept command-line parameters,
-#           with appropriate error checking, of course.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-><DT
-><A
-NAME="M4REF"
-></A
-><B
-CLASS="COMMAND"
->m4</B
-></DT
-><DD
-><P
->A hidden treasure, <B
-CLASS="COMMAND"
->m4</B
-> is a
-	      powerful macro
-		 <A
-NAME="AEN14523"
-HREF="#FTN.AEN14523"
-><SPAN
-CLASS="footnote"
->[6]</SPAN
-></A
->
-	      processing filter, virtually a complete language.
-	      Although originally written as a pre-processor
-	      for <I
-CLASS="FIRSTTERM"
->RatFor</I
->, <B
-CLASS="COMMAND"
->m4</B
->
-	      turned out to be useful as a stand-alone utility. In
-	      fact, <B
-CLASS="COMMAND"
->m4</B
-> combines some of the
-	      functionality of <A
-HREF="internal.html#EVALREF"
->eval</A
->,
-	      <A
-HREF="textproc.html#TRREF"
->tr</A
->, and <A
-HREF="awk.html#AWKREF"
->awk</A
->, in addition to its extensive
-	      macro expansion facilities.</P
-><P
->The April, 2002 issue of <A
-HREF="http://www.linuxjournal.com"
-TARGET="_top"
-><I
-CLASS="CITETITLE"
->Linux Journal</I
-></A
->
-	      has a very nice article on <B
-CLASS="COMMAND"
->m4</B
-> and
-	      its uses.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="M4"
-></A
-><P
-><B
->Example 16-64. Using <I
-CLASS="FIRSTTERM"
->m4</I
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#           with appropriate error checking, of course.</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+        <dt><a name="M4REF" id="M4REF"></a><b class="COMMAND">m4</b></dt>
+        <dd>
+          <p>A hidden treasure, <b class="COMMAND">m4</b> is a powerful macro <a name="AEN14523" href="#FTN.AEN14523" id="AEN14523"><span class="footnote">[6]</span></a> processing filter, virtually a complete language. Although originally written as a pre-processor for <i class="FIRSTTERM">RatFor</i>, <b class="COMMAND">m4</b> turned out to be useful as a stand-alone utility. In fact, <b class="COMMAND">m4</b> combines some of the functionality of <a href="internal.html#EVALREF">eval</a>, <a href="textproc.html#TRREF">tr</a>, and <a href="awk.html#AWKREF">awk</a>, in addition to its extensive macro expansion facilities.</p>
+          <p>The April, 2002 issue of <a href="http://www.linuxjournal.com" target="_top"><i class="CITETITLE">Linux Journal</i></a> has a very nice article on <b class="COMMAND">m4</b> and its uses.</p>
+          <div class="EXAMPLE">
+            <a name="M4" id="M4"></a>
+            <p><b>Example 16-64. Using <i class="FIRSTTERM">m4</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # m4.sh: Using the m4 macro processor
 
 # Strings
 string=abcdA01
 echo "len($string)" | m4                            #   7
 echo "substr($string,4)" | m4                       # A01
-echo "regexp($string,[0-1][0-1],\&#38;Z)" | m4      # 01Z
+echo "regexp($string,[0-1][0-1],\&amp;Z)" | m4      # 01Z
 
 # Arithmetic
 var=99
 echo "incr($var)" | m4                              #  100
 echo "eval($var / 3)" | m4                          #   33
 
-exit</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-><DT
-><A
-NAME="XMESSAGEREF"
-></A
-><B
-CLASS="COMMAND"
->xmessage</B
-></DT
-><DD
-><P
->This X-based variant of
-              <A
-HREF="internal.html#ECHOREF"
->echo</A
-> pops up a message/query
-	      window on the desktop.</P
-><P
->	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->xmessage Left click to continue -button okay</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	      </P
-></DD
-><DT
-><A
-NAME="ZENITYREF"
-></A
-><B
-CLASS="COMMAND"
->zenity</B
-></DT
-><DD
-><P
->The
-	      <A
-HREF="http://freshmeat.net/projects/zenity"
-TARGET="_top"
->zenity</A
->
-	      utility is adept at displaying
-	      <I
-CLASS="FIRSTTERM"
->GTK+</I
-> dialog <A
-HREF="assortedtips.html#WIDGETREF"
->widgets</A
-> and <A
-HREF="assortedtips.html#ZENITYREF2"
->very suitable for scripting
-	      purposes</A
->.</P
-></DD
-><DT
-><A
-NAME="DOEXECREF"
-></A
-><B
-CLASS="COMMAND"
->doexec</B
-></DT
-><DD
-><P
->The <B
-CLASS="COMMAND"
->doexec</B
-> command enables passing
-	      an arbitrary list of arguments to a <I
-CLASS="FIRSTTERM"
->binary
-	      executable</I
->. In particular, passing
-	      <TT
-CLASS="PARAMETER"
-><I
->argv[0]</I
-></TT
-> (which corresponds to <A
-HREF="othertypesv.html#POSPARAMREF1"
->$0</A
-> in a script) lets the
-	      executable be invoked by various names, and it can then
-	      carry out different sets of actions, according to the name
-	      by which it was called. What this amounts to is roundabout
-	      way of passing options to an executable.</P
-><P
->For example, the <TT
-CLASS="FILENAME"
->/usr/local/bin</TT
-> directory might
-	      contain a binary called <SPAN
-CLASS="QUOTE"
->"aaa"</SPAN
->.  Invoking
-	      <B
-CLASS="COMMAND"
->doexec /usr/local/bin/aaa list</B
->
-	      would <EM
->list</EM
-> all those files
-	      in the current working directory beginning with an
-	      <SPAN
-CLASS="QUOTE"
->"a"</SPAN
->, while invoking (the same executable
-	      with) <B
-CLASS="COMMAND"
->doexec /usr/local/bin/aaa delete </B
->
-	      would <EM
->delete</EM
-> those files.</P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The various behaviors of the executable
-              must be defined within the code of the executable itself,
-              analogous to something like the following in a shell script:
-                <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->case `basename $0` in
+exit</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+        <dt><a name="XMESSAGEREF" id="XMESSAGEREF"></a><b class="COMMAND">xmessage</b></dt>
+        <dd>
+          <p>This X-based variant of <a href="internal.html#ECHOREF">echo</a> pops up a message/query window on the desktop.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">xmessage Left click to continue -button okay</font></pre>
+              </td>
+            </tr>
+          </table>
+        </dd>
+        <dt><a name="ZENITYREF" id="ZENITYREF"></a><b class="COMMAND">zenity</b></dt>
+        <dd>
+          <p>The <a href="http://freshmeat.net/projects/zenity" target="_top">zenity</a> utility is adept at displaying <i class="FIRSTTERM">GTK+</i> dialog <a href="assortedtips.html#WIDGETREF">widgets</a> and <a href="assortedtips.html#ZENITYREF2">very suitable for scripting purposes</a>.</p>
+        </dd>
+        <dt><a name="DOEXECREF" id="DOEXECREF"></a><b class="COMMAND">doexec</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">doexec</b> command enables passing an arbitrary list of arguments to a <i class="FIRSTTERM">binary executable</i>. In particular, passing <tt class="PARAMETER"><i>argv[0]</i></tt> (which corresponds to <a href="othertypesv.html#POSPARAMREF1">$0</a> in a script) lets the executable be invoked by various names, and it can then carry out different sets of actions, according to the name by which it was called. What this amounts to is roundabout way of passing options to an executable.</p>
+          <p>For example, the <tt class="FILENAME">/usr/local/bin</tt> directory might contain a binary called <span class="QUOTE">"aaa"</span>. Invoking <b class="COMMAND">doexec /usr/local/bin/aaa list</b> would <em>list</em> all those files in the current working directory beginning with an <span class="QUOTE">"a"</span>, while invoking (the same executable with) <b class="COMMAND">doexec /usr/local/bin/aaa delete</b> would <em>delete</em> those files.</p>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>The various behaviors of the executable must be defined within the code of the executable itself, analogous to something like the following in a shell script:</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="PROGRAMLISTING"><font color="#000000">case `basename $0` in
 "name1" ) do_something;;
 "name2" ) do_something_else;;
 "name3" ) do_yet_another_thing;;
 *       ) bail_out;;
-esac</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-><DT
-><B
-CLASS="COMMAND"
->dialog</B
-></DT
-><DD
-><P
->The <A
-HREF="assortedtips.html#DIALOGREF"
->dialog</A
-> family of tools
-	      provide a method of calling interactive
-	      <SPAN
-CLASS="QUOTE"
->"dialog"</SPAN
-> boxes from a script. The more
-	      elaborate variations of <B
-CLASS="COMMAND"
->dialog</B
-> --
-	      <B
-CLASS="COMMAND"
->gdialog</B
->, <B
-CLASS="COMMAND"
->Xdialog</B
->,
-	      and <B
-CLASS="COMMAND"
->kdialog</B
-> -- actually invoke X-Windows
-	      <A
-HREF="assortedtips.html#WIDGETREF"
->widgets</A
->.</P
-></DD
-><DT
-><A
-NAME="SOXREF"
-></A
-><B
-CLASS="COMMAND"
->sox</B
-></DT
-><DD
-><P
->The <B
-CLASS="COMMAND"
->sox</B
->, or
-	      <SPAN
-CLASS="QUOTE"
->"<B
-CLASS="COMMAND"
->so</B
->und
-	      e<B
-CLASS="COMMAND"
->x</B
->change"</SPAN
-> command plays and
-	      performs transformations on sound files. In fact,
-	      the <TT
-CLASS="FILENAME"
->/usr/bin/play</TT
-> executable
-	      (now deprecated) is nothing but a shell wrapper for
-	      <I
-CLASS="FIRSTTERM"
->sox</I
->.</P
-><P
->For example, <B
-CLASS="COMMAND"
->sox soundfile.wav
-	      soundfile.au</B
-> changes a WAV sound file into a
-	      (Sun audio format) AU sound file.</P
-><P
->Shell scripts are ideally suited for batch-processing
-	      <B
-CLASS="COMMAND"
->sox</B
-> operations on
-	      sound files. For examples, see the <A
-HREF="http://osl.iu.edu/~tveldhui/radio/"
-TARGET="_top"
-> Linux Radio
-	      Timeshift HOWTO</A
-> and the <A
-HREF="http://savannah.nongnu.org/projects/audiodo"
-TARGET="_top"
->MP3do
-	      Project</A
->.</P
-></DD
-></DL
-></DIV
-></DIV
-><H3
-CLASS="FOOTNOTES"
->Notes</H3
-><TABLE
-BORDER="0"
-CLASS="FOOTNOTES"
-WIDTH="100%"
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN14105"
-HREF="extmisc.html#AEN14105"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->This is actually a script adapted from
-		the Debian Linux distribution.</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN14214"
-HREF="extmisc.html#AEN14214"
-><SPAN
-CLASS="footnote"
->[2]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->The <I
-CLASS="FIRSTTERM"
->print queue</I
-> is
-	      the group of jobs <SPAN
-CLASS="QUOTE"
->"waiting in line"</SPAN
-> to be
-	      printed.</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN14218"
-HREF="extmisc.html#AEN14218"
-><SPAN
-CLASS="footnote"
->[3]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->Large mechanical <I
-CLASS="FIRSTTERM"
->line
-		printers</I
-> printed a single
-		line of type at a time onto joined
-		sheets of <I
-CLASS="FIRSTTERM"
->greenbar</I
->
-		paper, to the accompaniment of <A
-HREF="http://www.columbia.edu/cu/computinghistory/1403.html"
-TARGET="_top"
->a
-		great deal of noise</A
->. The hardcopy
-		thusly printed was referred to as a
-		<I
-CLASS="FIRSTTERM"
->printout</I
->.</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN14280"
-HREF="extmisc.html#AEN14280"
-><SPAN
-CLASS="footnote"
->[4]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->For an excellent overview of this
-		  topic, see Andy Vaught's article, <A
-HREF="http://www2.linuxjournal.com/lj-issues/issue41/2156.html"
-TARGET="_top"
->Introduction
-		  to Named Pipes</A
->, in the September, 1997 issue of
-		  <A
-HREF="http://www.linuxjournal.com"
-TARGET="_top"
-><I
-CLASS="CITETITLE"
->Linux
-		  Journal</I
-></A
->.</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN14318"
-HREF="extmisc.html#AEN14318"
-><SPAN
-CLASS="footnote"
->[5]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
-><SPAN
-CLASS="ACRONYM"
->EBCDIC</SPAN
-> (pronounced
-		  <SPAN
-CLASS="QUOTE"
->"ebb-sid-ick"</SPAN
->) is an acronym for Extended
-		  Binary Coded Decimal Interchange Code, an obsolete
-                  IBM data format. A bizarre application of
-                  the <TT
-CLASS="OPTION"
->conv=ebcdic</TT
-> option of
-                  <B
-CLASS="COMMAND"
->dd</B
-> is as a quick 'n easy, but not
-                  very secure text file encoder.
-		    <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->cat $file | dd conv=swab,ebcdic &#62; $file_encrypted
-# Encode (looks like gibberish).		    
+esac</font></pre>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+        <dt><b class="COMMAND">dialog</b></dt>
+        <dd>
+          <p>The <a href="assortedtips.html#DIALOGREF">dialog</a> family of tools provide a method of calling interactive <span class="QUOTE">"dialog"</span> boxes from a script. The more elaborate variations of <b class="COMMAND">dialog</b> -- <b class="COMMAND">gdialog</b>, <b class="COMMAND">Xdialog</b>, and <b class="COMMAND">kdialog</b> -- actually invoke X-Windows <a href="assortedtips.html#WIDGETREF">widgets</a>.</p>
+        </dd>
+        <dt><a name="SOXREF" id="SOXREF"></a><b class="COMMAND">sox</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">sox</b>, or <span class="QUOTE">"<b class="COMMAND">so</b>und e<b class="COMMAND">x</b>change"</span> command plays and performs transformations on sound files. In fact, the <tt class="FILENAME">/usr/bin/play</tt> executable (now deprecated) is nothing but a shell wrapper for <i class="FIRSTTERM">sox</i>.</p>
+          <p>For example, <b class="COMMAND">sox soundfile.wav soundfile.au</b> changes a WAV sound file into a (Sun audio format) AU sound file.</p>
+          <p>Shell scripts are ideally suited for batch-processing <b class="COMMAND">sox</b> operations on sound files. For examples, see the <a href="http://osl.iu.edu/~tveldhui/radio/" target="_top">Linux Radio Timeshift HOWTO</a> and the <a href="http://savannah.nongnu.org/projects/audiodo" target="_top">MP3do Project</a>.</p>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN14105" href="extmisc.html#AEN14105" id="FTN.AEN14105"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>This is actually a script adapted from the Debian Linux distribution.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN14214" href="extmisc.html#AEN14214" id="FTN.AEN14214"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>The <i class="FIRSTTERM">print queue</i> is the group of jobs <span class="QUOTE">"waiting in line"</span> to be printed.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN14218" href="extmisc.html#AEN14218" id="FTN.AEN14218"><span class="footnote">[3]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Large mechanical <i class="FIRSTTERM">line printers</i> printed a single line of type at a time onto joined sheets of <i class="FIRSTTERM">greenbar</i> paper, to the accompaniment of <a href="http://www.columbia.edu/cu/computinghistory/1403.html" target="_top">a great deal of noise</a>. The hardcopy thusly printed was referred to as a <i class="FIRSTTERM">printout</i>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN14280" href="extmisc.html#AEN14280" id="FTN.AEN14280"><span class="footnote">[4]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>For an excellent overview of this topic, see Andy Vaught's article, <a href="http://www2.linuxjournal.com/lj-issues/issue41/2156.html" target="_top">Introduction to Named Pipes</a>, in the September, 1997 issue of <a href="http://www.linuxjournal.com" target="_top"><i class="CITETITLE">Linux Journal</i></a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN14318" href="extmisc.html#AEN14318" id="FTN.AEN14318"><span class="footnote">[5]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><span class="ACRONYM">EBCDIC</span> (pronounced <span class="QUOTE">"ebb-sid-ick"</span>) is an acronym for Extended Binary Coded Decimal Interchange Code, an obsolete IBM data format. A bizarre application of the <tt class="OPTION">conv=ebcdic</tt> option of <b class="COMMAND">dd</b> is as a quick 'n easy, but not very secure text file encoder.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tr>
+            <td>
+              <pre class="PROGRAMLISTING"><font color="#000000">cat $file | dd conv=swab,ebcdic &gt; $file_encrypted
+# Encode (looks like gibberish).                    
 # Might as well switch bytes (swab), too, for a little extra obscurity.
 
-cat $file_encrypted | dd conv=swab,ascii &#62; $file_plaintext
-# Decode.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-                </P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN14523"
-HREF="extmisc.html#AEN14523"
-><SPAN
-CLASS="footnote"
->[6]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->A <I
-CLASS="FIRSTTERM"
->macro</I
-> is a
-		 symbolic constant that expands into a command string
-		 or a set of operations on parameters. Simply put,
-		 it's a shortcut or abbreviation.</P
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="mathc.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="system.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Math Commands</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="external.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->System and Administrative Commands</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+cat $file_encrypted | dd conv=swab,ascii &gt; $file_plaintext
+# Decode.</font></pre>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN14523" href="extmisc.html#AEN14523" id="FTN.AEN14523"><span class="footnote">[6]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>A <i class="FIRSTTERM">macro</i> is a symbolic constant that expands into a command string or a set of operations on parameters. Simply put, it's a shortcut or abbreviation.</p>
+      </td>
+    </tr>
+  </table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="mathc.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="system.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Math Commands</td>
+        <td width="34%" align="center" valign="top"><a href="external.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">System and Administrative Commands</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,194 +1,69 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Options</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Advanced Topics"
-HREF="part5.html"><LINK
-REL="PREVIOUS"
-TITLE="Debugging"
-HREF="debugging.html"><LINK
-REL="NEXT"
-TITLE="Gotchas"
-HREF="gotchas.html"></HEAD
-><BODY
-CLASS="CHAPTER"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="debugging.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="gotchas.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="CHAPTER"
-><H1
-><A
-NAME="OPTIONS"
-></A
->Chapter 33. Options</H1
-><P
-><A
-NAME="OPTIONSREF"
-></A
-></P
-><P
->Options are settings that change shell and/or script
-        behavior.</P
-><P
->The <A
-HREF="internal.html#SETREF"
->set</A
-> command
-	enables options within a script. At the point in the script
-	where you want the options to take effect, use <B
-CLASS="COMMAND"
->set
-	-o option-name</B
-> or, in short form, <B
-CLASS="COMMAND"
->set
-	-option-abbrev</B
->. These two forms are equivalent.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->      #!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Options</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="Debugging" href="debugging.html">
+  <link rel="NEXT" title="Gotchas" href="gotchas.html">
+</head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="debugging.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="gotchas.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="OPTIONS" id="OPTIONS"></a>Chapter 33. Options</h1>
+    <p><a name="OPTIONSREF" id="OPTIONSREF"></a></p>
+    <p>Options are settings that change shell and/or script behavior.</p>
+    <p>The <a href="internal.html#SETREF">set</a> command enables options within a script. At the point in the script where you want the options to take effect, use <b class="COMMAND">set -o option-name</b> or, in short form, <b class="COMMAND">set -option-abbrev</b>. These two forms are equivalent.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">      #!/bin/bash
 
       set -o verbose
       # Echoes all commands before executing.
-      </PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->      #!/bin/bash
+      </font></pre>
+        </td>
+      </tr>
+    </table>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">      #!/bin/bash
 
       set -v
       # Exact same effect as above.
-      </PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->To <I
-CLASS="FIRSTTERM"
->disable</I
-> an option within a script,
-	use <B
-CLASS="COMMAND"
->set +o option-name</B
-> or <B
-CLASS="COMMAND"
->set
-	+option-abbrev</B
->.</P
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->      #!/bin/bash
+      </font></pre>
+        </td>
+      </tr>
+    </table>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>To <i class="FIRSTTERM">disable</i> an option within a script, use <b class="COMMAND">set +o option-name</b> or <b class="COMMAND">set +option-abbrev</b>.</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">      #!/bin/bash
 
       set -o verbose
       # Command echoing on.
@@ -213,736 +88,182 @@ CLASS="PROGRAMLISTING"
       command
 
       exit 0
-      </PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->An alternate method of enabling options in a script is
-	to specify them immediately following the
-	<TT
-CLASS="REPLACEABLE"
-><I
->#!</I
-></TT
-> script header.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->      #!/bin/bash -x
+      </font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>An alternate method of enabling options in a script is to specify them immediately following the <tt class="REPLACEABLE"><i>#!</i></tt> script header.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">      #!/bin/bash -x
       #
       # Body of script follows.
-      </PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
-><A
-NAME="INVOCATIONOPTIONSREF"
-></A
-></P
-><P
->It is also possible to enable script options from the command
-	line. Some options that will not work with
-	<B
-CLASS="COMMAND"
->set</B
-> are available this way. Among these
-	are <TT
-CLASS="REPLACEABLE"
-><I
->-i</I
-></TT
->, force script to run
-	interactive.</P
-><P
-><TT
-CLASS="USERINPUT"
-><B
->bash -v script-name</B
-></TT
-></P
-><P
-><TT
-CLASS="USERINPUT"
-><B
->bash -o verbose script-name</B
-></TT
-></P
-><P
->The following is a listing of some useful options. They may be
-	specified in either abbreviated form (preceded by a single dash)
-	or by complete name (preceded by a <EM
->double</EM
->
-	dash or by <TT
-CLASS="OPTION"
->-o</TT
->).</P
-><P
-><A
-NAME="OPTIONSTABLE"
-></A
-></P
-><DIV
-CLASS="TABLE"
-><A
-NAME="AEN19601"
-></A
-><P
-><B
->Table 33-1. Bash options</B
-></P
-><TABLE
-BORDER="1"
-CLASS="CALSTABLE"
-><THEAD
-><TR
-><TH
-ALIGN="LEFT"
-VALIGN="TOP"
->Abbreviation</TH
-><TH
-ALIGN="LEFT"
-VALIGN="TOP"
->Name</TH
-><TH
-ALIGN="LEFT"
-VALIGN="TOP"
->Effect</TH
-></TR
-></THEAD
-><TBODY
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-B</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->brace expansion</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><EM
->Enable</EM
->
-                 <A
-HREF="special-chars.html#BRACEEXPREF"
->brace
-                 expansion</A
-> (default setting =
-		 <EM
->on</EM
->)</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->+B</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->brace expansion</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><EM
->Disable</EM
->
-                 brace expansion</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><A
-NAME="NOCLOBBERREF"
-></A
-><TT
-CLASS="OPTION"
->-C</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->noclobber</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Prevent overwriting of files by redirection (may be
-		overridden by <SPAN
-CLASS="TOKEN"
->&#62;|</SPAN
->)</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-D</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->(none)</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->List double-quoted strings prefixed by <SPAN
-CLASS="TOKEN"
->$</SPAN
->,
-	      but do not execute commands in script</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-a</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->allexport</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Export all defined variables</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-b</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->notify</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Notify when jobs running in background terminate (not of
-	        much use in a script)</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-c ...</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->(none)</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Read commands from <B
-CLASS="COMMAND"
->...</B
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->checkjobs</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->&nbsp;</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Informs user of any open <A
-HREF="x9644.html#JOBSREF"
->jobs</A
-> upon shell exit.
-              Introduced in <A
-HREF="bashver4.html#BASH4REF"
->version 4</A
->
-	      of Bash, and still <SPAN
-CLASS="QUOTE"
->"experimental."</SPAN
->
-              <EM
->Usage:</EM
-> shopt -s checkjobs
-	      (<EM
->Caution:</EM
-> may hang!)</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-e</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->errexit</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Abort script at first error, when a command
-		exits with non-zero status (except in <A
-HREF="loops1.html#UNTILLOOPREF"
->until</A
-> or <A
-HREF="loops1.html#WHILELOOPREF"
->while loops</A
->, <A
-HREF="testconstructs.html#TESTCONSTRUCTS1"
->if-tests</A
->, <A
-HREF="list-cons.html#LCONS1"
->list constructs</A
->)</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-f</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->noglob</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Filename expansion (globbing) disabled</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->globstar</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><A
-HREF="bashver4.html#GLOBSTARREF"
-><I
-CLASS="FIRSTTERM"
->globbing</I
->
-	        star-match</A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Enables the <SPAN
-CLASS="TOKEN"
->**</SPAN
-> <A
-HREF="globbingref.html"
->globbing</A
-> operator
-               (<A
-HREF="bashver4.html#BASH4REF"
->version 4+</A
-> of Bash).
-               <EM
->Usage:</EM
-> shopt -s globstar</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-i</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->interactive</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Script runs in <I
-CLASS="FIRSTTERM"
->interactive</I
-> mode</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-n</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->noexec</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Read commands in script, but do not execute them (syntax check)</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-o Option-Name</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->(none)</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Invoke the <I
-CLASS="FIRSTTERM"
->Option-Name</I
->
-	        option</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-o posix</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->POSIX</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Change the behavior of Bash, or invoked script, to
-		conform to <A
-HREF="sha-bang.html#POSIX2REF"
->POSIX</A
->
-		standard.</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-o pipefail</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->pipe failure</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Causes a pipeline to return the <A
-HREF="exit-status.html#EXITSTATUSREF"
->exit status</A
-> of
-	      the last command in the pipe that returned a non-zero
-	      return value.</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-p</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->privileged</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Script runs as <SPAN
-CLASS="QUOTE"
->"suid"</SPAN
-> (caution!)</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-r</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->restricted</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Script runs in <I
-CLASS="FIRSTTERM"
->restricted</I
->
-	      mode (see <A
-HREF="restricted-sh.html"
->Chapter 22</A
->).</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-s</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->stdin</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Read commands from <TT
-CLASS="FILENAME"
->stdin</TT
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-t</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->(none)</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Exit after first command</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-u</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->nounset</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Attempt to use undefined variable
-		outputs error message, and forces an exit</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-v</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->verbose</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Print each command to <TT
-CLASS="FILENAME"
->stdout</TT
-> before executing it</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-x</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->xtrace</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Similar to <TT
-CLASS="OPTION"
->-v</TT
->, but expands commands</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->-</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->(none)</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->End of options flag. All other arguments
-		are <A
-HREF="internalvariables.html#POSPARAMREF"
->positional
-		parameters</A
->.</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->--</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->(none)</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->Unset positional parameters.
-		If arguments given (<TT
-CLASS="PARAMETER"
-><I
->-- arg1 arg2</I
-></TT
->),
-		positional parameters set to arguments.</TD
-></TR
-></TBODY
-></TABLE
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="debugging.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="gotchas.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Debugging</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="part5.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Gotchas</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+      </font></pre>
+        </td>
+      </tr>
+    </table>
+    <p><a name="INVOCATIONOPTIONSREF" id="INVOCATIONOPTIONSREF"></a></p>
+    <p>It is also possible to enable script options from the command line. Some options that will not work with <b class="COMMAND">set</b> are available this way. Among these are <tt class="REPLACEABLE"><i>-i</i></tt>, force script to run interactive.</p>
+    <p><tt class="USERINPUT"><b>bash -v script-name</b></tt></p>
+    <p><tt class="USERINPUT"><b>bash -o verbose script-name</b></tt></p>
+    <p>The following is a listing of some useful options. They may be specified in either abbreviated form (preceded by a single dash) or by complete name (preceded by a <em>double</em> dash or by <tt class="OPTION">-o</tt>).</p>
+    <p><a name="OPTIONSTABLE" id="OPTIONSTABLE"></a></p>
+    <div class="TABLE">
+      <a name="AEN19601" id="AEN19601"></a>
+      <p><b>Table 33-1. Bash options</b></p>
+      <table border="1" class="CALSTABLE">
+        <thead>
+          <tr>
+            <th align="left" valign="top">Abbreviation</th>
+            <th align="left" valign="top">Name</th>
+            <th align="left" valign="top">Effect</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-B</tt></td>
+            <td align="left" valign="top">brace expansion</td>
+            <td align="left" valign="top"><em>Enable</em> <a href="special-chars.html#BRACEEXPREF">brace expansion</a> (default setting = <em>on</em>)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">+B</tt></td>
+            <td align="left" valign="top">brace expansion</td>
+            <td align="left" valign="top"><em>Disable</em> brace expansion</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><a name="NOCLOBBERREF" id="NOCLOBBERREF"></a><tt class="OPTION">-C</tt></td>
+            <td align="left" valign="top">noclobber</td>
+            <td align="left" valign="top">Prevent overwriting of files by redirection (may be overridden by <span class="TOKEN">&gt;|</span>)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-D</tt></td>
+            <td align="left" valign="top">(none)</td>
+            <td align="left" valign="top">List double-quoted strings prefixed by <span class="TOKEN">$</span>, but do not execute commands in script</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-a</tt></td>
+            <td align="left" valign="top">allexport</td>
+            <td align="left" valign="top">Export all defined variables</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-b</tt></td>
+            <td align="left" valign="top">notify</td>
+            <td align="left" valign="top">Notify when jobs running in background terminate (not of much use in a script)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-c ...</tt></td>
+            <td align="left" valign="top">(none)</td>
+            <td align="left" valign="top">Read commands from <b class="COMMAND">...</b></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">checkjobs</tt></td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">Informs user of any open <a href="x9644.html#JOBSREF">jobs</a> upon shell exit. Introduced in <a href="bashver4.html#BASH4REF">version 4</a> of Bash, and still <span class="QUOTE">"experimental."</span> <em>Usage:</em> shopt -s checkjobs (<em>Caution:</em> may hang!)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-e</tt></td>
+            <td align="left" valign="top">errexit</td>
+            <td align="left" valign="top">Abort script at first error, when a command exits with non-zero status (except in <a href="loops1.html#UNTILLOOPREF">until</a> or <a href="loops1.html#WHILELOOPREF">while loops</a>, <a href="testconstructs.html#TESTCONSTRUCTS1">if-tests</a>, <a href="list-cons.html#LCONS1">list constructs</a>)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-f</tt></td>
+            <td align="left" valign="top">noglob</td>
+            <td align="left" valign="top">Filename expansion (globbing) disabled</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">globstar</tt></td>
+            <td align="left" valign="top"><a href="bashver4.html#GLOBSTARREF"><i class="FIRSTTERM">globbing</i> star-match</a></td>
+            <td align="left" valign="top">Enables the <span class="TOKEN">**</span> <a href="globbingref.html">globbing</a> operator (<a href="bashver4.html#BASH4REF">version 4+</a> of Bash). <em>Usage:</em> shopt -s globstar</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-i</tt></td>
+            <td align="left" valign="top">interactive</td>
+            <td align="left" valign="top">Script runs in <i class="FIRSTTERM">interactive</i> mode</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-n</tt></td>
+            <td align="left" valign="top">noexec</td>
+            <td align="left" valign="top">Read commands in script, but do not execute them (syntax check)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-o Option-Name</tt></td>
+            <td align="left" valign="top">(none)</td>
+            <td align="left" valign="top">Invoke the <i class="FIRSTTERM">Option-Name</i> option</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-o posix</tt></td>
+            <td align="left" valign="top">POSIX</td>
+            <td align="left" valign="top">Change the behavior of Bash, or invoked script, to conform to <a href="sha-bang.html#POSIX2REF">POSIX</a> standard.</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-o pipefail</tt></td>
+            <td align="left" valign="top">pipe failure</td>
+            <td align="left" valign="top">Causes a pipeline to return the <a href="exit-status.html#EXITSTATUSREF">exit status</a> of the last command in the pipe that returned a non-zero return value.</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-p</tt></td>
+            <td align="left" valign="top">privileged</td>
+            <td align="left" valign="top">Script runs as <span class="QUOTE">"suid"</span> (caution!)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-r</tt></td>
+            <td align="left" valign="top">restricted</td>
+            <td align="left" valign="top">Script runs in <i class="FIRSTTERM">restricted</i> mode (see <a href="restricted-sh.html">Chapter 22</a>).</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-s</tt></td>
+            <td align="left" valign="top">stdin</td>
+            <td align="left" valign="top">Read commands from <tt class="FILENAME">stdin</tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-t</tt></td>
+            <td align="left" valign="top">(none)</td>
+            <td align="left" valign="top">Exit after first command</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-u</tt></td>
+            <td align="left" valign="top">nounset</td>
+            <td align="left" valign="top">Attempt to use undefined variable outputs error message, and forces an exit</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-v</tt></td>
+            <td align="left" valign="top">verbose</td>
+            <td align="left" valign="top">Print each command to <tt class="FILENAME">stdout</tt> before executing it</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-x</tt></td>
+            <td align="left" valign="top">xtrace</td>
+            <td align="left" valign="top">Similar to <tt class="OPTION">-v</tt>, but expands commands</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-</tt></td>
+            <td align="left" valign="top">(none)</td>
+            <td align="left" valign="top">End of options flag. All other arguments are <a href="internalvariables.html#POSPARAMREF">positional parameters</a>.</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">--</tt></td>
+            <td align="left" valign="top">(none)</td>
+            <td align="left" valign="top">Unset positional parameters. If arguments given (<tt class="PARAMETER"><i>-- arg1 arg2</i></tt>), positional parameters set to arguments.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="debugging.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="gotchas.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Debugging</td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Gotchas</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

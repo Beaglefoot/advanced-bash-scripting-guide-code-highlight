@@ -1,172 +1,62 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Here Strings</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Here Documents"
-HREF="here-docs.html"><LINK
-REL="PREVIOUS"
-TITLE="Here Documents"
-HREF="here-docs.html"><LINK
-REL="NEXT"
-TITLE="I/O Redirection"
-HREF="io-redirection.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="here-docs.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 19. Here Documents</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="io-redirection.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="AEN17837"
-></A
->19.1. Here Strings</H1
-><P
-><A
-NAME="HERESTRINGSREF"
-></A
-></P
-><A
-NAME="AEN17841"
-></A
-><BLOCKQUOTE
-CLASS="BLOCKQUOTE"
-><P
-CLASS="LITERALLAYOUT"
->A&nbsp;<I
-CLASS="FIRSTTERM"
->here string</I
->&nbsp;can&nbsp;be&nbsp;considered&nbsp;as&nbsp;a&nbsp;stripped-down&nbsp;form&nbsp;of&nbsp;a&nbsp;<I
-CLASS="FIRSTTERM"
->here document</I
->.<br>
-It&nbsp;consists&nbsp;of&nbsp;nothing&nbsp;more&nbsp;than&nbsp;<B
-CLASS="COMMAND"
->COMMAND &#60;&#60;&#60; $WORD</B
->,<br>
-where&nbsp;<TT
-CLASS="VARNAME"
->$WORD</TT
->&nbsp;is&nbsp;expanded&nbsp;and&nbsp;fed&nbsp;to&nbsp;the&nbsp;<TT
-CLASS="FILENAME"
->stdin</TT
->&nbsp;of&nbsp;<B
-CLASS="COMMAND"
->COMMAND</B
->.<br>
-	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</P
-></BLOCKQUOTE
-><P
->As a simple example, consider this alternative to the <A
-HREF="internal.html#ECHOGREPREF"
->echo-grep</A
-> construction.</P
-><P
->	  <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># Instead of:
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Here Strings</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Here Documents" href="here-docs.html">
+  <link rel="PREVIOUS" title="Here Documents" href="here-docs.html">
+  <link rel="NEXT" title="I/O Redirection" href="io-redirection.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="here-docs.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 19. Here Documents</td>
+        <td width="10%" align="right" valign="bottom"><a href="io-redirection.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="AEN17837" id="AEN17837"></a>19.1. Here Strings</h1>
+    <p><a name="HERESTRINGSREF" id="HERESTRINGSREF"></a></p><a name="AEN17841" id="AEN17841"></a>
+    <blockquote class="BLOCKQUOTE">
+      <p class="LITERALLAYOUT">A&nbsp;<i class="FIRSTTERM">here string</i>&nbsp;can&nbsp;be&nbsp;considered&nbsp;as&nbsp;a&nbsp;stripped-down&nbsp;form&nbsp;of&nbsp;a&nbsp;<i class="FIRSTTERM">here document</i>.<br>
+      It&nbsp;consists&nbsp;of&nbsp;nothing&nbsp;more&nbsp;than&nbsp;<b class="COMMAND">COMMAND &lt;&lt;&lt; $WORD</b>,<br>
+      where&nbsp;<tt class="VARNAME">$WORD</tt>&nbsp;is&nbsp;expanded&nbsp;and&nbsp;fed&nbsp;to&nbsp;the&nbsp;<tt class="FILENAME">stdin</tt>&nbsp;of&nbsp;<b class="COMMAND">COMMAND</b>.<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+    </blockquote>
+    <p>As a simple example, consider this alternative to the <a href="internal.html#ECHOGREPREF">echo-grep</a> construction.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000"># Instead of:
 if echo "$VAR" | grep -q txt   # if [[ $VAR = *txt* ]]
 # etc.
 
 # Try:
-if grep -q "txt" &#60;&#60;&#60; "$VAR"
+if grep -q "txt" &lt;&lt;&lt; "$VAR"
 then   #         ^^^
    echo "$VAR contains the substring sequence \"txt\""
 fi
-# Thank you, Sebastian Kaminski, for the suggestion.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-        </P
-><P
-><A
-NAME="HSREAD"
-></A
-></P
-><P
->Or, in combination with <A
-HREF="internal.html#READREF"
->read</A
->:</P
-><P
->	<TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->String="This is a string of words."
+# Thank you, Sebastian Kaminski, for the suggestion.</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p><a name="HSREAD" id="HSREAD"></a></p>
+    <p>Or, in combination with <a href="internal.html#READREF">read</a>:</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000">String="This is a string of words."
 
-read -r -a Words &#60;&#60;&#60; "$String"
+read -r -a Words &lt;&lt;&lt; "$String"
 #  The -a option to "read"
 #+ assigns the resulting values to successive members of an array.
 
@@ -179,79 +69,34 @@ echo "Sixth word in String is:    ${Words[5]}"   # words.
 echo "Seventh word in String is:  ${Words[6]}"   # (null)
                                                  # Past end of $String.
 
-# Thank you, Francisco Lobo, for the suggestion.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-        </P
-><P
-><A
-NAME="HSLOOP"
-></A
->It is, of course, possible to feed
-	  the output of a <I
-CLASS="FIRSTTERM"
->here string</I
->
-	  into the <TT
-CLASS="FILENAME"
->stdin</TT
-> of a <A
-HREF="loops.html#LOOPREF00"
->loop</A
->.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
-># As Seamus points out . . .
+# Thank you, Francisco Lobo, for the suggestion.</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p><a name="HSLOOP" id="HSLOOP"></a>It is, of course, possible to feed the output of a <i class="FIRSTTERM">here string</i> into the <tt class="FILENAME">stdin</tt> of a <a href="loops.html#LOOPREF00">loop</a>.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="PROGRAMLISTING"><font color="#000000"># As Seamus points out . . .
 
 ArrayVar=( element0 element1 element2 {A..D} )
 
 while read element ; do
-  echo "$element" 1&#62;&#38;2
-done &#60;&#60;&#60; $(echo ${ArrayVar[*]})
+  echo "$element" 1&gt;&amp;2
+done &lt;&lt;&lt; $(echo ${ArrayVar[*]})
 
-# element0 element1 element2 A B C D</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
-><A
-NAME="HSPRE"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="PREPENDEX"
-></A
-><P
-><B
->Example 19-13. Prepending a line to a file</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# element0 element1 element2 A B C D</font></pre>
+        </td>
+      </tr>
+    </table>
+    <p><a name="HSPRE" id="HSPRE"></a></p>
+    <div class="EXAMPLE">
+      <a name="PREPENDEX" id="PREPENDEX"></a>
+      <p><b>Example 19-13. Prepending a line to a file</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # prepend.sh: Add text at beginning of file.
 #
 #  Example contributed by Kenny Stauffer,
@@ -268,7 +113,7 @@ then   # Bail out if no such file.
 fi
 
 read -p "Title: " title
-cat - $file &#60;&#60;&#60;$title &#62; $file.new
+cat - $file &lt;&lt;&lt;$title &gt; $file.new
 
 echo "Modified file is $file.new"
 
@@ -276,41 +121,27 @@ exit  # Ends script execution.
 
   from 'man bash':
   Here Strings
-  	A variant of here documents, the format is:
+        A variant of here documents, the format is:
   
-  		&#60;&#60;&#60;word
+                &lt;&lt;&lt;word
   
-  	The word is expanded and supplied to the command on its standard input.
+        The word is expanded and supplied to the command on its standard input.
 
 
   Of course, the following also works:
    sed -e '1i\
-   Title: ' $file</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="MAILBOXGREP"
-></A
-><P
-><B
->Example 19-14. Parsing a mailbox</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+   Title: ' $file</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="MAILBOXGREP" id="MAILBOXGREP"></a>
+      <p><b>Example 19-14. Parsing a mailbox</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 #  Script by Francisco Lobo,
 #+ and slightly modified and commented by ABS Guide author.
 #  Used in ABS Guide with permission. (Thank you!)
@@ -334,7 +165,7 @@ mbox_grep()  # Parse mailbox file.
 
     while IFS= read -r mail
 #         ^^^^                 Reset $IFS.
-#  Otherwise "read" will strip leading &#38; trailing space from its input.
+#  Otherwise "read" will strip leading &amp; trailing space from its input.
 
    do
        if [[ $mail =~ ^From  ]]   # Match "From" field in message.
@@ -351,23 +182,23 @@ mbox_grep()  # Parse mailbox file.
             #+ of message to display.
 
    elif [[ $mail ]]; then
-      IFS=: read -r header value &#60;&#60;&#60; "$mail"
+      IFS=: read -r header value &lt;&lt;&lt; "$mail"
       #                          ^^^  "here string"
 
       case "$header" in
-      [Ff][Rr][Oo][Mm] ) [[ $value =~ "$2" ]] &#38;&#38; (( match++ )) ;;
+      [Ff][Rr][Oo][Mm] ) [[ $value =~ "$2" ]] &amp;&amp; (( match++ )) ;;
       # Match "From" line.
-      [Dd][Aa][Tt][Ee] ) read -r -a date &#60;&#60;&#60; "$value" ;;
+      [Dd][Aa][Tt][Ee] ) read -r -a date &lt;&lt;&lt; "$value" ;;
       #                                  ^^^
       # Match "Date" line.
-      [Rr][Ee][Cc][Ee][Ii][Vv][Ee][Dd] ) read -r -a sender &#60;&#60;&#60; "$value" ;;
+      [Rr][Ee][Cc][Ee][Ii][Vv][Ee][Dd] ) read -r -a sender &lt;&lt;&lt; "$value" ;;
       #                                                    ^^^
       # Match IP Address (may be spoofed).
       esac
 
        else
           (( body++ ))
-          (( match  )) &#38;&#38;
+          (( match  )) &amp;&amp;
           echo "MESSAGE ${date:+of: ${date[*]} }"
        #    Entire $date array             ^
           echo "IP address of sender: ${sender[1]}"
@@ -376,7 +207,7 @@ mbox_grep()  # Parse mailbox file.
        fi
 
 
-    done &#60; "$1" # Redirect stdout of file into loop.
+    done &lt; "$1" # Redirect stdout of file into loop.
 }
 
 
@@ -394,88 +225,27 @@ exit $?
 
 $ mailbox_grep.sh scam_mail
   MESSAGE of Thu, 5 Jan 2006 08:00:56 -0500 (EST) 
-  IP address of sender: 196.3.62.4</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Exercise: Find other uses for <I
-CLASS="FIRSTTERM"
->here
-           strings</I
->, such as, for example, <A
-HREF="mathc.html#GOLDENRATIO"
->feeding input to
-           <I
-CLASS="FIRSTTERM"
->dc</I
-></A
->.</P
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="here-docs.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="io-redirection.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Here Documents</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="here-docs.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->I/O Redirection</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+  IP address of sender: 196.3.62.4</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>Exercise: Find other uses for <i class="FIRSTTERM">here strings</i>, such as, for example, <a href="mathc.html#GOLDENRATIO">feeding input to <i class="FIRSTTERM">dc</i></a>.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="here-docs.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="io-redirection.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Here Documents</td>
+        <td width="34%" align="center" valign="top"><a href="here-docs.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">I/O Redirection</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

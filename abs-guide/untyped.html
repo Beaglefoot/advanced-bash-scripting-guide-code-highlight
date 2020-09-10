@@ -1,118 +1,39 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Bash Variables Are Untyped</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Introduction to Variables and Parameters"
-HREF="variables.html"><LINK
-REL="PREVIOUS"
-TITLE="Variable Assignment"
-HREF="varassignment.html"><LINK
-REL="NEXT"
-TITLE="Special Variable Types"
-HREF="othertypesv.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="varassignment.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 4. Introduction to Variables and Parameters</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="othertypesv.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="UNTYPED"
-></A
->4.3. Bash Variables Are Untyped</H1
-><P
-><A
-NAME="BVUNTYPED"
-></A
-></P
-><P
->Unlike many other programming languages, Bash does not segregate
-	its variables by <SPAN
-CLASS="QUOTE"
->"type."</SPAN
-> Essentially, <EM
->Bash
-	variables are character strings</EM
->, but, depending on
-	context, Bash permits arithmetic operations and comparisons on
-	variables. The determining factor is whether the value of a
-	variable contains only digits.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="INTORSTRING"
-></A
-><P
-><B
->Example 4-4. Integer or string?</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Bash Variables Are Untyped</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Introduction to Variables and Parameters" href="variables.html">
+  <link rel="PREVIOUS" title="Variable Assignment" href="varassignment.html">
+  <link rel="NEXT" title="Special Variable Types" href="othertypesv.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="varassignment.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 4. Introduction to Variables and Parameters</td>
+        <td width="10%" align="right" valign="bottom"><a href="othertypesv.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="UNTYPED" id="UNTYPED"></a>4.3. Bash Variables Are Untyped</h1>
+    <p><a name="BVUNTYPED" id="BVUNTYPED"></a></p>
+    <p>Unlike many other programming languages, Bash does not segregate its variables by <span class="QUOTE">"type."</span> Essentially, <em>Bash variables are character strings</em>, but, depending on context, Bash permits arithmetic operations and comparisons on variables. The determining factor is whether the value of a variable contains only digits.</p>
+    <div class="EXAMPLE">
+      <a name="INTORSTRING" id="INTORSTRING"></a>
+      <p><b>Example 4-4. Integer or string?</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # int-or-string.sh
 
 a=2334                   # Integer.
@@ -174,90 +95,28 @@ let "f /= 0"
 # Conclusion: Variables in Bash are untyped,
 #+ with all attendant consequences.
 
-exit $?</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Untyped variables are both a blessing and a curse. They permit
-	more flexibility in scripting and make it easier to grind out
-	lines of code (and give you enough rope to hang yourself!).
-	However, they likewise permit subtle errors to creep in
-	and encourage sloppy programming habits.</P
-><P
->To lighten the burden of keeping track of variable
-        types in a script, Bash <EM
->does</EM
-> permit
-	<A
-HREF="declareref.html"
->declaring</A
-> variables.</P
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="varassignment.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="othertypesv.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Variable Assignment</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="variables.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Special Variable Types</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+exit $?</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>Untyped variables are both a blessing and a curse. They permit more flexibility in scripting and make it easier to grind out lines of code (and give you enough rope to hang yourself!). However, they likewise permit subtle errors to creep in and encourage sloppy programming habits.</p>
+    <p>To lighten the burden of keeping track of variable types in a script, Bash <em>does</em> permit <a href="declareref.html">declaring</a> variables.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="varassignment.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="othertypesv.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Variable Assignment</td>
+        <td width="34%" align="center" valign="top"><a href="variables.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Special Variable Types</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

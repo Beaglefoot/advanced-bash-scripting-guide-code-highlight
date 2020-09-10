@@ -1,131 +1,39 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Colorizing Scripts</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Miscellany"
-HREF="miscellany.html"><LINK
-REL="PREVIOUS"
-TITLE="Recursion: a script calling itself"
-HREF="recursionsct.html"><LINK
-REL="NEXT"
-TITLE="Optimizations"
-HREF="optimizations.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="recursionsct.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 36. Miscellany</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="optimizations.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="COLORIZING"
-></A
->36.5. <SPAN
-CLASS="QUOTE"
->"Colorizing"</SPAN
-> Scripts</H1
-><P
-><A
-NAME="COLORIZINGREF"
-></A
-></P
-><P
->The ANSI
-	   <A
-NAME="AEN20259"
-HREF="#FTN.AEN20259"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
->
-	   escape sequences set screen attributes, such as bold
-	   text, and color of foreground and background. <A
-HREF="dosbatch.html#DOSBATCH1"
->DOS batch files</A
-> commonly used
-	   ANSI escape codes for <EM
->color</EM
-> output,
-	   and so can Bash scripts.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX30A"
-></A
-><P
-><B
->Example 36-13. A <SPAN
-CLASS="QUOTE"
->"colorized"</SPAN
-> address database</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Colorizing Scripts</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Miscellany" href="miscellany.html">
+  <link rel="PREVIOUS" title="Recursion: a script calling itself" href="recursionsct.html">
+  <link rel="NEXT" title="Optimizations" href="optimizations.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="recursionsct.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 36. Miscellany</td>
+        <td width="10%" align="right" valign="bottom"><a href="optimizations.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="COLORIZING" id="COLORIZING"></a>36.5. <span class="QUOTE">"Colorizing"</span> Scripts</h1>
+    <p><a name="COLORIZINGREF" id="COLORIZINGREF"></a></p>
+    <p>The ANSI <a name="AEN20259" href="#FTN.AEN20259" id="AEN20259"><span class="footnote">[1]</span></a> escape sequences set screen attributes, such as bold text, and color of foreground and background. <a href="dosbatch.html#DOSBATCH1">DOS batch files</a> commonly used ANSI escape codes for <em>color</em> output, and so can Bash scripts.</p>
+    <div class="EXAMPLE">
+      <a name="EX30A" id="EX30A"></a>
+      <p><b>Example 36-13. A <span class="QUOTE">"colorized"</span> address database</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # ex30a.sh: "Colorized" version of ex30.sh.
 #            Crude address database
 
@@ -169,7 +77,7 @@ case "$person" in
   echo "(303) 734-9874"
   echo "(303) 734-9892 fax"
   echo "revans@zzy.net"
-  echo "Business partner &#38; old friend"
+  echo "Business partner &amp; old friend"
   ;;
 
   "J" | "j" )
@@ -184,10 +92,10 @@ case "$person" in
   echo "Birthday: Feb. 11"
   ;;
 
-# Add info for Smith &#38; Zane later.
+# Add info for Smith &amp; Zane later.
 
           * )
-   # Default option.	  
+   # Default option.      
    # Empty input (hitting RETURN) fits here, too.
    echo
    echo "Not yet in database."
@@ -199,32 +107,18 @@ tput sgr0                               # Reset colors to "normal."
 
 echo
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="DRAW-BOX"
-></A
-><P
-><B
->Example 36-14. Drawing a box</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="DRAW-BOX" id="DRAW-BOX"></a>
+      <p><b>Example 36-14. Drawing a box</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # Draw-box.sh: Drawing a box using ASCII characters.
 
 # Script by Stefano Palmeri, with minor editing by document author.
@@ -243,15 +137,15 @@ CLASS="PROGRAMLISTING"
 #+ of the upper left angle of the box you're going to draw.
 #  ROW and COLUMN must be greater than 0
 #+ and less than current terminal dimension.
-#  HEIGHT is the number of rows of the box, and must be &#62; 0. 
-#  HEIGHT + ROW must be &#60;= than current terminal height. 
-#  WIDTH is the number of columns of the box and must be &#62; 0.
-#  WIDTH + COLUMN must be &#60;= than current terminal width.
+#  HEIGHT is the number of rows of the box, and must be &gt; 0. 
+#  HEIGHT + ROW must be &lt;= than current terminal height. 
+#  WIDTH is the number of columns of the box and must be &gt; 0.
+#  WIDTH + COLUMN must be &lt;= than current terminal width.
 #
 # E.g.: If your terminal dimension is 20x80,
 #  draw_box 2 3 10 45 is good
-#  draw_box 2 3 19 45 has bad HEIGHT value (19+2 &#62; 20)
-#  draw_box 2 3 18 78 has bad WIDTH value (78+3 &#62; 80)
+#  draw_box 2 3 19 45 has bad HEIGHT value (19+2 &gt; 20)
+#  draw_box 2 3 18 78 has bad WIDTH value (78+3 &gt; 80)
 #
 #  COLOR is the color of the box frame.
 #  This is the 5th argument and is optional.
@@ -285,7 +179,7 @@ fi
 
 # Looking for non digit chars in arguments.
 # Probably it could be done better (exercise for the reader?).
-if echo $@ | tr -d [:blank:] | tr -d [:digit:] | grep . &#38;&#62; /dev/null; then
+if echo $@ | tr -d [:blank:] | tr -d [:digit:] | grep . &amp;&gt; /dev/null; then
    exit $E_BADARGS
 fi
 
@@ -319,27 +213,27 @@ echo -ne "\E[3${5}m"               # Set box frame color, if defined.
 # start drawing the box
 
 count=1                                         #  Draw vertical lines using
-for (( r=$1; count&#60;=$BOX_HEIGHT; r++)); do      #+ plot_char function.
+for (( r=$1; count&lt;=$BOX_HEIGHT; r++)); do      #+ plot_char function.
   plot_char $r $2 $VERT
   let count=count+1
 done 
 
 count=1
 c=`expr $2 + $BOX_WIDTH`
-for (( r=$1; count&#60;=$BOX_HEIGHT; r++)); do
+for (( r=$1; count&lt;=$BOX_HEIGHT; r++)); do
   plot_char $r $c $VERT
   let count=count+1
 done 
 
 count=1                                        #  Draw horizontal lines using
-for (( c=$2; count&#60;=$BOX_WIDTH; c++)); do      #+ plot_char function.
+for (( c=$2; count&lt;=$BOX_WIDTH; c++)); do      #+ plot_char function.
   plot_char $1 $c $HORZ
   let count=count+1
 done 
 
 count=1
 r=`expr $1 + $BOX_HEIGHT`
-for (( c=$2; count&#60;=$BOX_WIDTH; c++)); do
+for (( c=$2; count&lt;=$BOX_WIDTH; c++)); do
   plot_char $r $c $HORZ
   let count=count+1
 done 
@@ -370,523 +264,153 @@ exit 0
 
 # Exercise:
 # --------
-# Add the option of printing text within the drawn box.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->The simplest, and perhaps most useful ANSI escape sequence is
-	  bold text, <B
-CLASS="COMMAND"
->\033[1m ... \033[0m</B
->. The
-	  <SPAN
-CLASS="TOKEN"
->\033</SPAN
-> represents an <A
-HREF="escapingsection.html#ESCP"
->escape</A
->, the <SPAN
-CLASS="QUOTE"
->"[1"</SPAN
-> turns on the
-	  bold attribute, while the <SPAN
-CLASS="QUOTE"
->"[0"</SPAN
-> switches it off. The
-	  <SPAN
-CLASS="QUOTE"
->"m"</SPAN
-> terminates each term of the escape sequence.
-	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo -e "\033[1mThis is bold text.\033[0m"</B
-></TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	</P
-><P
->A similar escape sequence switches on the underline
-	  attribute (on an <I
-CLASS="FIRSTTERM"
->rxvt</I
-> and an
-	  <I
-CLASS="FIRSTTERM"
->aterm</I
->).
-	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo -e "\033[4mThis is underlined text.\033[0m"</B
-></TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	</P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->With an <B
-CLASS="COMMAND"
->echo</B
->, the
-	  <TT
-CLASS="OPTION"
->-e</TT
-> option enables the escape
-	  sequences.</P
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Other escape sequences change the text and/or background
-	  color.</P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo -e '\E[34;47mThis prints in blue.'; tput sgr0</B
-></TT
->
+# Add the option of printing text within the drawn box.</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>The simplest, and perhaps most useful ANSI escape sequence is bold text, <b class="COMMAND">\033[1m ... \033[0m</b>. The <span class="TOKEN">\033</span> represents an <a href="escapingsection.html#ESCP">escape</a>, the <span class="QUOTE">"[1"</span> turns on the bold attribute, while the <span class="QUOTE">"[0"</span> switches it off. The <span class="QUOTE">"m"</span> terminates each term of the escape sequence.</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo -e "\033[1mThis is bold text.\033[0m"</b></tt>
+              </font></pre>
+        </td>
+      </tr>
+    </table>
+    <p>A similar escape sequence switches on the underline attribute (on an <i class="FIRSTTERM">rxvt</i> and an <i class="FIRSTTERM">aterm</i>).</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo -e "\033[4mThis is underlined text.\033[0m"</b></tt>
+              </font></pre>
+        </td>
+      </tr>
+    </table>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>With an <b class="COMMAND">echo</b>, the <tt class="OPTION">-e</tt> option enables the escape sequences.</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>Other escape sequences change the text and/or background color.</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo -e '\E[34;47mThis prints in blue.'; tput sgr0</b></tt>
 
 
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo -e '\E[33;44m'"yellow text on blue background"; tput sgr0</B
-></TT
->
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo -e '\E[33;44m'"yellow text on blue background"; tput sgr0</b></tt>
 
 
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo -e '\E[1;33;44m'"BOLD yellow text on blue background"; tput sgr0</B
-></TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	      </P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->It's usually advisable to set the
-	  <I
-CLASS="FIRSTTERM"
->bold</I
-> attribute for light-colored foreground
-	  text.</P
-></TD
-></TR
-></TABLE
-></DIV
-><P
->The <B
-CLASS="COMMAND"
->tput sgr0</B
-> restores the
-		terminal settings to normal. Omitting this lets all
-	        subsequent output from that particular terminal remain
-	        blue.</P
-><DIV
-CLASS="NOTE"
-><P
-></P
-><TABLE
-CLASS="NOTE"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/note.gif"
-HSPACE="5"
-ALT="Note"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->Since <B
-CLASS="COMMAND"
->tput sgr0</B
-> fails to restore
-	        terminal settings under certain circumstances,
-		<B
-CLASS="COMMAND"
->echo -ne \E[0m</B
-> may be a better choice.</P
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="COLORIZTEMPL"
-></A
-></P
-><TABLE
-CLASS="SIDEBAR"
-BORDER="1"
-CELLPADDING="5"
-><TR
-><TD
-><DIV
-CLASS="SIDEBAR"
-><A
-NAME="AEN20311"
-></A
-><P
-></P
-><P
->Use the following template for writing colored text on a colored
-	background.</P
-><P
->	  <TT
-CLASS="USERINPUT"
-><B
->echo -e '\E[COLOR1;COLOR2mSome text goes here.'</B
-></TT
->
-        </P
-><P
->The <SPAN
-CLASS="QUOTE"
->"\E["</SPAN
-> begins the escape sequence.
-	  The semicolon-separated numbers <SPAN
-CLASS="QUOTE"
->"COLOR1"</SPAN
-> and
-	  <SPAN
-CLASS="QUOTE"
->"COLOR2"</SPAN
-> specify a foreground and a background
-	  color, according to the table below. (The order of the
-	  numbers does not matter, since the foreground and background
-	  numbers fall in non-overlapping ranges.) The <SPAN
-CLASS="QUOTE"
->"m"</SPAN
->
-	  terminates the escape sequence, and the text begins immediately
-	  after that.</P
-><P
->Note also that <A
-HREF="varsubn.html#SNGLQUO"
->single quotes</A
->
-	  enclose the remainder of the command sequence following the
-	  <B
-CLASS="COMMAND"
->echo -e</B
->.</P
-><P
-></P
-></DIV
-></TD
-></TR
-></TABLE
-><P
->The numbers in the following table work for an
-	  <I
-CLASS="FIRSTTERM"
->rxvt</I
-> terminal. Results may vary for other
-	  terminal emulators.</P
-><P
-><A
-NAME="COLORIZTABLE"
-></A
-></P
-><DIV
-CLASS="TABLE"
-><A
-NAME="AEN20327"
-></A
-><P
-><B
->Table 36-1. Numbers representing colors in Escape Sequences</B
-></P
-><TABLE
-BORDER="1"
-CLASS="CALSTABLE"
-><THEAD
-><TR
-><TH
-ALIGN="LEFT"
-VALIGN="TOP"
->Color</TH
-><TH
-ALIGN="LEFT"
-VALIGN="TOP"
->Foreground</TH
-><TH
-ALIGN="LEFT"
-VALIGN="TOP"
->Background</TH
-></TR
-></THEAD
-><TBODY
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->black</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->30</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->40</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->red</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->31</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->41</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->green</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->32</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->42</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->yellow</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->33</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->43</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->blue</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->34</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->44</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->magenta</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->35</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->45</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->cyan</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->36</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->46</TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><TT
-CLASS="OPTION"
->white</TT
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->37</TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
->47</TD
-></TR
-></TBODY
-></TABLE
-></DIV
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="COLORECHO"
-></A
-><P
-><B
->Example 36-15. Echoing colored text</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo -e '\E[1;33;44m'"BOLD yellow text on blue background"; tput sgr0</b></tt>
+              </font></pre>
+        </td>
+      </tr>
+    </table>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>It's usually advisable to set the <i class="FIRSTTERM">bold</i> attribute for light-colored foreground text.</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>The <b class="COMMAND">tput sgr0</b> restores the terminal settings to normal. Omitting this lets all subsequent output from that particular terminal remain blue.</p>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>Since <b class="COMMAND">tput sgr0</b> fails to restore terminal settings under certain circumstances, <b class="COMMAND">echo -ne \E[0m</b> may be a better choice.</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><a name="COLORIZTEMPL" id="COLORIZTEMPL"></a></p>
+    <table class="SIDEBAR" border="1" cellpadding="5">
+      <tr>
+        <td>
+          <div class="SIDEBAR">
+            <a name="AEN20311" id="AEN20311"></a>
+            <p>Use the following template for writing colored text on a colored background.</p>
+            <p><tt class="USERINPUT"><b>echo -e '\E[COLOR1;COLOR2mSome text goes here.'</b></tt></p>
+            <p>The <span class="QUOTE">"\E["</span> begins the escape sequence. The semicolon-separated numbers <span class="QUOTE">"COLOR1"</span> and <span class="QUOTE">"COLOR2"</span> specify a foreground and a background color, according to the table below. (The order of the numbers does not matter, since the foreground and background numbers fall in non-overlapping ranges.) The <span class="QUOTE">"m"</span> terminates the escape sequence, and the text begins immediately after that.</p>
+            <p>Note also that <a href="varsubn.html#SNGLQUO">single quotes</a> enclose the remainder of the command sequence following the <b class="COMMAND">echo -e</b>.</p>
+          </div>
+        </td>
+      </tr>
+    </table>
+    <p>The numbers in the following table work for an <i class="FIRSTTERM">rxvt</i> terminal. Results may vary for other terminal emulators.</p>
+    <p><a name="COLORIZTABLE" id="COLORIZTABLE"></a></p>
+    <div class="TABLE">
+      <a name="AEN20327" id="AEN20327"></a>
+      <p><b>Table 36-1. Numbers representing colors in Escape Sequences</b></p>
+      <table border="1" class="CALSTABLE">
+        <thead>
+          <tr>
+            <th align="left" valign="top">Color</th>
+            <th align="left" valign="top">Foreground</th>
+            <th align="left" valign="top">Background</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">black</tt></td>
+            <td align="left" valign="top">30</td>
+            <td align="left" valign="top">40</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">red</tt></td>
+            <td align="left" valign="top">31</td>
+            <td align="left" valign="top">41</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">green</tt></td>
+            <td align="left" valign="top">32</td>
+            <td align="left" valign="top">42</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">yellow</tt></td>
+            <td align="left" valign="top">33</td>
+            <td align="left" valign="top">43</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">blue</tt></td>
+            <td align="left" valign="top">34</td>
+            <td align="left" valign="top">44</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">magenta</tt></td>
+            <td align="left" valign="top">35</td>
+            <td align="left" valign="top">45</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">cyan</tt></td>
+            <td align="left" valign="top">36</td>
+            <td align="left" valign="top">46</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">white</tt></td>
+            <td align="left" valign="top">37</td>
+            <td align="left" valign="top">47</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="COLORECHO" id="COLORECHO"></a>
+      <p><b>Example 36-15. Echoing colored text</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # color-echo.sh: Echoing text messages in color.
 
 # Modify this script for your own purposes.
@@ -948,40 +472,19 @@ exit 0
 # Exercises:
 # ---------
 # 1) Add the "bold" attribute to the 'cecho ()' function.
-# 2) Add options for colored backgrounds.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="HORSERACEREF"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="HORSERACE"
-></A
-><P
-><B
->Example 36-16. A <SPAN
-CLASS="QUOTE"
->"horserace"</SPAN
-> game</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+# 2) Add options for colored backgrounds.</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><a name="HORSERACEREF" id="HORSERACEREF"></a></p>
+    <div class="EXAMPLE">
+      <a name="HORSERACE" id="HORSERACE"></a>
+      <p><b>Example 36-16. A <span class="QUOTE">"horserace"</span> game</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # horserace.sh: Very simple horserace simulation.
 # Author: Stefano Palmeri
 # Used with permission.
@@ -1014,12 +517,12 @@ CLASS="PROGRAMLISTING"
 E_RUNERR=65
 
 # Check if md5sum and bc are installed. 
-if ! which bc &#38;&#62; /dev/null; then
+if ! which bc &amp;&gt; /dev/null; then
    echo bc is not installed.  
    echo "Can\'t run . . . "
    exit $E_RUNERR
 fi
-if ! which md5sum &#38;&#62; /dev/null; then
+if ! which md5sum &amp;&gt; /dev/null; then
    echo md5sum is not installed.  
    echo "Can\'t run . . . "
    exit $E_RUNERR
@@ -1175,36 +678,36 @@ HORSE_TYPE=2
 for HN in `seq 9`; do
       touch horse_${HN}_position
       touch odds_${HN}
-      echo \-1 &#62; horse_${HN}_position
-      echo $HORSE_TYPE &#62;&#62;  horse_${HN}_position
+      echo \-1 &gt; horse_${HN}_position
+      echo $HORSE_TYPE &gt;&gt;  horse_${HN}_position
       # Define a random handicap for horse.
        HANDICAP=`random_1_9`
       # Check if the random_1_9 function returned a good value.
-      while ! echo $HANDICAP | grep [1-9] &#38;&#62; /dev/null; do
+      while ! echo $HANDICAP | grep [1-9] &amp;&gt; /dev/null; do
                 HANDICAP=`random_1_9`
       done
       # Define last handicap position for horse. 
       LHP=`expr $HANDICAP \* 7 + 3`
       for FILE in `seq 10 7 $LHP`; do
-            echo $HN &#62;&#62; $FILE
+            echo $HN &gt;&gt; $FILE
       done   
      
       # Calculate odds.
       case $HANDICAP in 
               1) ODDS=`echo $HANDICAP \* 0.25 + 1.25 | bc`
-                                 echo $ODDS &#62; odds_${HN}
+                                 echo $ODDS &gt; odds_${HN}
               ;;
               2 | 3) ODDS=`echo $HANDICAP \* 0.40 + 1.25 | bc`
-                                       echo $ODDS &#62; odds_${HN}
+                                       echo $ODDS &gt; odds_${HN}
               ;;
               4 | 5 | 6) ODDS=`echo $HANDICAP \* 0.55 + 1.25 | bc`
-                                             echo $ODDS &#62; odds_${HN}
+                                             echo $ODDS &gt; odds_${HN}
               ;; 
               7 | 8) ODDS=`echo $HANDICAP \* 0.75 + 1.25 | bc`
-                                       echo $ODDS &#62; odds_${HN}
+                                       echo $ODDS &gt; odds_${HN}
               ;; 
               9) ODDS=`echo $HANDICAP \* 0.90 + 1.25 | bc`
-                                  echo $ODDS &#62; odds_${HN}
+                                  echo $ODDS &gt; odds_${HN}
       esac
 
 
@@ -1216,7 +719,7 @@ print_odds() {
 tput cup 6 0
 echo -ne '\E[30;42m'
 for HN in `seq 9`; do
-      echo "#$HN odds-&#62;" `cat odds_${HN}`
+      echo "#$HN odds-&gt;" `cat odds_${HN}`
 done
 }
 
@@ -1267,7 +770,7 @@ while [ $COL -lt $WINNING_POS ]; do
           MOVE_HORSE=0     
           
           # Check if the random_1_9 function has returned a good value.
-          while ! echo $MOVE_HORSE | grep [1-9] &#38;&#62; /dev/null; do
+          while ! echo $MOVE_HORSE | grep [1-9] &amp;&gt; /dev/null; do
                 MOVE_HORSE=`random_1_9`
           done
           
@@ -1277,10 +780,10 @@ while [ $COL -lt $WINNING_POS ]; do
           
           ADD_POS=1
           # Check if the current position is an handicap position. 
-          if seq 10 7 68 | grep -w $COL &#38;&#62; /dev/null; then
-                if grep -w $MOVE_HORSE $COL &#38;&#62; /dev/null; then
+          if seq 10 7 68 | grep -w $COL &amp;&gt; /dev/null; then
+                if grep -w $MOVE_HORSE $COL &amp;&gt; /dev/null; then
                       ADD_POS=0
-                      grep -v -w  $MOVE_HORSE $COL &#62; ${COL}_new
+                      grep -v -w  $MOVE_HORSE $COL &gt; ${COL}_new
                       rm -f $COL
                       mv -f ${COL}_new $COL
                       else ADD_POS=1
@@ -1288,7 +791,7 @@ while [ $COL -lt $WINNING_POS ]; do
           else ADD_POS=1
           fi
           COL=`expr $COL + $ADD_POS`
-          echo $COL &#62;  horse_${MOVE_HORSE}_position  # Store new position.
+          echo $COL &gt;  horse_${MOVE_HORSE}_position  # Store new position.
                             
          # Choose the type of horse to draw.         
           case $HORSE_TYPE in 
@@ -1296,7 +799,7 @@ while [ $COL -lt $WINNING_POS ]; do
                 ;;
                 2) HORSE_TYPE=1; DRAW_HORSE=draw_horse_one 
           esac       
-          echo $HORSE_TYPE &#62;&#62;  horse_${MOVE_HORSE}_position
+          echo $HORSE_TYPE &gt;&gt;  horse_${MOVE_HORSE}_position
           # Store current type.
          
           # Set foreground color to black and background to green.
@@ -1304,7 +807,7 @@ while [ $COL -lt $WINNING_POS ]; do
           
           # Move the cursor to new horse position.
           tput cup `expr $MOVE_HORSE + 5` \
-	  `cat  horse_${MOVE_HORSE}_position | head -n 1` 
+          `cat  horse_${MOVE_HORSE}_position | head -n 1` 
           
           # Draw the horse.
           $DRAW_HORSE
@@ -1313,11 +816,11 @@ while [ $COL -lt $WINNING_POS ]; do
            # When all horses have gone beyond field line 15, reprint odds.
            touch fieldline15
            if [ $COL = 15 ]; then
-             echo $MOVE_HORSE &#62;&#62; fieldline15  
+             echo $MOVE_HORSE &gt;&gt; fieldline15  
            fi
            if [ `wc -l fieldline15 | cut -f1 -d " "` = 9 ]; then
                print_odds
-               : &#62; fieldline15
+               : &gt; fieldline15
            fi           
           
           # Define the leading horse.
@@ -1327,7 +830,7 @@ while [ $COL -lt $WINNING_POS ]; do
           echo -ne '\E[47m'
           tput cup 17 0
           echo -n Current leader: `grep -w $HIGHEST_POS *position | cut -c7`\
-	  "                              "
+          "                              "
 
 done  
 
@@ -1370,188 +873,48 @@ rm -rf $HORSE_RACE_TMP_DIR
 
 tput cup 19 0
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->See also <A
-HREF="contributed-scripts.html#HASHEXAMPLE"
->Example A-21</A
->, <A
-HREF="contributed-scripts.html#HOMEWORK"
->Example A-44</A
->, <A
-HREF="contributed-scripts.html#SHOWALLC"
->Example A-52</A
->, and <A
-HREF="contributed-scripts.html#PETALS"
->Example A-40</A
->.</P
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->There is, however, a major problem with all
-	  this. <EM
->ANSI escape sequences are emphatically
-          <A
-HREF="portabilityissues.html"
->non-portable</A
->.</EM
->
-          What works fine on some terminal emulators (or the
-          console) may work differently, or not at all, on others.
-          A <SPAN
-CLASS="QUOTE"
->"colorized"</SPAN
-> script that looks stunning on the
-          script author's machine may produce unreadable output on
-          someone else's. This somewhat compromises the usefulness of
-          colorizing scripts, and possibly relegates this technique
-          to the status of a gimmick. Colorized scripts are probably
-          inappropriate in a commercial setting, i.e., your supervisor
-          might disapprove.</P
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Alister's <A
-HREF="http://code.google.com/p/ansi-color/"
-TARGET="_top"
->          ansi-color</A
-> utility (based on <A
-HREF="http://bash.deta.in/color-1.1.tar.gz"
-TARGET="_top"
->Moshe
-          Jacobson's color utility</A
-> considerably simplifies using
-          ANSI escape sequences. It substitutes a clean and logical
-          syntax for the clumsy constructs just discussed.</P
-><P
->Henry/teikedvl has likewise created a utility (<A
-HREF="http://scriptechocolor.sourceforge.net/"
-TARGET="_top"
->http://scriptechocolor.sourceforge.net/</A
->) to simplify creation of colorized scripts.</P
-></DIV
-><H3
-CLASS="FOOTNOTES"
->Notes</H3
-><TABLE
-BORDER="0"
-CLASS="FOOTNOTES"
-WIDTH="100%"
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN20259"
-HREF="colorizing.html#AEN20259"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
-><SPAN
-CLASS="ACRONYM"
->ANSI</SPAN
-> is, of course, the
-	     acronym for the American National Standards
-	     Institute. This august body establishes and maintains
-	     various technical and industrial standards.</P
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="recursionsct.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="optimizations.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Recursion: a script calling itself</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="miscellany.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Optimizations</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>See also <a href="contributed-scripts.html#HASHEXAMPLE">Example A-21</a>, <a href="contributed-scripts.html#HOMEWORK">Example A-44</a>, <a href="contributed-scripts.html#SHOWALLC">Example A-52</a>, and <a href="contributed-scripts.html#PETALS">Example A-40</a>.</p>
+    <div class="CAUTION">
+      <table class="CAUTION" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+          <td align="left" valign="top">
+            <p>There is, however, a major problem with all this. <em>ANSI escape sequences are emphatically <a href="portabilityissues.html">non-portable</a>.</em> What works fine on some terminal emulators (or the console) may work differently, or not at all, on others. A <span class="QUOTE">"colorized"</span> script that looks stunning on the script author's machine may produce unreadable output on someone else's. This somewhat compromises the usefulness of colorizing scripts, and possibly relegates this technique to the status of a gimmick. Colorized scripts are probably inappropriate in a commercial setting, i.e., your supervisor might disapprove.</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>Alister's <a href="http://code.google.com/p/ansi-color/" target="_top">ansi-color</a> utility (based on <a href="http://bash.deta.in/color-1.1.tar.gz" target="_top">Moshe Jacobson's color utility</a> considerably simplifies using ANSI escape sequences. It substitutes a clean and logical syntax for the clumsy constructs just discussed.</p>
+    <p>Henry/teikedvl has likewise created a utility (<a href="http://scriptechocolor.sourceforge.net/" target="_top">http://scriptechocolor.sourceforge.net/</a>) to simplify creation of colorized scripts.</p>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN20259" href="colorizing.html#AEN20259" id="FTN.AEN20259"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><span class="ACRONYM">ANSI</span> is, of course, the acronym for the American National Standards Institute. This august body establishes and maintains various technical and industrial standards.</p>
+      </td>
+    </tr>
+  </table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="recursionsct.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="optimizations.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Recursion: a script calling itself</td>
+        <td width="34%" align="center" valign="top"><a href="miscellany.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Optimizations</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

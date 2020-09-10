@@ -1,181 +1,40 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Aliases</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Advanced Topics"
-HREF="part5.html"><LINK
-REL="PREVIOUS"
-TITLE="Recursion Without Local Variables"
-HREF="recurnolocvar.html"><LINK
-REL="NEXT"
-TITLE="List Constructs"
-HREF="list-cons.html"></HEAD
-><BODY
-CLASS="CHAPTER"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="recurnolocvar.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="list-cons.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="CHAPTER"
-><H1
-><A
-NAME="ALIASES"
-></A
->Chapter 25. Aliases</H1
-><P
-><A
-NAME="ALIASREF"
-></A
-></P
-><P
->A Bash <I
-CLASS="FIRSTTERM"
->alias</I
-> is essentially nothing
-	more than a keyboard shortcut, an abbreviation, a means of
-	avoiding typing a long command sequence. If, for example,
-	we include <B
-CLASS="COMMAND"
->alias lm="ls -l | more"</B
-> in
-	the <A
-HREF="sample-bashrc.html"
-><TT
-CLASS="FILENAME"
->~/.bashrc</TT
->
-        file</A
->, then each <TT
-CLASS="USERINPUT"
-><B
->lm</B
-></TT
->
-          <A
-NAME="AEN18669"
-HREF="#FTN.AEN18669"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
->
-	typed at the command-line will automatically be replaced by a
-	<B
-CLASS="COMMAND"
->ls -l | more</B
->. This can save a great deal of
-	typing at the command-line and avoid having to remember complex
-	combinations of commands and options. Setting <B
-CLASS="COMMAND"
->alias
-	rm="rm -i"</B
-> (interactive mode delete) may save a
-	good deal of grief, since it can prevent inadvertently deleting
-	important files.</P
-><P
->In a script, aliases have very limited usefulness. It would be
-	nice if aliases could assume some of the functionality of
-	the <B
-CLASS="COMMAND"
->C</B
-> preprocessor, such as macro expansion,
-	but unfortunately Bash does not expand arguments within the
-	alias body.
-	  <A
-NAME="AEN18676"
-HREF="#FTN.AEN18676"
-><SPAN
-CLASS="footnote"
->[2]</SPAN
-></A
->
-	Moreover, a script fails to expand an alias itself
-	within <SPAN
-CLASS="QUOTE"
->"compound constructs,"</SPAN
-> such as <A
-HREF="tests.html#IFTHEN"
->if/then</A
-> statements, loops, and
-	functions. An added limitation is that an alias will not expand
-	recursively. Almost invariably, whatever we would like an alias
-	to do could be accomplished much more effectively with a <A
-HREF="functions.html#FUNCTIONREF"
->function</A
->.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="AL"
-></A
-><P
-><B
->Example 25-1. Aliases within a script</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Aliases</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="Recursion Without Local Variables" href="recurnolocvar.html">
+  <link rel="NEXT" title="List Constructs" href="list-cons.html">
+</head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="recurnolocvar.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="list-cons.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="ALIASES" id="ALIASES"></a>Chapter 25. Aliases</h1>
+    <p><a name="ALIASREF" id="ALIASREF"></a></p>
+    <p>A Bash <i class="FIRSTTERM">alias</i> is essentially nothing more than a keyboard shortcut, an abbreviation, a means of avoiding typing a long command sequence. If, for example, we include <b class="COMMAND">alias lm="ls -l | more"</b> in the <a href="sample-bashrc.html"><tt class="FILENAME">~/.bashrc</tt> file</a>, then each <tt class="USERINPUT"><b>lm</b></tt> <a name="AEN18669" href="#FTN.AEN18669" id="AEN18669"><span class="footnote">[1]</span></a> typed at the command-line will automatically be replaced by a <b class="COMMAND">ls -l | more</b>. This can save a great deal of typing at the command-line and avoid having to remember complex combinations of commands and options. Setting <b class="COMMAND">alias rm="rm -i"</b> (interactive mode delete) may save a good deal of grief, since it can prevent inadvertently deleting important files.</p>
+    <p>In a script, aliases have very limited usefulness. It would be nice if aliases could assume some of the functionality of the <b class="COMMAND">C</b> preprocessor, such as macro expansion, but unfortunately Bash does not expand arguments within the alias body. <a name="AEN18676" href="#FTN.AEN18676" id="AEN18676"><span class="footnote">[2]</span></a> Moreover, a script fails to expand an alias itself within <span class="QUOTE">"compound constructs,"</span> such as <a href="tests.html#IFTHEN">if/then</a> statements, loops, and functions. An added limitation is that an alias will not expand recursively. Almost invariably, whatever we would like an alias to do could be accomplished much more effectively with a <a href="functions.html#FUNCTIONREF">function</a>.</p>
+    <div class="EXAMPLE">
+      <a name="AL" id="AL"></a>
+      <p><b>Example 25-1. Aliases within a script</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # alias.sh
 
 shopt -s expand_aliases
@@ -247,50 +106,20 @@ xyz
 #  However, as Steve Jacobson points out,
 #+ the "$0" parameter expands immediately upon declaration of the alias.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="UNALIASREF"
-></A
-></P
-><P
->The <B
-CLASS="COMMAND"
->unalias</B
-> command removes a previously
-      set <I
-CLASS="FIRSTTERM"
->alias</I
->.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="UNAL"
-></A
-><P
-><B
->Example 25-2. <I
-CLASS="FIRSTTERM"
->unalias</I
->: Setting and unsetting
-      an alias</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><a name="UNALIASREF" id="UNALIASREF"></a></p>
+    <p>The <b class="COMMAND">unalias</b> command removes a previously set <i class="FIRSTTERM">alias</i>.</p>
+    <div class="EXAMPLE">
+      <a name="UNAL" id="UNAL"></a>
+      <p><b>Example 25-2. <i class="FIRSTTERM">unalias</i>: Setting and unsetting an alias</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # unalias.sh
 
 shopt -s expand_aliases  # Enables alias expansion.
@@ -304,162 +133,54 @@ unalias llm              # Unset alias.
 llm
 # Error message results, since 'llm' no longer recognized.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->./unalias.sh</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->total 6
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <table border="1" bgcolor="#E0E0E0" width="100%">
+      <tr>
+        <td>
+          <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>./unalias.sh</b></tt>
+<tt class="COMPUTEROUTPUT">total 6
 drwxrwxr-x    2 bozo     bozo         3072 Feb  6 14:04 .
 drwxr-xr-x   40 bozo     bozo         2048 Feb  6 14:04 ..
 -rwxr-xr-x    1 bozo     bozo          199 Feb  6 14:04 unalias.sh
 
-./unalias.sh: llm: command not found</TT
-></PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><H3
-CLASS="FOOTNOTES"
->Notes</H3
-><TABLE
-BORDER="0"
-CLASS="FOOTNOTES"
-WIDTH="100%"
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN18669"
-HREF="aliases.html#AEN18669"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
-> ... as the first word of a command string.
-          Obviously, an alias is only meaningful at the
-          <EM
->beginning</EM
-> of a command.</P
-></TD
-></TR
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN18676"
-HREF="aliases.html#AEN18676"
-><SPAN
-CLASS="footnote"
->[2]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
->However, aliases do seem to expand positional
-	  parameters.</P
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="recurnolocvar.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="list-cons.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Recursion Without Local Variables</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="part5.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->List Constructs</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+./unalias.sh: llm: command not found</tt></font></pre>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN18669" href="aliases.html#AEN18669" id="FTN.AEN18669"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>... as the first word of a command string. Obviously, an alias is only meaningful at the <em>beginning</em> of a command.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN18676" href="aliases.html#AEN18676" id="FTN.AEN18676"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>However, aliases do seem to expand positional parameters.</p>
+      </td>
+    </tr>
+  </table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="recurnolocvar.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="list-cons.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Recursion Without Local Variables</td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">List Constructs</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

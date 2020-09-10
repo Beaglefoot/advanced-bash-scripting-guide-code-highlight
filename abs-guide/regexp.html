@@ -1,225 +1,63 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Regular Expressions</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Advanced Topics"
-HREF="part5.html"><LINK
-REL="PREVIOUS"
-TITLE="Advanced Topics"
-HREF="part5.html"><LINK
-REL="NEXT"
-TITLE="A Brief Introduction to Regular Expressions"
-HREF="x17129.html"></HEAD
-><BODY
-CLASS="CHAPTER"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="part5.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
-></TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="x17129.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="CHAPTER"
-><H1
-><A
-NAME="REGEXP"
-></A
->Chapter 18. Regular Expressions</H1
-><TABLE
-BORDER="0"
-WIDTH="100%"
-CELLSPACING="0"
-CELLPADDING="0"
-CLASS="EPIGRAPH"
-><TR
-><TD
-WIDTH="45%"
->&nbsp;</TD
-><TD
-WIDTH="45%"
-ALIGN="LEFT"
-VALIGN="TOP"
-><I
-><P
-><I
->. . . the intellectual activity associated with software
-        development is largely one of gaining insight.</I
-></P
-><P
-><I
->--Stowe Boyd</I
-></P
-></I
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="TOC"
-><DL
-><DT
-><B
->Table of Contents</B
-></DT
-><DT
->18.1. <A
-HREF="x17129.html"
->A Brief Introduction to Regular Expressions</A
-></DT
-><DT
->18.2. <A
-HREF="globbingref.html"
->Globbing</A
-></DT
-></DL
-></DIV
-><P
-><A
-NAME="REGEXREF"
-></A
-></P
-><P
->To fully utilize the power of shell scripting, you need to
-	master Regular Expressions. Certain commands
-	and utilities commonly used in scripts, such
-	as <A
-HREF="textproc.html#GREPREF"
->grep</A
->, <A
-HREF="moreadv.html#EXPRREF"
->expr</A
->, <A
-HREF="sedawk.html#SEDREF"
->sed</A
->
-	and <A
-HREF="awk.html#AWKREF"
->awk</A
->, interpret and use REs. As of
-	<A
-HREF="bashver3.html#BASH3REF"
->version 3</A
->, Bash has acquired its
-	own <A
-HREF="bashver3.html#REGEXMATCHREF"
->RE-match operator</A
->:
-	<B
-CLASS="COMMAND"
->=~</B
->.</P
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="part5.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="x17129.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Advanced Topics</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="part5.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->A Brief Introduction to Regular Expressions</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Regular Expressions</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="Advanced Topics" href="part5.html">
+  <link rel="NEXT" title="A Brief Introduction to Regular Expressions" href="x17129.html">
+</head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="part5.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="x17129.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="REGEXP" id="REGEXP"></a>Chapter 18. Regular Expressions</h1>
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" class="EPIGRAPH">
+      <tr>
+        <td width="45%">&nbsp;</td>
+        <td width="45%" align="left" valign="top">
+          <p><i>. . . the intellectual activity associated with software development is largely one of gaining insight.</i></p>
+          <p><i>--Stowe Boyd</i></p>
+        </td>
+      </tr>
+    </table>
+    <div class="TOC">
+      <dl>
+        <dt><b>Table of Contents</b></dt>
+        <dt>18.1. <a href="x17129.html">A Brief Introduction to Regular Expressions</a></dt>
+        <dt>18.2. <a href="globbingref.html">Globbing</a></dt>
+      </dl>
+    </div>
+    <p><a name="REGEXREF" id="REGEXREF"></a></p>
+    <p>To fully utilize the power of shell scripting, you need to master Regular Expressions. Certain commands and utilities commonly used in scripts, such as <a href="textproc.html#GREPREF">grep</a>, <a href="moreadv.html#EXPRREF">expr</a>, <a href="sedawk.html#SEDREF">sed</a> and <a href="awk.html#AWKREF">awk</a>, interpret and use REs. As of <a href="bashver3.html#BASH3REF">version 3</a>, Bash has acquired its own <a href="bashver3.html#REGEXMATCHREF">RE-match operator</a>: <b class="COMMAND">=~</b>.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="part5.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="x17129.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Advanced Topics</td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">A Brief Introduction to Regular Expressions</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

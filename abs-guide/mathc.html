@@ -1,159 +1,52 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Math Commands</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="External Filters, Programs and Commands"
-HREF="external.html"><LINK
-REL="PREVIOUS"
-TITLE="Terminal Control Commands"
-HREF="terminalccmds.html"><LINK
-REL="NEXT"
-TITLE="Miscellaneous Commands"
-HREF="extmisc.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="terminalccmds.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 16. External Filters, Programs and Commands</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="extmisc.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="MATHC"
-></A
->16.8. Math Commands</H1
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><P
-><B
-><A
-NAME="MATHCOMMANDLISTING1"
-></A
-><SPAN
-CLASS="QUOTE"
->"Doing the
-	   numbers"</SPAN
-></B
-></P
-><DL
-><DT
-><A
-NAME="FACTORREF"
-></A
-><B
-CLASS="COMMAND"
->factor</B
-></DT
-><DD
-><P
->Decompose an integer into prime factors.</P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->factor 27417</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->27417: 3 13 19 37</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	    </P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="PRIMES2"
-></A
-><P
-><B
->Example 16-46. Generating prime numbers</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Math Commands</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="External Filters, Programs and Commands" href="external.html">
+  <link rel="PREVIOUS" title="Terminal Control Commands" href="terminalccmds.html">
+  <link rel="NEXT" title="Miscellaneous Commands" href="extmisc.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="terminalccmds.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 16. External Filters, Programs and Commands</td>
+        <td width="10%" align="right" valign="bottom"><a href="extmisc.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="MATHC" id="MATHC"></a>16.8. Math Commands</h1>
+    <div class="VARIABLELIST">
+      <p><b><a name="MATHCOMMANDLISTING1" id="MATHCOMMANDLISTING1"></a><span class="QUOTE">"Doing the numbers"</span></b></p>
+      <dl>
+        <dt><a name="FACTORREF" id="FACTORREF"></a><b class="COMMAND">factor</b></dt>
+        <dd>
+          <p>Decompose an integer into prime factors.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>factor 27417</b></tt>
+<tt class="COMPUTEROUTPUT">27417: 3 13 19 37</tt>
+              </font></pre>
+              </td>
+            </tr>
+          </table>
+          <div class="EXAMPLE">
+            <a name="PRIMES2" id="PRIMES2"></a>
+            <p><b>Example 16-46. Generating prime numbers</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # primes2.sh
 
 #  Generating prime numbers the quick-and-easy way,
@@ -191,116 +84,35 @@ done   #       For a higher $CEILING, adjust upward, as necessary.
 
 echo
 
-exit</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-><DT
-><A
-NAME="BCREF"
-></A
-><B
-CLASS="COMMAND"
->bc</B
-></DT
-><DD
-><P
->Bash can't handle floating point calculations, and
-	      it lacks operators for certain important mathematical
-	      functions. Fortunately, <B
-CLASS="COMMAND"
->bc</B
-> gallops to
-	      the rescue.</P
-><P
->Not just a versatile, arbitrary precision calculation
-	      utility, <B
-CLASS="COMMAND"
->bc</B
-> offers many of the facilities of
-	      a programming language. It has a syntax vaguely resembling
-	      <B
-CLASS="COMMAND"
->C</B
->.</P
-><P
->Since it is a fairly well-behaved UNIX utility, and may
-	       therefore be used in a <A
-HREF="special-chars.html#PIPEREF"
->pipe</A
->,
-	       <B
-CLASS="COMMAND"
->bc</B
-> comes in handy in scripts.</P
-><P
-><A
-NAME="BCTEMPLATE"
-></A
-></P
-><P
->Here is a simple template for using
-	      <B
-CLASS="COMMAND"
->bc</B
-> to calculate a script
-	      variable. This uses <A
-HREF="commandsub.html#COMMANDSUBREF"
->command
-	      substitution</A
->.</P
-><P
->              <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
->	      <TT
-CLASS="USERINPUT"
-><B
->variable=$(echo "OPTIONS; OPERATIONS" | bc)</B
-></TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	      </P
-><P
-><A
-NAME="MONTHLYPMT0"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="MONTHLYPMT"
-></A
-><P
-><B
->Example 16-47. Monthly Payment on a Mortgage</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+        <dt><a name="BCREF" id="BCREF"></a><b class="COMMAND">bc</b></dt>
+        <dd>
+          <p>Bash can't handle floating point calculations, and it lacks operators for certain important mathematical functions. Fortunately, <b class="COMMAND">bc</b> gallops to the rescue.</p>
+          <p>Not just a versatile, arbitrary precision calculation utility, <b class="COMMAND">bc</b> offers many of the facilities of a programming language. It has a syntax vaguely resembling <b class="COMMAND">C</b>.</p>
+          <p>Since it is a fairly well-behaved UNIX utility, and may therefore be used in a <a href="special-chars.html#PIPEREF">pipe</a>, <b class="COMMAND">bc</b> comes in handy in scripts.</p>
+          <p><a name="BCTEMPLATE" id="BCTEMPLATE"></a></p>
+          <p>Here is a simple template for using <b class="COMMAND">bc</b> to calculate a script variable. This uses <a href="commandsub.html#COMMANDSUBREF">command substitution</a>.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000">             <tt class="USERINPUT"><b>variable=$(echo "OPTIONS; OPERATIONS" | bc)</b></tt>
+              </font></pre>
+              </td>
+            </tr>
+          </table>
+          <p><a name="MONTHLYPMT0" id="MONTHLYPMT0"></a></p>
+          <div class="EXAMPLE">
+            <a name="MONTHLYPMT" id="MONTHLYPMT"></a>
+            <p><b>Example 16-47. Monthly Payment on a Mortgage</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # monthlypmt.sh: Calculates monthly payment on a mortgage.
 
 
@@ -341,7 +153,7 @@ read term
 
  let "months = $term - 1"
 # ==================================================================== 
- for ((x=$months; x &#62; 0; x--))
+ for ((x=$months; x &gt; 0; x--))
  do
    bot=$(echo "scale=9; $interest_rate^$x" | bc)
    bottom=$(echo "scale=9; $bottom+$bot" | bc)
@@ -353,7 +165,7 @@ read term
 #  Rick Boivie pointed out a more efficient implementation
 #+ of the above loop, which decreases computation time by 2/3.
 
-# for ((x=1; x &#60;= $months; x++))
+# for ((x=1; x &lt;= $months; x++))
 # do
 #   bottom=$(echo "scale=9; $bottom * $interest_rate + 1" | bc)
 # done
@@ -364,7 +176,7 @@ read term
 
 # bottom=`{
 #     echo "scale=9; bottom=$bottom; interest_rate=$interest_rate"
-#     for ((x=1; x &#60;= $months; x++))
+#     for ((x=1; x &lt;= $months; x++))
 #     do
 #          echo 'bottom = bottom * interest_rate + 1'
 #     done
@@ -399,57 +211,39 @@ read term
  #   1) Filter input to permit commas in principal amount.
  #   2) Filter input to permit interest to be entered as percent or decimal.
  #   3) If you are really ambitious,
- #+     expand this script to print complete amortization tables.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="BASE0"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="BASE"
-></A
-><P
-><B
->Example 16-48. Base Conversion</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+ #+     expand this script to print complete amortization tables.</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p><a name="BASE0" id="BASE0"></a></p>
+          <div class="EXAMPLE">
+            <a name="BASE" id="BASE"></a>
+            <p><b>Example 16-48. Base Conversion</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 ###########################################################################
-# Shellscript:	base.sh - print number to different bases (Bourne Shell)
-# Author     :	Heiner Steven (heiner.steven@odn.de)
-# Date       :	07-03-95
-# Category   :	Desktop
+# Shellscript:  base.sh - print number to different bases (Bourne Shell)
+# Author     :  Heiner Steven (heiner.steven@odn.de)
+# Date       :  07-03-95
+# Category   :  Desktop
 # $Id: base.sh,v 1.2 2000/02/06 19:55:35 heiner Exp $
-# ==&#62; Above line is RCS ID info.
+# ==&gt; Above line is RCS ID info.
 ###########################################################################
 # Description
 #
 # Changes
-# 21-03-95 stv	fixed error occuring with 0xb as input (0.2)
+# 21-03-95 stv  fixed error occuring with 0xb as input (0.2)
 ###########################################################################
 
-# ==&#62; Used in ABS Guide with the script author's permission.
-# ==&#62; Comments added by ABS Guide author.
+# ==&gt; Used in ABS Guide with the script author's permission.
+# ==&gt; Comments added by ABS Guide author.
 
 NOARGS=85
-PN=`basename "$0"`			       # Program name
-VER=`echo '$Revision: 1.2 $' | cut -d' ' -f2`  # ==&#62; VER=1.2
+PN=`basename "$0"`                             # Program name
+VER=`echo '$Revision: 1.2 $' | cut -d' ' -f2`  # ==&gt; VER=1.2
 
 Usage () {
     echo "$PN - print number to different bases, $VER (stv '95)
@@ -457,16 +251,16 @@ usage: $PN [number ...]
 
 If no number is given, the numbers are read from standard input.
 A number may be
-    binary (base 2)		starting with 0b (i.e. 0b1100)
-    octal (base 8)		starting with 0  (i.e. 014)
-    hexadecimal (base 16)	starting with 0x (i.e. 0xc)
-    decimal			otherwise (i.e. 12)" &#62;&#38;2
+    binary (base 2)             starting with 0b (i.e. 0b1100)
+    octal (base 8)              starting with 0  (i.e. 014)
+    hexadecimal (base 16)       starting with 0x (i.e. 0xc)
+    decimal                     otherwise (i.e. 12)" &gt;&amp;2
     exit $NOARGS 
-}   # ==&#62; Prints usage message.
+}   # ==&gt; Prints usage message.
 
 Msg () {
-    for i   # ==&#62; in [list] missing. Why?
-    do echo "$PN: $i" &#62;&#38;2
+    for i   # ==&gt; in [list] missing. Why?
+    do echo "$PN: $i" &gt;&amp;2
     done
 }
 
@@ -474,110 +268,79 @@ Fatal () { Msg "$@"; exit 66; }
 
 PrintBases () {
     # Determine base of the number
-    for i      # ==&#62; in [list] missing...
-    do         # ==&#62; so operates on command-line arg(s).
-	case "$i" in
-	    0b*)		ibase=2;;	# binary
-	    0x*|[a-f]*|[A-F]*)	ibase=16;;	# hexadecimal
-	    0*)			ibase=8;;	# octal
-	    [1-9]*)		ibase=10;;	# decimal
-	    *)
-		Msg "illegal number $i - ignored"
-		continue;;
-	esac
+    for i      # ==&gt; in [list] missing...
+    do         # ==&gt; so operates on command-line arg(s).
+        case "$i" in
+            0b*)                ibase=2;;       # binary
+            0x*|[a-f]*|[A-F]*)  ibase=16;;      # hexadecimal
+            0*)                 ibase=8;;       # octal
+            [1-9]*)             ibase=10;;      # decimal
+            *)
+                Msg "illegal number $i - ignored"
+                continue;;
+        esac
 
-	# Remove prefix, convert hex digits to uppercase (bc needs this).
-	number=`echo "$i" | sed -e 's:^0[bBxX]::' | tr '[a-f]' '[A-F]'`
-	# ==&#62; Uses ":" as sed separator, rather than "/".
+        # Remove prefix, convert hex digits to uppercase (bc needs this).
+        number=`echo "$i" | sed -e 's:^0[bBxX]::' | tr '[a-f]' '[A-F]'`
+        # ==&gt; Uses ":" as sed separator, rather than "/".
 
-	# Convert number to decimal
-	dec=`echo "ibase=$ibase; $number" | bc`  # ==&#62; 'bc' is calculator utility.
-	case "$dec" in
-	    [0-9]*)	;;			 # number ok
-	    *)		continue;;		 # error: ignore
-	esac
+        # Convert number to decimal
+        dec=`echo "ibase=$ibase; $number" | bc`  # ==&gt; 'bc' is calculator utility.
+        case "$dec" in
+            [0-9]*)     ;;                       # number ok
+            *)          continue;;               # error: ignore
+        esac
 
-	# Print all conversions in one line.
-	# ==&#62; 'here document' feeds command list to 'bc'.
-	echo `bc &#60;&#60;!
-	    obase=16; "hex="; $dec
-	    obase=10; "dec="; $dec
-	    obase=8;  "oct="; $dec
-	    obase=2;  "bin="; $dec
+        # Print all conversions in one line.
+        # ==&gt; 'here document' feeds command list to 'bc'.
+        echo `bc &lt;&lt;!
+            obase=16; "hex="; $dec
+            obase=10; "dec="; $dec
+            obase=8;  "oct="; $dec
+            obase=2;  "bin="; $dec
 !
-    ` | sed -e 's: :	:g'
+    ` | sed -e 's: :    :g'
 
     done
 }
 
 while [ $# -gt 0 ]
-# ==&#62;  Is a "while loop" really necessary here,
-# ==&#62;+ since all the cases either break out of the loop
-# ==&#62;+ or terminate the script.
-# ==&#62; (Above comment by Paulo Marcel Coelho Aragao.)
+# ==&gt;  Is a "while loop" really necessary here,
+# ==&gt;+ since all the cases either break out of the loop
+# ==&gt;+ or terminate the script.
+# ==&gt; (Above comment by Paulo Marcel Coelho Aragao.)
 do
     case "$1" in
-	--)     shift; break;;
-	-h)     Usage;;                 # ==&#62; Help message.
-	-*)     Usage;;
+        --)     shift; break;;
+        -h)     Usage;;                 # ==&gt; Help message.
+        -*)     Usage;;
          *)     break;;                 # First number
-    esac   # ==&#62; Error checking for illegal input might be appropriate.
+    esac   # ==&gt; Error checking for illegal input might be appropriate.
     shift
 done
 
 if [ $# -gt 0 ]
 then
     PrintBases "$@"
-else					# Read from stdin.
+else                                    # Read from stdin.
     while read line
     do
-	PrintBases $line
+        PrintBases $line
     done
 fi
 
 
-exit</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="BCHEREDOC"
-></A
-></P
-><P
->An alternate method of invoking <B
-CLASS="COMMAND"
->bc</B
->
-		involves using a <A
-HREF="here-docs.html#HEREDOCREF"
->here
-		document</A
-> embedded within a <A
-HREF="commandsub.html#COMMANDSUBREF"
->command substitution</A
->
-		block. This is especially appropriate when a script
-		needs to pass a list of options and commands to
-		<B
-CLASS="COMMAND"
->bc</B
->.</P
-><P
->	      <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->variable=`bc &#60;&#60; LIMIT_STRING
+exit</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p><a name="BCHEREDOC" id="BCHEREDOC"></a></p>
+          <p>An alternate method of invoking <b class="COMMAND">bc</b> involves using a <a href="here-docs.html#HEREDOCREF">here document</a> embedded within a <a href="commandsub.html#COMMANDSUBREF">command substitution</a> block. This is especially appropriate when a script needs to pass a list of options and commands to <b class="COMMAND">bc</b>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">variable=`bc &lt;&lt; LIMIT_STRING
 options
 statements
 operations
@@ -587,50 +350,27 @@ LIMIT_STRING
 ...or...
 
 
-variable=$(bc &#60;&#60; LIMIT_STRING
+variable=$(bc &lt;&lt; LIMIT_STRING
 options
 statements
 operations
 LIMIT_STRING
-)</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-              </P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="ALTBC"
-></A
-><P
-><B
->Example 16-49. Invoking <I
-CLASS="FIRSTTERM"
->bc</I
-> using a <I
-CLASS="FIRSTTERM"
->here
-	        document</I
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+)</font></pre>
+              </td>
+            </tr>
+          </table>
+          <div class="EXAMPLE">
+            <a name="ALTBC" id="ALTBC"></a>
+            <p><b>Example 16-49. Invoking <i class="FIRSTTERM">bc</i> using a <i class="FIRSTTERM">here document</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # Invoking 'bc' using command substitution
 # in combination with a 'here document'.
 
 
-var1=`bc &#60;&#60; EOF
+var1=`bc &lt;&lt; EOF
 18.33 * 19.78
 EOF
 `
@@ -643,7 +383,7 @@ v2=17.881
 v3=83.501
 v4=171.63
 
-var2=$(bc &#60;&#60; EOF
+var2=$(bc &lt;&lt; EOF
 scale = 4
 a = ( $v1 + $v2 )
 b = ( $v3 * $v4 )
@@ -653,7 +393,7 @@ EOF
 echo $var2       # 593487.8452
 
 
-var3=$(bc -l &#60;&#60; EOF
+var3=$(bc -l &lt;&lt; EOF
 scale = 9
 s ( 1.7 )
 EOF
@@ -666,7 +406,7 @@ echo $var3       # .991664810
 # Now, try it in a function...
 hypotenuse ()    # Calculate hypotenuse of a right triangle.
 {                # c = sqrt( a^2 + b^2 )
-hyp=$(bc -l &#60;&#60; EOF
+hyp=$(bc -l &lt;&lt; EOF
 scale = 9
 sqrt ( $1 * $1 + $2 * $2 )
 EOF
@@ -680,37 +420,19 @@ hyp=$(hypotenuse 3.68 7.31)
 echo "hypotenuse = $hyp"    # 8.184039344
 
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="CANNONREF"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="CANNON"
-></A
-><P
-><B
->Example 16-50. Calculating PI</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p><a name="CANNONREF" id="CANNONREF"></a></p>
+          <div class="EXAMPLE">
+            <a name="CANNON" id="CANNON"></a>
+            <p><b>Example 16-50. Calculating PI</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # cannon.sh: Approximating PI by firing cannonballs.
 
 # Author: Mendel Cooper
@@ -773,7 +495,7 @@ echo $rnum
 distance=        # Declare global variable.
 hypotenuse ()    # Calculate hypotenuse of a right triangle.
 {                # From "alt-bc.sh" example.
-distance=$(bc -l &#60;&#60; EOF
+distance=$(bc -l &lt;&lt; EOF
 scale = 0
 sqrt ( $1 * $1 + $2 * $2 )
 EOF
@@ -852,115 +574,38 @@ exit 0
 #  There are at least two justifications.
 #  1) As a proof of concept: to show it can be done.
 #  2) To prototype and test the algorithms before rewriting
-#+    it in a compiled high-level language.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->See also <A
-HREF="contributed-scripts.html#STDDEV"
->Example A-37</A
->.</P
-></DD
-><DT
-><A
-NAME="DCREF"
-></A
-><B
-CLASS="COMMAND"
->dc</B
-></DT
-><DD
-><P
->The <B
-CLASS="COMMAND"
->dc</B
-> (<B
-CLASS="COMMAND"
->d</B
->esk
-              <B
-CLASS="COMMAND"
->c</B
->alculator) utility is <A
-HREF="internalvariables.html#STACKDEFREF"
->stack-oriented</A
->
-              and uses RPN (<I
-CLASS="FIRSTTERM"
->Reverse Polish Notation</I
->).
-              Like <B
-CLASS="COMMAND"
->bc</B
->, it has much of the power of
-              a programming language.</P
-><P
->Similar to the procedure with <B
-CLASS="COMMAND"
->bc</B
->,
-	      <A
-HREF="internal.html#ECHOREF"
->echo</A
-> a command-string
-	      to <B
-CLASS="COMMAND"
->dc</B
->.</P
-><P
->		     <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->echo "[Printing a string ... ]P" | dc
+#+    it in a compiled high-level language.</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>See also <a href="contributed-scripts.html#STDDEV">Example A-37</a>.</p>
+        </dd>
+        <dt><a name="DCREF" id="DCREF"></a><b class="COMMAND">dc</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">dc</b> (<b class="COMMAND">d</b>esk <b class="COMMAND">c</b>alculator) utility is <a href="internalvariables.html#STACKDEFREF">stack-oriented</a> and uses RPN (<i class="FIRSTTERM">Reverse Polish Notation</i>). Like <b class="COMMAND">bc</b>, it has much of the power of a programming language.</p>
+          <p>Similar to the procedure with <b class="COMMAND">bc</b>, <a href="internal.html#ECHOREF">echo</a> a command-string to <b class="COMMAND">dc</b>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">echo "[Printing a string ... ]P" | dc
 # The P command prints the string between the preceding brackets.
 
 # And now for some simple arithmetic.
 echo "7 8 * p" | dc     # 56
 #  Pushes 7, then 8 onto the stack,
-#+ multiplies ("*" operator), then prints the result ("p" operator).</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-             </P
-><P
->Most persons avoid <B
-CLASS="COMMAND"
->dc</B
->, because
-                of its non-intuitive input and rather cryptic
-		operators. Yet, it has its uses.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="HEXCONVERT"
-></A
-><P
-><B
->Example 16-51. Converting a decimal number to hexadecimal</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#+ multiplies ("*" operator), then prints the result ("p" operator).</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>Most persons avoid <b class="COMMAND">dc</b>, because of its non-intuitive input and rather cryptic operators. Yet, it has its uses.</p>
+          <div class="EXAMPLE">
+            <a name="HEXCONVERT" id="HEXCONVERT"></a>
+            <p><b>Example 16-51. Converting a decimal number to hexadecimal</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # hexconvert.sh: Convert a decimal number to hexadecimal.
 
 E_NOARGS=85 # Command-line arg missing.
@@ -990,73 +635,26 @@ return
 
 hexcvt "$1"
 
-exit</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->Studying the <A
-HREF="basic.html#INFOREF"
->info</A
-> page for
-		<B
-CLASS="COMMAND"
->dc</B
-> is a painful path to understanding its
-		intricacies. There seems to be a small, select group of
-		<EM
->dc wizards</EM
-> who delight in showing off
-		their mastery of this powerful, but arcane utility.</P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo "16i[q]sa[ln0=aln100%Pln100/snlbx]sbA0D68736142snlbxq" | dc</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->Bash</TT
->
-	      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	  </P
-><P
-><A
-NAME="GOLDENRATIO"
-></A
->
-          <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->dc &#60;&#60;&#60; 10k5v1+2/p # 1.6180339887
+exit</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p>Studying the <a href="basic.html#INFOREF">info</a> page for <b class="COMMAND">dc</b> is a painful path to understanding its intricacies. There seems to be a small, select group of <em>dc wizards</em> who delight in showing off their mastery of this powerful, but arcane utility.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo "16i[q]sa[ln0=aln100%Pln100/snlbx]sbA0D68736142snlbxq" | dc</b></tt>
+<tt class="COMPUTEROUTPUT">Bash</tt>
+              </font></pre>
+              </td>
+            </tr>
+          </table>
+          <p><a name="GOLDENRATIO" id="GOLDENRATIO"></a></p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">dc &lt;&lt;&lt; 10k5v1+2/p # 1.6180339887
 #  ^^^            Feed operations to dc using a Here String.
 #      ^^^        Pushes 10 and sets that as the precision (10k).
 #         ^^      Pushes 5 and takes its square root
@@ -1065,33 +663,17 @@ CLASS="PROGRAMLISTING"
 #             ^^  Pushes 2 and divides the running total by that (2/).
 #               ^ Pops and prints the result (p)
 #  The result is  1.6180339887 ...
-#  ... which happens to be the Pythagorean Golden Ratio, to 10 places.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	  </P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="FACTR"
-></A
-><P
-><B
->Example 16-52. Factoring</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+#  ... which happens to be the Pythagorean Golden Ratio, to 10 places.</font></pre>
+              </td>
+            </tr>
+          </table>
+          <div class="EXAMPLE">
+            <a name="FACTR" id="FACTR"></a>
+            <p><b>Example 16-52. Factoring</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # factr.sh: Factor a number
 
 MIN=2       # Will not work for number smaller than this.
@@ -1115,9 +697,9 @@ fi
 echo "Factors of $1:"
 # -------------------------------------------------------
 echo  "$1[p]s2[lip/dli%0=1dvsr]s12sid2%0=13sidvsr[dli%0=\
-1lrli2+dsi!&#62;.]ds.xd1&#60;2" | dc
+1lrli2+dsi!&gt;.]ds.xd1&lt;2" | dc
 # -------------------------------------------------------
-#  Above code written by Michel Charpentier &#60;charpov@cs.unh.edu&#62;
+#  Above code written by Michel Charpentier &lt;charpov@cs.unh.edu&gt;
 #  (as a one-liner, here broken into two lines for display purposes).
 #  Used in ABS Guide with permission (thanks!).
 
@@ -1127,53 +709,22 @@ echo  "$1[p]s2[lip/dli%0=1dvsr]s12sid2%0=13sidvsr[dli%0=\
  # 2
  # 3
  # 11
- # 4093</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-><DT
-><A
-NAME="AWKMATH"
-></A
-><B
-CLASS="COMMAND"
->awk</B
-></DT
-><DD
-><P
->Yet another way of doing floating point math in
-	      a script is using <A
-HREF="awk.html#AWKREF"
->awk's</A
->
-	      built-in math functions in a <A
-HREF="wrapper.html#SHWRAPPER"
->shell
-	      wrapper</A
->.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="HYPOT"
-></A
-><P
-><B
->Example 16-53. Calculating the hypotenuse of a triangle</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+ # 4093</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+        <dt><a name="AWKMATH" id="AWKMATH"></a><b class="COMMAND">awk</b></dt>
+        <dd>
+          <p>Yet another way of doing floating point math in a script is using <a href="awk.html#AWKREF">awk's</a> built-in math functions in a <a href="wrapper.html#SHWRAPPER">shell wrapper</a>.</p>
+          <div class="EXAMPLE">
+            <a name="HYPOT" id="HYPOT"></a>
+            <p><b>Example 16-53. Calculating the hypotenuse of a triangle</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # hypotenuse.sh: Returns the "hypotenuse" of a right triangle.
 #                (square root of sum of squares of the "legs")
 
@@ -1200,78 +751,29 @@ AWKSCRIPT=' { printf( "%3.7f\n", sqrt($1*$1 + $2*$2) ) } '
 exit
 
 # Exercise: Rewrite this script using 'bc' rather than awk.
-#           Which method is more intuitive?</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-></DL
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="terminalccmds.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="extmisc.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Terminal Control Commands</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="external.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Miscellaneous Commands</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+#           Which method is more intuitive?</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="terminalccmds.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="extmisc.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Terminal Control Commands</td>
+        <td width="34%" align="center" valign="top"><a href="external.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Miscellaneous Commands</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

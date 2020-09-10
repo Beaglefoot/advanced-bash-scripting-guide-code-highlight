@@ -1,342 +1,62 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Variable Substitution</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Introduction to Variables and Parameters"
-HREF="variables.html"><LINK
-REL="PREVIOUS"
-TITLE="Introduction to Variables and Parameters"
-HREF="variables.html"><LINK
-REL="NEXT"
-TITLE="Variable Assignment"
-HREF="varassignment.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="variables.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 4. Introduction to Variables and Parameters</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="varassignment.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="VARSUBN"
-></A
->4.1. Variable Substitution</H1
-><P
->The <I
-CLASS="FIRSTTERM"
->name</I
-> of a variable is a placeholder
-	for its <I
-CLASS="FIRSTTERM"
->value</I
->, the data it holds.
-	Referencing (retrieving) its value is called
-	<I
-CLASS="FIRSTTERM"
->variable substitution</I
->.</P
-><P
-></P
-><DIV
-CLASS="VARIABLELIST"
-><DL
-><DT
-><SPAN
-CLASS="TOKEN"
->$</SPAN
-></DT
-><DD
-><P
-><A
-NAME="VARNAMEVAL"
-></A
-></P
-><P
->Let us carefully distinguish between the
-		<I
-CLASS="FIRSTTERM"
->name</I
-> of a variable
-		and its <I
-CLASS="FIRSTTERM"
->value</I
->. If
-		<TT
-CLASS="USERINPUT"
-><B
->variable1</B
-></TT
-> is the name of a
-		variable, then <TT
-CLASS="USERINPUT"
-><B
->$variable1</B
-></TT
->
-		is a reference to its <I
-CLASS="FIRSTTERM"
->value</I
->,
-		the data item it contains.
-		
-		  <A
-NAME="AEN2258"
-HREF="#FTN.AEN2258"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
->
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Variable Substitution</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Introduction to Variables and Parameters" href="variables.html">
+  <link rel="PREVIOUS" title="Introduction to Variables and Parameters" href="variables.html">
+  <link rel="NEXT" title="Variable Assignment" href="varassignment.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="variables.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 4. Introduction to Variables and Parameters</td>
+        <td width="10%" align="right" valign="bottom"><a href="varassignment.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="VARSUBN" id="VARSUBN"></a>4.1. Variable Substitution</h1>
+    <p>The <i class="FIRSTTERM">name</i> of a variable is a placeholder for its <i class="FIRSTTERM">value</i>, the data it holds. Referencing (retrieving) its value is called <i class="FIRSTTERM">variable substitution</i>.</p>
+    <div class="VARIABLELIST">
+      <dl>
+        <dt><span class="TOKEN">$</span></dt>
+        <dd>
+          <p><a name="VARNAMEVAL" id="VARNAMEVAL"></a></p>
+          <p>Let us carefully distinguish between the <i class="FIRSTTERM">name</i> of a variable and its <i class="FIRSTTERM">value</i>. If <tt class="USERINPUT"><b>variable1</b></tt> is the name of a variable, then <tt class="USERINPUT"><b>$variable1</b></tt> is a reference to its <i class="FIRSTTERM">value</i>, the data item it contains. <a name="AEN2258" href="#FTN.AEN2258" id="AEN2258"><span class="footnote">[1]</span></a></p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>variable1=23</b></tt>
 
 
-		</P
-><P
->	      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->variable1=23</B
-></TT
->
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo variable1</b></tt>
+<tt class="COMPUTEROUTPUT">variable1</tt>
 
-
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo variable1</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->variable1</TT
->
-
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo $variable1</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->23</TT
-></PRE
-></FONT
-></TD
-></TR
-></TABLE
->	      
-	      </P
-><P
->The only times a variable appears <SPAN
-CLASS="QUOTE"
->"naked"</SPAN
->
-		-- without the <SPAN
-CLASS="TOKEN"
->$</SPAN
-> prefix	-- is when
-		declared or assigned, when <I
-CLASS="FIRSTTERM"
->unset</I
->,
-		when <A
-HREF="internal.html#EXPORTREF"
->exported</A
->,
-		in an arithmetic expression within <A
-HREF="dblparens.html"
->double parentheses 
-                (( ... ))</A
->, or in the special case of a variable
-                representing a <A
-HREF="debugging.html#SIGNALD"
->signal</A
->
-                (see <A
-HREF="debugging.html#EX76"
->Example 32-5</A
->). Assignment may be with an
-                <SPAN
-CLASS="TOKEN"
->=</SPAN
-> (as in <TT
-CLASS="PARAMETER"
-><I
->var1=27</I
-></TT
->),
-                in a <A
-HREF="internal.html#READREF"
->read</A
-> statement,
-                and at the head of a loop (<TT
-CLASS="PARAMETER"
-><I
->for var2 in 1
-                2 3</I
-></TT
->).</P
-><P
-><A
-NAME="DBLQUO"
-></A
->Enclosing a referenced value in
-	      <I
-CLASS="FIRSTTERM"
->double quotes</I
-> (<SPAN
-CLASS="TOKEN"
->" ... "</SPAN
->)
-	      does not interfere with variable substitution. This is
-	      called <I
-CLASS="FIRSTTERM"
->partial quoting</I
->, sometimes
-	      referred to as <SPAN
-CLASS="QUOTE"
->"weak quoting."</SPAN
-> <A
-NAME="SNGLQUO"
-></A
->Using single quotes (<SPAN
-CLASS="TOKEN"
->' ... '</SPAN
->)
-	      causes the variable name to be used literally, and no
-	      substitution will take place. This is <I
-CLASS="FIRSTTERM"
->full
-	      quoting</I
->, sometimes referred to as 'strong
-	      quoting.' See <A
-HREF="quoting.html"
->Chapter 5</A
-> for a
-	      detailed discussion.</P
-><P
->Note that <TT
-CLASS="USERINPUT"
-><B
->$variable</B
-></TT
-> is actually a
-	      simplified form of
-	      <TT
-CLASS="USERINPUT"
-><B
->${variable}</B
-></TT
->. In contexts
-	      where the <TT
-CLASS="USERINPUT"
-><B
->$variable</B
-></TT
-> syntax
-	      causes an error, the longer form may work (see <A
-HREF="parameter-substitution.html"
->Section 10.2</A
->, below).</P
-><P
-><A
-NAME="VARUNSETTING"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="EX9"
-></A
-><P
-><B
->Example 4-1. Variable assignment and substitution</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo $variable1</b></tt>
+<tt class="COMPUTEROUTPUT">23</tt></font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>The only times a variable appears <span class="QUOTE">"naked"</span> -- without the <span class="TOKEN">$</span> prefix -- is when declared or assigned, when <i class="FIRSTTERM">unset</i>, when <a href="internal.html#EXPORTREF">exported</a>, in an arithmetic expression within <a href="dblparens.html">double parentheses (( ... ))</a>, or in the special case of a variable representing a <a href="debugging.html#SIGNALD">signal</a> (see <a href="debugging.html#EX76">Example 32-5</a>). Assignment may be with an <span class="TOKEN">=</span> (as in <tt class="PARAMETER"><i>var1=27</i></tt>), in a <a href="internal.html#READREF">read</a> statement, and at the head of a loop (<tt class="PARAMETER"><i>for var2 in 1 2 3</i></tt>).</p>
+          <p><a name="DBLQUO" id="DBLQUO"></a>Enclosing a referenced value in <i class="FIRSTTERM">double quotes</i> (<span class="TOKEN">" ... "</span>) does not interfere with variable substitution. This is called <i class="FIRSTTERM">partial quoting</i>, sometimes referred to as <span class="QUOTE">"weak quoting."</span> <a name="SNGLQUO" id="SNGLQUO"></a>Using single quotes (<span class="TOKEN">' ... '</span>) causes the variable name to be used literally, and no substitution will take place. This is <i class="FIRSTTERM">full quoting</i>, sometimes referred to as 'strong quoting.' See <a href="quoting.html">Chapter 5</a> for a detailed discussion.</p>
+          <p>Note that <tt class="USERINPUT"><b>$variable</b></tt> is actually a simplified form of <tt class="USERINPUT"><b>${variable}</b></tt>. In contexts where the <tt class="USERINPUT"><b>$variable</b></tt> syntax causes an error, the longer form may work (see <a href="parameter-substitution.html">Section 10.2</a>, below).</p>
+          <p><a name="VARUNSETTING" id="VARUNSETTING"></a></p>
+          <div class="EXAMPLE">
+            <a name="EX9" id="EX9"></a>
+            <p><b>Example 4-1. Variable assignment and substitution</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tr>
+                <td>
+                  <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # ex9.sh
 
 # Variables: assignment and substitution
@@ -444,255 +164,74 @@ echo "uninitialized_variable = $uninitialized_variable"
                                 # It still has a null value.
 echo
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
-><A
-NAME="UNINITVAR1"
-></A
-></P
-><P
->An uninitialized variable has a
-	      <SPAN
-CLASS="QUOTE"
->"null"</SPAN
-> value -- no assigned value at all
-	      (<EM
->not</EM
-> zero!).
-
-              <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->if [ -z "$unassigned" ]
+exit 0</font></pre>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p><a name="UNINITVAR1" id="UNINITVAR1"></a></p>
+                  <p>An uninitialized variable has a <span class="QUOTE">"null"</span> value -- no assigned value at all (<em>not</em> zero!).</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="PROGRAMLISTING"><font color="#000000">if [ -z "$unassigned" ]
 then
   echo "\$unassigned is NULL."
-fi     # $unassigned is NULL.</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->Using a variable before
-	      assigning a value to it may cause problems.
-	      It is nevertheless possible to perform arithmetic operations
-	      on an uninitialized variable.
-
-	        <TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->echo "$uninitialized"                                # (blank line)
+fi     # $unassigned is NULL.</font></pre>
+                      </td>
+                    </tr>
+                  </table>
+                  <p>Using a variable before assigning a value to it may cause problems. It is nevertheless possible to perform arithmetic operations on an uninitialized variable.</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tr>
+                      <td>
+                        <pre class="PROGRAMLISTING"><font color="#000000">echo "$uninitialized"                                # (blank line)
 let "uninitialized += 5"                             # Add 5 to it.
 echo "$uninitialized"                                # 5
 
 #  Conclusion:
 #  An uninitialized variable has no value,
-#+ however it evaluates as 0 in an arithmetic operation.</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-
-              See also <A
-HREF="internal.html#SELFSOURCE"
->Example 15-23</A
->.</P
-></TD
-></TR
-></TABLE
-></DIV
-></DD
-></DL
-></DIV
-></DIV
-><H3
-CLASS="FOOTNOTES"
->Notes</H3
-><TABLE
-BORDER="0"
-CLASS="FOOTNOTES"
-WIDTH="100%"
-><TR
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="5%"
-><A
-NAME="FTN.AEN2258"
-HREF="varsubn.html#AEN2258"
-><SPAN
-CLASS="footnote"
->[1]</SPAN
-></A
-></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-WIDTH="95%"
-><P
-><A
-NAME="LVALUEREF"
-></A
->Technically, the
-		      <I
-CLASS="FIRSTTERM"
->name</I
-> of a variable is called an
-		      <I
-CLASS="FIRSTTERM"
->lvalue</I
->, meaning that it appears
-		      on the <EM
->left</EM
-> side of an assignment
-		      statment, as in <TT
-CLASS="USERINPUT"
-><B
->VARIABLE=23</B
-></TT
->.
-		      A variable's <I
-CLASS="FIRSTTERM"
->value</I
-> is
-		      an <I
-CLASS="FIRSTTERM"
->rvalue</I
->, meaning that
-		      it appears on the <EM
->right</EM
->
-		      side of an assignment statement, as in
-		      <TT
-CLASS="USERINPUT"
-><B
->VAR2=$VARIABLE</B
-></TT
->.</P
-><P
-><A
-NAME="POINTERREF"
-></A
->A variable's
-		      <I
-CLASS="FIRSTTERM"
->name</I
-> is, in fact,
-		      a <I
-CLASS="FIRSTTERM"
->reference</I
->, a
-		      <I
-CLASS="FIRSTTERM"
->pointer</I
-> to the memory
-		      location(s) where the actual data associated with
-		      that variable is kept.</P
-></TD
-></TR
-></TABLE
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="variables.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="varassignment.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Introduction to Variables and Parameters</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="variables.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Variable Assignment</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+#+ however it evaluates as 0 in an arithmetic operation.</font></pre>
+                      </td>
+                    </tr>
+                  </table>See also <a href="internal.html#SELFSOURCE">Example 15-23</a>.
+                </td>
+              </tr>
+            </table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN2258" href="varsubn.html#AEN2258" id="FTN.AEN2258"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><a name="LVALUEREF" id="LVALUEREF"></a>Technically, the <i class="FIRSTTERM">name</i> of a variable is called an <i class="FIRSTTERM">lvalue</i>, meaning that it appears on the <em>left</em> side of an assignment statment, as in <tt class="USERINPUT"><b>VARIABLE=23</b></tt>. A variable's <i class="FIRSTTERM">value</i> is an <i class="FIRSTTERM">rvalue</i>, meaning that it appears on the <em>right</em> side of an assignment statement, as in <tt class="USERINPUT"><b>VAR2=$VARIABLE</b></tt>.</p>
+        <p><a name="POINTERREF" id="POINTERREF"></a>A variable's <i class="FIRSTTERM">name</i> is, in fact, a <i class="FIRSTTERM">reference</i>, a <i class="FIRSTTERM">pointer</i> to the memory location(s) where the actual data associated with that variable is kept.</p>
+      </td>
+    </tr>
+  </table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="variables.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="varassignment.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Introduction to Variables and Parameters</td>
+        <td width="34%" align="center" valign="top"><a href="variables.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Variable Assignment</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

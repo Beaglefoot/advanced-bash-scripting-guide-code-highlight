@@ -1,122 +1,41 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Bash, version 3</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Bash, versions 2, 3, and 4"
-HREF="bash2.html"><LINK
-REL="PREVIOUS"
-TITLE="Bash, version 2"
-HREF="bashver2.html"><LINK
-REL="NEXT"
-TITLE="Bash, version 4"
-HREF="bashver4.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="bashver2.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 37. Bash, versions 2, 3, and 4</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="bashver4.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="BASHVER3"
-></A
->37.2. Bash, version 3</H1
-><P
-><A
-NAME="BASH3REF"
-></A
-></P
-><P
->On July 27, 2004, Chet Ramey released version 3 of Bash.
-        This update fixed quite a number of bugs and added new
-        features.</P
-><P
->Some of the more important added features:
-
-      <P
-></P
-><UL
-><LI
-><P
-><A
-NAME="BRACEEXPREF3"
-></A
-></P
-><P
->A new, more generalized <B
-CLASS="COMMAND"
->{a..z}</B
-> <A
-HREF="special-chars.html#BRACEEXPREF"
->brace expansion</A
-> operator.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Bash, version 3</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Bash, versions 2, 3, and 4" href="bash2.html">
+  <link rel="PREVIOUS" title="Bash, version 2" href="bashver2.html">
+  <link rel="NEXT" title="Bash, version 4" href="bashver4.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="bashver2.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 37. Bash, versions 2, 3, and 4</td>
+        <td width="10%" align="right" valign="bottom"><a href="bashver4.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="BASHVER3" id="BASHVER3"></a>37.2. Bash, version 3</h1>
+    <p><a name="BASH3REF" id="BASH3REF"></a></p>
+    <p>On July 27, 2004, Chet Ramey released version 3 of Bash. This update fixed quite a number of bugs and added new features.</p>
+    <p>Some of the more important added features:</p>
+    <ul>
+      <li>
+        <p><a name="BRACEEXPREF3" id="BRACEEXPREF3"></a></p>
+        <p>A new, more generalized <b class="COMMAND">{a..z}</b> <a href="special-chars.html#BRACEEXPREF">brace expansion</a> operator.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tr>
+            <td>
+              <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 for i in {1..10}
 #  Simpler and more straightforward than
@@ -178,35 +97,17 @@ do
   echo -n "$index "   # 0 1 2 3 4 5 6 7 8 9 10 
 done
 
-echo</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></LI
-><LI
-><P
->The <B
-CLASS="COMMAND"
->${!array[@]}</B
-> operator, which
-	    expands to all the indices of a given <A
-HREF="arrays.html#ARRAYREF"
->array</A
->.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+echo</font></pre>
+            </td>
+          </tr>
+        </table>
+      </li>
+      <li>
+        <p>The <b class="COMMAND">${!array[@]}</b> operator, which expands to all the indices of a given <a href="arrays.html#ARRAYREF">array</a>.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tr>
+            <td>
+              <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 Array=(element-zero element-one element-two element-three)
 
@@ -224,44 +125,18 @@ do
                    # element-three
                    #
                    # All the elements in Array.
-done</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-></LI
-><LI
-><P
-><A
-NAME="REGEXMATCHREF"
-></A
-></P
-><P
->The <B
-CLASS="COMMAND"
->=~</B
-> <A
-HREF="regexp.html#REGEXREF"
->Regular
-	    Expression</A
-> matching operator within a <A
-HREF="testconstructs.html#DBLBRACKETS"
->double brackets</A
-> test expression.
-	    (Perl has a similar operator.)</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+done</font></pre>
+            </td>
+          </tr>
+        </table>
+      </li>
+      <li>
+        <p><a name="REGEXMATCHREF" id="REGEXMATCHREF"></a></p>
+        <p>The <b class="COMMAND">=~</b> <a href="regexp.html#REGEXREF">Regular Expression</a> matching operator within a <a href="testconstructs.html#DBLBRACKETS">double brackets</a> test expression. (Perl has a similar operator.)</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tr>
+            <td>
+              <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 variable="This is a fine mess."
 
@@ -273,26 +148,15 @@ if [[ "$variable" =~ T.........fin*es* ]]
 then
   echo "match found"
       # match found
-fi</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->Or, more usefully:</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+fi</font></pre>
+            </td>
+          </tr>
+        </table>
+        <p>Or, more usefully:</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tr>
+            <td>
+              <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 
 input=$1
 
@@ -306,445 +170,126 @@ then
 else
   echo "Not a Social Security number!"
   # Or, ask for corrected input.
-fi</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></P
-><P
->For additional examples of using the
-                <B
-CLASS="COMMAND"
->=~</B
-> operator, see <A
-HREF="contributed-scripts.html#WHX"
->Example A-29</A
->,
-                <A
-HREF="x17837.html#MAILBOXGREP"
->Example 19-14</A
->, <A
-HREF="contributed-scripts.html#FINDSPLIT"
->Example A-35</A
->, and <A
-HREF="contributed-scripts.html#TOHTML"
->Example A-24</A
->.</P
-></LI
-><LI
-><P
-><A
-NAME="PIPEFAILREF"
-></A
-></P
-><P
->The new <TT
-CLASS="OPTION"
->set -o pipefail</TT
-> option is
-	    useful for debugging <A
-HREF="special-chars.html#PIPEREF"
->pipes</A
->. If
-	    this option is set, then the <A
-HREF="exit-status.html#EXITSTATUSREF"
->exit status</A
-> of a pipe
-	    is the exit status of the last command in the pipe to
-	    <EM
->fail</EM
-> (return a non-zero value), rather
-	    than the actual final command in the pipe.</P
-><P
->See <A
-HREF="communications.html#FC4UPD"
->Example 16-43</A
->.</P
-></LI
-></UL
->
-      </P
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="100%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->The update to version 3 of Bash breaks a few scripts
-        that worked under earlier versions. <EM
->Test critical legacy
-	scripts to make sure they still work!</EM
-></P
-><P
->As it happens, a couple of the scripts in the
-        <EM
->Advanced Bash Scripting Guide</EM
-> had to be
-        fixed up (see <A
-HREF="internalvariables.html#TOUT"
->Example 9-4</A
->, for instance).</P
-></TD
-></TR
-></TABLE
-></DIV
-><DIV
-CLASS="SECT2"
-><H2
-CLASS="SECT2"
-><A
-NAME="AEN20956"
-></A
->37.2.1. Bash, version 3.1</H2
-><P
->The version 3.1 update of Bash introduces a number of bugfixes
-	   and a few minor changes.</P
-><P
-></P
-><UL
-><LI
-><P
->The <SPAN
-CLASS="TOKEN"
->+=</SPAN
-> operator is now permitted in
-	        in places where previously only the <SPAN
-CLASS="TOKEN"
->=</SPAN
->
-		assignment operator was recognized.</P
-><P
-><A
-NAME="PLUSEQSTR"
-></A
-></P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->a=1
+fi</font></pre>
+            </td>
+          </tr>
+        </table>
+        <p>For additional examples of using the <b class="COMMAND">=~</b> operator, see <a href="contributed-scripts.html#WHX">Example A-29</a>, <a href="x17837.html#MAILBOXGREP">Example 19-14</a>, <a href="contributed-scripts.html#FINDSPLIT">Example A-35</a>, and <a href="contributed-scripts.html#TOHTML">Example A-24</a>.</p>
+      </li>
+      <li>
+        <p><a name="PIPEFAILREF" id="PIPEFAILREF"></a></p>
+        <p>The new <tt class="OPTION">set -o pipefail</tt> option is useful for debugging <a href="special-chars.html#PIPEREF">pipes</a>. If this option is set, then the <a href="exit-status.html#EXITSTATUSREF">exit status</a> of a pipe is the exit status of the last command in the pipe to <em>fail</em> (return a non-zero value), rather than the actual final command in the pipe.</p>
+        <p>See <a href="communications.html#FC4UPD">Example 16-43</a>.</p>
+      </li>
+    </ul>
+    <div class="CAUTION">
+      <table class="CAUTION" width="100%" border="0">
+        <tr>
+          <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+          <td align="left" valign="top">
+            <p>The update to version 3 of Bash breaks a few scripts that worked under earlier versions. <em>Test critical legacy scripts to make sure they still work!</em></p>
+            <p>As it happens, a couple of the scripts in the <em>Advanced Bash Scripting Guide</em> had to be fixed up (see <a href="internalvariables.html#TOUT">Example 9-4</a>, for instance).</p>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="SECT2">
+      <h2 class="SECT2"><a name="AEN20956" id="AEN20956"></a>37.2.1. Bash, version 3.1</h2>
+      <p>The version 3.1 update of Bash introduces a number of bugfixes and a few minor changes.</p>
+      <ul>
+        <li>
+          <p>The <span class="TOKEN">+=</span> operator is now permitted in in places where previously only the <span class="TOKEN">=</span> assignment operator was recognized.</p>
+          <p><a name="PLUSEQSTR" id="PLUSEQSTR"></a></p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">a=1
 echo $a        # 1
 
 a+=5           # Won't work under versions of Bash earlier than 3.1.
 echo $a        # 15
 
 a+=Hello
-echo $a        # 15Hello</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	      </P
-><P
->Here, <SPAN
-CLASS="TOKEN"
->+=</SPAN
-> functions as a <I
-CLASS="FIRSTTERM"
->string
-		concatenation</I
-> operator. Note that its behavior
-		in this particular context is different than within a
-		<A
-HREF="internal.html#LETREF"
->let</A
-> construct.</P
-><P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->a=1
+echo $a        # 15Hello</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p>Here, <span class="TOKEN">+=</span> functions as a <i class="FIRSTTERM">string concatenation</i> operator. Note that its behavior in this particular context is different than within a <a href="internal.html#LETREF">let</a> construct.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="PROGRAMLISTING"><font color="#000000">a=1
 echo $a        # 1
 
 let a+=5       # Integer arithmetic, rather than string concatenation.
 echo $a        # 6
 
 let a+=Hello   # Doesn't "add" anything to a.
-echo $a        # 6</PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-	      </P
-><P
-><A
-NAME="PATHAPPEND"
-></A
->Jeffrey Haemer points out
-		that this concatenation operator can be quite
-		useful. In this instance, we append a directory to the
-		<TT
-CLASS="VARNAME"
->$PATH</TT
->.</P
-><P
->&#13;      <TABLE
-BORDER="1"
-BGCOLOR="#E0E0E0"
-WIDTH="90%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="SCREEN"
-><TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo $PATH</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->/usr/bin:/bin:/usr/local/bin:/usr/X11R6/bin/:/usr/games</TT
->
+echo $a        # 6</font></pre>
+              </td>
+            </tr>
+          </table>
+          <p><a name="PATHAPPEND" id="PATHAPPEND"></a>Jeffrey Haemer points out that this concatenation operator can be quite useful. In this instance, we append a directory to the <tt class="VARNAME">$PATH</tt>.</p>
+          <p></p>
+          <table border="1" bgcolor="#E0E0E0" width="90%">
+            <tr>
+              <td>
+                <pre class="SCREEN"><font color="#000000"><tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo $PATH</b></tt>
+<tt class="COMPUTEROUTPUT">/usr/bin:/bin:/usr/local/bin:/usr/X11R6/bin/:/usr/games</tt>
 
 
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->PATH+=:/opt/bin</B
-></TT
->
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>PATH+=:/opt/bin</b></tt>
 
-<TT
-CLASS="PROMPT"
->bash$ </TT
-><TT
-CLASS="USERINPUT"
-><B
->echo $PATH</B
-></TT
->
-<TT
-CLASS="COMPUTEROUTPUT"
->/usr/bin:/bin:/usr/local/bin:/usr/X11R6/bin/:/usr/games:/opt/bin</TT
->
-      </PRE
-></FONT
-></TD
-></TR
-></TABLE
->
-
-	      </P
-></LI
-></UL
-></DIV
-><DIV
-CLASS="SECT2"
-><H2
-CLASS="SECT2"
-><A
-NAME="AEN20987"
-></A
->37.2.2. Bash, version 3.2</H2
-><P
->This is pretty much a bugfix update.</P
-><P
-></P
-><UL
-><LI
-><P
->In <A
-HREF="parameter-substitution.html#PSGLOB"
-><I
-CLASS="FIRSTTERM"
->global</I
->
-	        parameter substitutions</A
->, the pattern no longer anchors
-		at the start of the string.</P
-></LI
-><LI
-><P
->The <TT
-CLASS="OPTION"
->--wordexp</TT
-> option disables
-	        <A
-HREF="process-sub.html#PROCESSSUBREF"
->process substitution</A
->.</P
-></LI
-><LI
-><P
->The <B
-CLASS="COMMAND"
->=~</B
-> <A
-HREF="bashver3.html#REGEXMATCHREF"
->Regular Expression
-                match operator</A
-> no longer requires
-                <A
-HREF="quoting.html#QUOTINGREF"
->quoting</A
-> of the
-                <I
-CLASS="FIRSTTERM"
->pattern</I
-> within <A
-HREF="testconstructs.html#DBLBRACKETS"
->[[ ... ]]</A
->.</P
-><DIV
-CLASS="CAUTION"
-><P
-></P
-><TABLE
-CLASS="CAUTION"
-WIDTH="90%"
-BORDER="0"
-><TR
-><TD
-WIDTH="25"
-ALIGN="CENTER"
-VALIGN="TOP"
-><IMG
-SRC="../images/caution.gif"
-HSPACE="5"
-ALT="Caution"></TD
-><TD
-ALIGN="LEFT"
-VALIGN="TOP"
-><P
->In fact, quoting in this context is
-		<EM
->not</EM
-> advisable as it may
-		cause <I
-CLASS="FIRSTTERM"
->regex</I
-> evaluation to fail.
-		Chet Ramey states in the <A
-HREF="biblio.html#BASHFAQ"
->Bash
-		FAQ</A
-> that quoting explicitly disables regex evaluation.
-		See also the <A
-HREF="https://bugs.launchpad.net/ubuntu-website/+bug/109931"
-TARGET="_top"
->		Ubuntu Bug List</A
-> and <A
-HREF="http://en.wikinerds.org/index.php/Bash_syntax_and_semantics"
-TARGET="_top"
->		Wikinerds on Bash syntax</A
->.</P
-><P
->Setting <EM
->shopt -s compat31</EM
->
-                  in a script causes reversion to the original
-                  behavior.</P
-></TD
-></TR
-></TABLE
-></DIV
-></LI
-></UL
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="bashver2.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="bashver4.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Bash, version 2</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="bash2.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Bash, version 4</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+<tt class="PROMPT">bash$ </tt><tt class="USERINPUT"><b>echo $PATH</b></tt>
+<tt class="COMPUTEROUTPUT">/usr/bin:/bin:/usr/local/bin:/usr/X11R6/bin/:/usr/games:/opt/bin</tt>
+      </font></pre>
+              </td>
+            </tr>
+          </table>
+        </li>
+      </ul>
+    </div>
+    <div class="SECT2">
+      <h2 class="SECT2"><a name="AEN20987" id="AEN20987"></a>37.2.2. Bash, version 3.2</h2>
+      <p>This is pretty much a bugfix update.</p>
+      <ul>
+        <li>
+          <p>In <a href="parameter-substitution.html#PSGLOB"><i class="FIRSTTERM">global</i> parameter substitutions</a>, the pattern no longer anchors at the start of the string.</p>
+        </li>
+        <li>
+          <p>The <tt class="OPTION">--wordexp</tt> option disables <a href="process-sub.html#PROCESSSUBREF">process substitution</a>.</p>
+        </li>
+        <li>
+          <p>The <b class="COMMAND">=~</b> <a href="bashver3.html#REGEXMATCHREF">Regular Expression match operator</a> no longer requires <a href="quoting.html#QUOTINGREF">quoting</a> of the <i class="FIRSTTERM">pattern</i> within <a href="testconstructs.html#DBLBRACKETS">[[ ... ]]</a>.</p>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tr>
+                <td width="25" align="center" valign="top"><img src="../images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>In fact, quoting in this context is <em>not</em> advisable as it may cause <i class="FIRSTTERM">regex</i> evaluation to fail. Chet Ramey states in the <a href="biblio.html#BASHFAQ">Bash FAQ</a> that quoting explicitly disables regex evaluation. See also the <a href="https://bugs.launchpad.net/ubuntu-website/+bug/109931" target="_top">Ubuntu Bug List</a> and <a href="http://en.wikinerds.org/index.php/Bash_syntax_and_semantics" target="_top">Wikinerds on Bash syntax</a>.</p>
+                  <p>Setting <em>shopt -s compat31</em> in a script causes reversion to the original behavior.</p>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="bashver2.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="bashver4.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Bash, version 2</td>
+        <td width="34%" align="center" valign="top"><a href="bash2.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Bash, version 4</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

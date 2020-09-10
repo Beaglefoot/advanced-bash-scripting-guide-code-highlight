@@ -1,112 +1,39 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Recursion Without Local Variables</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Functions"
-HREF="functions.html"><LINK
-REL="PREVIOUS"
-TITLE="Local Variables"
-HREF="localvar.html"><LINK
-REL="NEXT"
-TITLE="Aliases"
-HREF="aliases.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="localvar.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 24. Functions</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="aliases.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="RECURNOLOCVAR"
-></A
->24.3. Recursion Without Local Variables</H1
-><P
->A function may recursively call itself even without use of
-	      local variables.</P
-><P
-><A
-NAME="FIBOREF"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="FIBO"
-></A
-><P
-><B
->Example 24-16. <I
-CLASS="FIRSTTERM"
->The Fibonacci Sequence</I
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Recursion Without Local Variables</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Functions" href="functions.html">
+  <link rel="PREVIOUS" title="Local Variables" href="localvar.html">
+  <link rel="NEXT" title="Aliases" href="aliases.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="localvar.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 24. Functions</td>
+        <td width="10%" align="right" valign="bottom"><a href="aliases.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="RECURNOLOCVAR" id="RECURNOLOCVAR"></a>24.3. Recursion Without Local Variables</h1>
+    <p>A function may recursively call itself even without use of local variables.</p>
+    <p><a name="FIBOREF" id="FIBOREF"></a></p>
+    <div class="EXAMPLE">
+      <a name="FIBO" id="FIBO"></a>
+      <p><b>Example 24-16. <i class="FIRSTTERM">The Fibonacci Sequence</i></b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # fibo.sh : Fibonacci sequence (recursive)
 # Author: M. Cooper
 # License: GPL3
@@ -151,40 +78,19 @@ done
 
 echo
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
-><A
-NAME="HANOIREF"
-></A
-></P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="HANOI"
-></A
-><P
-><B
->Example 24-17. <I
-CLASS="FIRSTTERM"
->The Towers of Hanoi</I
-></B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#! /bin/bash
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p><a name="HANOIREF" id="HANOIREF"></a></p>
+    <div class="EXAMPLE">
+      <a name="HANOI" id="HANOI"></a>
+      <p><b>Example 24-17. <i class="FIRSTTERM">The Towers of Hanoi</i></b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#! /bin/bash
 #
 # The Towers Of Hanoi
 # Bash script
@@ -253,7 +159,7 @@ dohanoi() {   # Recursive function.
         ;;
     *)
         dohanoi "$(($1-1))" $2 $4 $3
-        echo move $2 "--&#62;" $3
+        echo move $2 "--&gt;" $3
         ((Moves++))          # Modification to original script.
         dohanoi "$(($1-1))" $4 $3 $2
         ;;
@@ -261,7 +167,7 @@ dohanoi() {   # Recursive function.
 }
 
 case $# in
-    1) case $(($1&#62;0)) in     # Must have at least one disk.
+    1) case $(($1&gt;0)) in     # Must have at least one disk.
        1)  # Nested case statement.
            dohanoi $1 1 3 2
            echo "Total moves = $Moves"   # 2^n - 1, where n = # of disks.
@@ -285,75 +191,26 @@ esac
 # 1) Would commands beyond this point ever be executed?
 #    Why not? (Easy)
 # 2) Explain the workings of the workings of the "dohanoi" function.
-#    (Difficult -- see the Dewdney reference, above.)</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="localvar.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="aliases.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Local Variables</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="functions.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Aliases</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+#    (Difficult -- see the Dewdney reference, above.)</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="localvar.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="aliases.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Local Variables</td>
+        <td width="34%" align="center" valign="top"><a href="functions.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Aliases</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,116 +1,38 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML
-><HEAD
-><TITLE
->Nested Loops</TITLE
-><META
-NAME="GENERATOR"
-CONTENT="Modular DocBook HTML Stylesheet Version 1.7"><LINK
-REL="HOME"
-TITLE="Advanced Bash-Scripting Guide"
-HREF="index.html"><LINK
-REL="UP"
-TITLE="Loops and Branches"
-HREF="loops.html"><LINK
-REL="PREVIOUS"
-TITLE="Loops"
-HREF="loops1.html"><LINK
-REL="NEXT"
-TITLE="Loop Control"
-HREF="loopcontrol.html"></HEAD
-><BODY
-CLASS="SECT1"
-BGCOLOR="#FFFFFF"
-TEXT="#000000"
-LINK="#0000FF"
-VLINK="#840084"
-ALINK="#0000FF"
-><DIV
-CLASS="NAVHEADER"
-><TABLE
-SUMMARY="Header navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TH
-COLSPAN="3"
-ALIGN="center"
->Advanced Bash-Scripting Guide: </TH
-></TR
-><TR
-><TD
-WIDTH="10%"
-ALIGN="left"
-VALIGN="bottom"
-><A
-HREF="loops1.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="80%"
-ALIGN="center"
-VALIGN="bottom"
->Chapter 11. Loops and Branches</TD
-><TD
-WIDTH="10%"
-ALIGN="right"
-VALIGN="bottom"
-><A
-HREF="loopcontrol.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-></TABLE
-><HR
-ALIGN="LEFT"
-WIDTH="100%"></DIV
-><DIV
-CLASS="SECT1"
-><H1
-CLASS="SECT1"
-><A
-NAME="NESTEDLOOPS"
-></A
->11.2. Nested Loops</H1
-><P
->A <I
-CLASS="FIRSTTERM"
->nested loop</I
-> is a loop within a
-	  loop, an inner loop within the body of an outer one. How
-	  this works is that the first pass of the outer loop triggers
-	  the inner loop, which executes to completion. Then the
-	  second pass of the outer loop triggers the inner loop
-	  again. This repeats until the outer loop finishes. Of course,
-	  a <I
-CLASS="FIRSTTERM"
->break</I
-> within either the inner or outer
-	  loop would interrupt this process.</P
-><DIV
-CLASS="EXAMPLE"
-><A
-NAME="NESTEDLOOP"
-></A
-><P
-><B
->Example 11-20. Nested Loop</B
-></P
-><TABLE
-BORDER="0"
-BGCOLOR="#E0E0E0"
-WIDTH="100%"
-><TR
-><TD
-><FONT
-COLOR="#000000"
-><PRE
-CLASS="PROGRAMLISTING"
->#!/bin/bash
+<html>
+<head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Nested Loops</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Loops and Branches" href="loops.html">
+  <link rel="PREVIOUS" title="Loops" href="loops1.html">
+  <link rel="NEXT" title="Loop Control" href="loopcontrol.html">
+</head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="loops1.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 11. Loops and Branches</td>
+        <td width="10%" align="right" valign="bottom"><a href="loopcontrol.html" accesskey="N">Next</a></td>
+      </tr>
+    </table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="NESTEDLOOPS" id="NESTEDLOOPS"></a>11.2. Nested Loops</h1>
+    <p>A <i class="FIRSTTERM">nested loop</i> is a loop within a loop, an inner loop within the body of an outer one. How this works is that the first pass of the outer loop triggers the inner loop, which executes to completion. Then the second pass of the outer loop triggers the inner loop again. This repeats until the outer loop finishes. Of course, a <i class="FIRSTTERM">break</i> within either the inner or outer loop would interrupt this process.</p>
+    <div class="EXAMPLE">
+      <a name="NESTEDLOOP" id="NESTEDLOOP"></a>
+      <p><b>Example 11-20. Nested Loop</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tr>
+          <td>
+            <pre class="PROGRAMLISTING"><font color="#000000">#!/bin/bash
 # nested-loop.sh: Nested "for" loops.
 
 outer=1             # Set outer loop counter.
@@ -137,90 +59,27 @@ do
 done               
 # End of outer loop.
 
-exit 0</PRE
-></FONT
-></TD
-></TR
-></TABLE
-></DIV
-><P
->See <A
-HREF="arrays.html#BUBBLE"
->Example 27-11</A
-> for an illustration of nested
-	  <A
-HREF="loops1.html#WHILELOOPREF"
->while loops</A
->, and <A
-HREF="arrays.html#EX68"
->Example 27-13</A
-> to see a while loop nested inside an <A
-HREF="loops1.html#UNTILLOOPREF"
->until loop</A
->.</P
-></DIV
-><DIV
-CLASS="NAVFOOTER"
-><HR
-ALIGN="LEFT"
-WIDTH="100%"><TABLE
-SUMMARY="Footer navigation table"
-WIDTH="100%"
-BORDER="0"
-CELLPADDING="0"
-CELLSPACING="0"
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
-><A
-HREF="loops1.html"
-ACCESSKEY="P"
->Prev</A
-></TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="index.html"
-ACCESSKEY="H"
->Home</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
-><A
-HREF="loopcontrol.html"
-ACCESSKEY="N"
->Next</A
-></TD
-></TR
-><TR
-><TD
-WIDTH="33%"
-ALIGN="left"
-VALIGN="top"
->Loops</TD
-><TD
-WIDTH="34%"
-ALIGN="center"
-VALIGN="top"
-><A
-HREF="loops.html"
-ACCESSKEY="U"
->Up</A
-></TD
-><TD
-WIDTH="33%"
-ALIGN="right"
-VALIGN="top"
->Loop Control</TD
-></TR
-></TABLE
-></DIV
-></BODY
-></HTML
->
+exit 0</font></pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <p>See <a href="arrays.html#BUBBLE">Example 27-11</a> for an illustration of nested <a href="loops1.html#WHILELOOPREF">while loops</a>, and <a href="arrays.html#EX68">Example 27-13</a> to see a while loop nested inside an <a href="loops1.html#UNTILLOOPREF">until loop</a>.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tr>
+        <td width="33%" align="left" valign="top"><a href="loops1.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="loopcontrol.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Loops</td>
+        <td width="34%" align="center" valign="top"><a href="loops.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Loop Control</td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>
