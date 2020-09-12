@@ -1,31 +1,80 @@
+checkArgs();
+
 const fs = require("fs");
 const path = require("path");
 const { JSDOM } = require("jsdom");
+const hljs = require("highlight.js/lib/core");
 
-const filename = process.argv[2];
+hljs.registerLanguage("bash", require("highlight.js/lib/languages/bash"));
+hljs.registerLanguage("shell", require("highlight.js/lib/languages/shell"));
 
-if (!filename) {
-  console.error("No filename was provided");
-  process.exit(1);
+function checkArgs() {
+  const htmlFilename = process.argv[2];
+
+  if (!htmlFilename) {
+    console.error("No html filename was provided");
+    process.exit(1);
+  }
 }
 
-const content = fs.readFileSync(filename, "utf8");
-const dom = new JSDOM(content);
-const { window } = dom;
-const { document } = window;
-
-function injectStyleNode(headNode) {
+function injectStyleNode(headNode, pathToCss) {
+  const htmlFilename = process.argv[2];
   const styleNode = document.createElement("link");
 
   styleNode.rel = "stylesheet";
   styleNode.href = path.relative(
-    filename,
-    path.resolve(filename, "../styles/custom.css")
+    htmlFilename,
+    path.resolve(htmlFilename, pathToCss)
   );
 
   headNode.appendChild(styleNode);
 }
 
-injectStyleNode(document.head);
+function highlightCodeBlocks(body) {
+  const codeBlocks = document.getElementsByClassName("PROGRAMLISTING");
 
-console.log(dom.serialize());
+  for (let block of codeBlocks) {
+    block.innerHTML = hljs.highlight("bash", block.textContent).value;
+    block.classList.add("hljs");
+  }
+}
+
+function highlightScreenBlocks(body) {
+  const codeBlocks = document.getElementsByClassName("SCREEN");
+
+  for (let block of codeBlocks) {
+    block.innerHTML = hljs.highlight("shell", block.textContent).value;
+    block.classList.add("hljs");
+  }
+}
+
+function removeBorderOnScreenBlocks(body) {
+  const tables = document.getElementsByTagName("table");
+
+  for (let table of tables) {
+    if (table.getElementsByClassName("SCREEN").length) {
+      table.classList.add("no-border");
+    }
+  }
+}
+
+function main() {
+  const htmlFilename = process.argv[2];
+  const content = fs.readFileSync(htmlFilename, "utf8");
+  const dom = new JSDOM(content);
+
+  global.window = dom.window;
+  global.document = window.document;
+
+  injectStyleNode(document.head, "../styles/custom.css");
+  injectStyleNode(document.head, "../styles/atom-one-dark.css");
+
+  highlightCodeBlocks(document.body);
+  highlightScreenBlocks(document.body);
+
+  removeBorderOnScreenBlocks(document.body);
+
+  console.log(dom.serialize());
+}
+
+main();

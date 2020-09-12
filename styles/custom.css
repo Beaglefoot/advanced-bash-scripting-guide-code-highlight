@@ -2,3 +2,22 @@ body {
   max-width: 1000px;
   margin: 0 auto;
 }
+
+table {
+  background: none;
+}
+
+.SCREEN {
+  margin: 0;
+}
+
+.no-border {
+  border: none;
+  border-collapse: collapse;
+  border-color: transparent;
+}
+
+.PROGRAMLISTING,
+.SCREEN {
+  font-size: 14px;
+}

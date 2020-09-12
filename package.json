@@ -5,6 +5,7 @@
   "author": "Beaglefoot <ch-e-st@yandex.ru>",
   "license": "MIT",
   "devDependencies": {
+    "highlight.js": "10.2.0",
     "jsdom": "16.4.0"
   }
 }
