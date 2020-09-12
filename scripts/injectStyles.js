@@ -60,6 +60,9 @@ function removeBorderOnScreenBlocks(body) {
 
 function main() {
   const htmlFilename = process.argv[2];
+
+  console.error(`Processing ${htmlFilename}`);
+
   const content = fs.readFileSync(htmlFilename, "utf8");
   const dom = new JSDOM(content);
 

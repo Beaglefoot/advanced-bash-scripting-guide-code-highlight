@@ -4,6 +4,10 @@
   "main": "index.js",
   "author": "Beaglefoot <ch-e-st@yandex.ru>",
   "license": "MIT",
+  "scripts": {
+    "build": "for html in abs-guide/*.html; do node scripts/injectStyles.js \"$html\" > \"dist/$(basename $html)\"; done",
+    "copy-styles": "bash scripts/copyHighlightStyles.sh"
+  },
   "devDependencies": {
     "highlight.js": "10.2.0",
     "jsdom": "16.4.0"
