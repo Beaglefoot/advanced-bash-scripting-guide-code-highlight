@@ -69,8 +69,8 @@ function main() {
   global.window = dom.window;
   global.document = window.document;
 
-  injectStyleNode(document.head, "../styles/custom.css");
-  injectStyleNode(document.head, "../styles/atom-one-dark.css");
+  injectStyleNode(document.head, "styles/custom.css");
+  injectStyleNode(document.head, "styles/atom-one-dark.css");
 
   highlightCodeBlocks(document.body);
   highlightScreenBlocks(document.body);

@@ -7,16 +7,13 @@ Original can be found [here](https://tldp.org/LDP/abs/html/index.html).
 ## How to build
 
 #### Install dependencies
+
 ```sh
 npm install
 ```
 
-#### Copy styles from highlight.js
-```sh
-npm run copy-styles
-```
+#### Build new html-files with styles injections
 
-#### Inject styles
 ```sh
 npm run build
 ```

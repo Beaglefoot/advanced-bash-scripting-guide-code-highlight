@@ -5,8 +5,7 @@
   "author": "Beaglefoot <ch-e-st@yandex.ru>",
   "license": "MIT",
   "scripts": {
-    "build": "mkdir docs 2>dev/null; for html in abs-guide/*.html; do node scripts/injectStyles.js \"$html\" > \"docs/$(basename $html)\"; done",
-    "copy-styles": "bash scripts/copyHighlightStyles.sh"
+    "build": "bash scripts/build.sh"
   },
   "devDependencies": {
     "highlight.js": "10.2.0",
