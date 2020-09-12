@@ -21,4 +21,4 @@ npm run copy-styles
 npm run build
 ```
 
-#### Now find your copy inside `dist/` directory.
+#### Now find your copy inside `docs/` directory.
