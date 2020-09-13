@@ -30,7 +30,7 @@ function injectStyleNode(headNode, pathToCss) {
   headNode.appendChild(styleNode);
 }
 
-function highlightCodeBlocks(body) {
+function highlightCodeBlocks() {
   const codeBlocks = document.getElementsByClassName("PROGRAMLISTING");
 
   for (let block of codeBlocks) {
@@ -39,7 +39,7 @@ function highlightCodeBlocks(body) {
   }
 }
 
-function highlightScreenBlocks(body) {
+function highlightScreenBlocks() {
   const codeBlocks = document.getElementsByClassName("SCREEN");
 
   for (let block of codeBlocks) {
@@ -48,7 +48,7 @@ function highlightScreenBlocks(body) {
   }
 }
 
-function removeBorderOnScreenBlocks(body) {
+function removeBorderOnScreenBlocks() {
   const tables = document.getElementsByTagName("table");
 
   for (let table of tables) {
@@ -72,10 +72,10 @@ function main() {
   injectStyleNode(document.head, "styles/custom.css");
   injectStyleNode(document.head, "styles/atom-one-dark.css");
 
-  highlightCodeBlocks(document.body);
-  highlightScreenBlocks(document.body);
+  highlightCodeBlocks();
+  highlightScreenBlocks();
 
-  removeBorderOnScreenBlocks(document.body);
+  removeBorderOnScreenBlocks();
 
   console.log(dom.serialize());
 }
