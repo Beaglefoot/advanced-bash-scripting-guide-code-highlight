@@ -21,3 +21,17 @@ table {
 .SCREEN {
   font-size: 14px;
 }
+
+table.NOTE td:nth-of-type(1) > img,
+table.CAUTION td:nth-of-type(1) > img,
+table.TIP td:nth-of-type(1) > img,
+table.WARNING td:nth-of-type(1) > img,
+table.IMPORTANT td:nth-of-type(1) > img,
+table.FOOTNOTES td:nth-of-type(1) > a {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+table.FOOTNOTES td:nth-of-type(1) > a {
+  display: block;
+}
