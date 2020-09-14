@@ -1,4 +1,6 @@
-# advanced-bash-scripting-guide-code-highlight
+# Advanced Bash-Scripting Guide
+
+![github pages status](https://github.com/Beaglefoot/advanced-bash-scripting-guide-code-highlight/workflows/github%20pages/badge.svg)
 
 An already classic "Advanced Bash-Scripting Guide" book now with code highlights.
 
