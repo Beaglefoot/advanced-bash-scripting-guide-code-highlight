@@ -1,0 +1,1109 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Miscellaneous Commands</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="External Filters, Programs and Commands" href="external.html">
+  <link rel="PREVIOUS" title="Math Commands" href="mathc.html">
+  <link rel="NEXT" title="System and Administrative Commands" href="system.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="mathc.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 16. External Filters, Programs and Commands</td>
+        <td width="10%" align="right" valign="bottom"><a href="system.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="EXTMISC" id="EXTMISC"></a>16.9. Miscellaneous Commands</h1>
+    <div class="VARIABLELIST">
+      <p><b><a name="MISCCOMMANDLISTING1" id="MISCCOMMANDLISTING1"></a>Command that fit in no special category</b></p>
+      <dl>
+        <dt><a name="JOTREF" id="JOTREF"></a><b class="COMMAND">jot</b>, <a name="SEQREF" id="SEQREF"></a><b class="COMMAND">seq</b></dt>
+        <dd>
+          <p>These utilities emit a sequence of integers, with a user-selectable increment.</p>
+          <p>The default separator character between each integer is a newline, but this can be changed with the <tt class="OPTION">-s</tt> option.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> seq 5</span>
+1
+ 2
+ 3
+ 4
+ 5
+<span class="hljs-meta">
+
+
+bash$</span><span class="bash"> seq -s : 5</span>
+1:2:3:4:5
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>Both <b class="COMMAND">jot</b> and <b class="COMMAND">seq</b> come in handy in a <a href="loops1.html#FORLOOPREF1">for loop</a>.</p>
+          <div class="EXAMPLE">
+            <a name="EX53" id="EX53"></a>
+            <p><b>Example 16-54. Using <i class="FIRSTTERM">seq</i> to generate loop arguments</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Using "seq"</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> `seq 80`  <span class="hljs-comment"># or   for a in $( seq 80 )</span>
+<span class="hljs-comment"># Same as   for a in 1 2 3 4 5 ... 80   (saves much typing!).</span>
+<span class="hljs-comment"># May also use 'jot' (if present on system).</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$a</span> "</span>
+<span class="hljs-keyword">done</span>      <span class="hljs-comment"># 1 2 3 4 5 ... 80</span>
+<span class="hljs-comment"># Example of using the output of a command to generate </span>
+<span class="hljs-comment"># the [list] in a "for" loop.</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+
+COUNT=80  <span class="hljs-comment"># Yes, 'seq' also accepts a replaceable parameter.</span>
+
+<span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> `seq <span class="hljs-variable">$COUNT</span>`  <span class="hljs-comment"># or   for a in $( seq $COUNT )</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$a</span> "</span>
+<span class="hljs-keyword">done</span>      <span class="hljs-comment"># 1 2 3 4 5 ... 80</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+BEGIN=75
+END=80
+
+<span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> `seq <span class="hljs-variable">$BEGIN</span> <span class="hljs-variable">$END</span>`
+<span class="hljs-comment">#  Giving "seq" two arguments starts the count at the first one,</span>
+<span class="hljs-comment">#+ and continues until it reaches the second.</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$a</span> "</span>
+<span class="hljs-keyword">done</span>      <span class="hljs-comment"># 75 76 77 78 79 80</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+BEGIN=45
+INTERVAL=5
+END=80
+
+<span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> `seq <span class="hljs-variable">$BEGIN</span> <span class="hljs-variable">$INTERVAL</span> <span class="hljs-variable">$END</span>`
+<span class="hljs-comment">#  Giving "seq" three arguments starts the count at the first one,</span>
+<span class="hljs-comment">#+ uses the second for a step interval,</span>
+<span class="hljs-comment">#+ and continues until it reaches the third.</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$a</span> "</span>
+<span class="hljs-keyword">done</span>      <span class="hljs-comment"># 45 50 55 60 65 70 75 80</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>A simpler example:</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-comment">#  Create a set of 10 files,</span>
+<span class="hljs-comment">#+ named file.1, file.2 . . . file.10.</span>
+COUNT=10
+PREFIX=file
+
+<span class="hljs-keyword">for</span> filename <span class="hljs-keyword">in</span> `seq <span class="hljs-variable">$COUNT</span>`
+<span class="hljs-keyword">do</span>
+  touch <span class="hljs-variable">$PREFIX</span>.<span class="hljs-variable">$filename</span>
+  <span class="hljs-comment">#  Or, can do other operations,</span>
+  <span class="hljs-comment">#+ such as rm, grep, etc.</span>
+<span class="hljs-keyword">done</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <div class="EXAMPLE">
+            <a name="LETTERCOUNT" id="LETTERCOUNT"></a>
+            <p><b>Example 16-55. Letter Count"</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># letter-count.sh: Counting letter occurrences in a text file.</span>
+<span class="hljs-comment"># Written by Stefano Palmeri.</span>
+<span class="hljs-comment"># Used in ABS Guide with permission.</span>
+<span class="hljs-comment"># Slightly modified by document author.</span>
+
+MINARGS=2          <span class="hljs-comment"># Script requires at least two arguments.</span>
+E_BADARGS=65
+FILE=<span class="hljs-variable">$1</span>
+
+<span class="hljs-built_in">let</span> LETTERS=<span class="hljs-variable">$#</span>-1   <span class="hljs-comment"># How many letters specified (as command-line args).</span>
+                   <span class="hljs-comment"># (Subtract 1 from number of command-line args.)</span>
+
+
+<span class="hljs-function"><span class="hljs-title">show_help</span></span>(){
+           <span class="hljs-built_in">echo</span>
+           <span class="hljs-built_in">echo</span> Usage: `basename <span class="hljs-variable">$0</span>` file letters  
+           <span class="hljs-built_in">echo</span> Note: `basename <span class="hljs-variable">$0</span>` arguments are <span class="hljs-keyword">case</span> sensitive.
+           <span class="hljs-built_in">echo</span> Example: `basename <span class="hljs-variable">$0</span>` foobar.txt G n U L i N U x.
+           <span class="hljs-built_in">echo</span>
+}
+
+<span class="hljs-comment"># Checks number of arguments.</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -lt <span class="hljs-variable">$MINARGS</span> ]; <span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">echo</span>
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"Not enough arguments."</span>
+   <span class="hljs-built_in">echo</span>
+   show_help
+   <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>  
+
+
+<span class="hljs-comment"># Checks if file exists.</span>
+<span class="hljs-keyword">if</span> [ ! -f <span class="hljs-variable">$FILE</span> ]; <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"File \"<span class="hljs-variable">$FILE</span>\" does not exist."</span>
+    <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>
+
+
+
+<span class="hljs-comment"># Counts letter occurrences .</span>
+<span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> `seq <span class="hljs-variable">$LETTERS</span>`; <span class="hljs-keyword">do</span>
+      <span class="hljs-built_in">shift</span>
+      <span class="hljs-keyword">if</span> [[ `<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> | wc -c` -eq 1 ]]; <span class="hljs-keyword">then</span>             <span class="hljs-comment">#  Checks arg.</span>
+             <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> -\&gt; `cat <span class="hljs-variable">$FILE</span> | tr -<span class="hljs-built_in">cd</span>  <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> | wc -c` <span class="hljs-comment">#  Counting.</span>
+      <span class="hljs-keyword">else</span>
+             <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$1</span> is not a  single char."</span>
+      <span class="hljs-keyword">fi</span>  
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">exit</span> $?
+
+<span class="hljs-comment">#  This script has exactly the same functionality as letter-count2.sh,</span>
+<span class="hljs-comment">#+ but executes faster.</span>
+<span class="hljs-comment">#  Why?</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="NOTE">
+            <table class="NOTE no-border" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>Somewhat more capable than <i class="FIRSTTERM">seq</i>, <b class="COMMAND">jot</b> is a classic UNIX utility that is not normally included in a standard Linux distro. However, the source <i class="FIRSTTERM">rpm</i> is available for download from the <a href="http://www.mit.edu/afs/athena/system/rhlinux/athena-9.0/free/SRPMS/athena-jot-9.0-3.src.rpm" target="_top">MIT repository</a>.</p>
+                  <p><a name="JOTRANDOM" id="JOTRANDOM"></a></p>
+                  <p>Unlike <i class="FIRSTTERM">seq</i>, <b class="COMMAND">jot</b> can generate a sequence of random numbers, using the <tt class="OPTION">-r</tt> option.</p>
+                  <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+                    <tbody><tr>
+                      <td>
+                        <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> jot -r 3 999</span>
+1069
+ 1272
+ 1428</pre>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="GETOPTY" id="GETOPTY"></a><b class="COMMAND">getopt</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">getopt</b> command parses command-line options preceded by a <a href="special-chars.html#DASHREF">dash</a>. This external command corresponds to the <a href="internal.html#GETOPTSX">getopts</a> Bash builtin. Using <b class="COMMAND">getopt</b> permits handling long options by means of the <tt class="OPTION">-l</tt> flag, and this also allows parameter reshuffling.</p>
+          <div class="EXAMPLE">
+            <a name="EX33A" id="EX33A"></a>
+            <p><b>Example 16-56. Using <i class="FIRSTTERM">getopt</i> to parse command-line options</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Using getopt</span>
+
+<span class="hljs-comment"># Try the following when invoking this script:</span>
+<span class="hljs-comment">#   sh ex33a.sh -a</span>
+<span class="hljs-comment">#   sh ex33a.sh -abc</span>
+<span class="hljs-comment">#   sh ex33a.sh -a -b -c</span>
+<span class="hljs-comment">#   sh ex33a.sh -d</span>
+<span class="hljs-comment">#   sh ex33a.sh -dXYZ</span>
+<span class="hljs-comment">#   sh ex33a.sh -d XYZ</span>
+<span class="hljs-comment">#   sh ex33a.sh -abcd</span>
+<span class="hljs-comment">#   sh ex33a.sh -abcdZ</span>
+<span class="hljs-comment">#   sh ex33a.sh -z</span>
+<span class="hljs-comment">#   sh ex33a.sh a</span>
+<span class="hljs-comment"># Explain the results of each of the above.</span>
+
+E_OPTERR=65
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$#</span>"</span> -eq 0 ]
+<span class="hljs-keyword">then</span>   <span class="hljs-comment"># Script needs at least one command-line argument.</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage <span class="hljs-variable">$0</span> -[options a,b,c]"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_OPTERR</span>
+<span class="hljs-keyword">fi</span>  
+
+<span class="hljs-built_in">set</span> -- `getopt <span class="hljs-string">"abcd:"</span> <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span>`
+<span class="hljs-comment"># Sets positional parameters to command-line arguments.</span>
+<span class="hljs-comment"># What happens if you use "$*" instead of "$@"?</span>
+
+<span class="hljs-keyword">while</span> [ ! -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]
+<span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> <span class="hljs-keyword">in</span>
+    -a) <span class="hljs-built_in">echo</span> <span class="hljs-string">"Option \"a\""</span>;;
+    -b) <span class="hljs-built_in">echo</span> <span class="hljs-string">"Option \"b\""</span>;;
+    -c) <span class="hljs-built_in">echo</span> <span class="hljs-string">"Option \"c\""</span>;;
+    -d) <span class="hljs-built_in">echo</span> <span class="hljs-string">"Option \"d\" <span class="hljs-variable">$2</span>"</span>;;
+     *) <span class="hljs-built_in">break</span>;;
+  <span class="hljs-keyword">esac</span>
+
+  <span class="hljs-built_in">shift</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment">#  It is usually better to use the 'getopts' builtin in a script.</span>
+<span class="hljs-comment">#  See "ex33.sh."</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>As <em>Peggy Russell</em> points out:</p>
+                  <p>It is often necessary to include an <a href="internal.html#EVALREF">eval</a> to correctly process <a href="special-chars.html#WHITESPACEREF">whitespace</a> and <i class="FIRSTTERM">quotes</i>.</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tbody><tr>
+                      <td>
+                        <pre class="PROGRAMLISTING hljs">args=$(getopt -o a:bc:d -- <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span>)
+<span class="hljs-built_in">eval</span> <span class="hljs-built_in">set</span> -- <span class="hljs-string">"<span class="hljs-variable">$args</span>"</span></pre>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>See <a href="string-manipulation.html#GETOPTSIMPLE">Example 10-5</a> for a simplified emulation of <b class="COMMAND">getopt</b>.</p>
+        </dd>
+        <dt><a name="RUNPARTSREF" id="RUNPARTSREF"></a><b class="COMMAND">run-parts</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">run-parts</b> command <a name="AEN14105" href="#FTN.AEN14105" id="AEN14105"><span class="footnote">[1]</span></a> executes all the scripts in a target directory, sequentially in ASCII-sorted filename order. Of course, the scripts need to have execute permission.</p>
+          <p>The <a href="system.html#CRONREF">cron</a> <a href="communications.html#DAEMONREF">daemon</a> invokes <b class="COMMAND">run-parts</b> to run the scripts in the <tt class="FILENAME">/etc/cron.*</tt> directories.</p>
+        </dd>
+        <dt><a name="YESREF" id="YESREF"></a><b class="COMMAND">yes</b></dt>
+        <dd>
+          <p>In its default behavior the <b class="COMMAND">yes</b> command feeds a continuous string of the character <tt class="COMPUTEROUTPUT">y</tt> followed by a line feed to <tt class="FILENAME">stdout</tt>. A <b class="KEYCAP">control</b>-<b class="KEYCAP">C</b> terminates the run. A different output string may be specified, as in <tt class="USERINPUT"><b>yes different string</b></tt>, which would continually output <tt class="COMPUTEROUTPUT">different string</tt> to <tt class="FILENAME">stdout</tt>.</p>
+          <p>One might well ask the purpose of this. From the command-line or in a script, the output of <b class="COMMAND">yes</b> can be redirected or piped into a program expecting user input. In effect, this becomes a sort of poor man's version of <i class="FIRSTTERM">expect</i>.</p>
+          <p><tt class="USERINPUT"><b>yes | fsck /dev/hda1</b></tt> runs <b class="COMMAND">fsck</b> non-interactively (careful!).</p>
+          <p><tt class="USERINPUT"><b>yes | rm -r dirname</b></tt> has same effect as <tt class="USERINPUT"><b>rm -rf dirname</b></tt> (careful!).</p>
+          <div class="WARNING">
+            <table class="WARNING" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/warning.gif" hspace="5" alt="Warning"></td>
+                <td align="left" valign="top">
+                  <p>Caution advised when piping <i class="FIRSTTERM">yes</i> to a potentially dangerous system command, such as <a href="system.html#FSCKREF">fsck</a> or <a href="system.html#FDISKREF">fdisk</a>. It might have unintended consequences.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="NOTE">
+            <table class="NOTE no-border" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>The <i class="FIRSTTERM">yes</i> command parses variables, or more accurately, it echoes parsed variables. For example:</p>
+                  <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+                    <tbody><tr>
+                      <td>
+                        <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> yes <span class="hljs-variable">$BASH_VERSION</span></span>
+3.1.17(1)-release
+ 3.1.17(1)-release
+ 3.1.17(1)-release
+ 3.1.17(1)-release
+ 3.1.17(1)-release
+ . . .
+              </pre>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                  <p>This particular <span class="QUOTE">"feature"</span> may be used to create a <em>very large</em> ASCII file on the fly:</p>
+                  <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+                    <tbody><tr>
+                      <td>
+                        <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> yes <span class="hljs-variable">$PATH</span> &gt; huge_file.txt</span>
+Ctl-C             
+              </pre>
+                      </td>
+                    </tr>
+                  </tbody></table>Hit <tt class="USERINPUT"><b>Ctl-C</b></tt> <em>very quickly</em>, or you just might get more than you bargained for. . . .
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="YESEMU" id="YESEMU"></a>The <i class="FIRSTTERM">yes</i> command may be emulated in a very simple script <a href="functions.html#FUNCTIONREF">function</a>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-function"><span class="hljs-title">yes</span></span> ()
+{ <span class="hljs-comment"># Trivial emulation of "yes" ...</span>
+  <span class="hljs-built_in">local</span> DEFAULT_TEXT=<span class="hljs-string">"y"</span>
+  <span class="hljs-keyword">while</span> [ <span class="hljs-literal">true</span> ]   <span class="hljs-comment"># Endless loop.</span>
+  <span class="hljs-keyword">do</span>
+    <span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]
+    <span class="hljs-keyword">then</span>
+      <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$DEFAULT_TEXT</span>"</span>
+    <span class="hljs-keyword">else</span>           <span class="hljs-comment"># If argument ...</span>
+      <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>    <span class="hljs-comment"># ... expand and echo it.</span>
+    <span class="hljs-keyword">fi</span>
+  <span class="hljs-keyword">done</span>             <span class="hljs-comment">#  The only things missing are the</span>
+}                  <span class="hljs-comment">#+ --help and --version options.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="BANNERREF" id="BANNERREF"></a><b class="COMMAND">banner</b></dt>
+        <dd>
+          <p>Prints arguments as a large vertical banner to <tt class="FILENAME">stdout</tt>, using an <a href="special-chars.html#ASCIIDEF">ASCII</a> character (default '#'). This may be redirected to a printer for hardcopy.</p>
+          <p>Note that <i class="FIRSTTERM">banner</i> has been dropped from many Linux distros, presumably because it is no longer considered useful.</p>
+        </dd>
+        <dt><a name="PRINTENVREF" id="PRINTENVREF"></a><b class="COMMAND">printenv</b></dt>
+        <dd>
+          <p>Show all the <a href="othertypesv.html#ENVREF">environmental variables</a> set for a particular user.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> printenv | grep HOME</span>
+HOME=/home/bozo
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="LPREF" id="LPREF"></a><b class="COMMAND">lp</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">lp</b> and <b class="COMMAND">lpr</b> commands send file(s) to the print queue, to be printed as hard copy. <a name="AEN14214" href="#FTN.AEN14214" id="AEN14214"><span class="footnote">[2]</span></a> These commands trace the origin of their names to the line printers of another era. <a name="AEN14218" href="#FTN.AEN14218" id="AEN14218"><span class="footnote">[3]</span></a></p>
+          <p><tt class="PROMPT">bash$</tt> <tt class="USERINPUT"><b>lp file1.txt</b></tt> or <tt class="PROMPT">bash</tt> <tt class="USERINPUT"><b>lp &lt;file1.txt</b></tt></p>
+          <p>It is often useful to pipe the formatted output from <b class="COMMAND">pr</b> to <b class="COMMAND">lp</b>.</p>
+          <p><tt class="PROMPT">bash$</tt> <tt class="USERINPUT"><b>pr -options file1.txt | lp</b></tt></p>
+          <p>Formatting packages, such as <a href="textproc.html#GROFFREF">groff</a> and <i class="FIRSTTERM">Ghostscript</i> may send their output directly to <b class="COMMAND">lp</b>.</p>
+          <p><tt class="PROMPT">bash$</tt> <tt class="USERINPUT"><b>groff -Tascii file.tr | lp</b></tt></p>
+          <p><tt class="PROMPT">bash$</tt> <tt class="USERINPUT"><b>gs -options | lp file.ps</b></tt></p>
+          <p>Related commands are <b class="COMMAND">lpq</b>, for viewing the print queue, and <b class="COMMAND">lprm</b>, for removing jobs from the print queue.</p>
+        </dd>
+        <dt><a name="TEEREF" id="TEEREF"></a><b class="COMMAND">tee</b></dt>
+        <dd>
+          <p>[UNIX borrows an idea from the plumbing trade.]</p>
+          <p>This is a redirection operator, but with a difference. Like the plumber's <i class="FIRSTTERM">tee,</i> it permits <span class="QUOTE">"siphoning off"</span> <em>to a file</em> the output of a command or commands within a pipe, but without affecting the result. This is useful for printing an ongoing process to a file or paper, perhaps to keep track of it for debugging purposes.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs">                             (redirection)
+                            |----&gt; to file
+                            |
+  ==========================|====================
+  command ---&gt; command ---&gt; |tee ---&gt; command ---&gt; ---&gt; output of pipe
+  ===============================================
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">cat listfile* | sort | tee check.file | uniq &gt; result.file
+<span class="hljs-comment">#                      ^^^^^^^^^^^^^^   ^^^^    </span>
+
+<span class="hljs-comment">#  The file "check.file" contains the concatenated sorted "listfiles,"</span>
+<span class="hljs-comment">#+ before the duplicate lines are removed by 'uniq.'</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="MKFIFOREF" id="MKFIFOREF"></a><b class="COMMAND">mkfifo</b></dt>
+        <dd>
+          <p><a name="NAMEDPIPEREF" id="NAMEDPIPEREF"></a>This obscure command creates a <i class="FIRSTTERM">named pipe</i>, a temporary <i class="FIRSTTERM">first-in-first-out buffer</i> for transferring data between processes. <a name="AEN14280" href="#FTN.AEN14280" id="AEN14280"><span class="footnote">[4]</span></a> Typically, one process writes to the FIFO, and the other reads from it. See <a href="contributed-scripts.html#FIFO">Example A-14</a>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># This short script by Omair Eshkenazi.</span>
+<span class="hljs-comment"># Used in ABS Guide with permission (thanks!).</span>
+
+mkfifo pipe1   <span class="hljs-comment"># Yes, pipes can be given names.</span>
+mkfifo pipe2   <span class="hljs-comment"># Hence the designation "named pipe."</span>
+
+(cut -d<span class="hljs-string">' '</span> -f1 | tr <span class="hljs-string">"a-z"</span> <span class="hljs-string">"A-Z"</span>) &gt;pipe2 &lt;pipe1 &amp;
+ls -l | tr -s <span class="hljs-string">' '</span> | cut -d<span class="hljs-string">' '</span> -f3,9- | tee pipe1 |
+cut -d<span class="hljs-string">' '</span> -f2 | paste - pipe2
+
+rm -f pipe1
+rm -f pipe2
+
+<span class="hljs-comment"># No need to kill background processes when script terminates (why not?).</span>
+
+<span class="hljs-built_in">exit</span> $?
+
+Now, invoke the script and explain the output:
+sh mkfifo-example.sh
+
+4830.tar.gz          BOZO
+pipe1   BOZO
+pipe2   BOZO
+mkfifo-example.sh    BOZO
+Mixed.msg BOZO</pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="PATHCHKREF" id="PATHCHKREF"></a><b class="COMMAND">pathchk</b></dt>
+        <dd>
+          <p>This command checks the validity of a filename. If the filename exceeds the maximum allowable length (255 characters) or one or more of the directories in its path is not searchable, then an error message results.</p>
+          <p>Unfortunately, <b class="COMMAND">pathchk</b> does not return a recognizable error code, and it is therefore pretty much useless in a script. Consider instead the <a href="fto.html#RTIF">file test operators</a>.</p>
+        </dd>
+        <dt><a name="DDREF" id="DDREF"></a><b class="COMMAND">dd</b></dt>
+        <dd>
+          <p>Though this somewhat obscure and much feared <b class="COMMAND">d</b>ata <b class="COMMAND">d</b>uplicator command originated as a utility for exchanging data on magnetic tapes between UNIX minicomputers and IBM mainframes, it still has its uses. The <b class="COMMAND">dd</b> command simply copies a file (or <tt class="FILENAME">stdin/stdout</tt>), but with conversions. <a name="DDCONVERSIONS" id="DDCONVERSIONS"></a>Possible conversions include ASCII/EBCDIC, <a name="AEN14318" href="#FTN.AEN14318" id="AEN14318"><span class="footnote">[5]</span></a> upper/lower case, swapping of byte pairs between input and output, and skipping and/or truncating the head or tail of the input file.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># Converting a file to all uppercase:</span>
+
+dd <span class="hljs-keyword">if</span>=<span class="hljs-variable">$filename</span> conv=ucase &gt; <span class="hljs-variable">$filename</span>.uppercase
+<span class="hljs-comment">#                    lcase   # For lower case conversion</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p><a name="DDOPTIONS" id="DDOPTIONS"></a></p>
+          <p>Some basic options to <b class="COMMAND">dd</b> are:</p>
+          <ul>
+            <li>
+              <p>if=INFILE</p>
+              <p>INFILE is the <i class="FIRSTTERM">source</i> file.</p>
+            </li>
+            <li>
+              <p>of=OUTFILE</p>
+              <p>OUTFILE is the <i class="FIRSTTERM">target</i> file, the file that will have the data written to it.</p>
+            </li>
+            <li>
+              <p>bs=BLOCKSIZE</p>
+              <p>This is the size of each block of data being read and written, usually a power of 2.</p>
+            </li>
+            <li>
+              <p>skip=BLOCKS</p>
+              <p>How many blocks of data to skip in INFILE before starting to copy. This is useful when the INFILE has <span class="QUOTE">"garbage"</span> or garbled data in its header or when it is desirable to copy only a portion of the INFILE.</p>
+            </li>
+            <li>
+              <p>seek=BLOCKS</p>
+              <p>How many blocks of data to skip in OUTFILE before starting to copy, leaving blank data at beginning of OUTFILE.</p>
+            </li>
+            <li>
+              <p>count=BLOCKS</p>
+              <p>Copy only this many blocks of data, rather than the entire INFILE.</p>
+            </li>
+            <li>
+              <p>conv=CONVERSION</p>
+              <p>Type of conversion to be applied to INFILE data before copying operation.</p>
+            </li>
+          </ul>
+          <p>A <tt class="USERINPUT"><b>dd --help</b></tt> lists all the options this powerful utility takes.</p>
+          <div class="EXAMPLE">
+            <a name="SELFCOPY" id="SELFCOPY"></a>
+            <p><b>Example 16-57. A script that copies itself</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># self-copy.sh</span>
+
+<span class="hljs-comment"># This script copies itself.</span>
+
+file_subscript=copy
+
+dd <span class="hljs-keyword">if</span>=<span class="hljs-variable">$0</span> of=<span class="hljs-variable">$0</span>.<span class="hljs-variable">$file_subscript</span> 2&gt;/dev/null
+<span class="hljs-comment"># Suppress messages from dd:   ^^^^^^^^^^^</span>
+
+<span class="hljs-built_in">exit</span> $?
+
+<span class="hljs-comment">#  A program whose only output is its own source code</span>
+<span class="hljs-comment">#+ is called a "quine" per Willard Quine.</span>
+<span class="hljs-comment">#  Does this script qualify as a quine?</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="EXAMPLE">
+            <a name="EXERCISINGDD" id="EXERCISINGDD"></a>
+            <p><b>Example 16-58. Exercising <i class="FIRSTTERM">dd</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># exercising-dd.sh</span>
+
+<span class="hljs-comment"># Script by Stephane Chazelas.</span>
+<span class="hljs-comment"># Somewhat modified by ABS Guide author.</span>
+
+infile=<span class="hljs-variable">$0</span>           <span class="hljs-comment"># This script.</span>
+outfile=log.txt     <span class="hljs-comment"># Output file left behind.</span>
+n=8
+p=11
+
+dd <span class="hljs-keyword">if</span>=<span class="hljs-variable">$infile</span> of=<span class="hljs-variable">$outfile</span> bs=1 skip=$((n-<span class="hljs-number">1</span>)) count=$((p-n+<span class="hljs-number">1</span>)) 2&gt; /dev/null
+<span class="hljs-comment"># Extracts characters n to p (8 to 11) from this script ("bash").</span>
+
+<span class="hljs-comment"># ----------------------------------------------------------------</span>
+
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"hello vertical world"</span> | dd cbs=1 conv=unblock 2&gt; /dev/null
+<span class="hljs-comment"># Echoes "hello vertical world" vertically downward.</span>
+<span class="hljs-comment"># Why? A newline follows each character dd emits.</span>
+
+<span class="hljs-built_in">exit</span> $?</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="DDKEYSTROKES" id="DDKEYSTROKES"></a></p>
+          <p>To demonstrate just how versatile <b class="COMMAND">dd</b> is, let's use it to capture keystrokes.</p>
+          <div class="EXAMPLE">
+            <a name="DDKEYPRESS" id="DDKEYPRESS"></a>
+            <p><b>Example 16-59. Capturing Keystrokes</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># dd-keypress.sh: Capture keystrokes without needing to press ENTER.</span>
+
+
+keypresses=4                      <span class="hljs-comment"># Number of keypresses to capture.</span>
+
+
+old_tty_setting=$(stty -g)        <span class="hljs-comment"># Save old terminal settings.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Press <span class="hljs-variable">$keypresses</span> keys."</span>
+stty -icanon -<span class="hljs-built_in">echo</span>                <span class="hljs-comment"># Disable canonical mode.</span>
+                                  <span class="hljs-comment"># Disable local echo.</span>
+keys=$(dd bs=1 count=<span class="hljs-variable">$keypresses</span> 2&gt; /dev/null)
+<span class="hljs-comment"># 'dd' uses stdin, if "if" (input file) not specified.</span>
+
+stty <span class="hljs-string">"<span class="hljs-variable">$old_tty_setting</span>"</span>           <span class="hljs-comment"># Restore old terminal settings.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"You pressed the \"<span class="hljs-variable">$keys</span>\" keys."</span>
+
+<span class="hljs-comment"># Thanks, Stephane Chazelas, for showing the way.</span>
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="DDRANDOM" id="DDRANDOM"></a></p>
+          <p>The <b class="COMMAND">dd</b> command can do random access on a data stream.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-built_in">echo</span> -n . | dd bs=1 seek=4 of=file conv=notrunc
+<span class="hljs-comment">#  The "conv=notrunc" option means that the output file</span>
+<span class="hljs-comment">#+ will not be truncated.</span>
+
+<span class="hljs-comment"># Thanks, S.C.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p><a name="DDCOPY" id="DDCOPY"></a></p>
+          <p>The <b class="COMMAND">dd</b> command can copy raw data and disk images to and from devices, such as floppies and tape drives (<a href="contributed-scripts.html#COPYCD">Example A-5</a>). A common use is creating boot floppies.</p>
+          <p><tt class="USERINPUT"><b>dd if=kernel-image of=/dev/fd0H1440</b></tt></p>
+          <p>Similarly, <b class="COMMAND">dd</b> can copy the entire contents of a floppy, even one formatted with a <span class="QUOTE">"foreign"</span> OS, to the hard drive as an image file.</p>
+          <p><tt class="USERINPUT"><b>dd if=/dev/fd0 of=/home/bozo/projects/floppy.img</b></tt></p>
+          <p><a name="BFS" id="BFS"></a>Likewise, <b class="COMMAND">dd</b> can create bootable flash drives and SD cards.</p>
+          <p><tt class="USERINPUT"><b>dd if=image.iso of=/dev/sdb</b></tt></p>
+          <p><a name="RPSDCARD01" id="RPSDCARD01"></a></p>
+          <div class="EXAMPLE">
+            <a name="RPSDCARD" id="RPSDCARD"></a>
+            <p><b>Example 16-60. Preparing a bootable SD card for the <em>Raspberry Pi</em></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># rp.sdcard.sh</span>
+<span class="hljs-comment"># Preparing an SD card with a bootable image for the Raspberry Pi.</span>
+
+<span class="hljs-comment"># $1 = imagefile name</span>
+<span class="hljs-comment"># $2 = sdcard (device file)</span>
+<span class="hljs-comment"># Otherwise defaults to the defaults, see below.</span>
+
+DEFAULTbs=4M                                 <span class="hljs-comment"># Block size, 4 mb default.</span>
+DEFAULTif=<span class="hljs-string">"2013-07-26-wheezy-raspbian.img"</span>   <span class="hljs-comment"># Commonly used distro.</span>
+DEFAULTsdcard=<span class="hljs-string">"/dev/mmcblk0"</span>                 <span class="hljs-comment"># May be different. Check!</span>
+ROOTUSER_NAME=root                           <span class="hljs-comment"># Must run as root!</span>
+E_NOTROOT=81
+E_NOIMAGE=82
+
+username=$(id -nu)                           <span class="hljs-comment"># Who is running this script?</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$username</span>"</span> != <span class="hljs-string">"<span class="hljs-variable">$ROOTUSER_NAME</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"This script must run as root or with root privileges."</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOTROOT</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  imagefile=<span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>
+<span class="hljs-keyword">else</span>
+  imagefile=<span class="hljs-string">"<span class="hljs-variable">$DEFAULTif</span>"</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  sdcard=<span class="hljs-string">"<span class="hljs-variable">$2</span>"</span>
+<span class="hljs-keyword">else</span>
+  sdcard=<span class="hljs-string">"<span class="hljs-variable">$DEFAULTsdcard</span>"</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">if</span> [ ! -e <span class="hljs-variable">$imagefile</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Image file \"<span class="hljs-variable">$imagefile</span>\" not found!"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOIMAGE</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Last chance to change your mind!"</span>; <span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">read</span> -s -n1 -p <span class="hljs-string">"Hit a key to write <span class="hljs-variable">$imagefile</span> to <span class="hljs-variable">$sdcard</span> [Ctl-c to exit]."</span>
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Writing <span class="hljs-variable">$imagefile</span> to <span class="hljs-variable">$sdcard</span> ..."</span>
+dd bs=<span class="hljs-variable">$DEFAULTbs</span> <span class="hljs-keyword">if</span>=<span class="hljs-variable">$imagefile</span> of=<span class="hljs-variable">$sdcard</span>
+
+<span class="hljs-built_in">exit</span> $?
+
+<span class="hljs-comment"># Exercises:</span>
+<span class="hljs-comment"># ---------</span>
+<span class="hljs-comment"># 1) Provide additional error checking.</span>
+<span class="hljs-comment"># 2) Have script autodetect device file for SD card (difficult!).</span>
+<span class="hljs-comment"># 3) Have script sutodetect image file (*img) in $PWD.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="DDSWAP" id="DDSWAP"></a></p>
+          <p>Other applications of <b class="COMMAND">dd</b> include initializing temporary swap files (<a href="zeros.html#EX73">Example 31-2</a>) and ramdisks (<a href="zeros.html#RAMDISK">Example 31-3</a>). It can even do a low-level copy of an entire hard drive partition, although this is not necessarily recommended.</p>
+          <p>People (with presumably nothing better to do with their time) are constantly thinking of interesting applications of <b class="COMMAND">dd</b>.</p>
+          <p><a name="DDFDEL" id="DDFDEL"></a></p>
+          <div class="EXAMPLE">
+            <a name="BLOTOUT" id="BLOTOUT"></a>
+            <p><b>Example 16-61. Securely deleting a file</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># blot-out.sh: Erase "all" traces of a file.</span>
+
+<span class="hljs-comment">#  This script overwrites a target file alternately</span>
+<span class="hljs-comment">#+ with random bytes, then zeros before finally deleting it.</span>
+<span class="hljs-comment">#  After that, even examining the raw disk sectors by conventional methods</span>
+<span class="hljs-comment">#+ will not reveal the original file data.</span>
+
+PASSES=7         <span class="hljs-comment">#  Number of file-shredding passes.</span>
+                 <span class="hljs-comment">#  Increasing this slows script execution,</span>
+                 <span class="hljs-comment">#+ especially on large target files.</span>
+BLOCKSIZE=1      <span class="hljs-comment">#  I/O with /dev/urandom requires unit block size,</span>
+                 <span class="hljs-comment">#+ otherwise you get weird results.</span>
+E_BADARGS=70     <span class="hljs-comment">#  Various error exit codes.</span>
+E_NOT_FOUND=71
+E_CHANGED_MIND=72
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]   <span class="hljs-comment"># No filename specified.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` filename"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>
+
+file=<span class="hljs-variable">$1</span>
+
+<span class="hljs-keyword">if</span> [ ! -e <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"File \"<span class="hljs-variable">$file</span>\" not found."</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOT_FOUND</span>
+<span class="hljs-keyword">fi</span>  
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Are you absolutely sure you want to blot out \"<span class="hljs-variable">$file</span>\" (y/n)? "</span>
+<span class="hljs-built_in">read</span> answer
+<span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$answer</span>"</span> <span class="hljs-keyword">in</span>
+[nN]) <span class="hljs-built_in">echo</span> <span class="hljs-string">"Changed your mind, huh?"</span>
+      <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_CHANGED_MIND</span>
+      ;;
+*)    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Blotting out file \"<span class="hljs-variable">$file</span>\"."</span>;;
+<span class="hljs-keyword">esac</span>
+
+
+flength=$(ls -l <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span> | awk <span class="hljs-string">'{print $5}'</span>)  <span class="hljs-comment"># Field 5 is file length.</span>
+pass_count=1
+
+chmod u+w <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span>   <span class="hljs-comment"># Allow overwriting/deleting the file.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$pass_count</span>"</span> -le <span class="hljs-string">"<span class="hljs-variable">$PASSES</span>"</span> ]
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Pass #<span class="hljs-variable">$pass_count</span>"</span>
+  sync         <span class="hljs-comment"># Flush buffers.</span>
+  dd <span class="hljs-keyword">if</span>=/dev/urandom of=<span class="hljs-variable">$file</span> bs=<span class="hljs-variable">$BLOCKSIZE</span> count=<span class="hljs-variable">$flength</span>
+               <span class="hljs-comment"># Fill with random bytes.</span>
+  sync         <span class="hljs-comment"># Flush buffers again.</span>
+  dd <span class="hljs-keyword">if</span>=/dev/zero of=<span class="hljs-variable">$file</span> bs=<span class="hljs-variable">$BLOCKSIZE</span> count=<span class="hljs-variable">$flength</span>
+               <span class="hljs-comment"># Fill with zeros.</span>
+  sync         <span class="hljs-comment"># Flush buffers yet again.</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"pass_count += 1"</span>
+  <span class="hljs-built_in">echo</span>
+<span class="hljs-keyword">done</span>  
+
+
+rm -f <span class="hljs-variable">$file</span>    <span class="hljs-comment"># Finally, delete scrambled and shredded file.</span>
+sync           <span class="hljs-comment"># Flush buffers a final time.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"File \"<span class="hljs-variable">$file</span>\" blotted out and deleted."</span>; <span class="hljs-built_in">echo</span>
+
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment">#  This is a fairly secure, if inefficient and slow method</span>
+<span class="hljs-comment">#+ of thoroughly "shredding" a file.</span>
+<span class="hljs-comment">#  The "shred" command, part of the GNU "fileutils" package,</span>
+<span class="hljs-comment">#+ does the same thing, although more efficiently.</span>
+
+<span class="hljs-comment">#  The file cannot not be "undeleted" or retrieved by normal methods.</span>
+<span class="hljs-comment">#  However . . .</span>
+<span class="hljs-comment">#+ this simple method would *not* likely withstand</span>
+<span class="hljs-comment">#+ sophisticated forensic analysis.</span>
+
+<span class="hljs-comment">#  This script may not play well with a journaled file system.</span>
+<span class="hljs-comment">#  Exercise (difficult): Fix it so it does.</span>
+
+
+
+<span class="hljs-comment">#  Tom Vier's "wipe" file-deletion package does a much more thorough job</span>
+<span class="hljs-comment">#+ of file shredding than this simple script.</span>
+<span class="hljs-comment">#     http://www.ibiblio.org/pub/Linux/utils/file/wipe-2.0.0.tar.bz2</span>
+
+<span class="hljs-comment">#  For an in-depth analysis on the topic of file deletion and security,</span>
+<span class="hljs-comment">#+ see Peter Gutmann's paper,</span>
+<span class="hljs-comment">#+     "Secure Deletion of Data From Magnetic and Solid-State Memory".</span>
+<span class="hljs-comment">#       http://www.cs.auckland.ac.nz/~pgut001/pubs/secure_del.html</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>See also the <a href="biblio.html#DDLINK">dd thread</a> entry in the <a href="biblio.html#BIBLIOREF">bibliography</a>.</p>
+        </dd>
+        <dt><a name="ODREF" id="ODREF"></a><b class="COMMAND">od</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">od</b>, or <i class="FIRSTTERM">octal dump</i> filter converts input (or files) to octal (base-8) or other bases. This is useful for viewing or processing binary data files or otherwise unreadable system <a href="devref1.html#DEVFILEREF">device files</a>, such as <tt class="FILENAME">/dev/urandom</tt>, and as a filter for binary data.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">head -c4 /dev/urandom | od -N4 -tu4 | sed -ne <span class="hljs-string">'1s/.* //p'</span>
+<span class="hljs-comment"># Sample output: 1324725719, 3918166450, 2989231420, etc.</span>
+
+<span class="hljs-comment"># From rnd.sh example script, by Stephane Chazelas</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>See also <a href="randomvar.html#SEEDINGRANDOM">Example 9-16</a> and <a href="contributed-scripts.html#INSERTIONSORT">Example A-36</a>.</p>
+        </dd>
+        <dt><a name="HEXDUMPREF" id="HEXDUMPREF"></a><b class="COMMAND">hexdump</b></dt>
+        <dd>
+          <p>Performs a hexadecimal, octal, decimal, or ASCII dump of a binary file. This command is the rough equivalent of <b class="COMMAND">od</b>, above, but not nearly as useful. May be used to view the contents of a binary file, in combination with <a href="extmisc.html#DDREF">dd</a> and <a href="filearchiv.html#LESSREF">less</a>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">dd <span class="hljs-keyword">if</span>=/bin/ls | hexdump -C | less
+<span class="hljs-comment"># The -C option nicely formats the output in tabular form.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="OBJDUMPREF" id="OBJDUMPREF"></a><b class="COMMAND">objdump</b></dt>
+        <dd>
+          <p>Displays information about an object file or binary executable in either hexadecimal form or as a disassembled listing (with the <tt class="OPTION">-d</tt> option).</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> objdump -d /bin/ls</span>
+/bin/ls:     file format elf32-i386
+
+ Disassembly of section .init:
+
+ 080490bc &lt;.init&gt;:
+  80490bc:       55                      push   %ebp
+  80490bd:       89 e5                   mov    %esp,%ebp
+  . . .
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="MCOOKIEREF" id="MCOOKIEREF"></a><b class="COMMAND">mcookie</b></dt>
+        <dd>
+          <p>This command generates a <span class="QUOTE">"magic cookie,"</span> a 128-bit (32-character) pseudorandom hexadecimal number, normally used as an authorization <span class="QUOTE">"signature"</span> by the X server. This also available for use in a script as a <span class="QUOTE">"quick 'n dirty"</span> random number.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">random000=$(mcookie)</pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>Of course, a script could use <a href="filearchiv.html#MD5SUMREF">md5sum</a> for the same purpose.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># Generate md5 checksum on the script itself.</span>
+random001=`md5sum <span class="hljs-variable">$0</span> | awk <span class="hljs-string">'{print $1}'</span>`
+<span class="hljs-comment"># Uses 'awk' to strip off the filename.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>The <b class="COMMAND">mcookie</b> command gives yet another way to generate a <span class="QUOTE">"unique"</span> filename.</p>
+          <div class="EXAMPLE">
+            <a name="TEMPFILENAME" id="TEMPFILENAME"></a>
+            <p><b>Example 16-62. Filename generator</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># tempfile-name.sh:  temp filename generator</span>
+
+BASE_STR=`mcookie`   <span class="hljs-comment"># 32-character magic cookie.</span>
+POS=11               <span class="hljs-comment"># Arbitrary position in magic cookie string.</span>
+LEN=5                <span class="hljs-comment"># Get $LEN consecutive characters.</span>
+
+prefix=temp          <span class="hljs-comment">#  This is, after all, a "temp" file.</span>
+                     <span class="hljs-comment">#  For more "uniqueness," generate the</span>
+                     <span class="hljs-comment">#+ filename prefix using the same method</span>
+                     <span class="hljs-comment">#+ as the suffix, below.</span>
+
+suffix=<span class="hljs-variable">${BASE_STR:POS:LEN}</span>
+                     <span class="hljs-comment">#  Extract a 5-character string,</span>
+                     <span class="hljs-comment">#+ starting at position 11.</span>
+
+temp_filename=<span class="hljs-variable">$prefix</span>.<span class="hljs-variable">$suffix</span>
+                     <span class="hljs-comment"># Construct the filename.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Temp filename = "</span><span class="hljs-variable">$temp_filename</span><span class="hljs-string">""</span>
+
+<span class="hljs-comment"># sh tempfile-name.sh</span>
+<span class="hljs-comment"># Temp filename = temp.e19ea</span>
+
+<span class="hljs-comment">#  Compare this method of generating "unique" filenames</span>
+<span class="hljs-comment">#+ with the 'date' method in ex51.sh.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="UNITSREF" id="UNITSREF"></a><b class="COMMAND">units</b></dt>
+        <dd>
+          <p>This utility converts between different <i class="FIRSTTERM">units of measure</i>. While normally invoked in interactive mode, <b class="COMMAND">units</b> may find use in a script.</p>
+          <div class="EXAMPLE">
+            <a name="UNITCONVERSION" id="UNITCONVERSION"></a>
+            <p><b>Example 16-63. Converting meters to miles</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># unit-conversion.sh</span>
+<span class="hljs-comment"># Must have 'units' utility installed.</span>
+
+
+convert_units ()  <span class="hljs-comment"># Takes as arguments the units to convert.</span>
+{
+  cf=$(units <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span> | sed --silent -e <span class="hljs-string">'1p'</span> | awk <span class="hljs-string">'{print $2}'</span>)
+  <span class="hljs-comment"># Strip off everything except the actual conversion factor.</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$cf</span>"</span>
+}  
+
+Unit1=miles
+Unit2=meters
+cfactor=`convert_units <span class="hljs-variable">$Unit1</span> <span class="hljs-variable">$Unit2</span>`
+quantity=3.73
+
+result=$(<span class="hljs-built_in">echo</span> <span class="hljs-variable">$quantity</span>*<span class="hljs-variable">$cfactor</span> | bc)
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"There are <span class="hljs-variable">$result</span> <span class="hljs-variable">$Unit2</span> in <span class="hljs-variable">$quantity</span> <span class="hljs-variable">$Unit1</span>."</span>
+
+<span class="hljs-comment">#  What happens if you pass incompatible units,</span>
+<span class="hljs-comment">#+ such as "acres" and "miles" to the function?</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># Exercise: Edit this script to accept command-line parameters,</span>
+<span class="hljs-comment">#           with appropriate error checking, of course.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="M4REF" id="M4REF"></a><b class="COMMAND">m4</b></dt>
+        <dd>
+          <p>A hidden treasure, <b class="COMMAND">m4</b> is a powerful macro <a name="AEN14523" href="#FTN.AEN14523" id="AEN14523"><span class="footnote">[6]</span></a> processing filter, virtually a complete language. Although originally written as a pre-processor for <i class="FIRSTTERM">RatFor</i>, <b class="COMMAND">m4</b> turned out to be useful as a stand-alone utility. In fact, <b class="COMMAND">m4</b> combines some of the functionality of <a href="internal.html#EVALREF">eval</a>, <a href="textproc.html#TRREF">tr</a>, and <a href="awk.html#AWKREF">awk</a>, in addition to its extensive macro expansion facilities.</p>
+          <p>The April, 2002 issue of <a href="http://www.linuxjournal.com" target="_top"><i class="CITETITLE">Linux Journal</i></a> has a very nice article on <b class="COMMAND">m4</b> and its uses.</p>
+          <div class="EXAMPLE">
+            <a name="M4" id="M4"></a>
+            <p><b>Example 16-64. Using <i class="FIRSTTERM">m4</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># m4.sh: Using the m4 macro processor</span>
+
+<span class="hljs-comment"># Strings</span>
+string=abcdA01
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"len(<span class="hljs-variable">$string</span>)"</span> | m4                            <span class="hljs-comment">#   7</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"substr(<span class="hljs-variable">$string</span>,4)"</span> | m4                       <span class="hljs-comment"># A01</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"regexp(<span class="hljs-variable">$string</span>,[0-1][0-1],\&amp;Z)"</span> | m4      <span class="hljs-comment"># 01Z</span>
+
+<span class="hljs-comment"># Arithmetic</span>
+var=99
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"incr(<span class="hljs-variable">$var</span>)"</span> | m4                              <span class="hljs-comment">#  100</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"eval(<span class="hljs-variable">$var</span> / 3)"</span> | m4                          <span class="hljs-comment">#   33</span>
+
+<span class="hljs-built_in">exit</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="XMESSAGEREF" id="XMESSAGEREF"></a><b class="COMMAND">xmessage</b></dt>
+        <dd>
+          <p>This X-based variant of <a href="internal.html#ECHOREF">echo</a> pops up a message/query window on the desktop.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">xmessage Left click to <span class="hljs-built_in">continue</span> -button okay</pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="ZENITYREF" id="ZENITYREF"></a><b class="COMMAND">zenity</b></dt>
+        <dd>
+          <p>The <a href="http://freshmeat.net/projects/zenity" target="_top">zenity</a> utility is adept at displaying <i class="FIRSTTERM">GTK+</i> dialog <a href="assortedtips.html#WIDGETREF">widgets</a> and <a href="assortedtips.html#ZENITYREF2">very suitable for scripting purposes</a>.</p>
+        </dd>
+        <dt><a name="DOEXECREF" id="DOEXECREF"></a><b class="COMMAND">doexec</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">doexec</b> command enables passing an arbitrary list of arguments to a <i class="FIRSTTERM">binary executable</i>. In particular, passing <tt class="PARAMETER"><i>argv[0]</i></tt> (which corresponds to <a href="othertypesv.html#POSPARAMREF1">$0</a> in a script) lets the executable be invoked by various names, and it can then carry out different sets of actions, according to the name by which it was called. What this amounts to is roundabout way of passing options to an executable.</p>
+          <p>For example, the <tt class="FILENAME">/usr/local/bin</tt> directory might contain a binary called <span class="QUOTE">"aaa"</span>. Invoking <b class="COMMAND">doexec /usr/local/bin/aaa list</b> would <em>list</em> all those files in the current working directory beginning with an <span class="QUOTE">"a"</span>, while invoking (the same executable with) <b class="COMMAND">doexec /usr/local/bin/aaa delete</b> would <em>delete</em> those files.</p>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>The various behaviors of the executable must be defined within the code of the executable itself, analogous to something like the following in a shell script:</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tbody><tr>
+                      <td>
+                        <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">case</span> `basename <span class="hljs-variable">$0</span>` <span class="hljs-keyword">in</span>
+<span class="hljs-string">"name1"</span> ) do_something;;
+<span class="hljs-string">"name2"</span> ) do_something_else;;
+<span class="hljs-string">"name3"</span> ) do_yet_another_thing;;
+*       ) bail_out;;
+<span class="hljs-keyword">esac</span></pre>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><b class="COMMAND">dialog</b></dt>
+        <dd>
+          <p>The <a href="assortedtips.html#DIALOGREF">dialog</a> family of tools provide a method of calling interactive <span class="QUOTE">"dialog"</span> boxes from a script. The more elaborate variations of <b class="COMMAND">dialog</b> -- <b class="COMMAND">gdialog</b>, <b class="COMMAND">Xdialog</b>, and <b class="COMMAND">kdialog</b> -- actually invoke X-Windows <a href="assortedtips.html#WIDGETREF">widgets</a>.</p>
+        </dd>
+        <dt><a name="SOXREF" id="SOXREF"></a><b class="COMMAND">sox</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">sox</b>, or <span class="QUOTE">"<b class="COMMAND">so</b>und e<b class="COMMAND">x</b>change"</span> command plays and performs transformations on sound files. In fact, the <tt class="FILENAME">/usr/bin/play</tt> executable (now deprecated) is nothing but a shell wrapper for <i class="FIRSTTERM">sox</i>.</p>
+          <p>For example, <b class="COMMAND">sox soundfile.wav soundfile.au</b> changes a WAV sound file into a (Sun audio format) AU sound file.</p>
+          <p>Shell scripts are ideally suited for batch-processing <b class="COMMAND">sox</b> operations on sound files. For examples, see the <a href="http://osl.iu.edu/~tveldhui/radio/" target="_top">Linux Radio Timeshift HOWTO</a> and the <a href="http://savannah.nongnu.org/projects/audiodo" target="_top">MP3do Project</a>.</p>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN14105" href="extmisc.html#AEN14105" id="FTN.AEN14105"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>This is actually a script adapted from the Debian Linux distribution.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN14214" href="extmisc.html#AEN14214" id="FTN.AEN14214"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>The <i class="FIRSTTERM">print queue</i> is the group of jobs <span class="QUOTE">"waiting in line"</span> to be printed.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN14218" href="extmisc.html#AEN14218" id="FTN.AEN14218"><span class="footnote">[3]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Large mechanical <i class="FIRSTTERM">line printers</i> printed a single line of type at a time onto joined sheets of <i class="FIRSTTERM">greenbar</i> paper, to the accompaniment of <a href="http://www.columbia.edu/cu/computinghistory/1403.html" target="_top">a great deal of noise</a>. The hardcopy thusly printed was referred to as a <i class="FIRSTTERM">printout</i>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN14280" href="extmisc.html#AEN14280" id="FTN.AEN14280"><span class="footnote">[4]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>For an excellent overview of this topic, see Andy Vaught's article, <a href="http://www2.linuxjournal.com/lj-issues/issue41/2156.html" target="_top">Introduction to Named Pipes</a>, in the September, 1997 issue of <a href="http://www.linuxjournal.com" target="_top"><i class="CITETITLE">Linux Journal</i></a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN14318" href="extmisc.html#AEN14318" id="FTN.AEN14318"><span class="footnote">[5]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><span class="ACRONYM">EBCDIC</span> (pronounced <span class="QUOTE">"ebb-sid-ick"</span>) is an acronym for Extended Binary Coded Decimal Interchange Code, an obsolete IBM data format. A bizarre application of the <tt class="OPTION">conv=ebcdic</tt> option of <b class="COMMAND">dd</b> is as a quick 'n easy, but not very secure text file encoder.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs">cat <span class="hljs-variable">$file</span> | dd conv=swab,ebcdic &gt; <span class="hljs-variable">$file_encrypted</span>
+<span class="hljs-comment"># Encode (looks like gibberish).                    </span>
+<span class="hljs-comment"># Might as well switch bytes (swab), too, for a little extra obscurity.</span>
+
+cat <span class="hljs-variable">$file_encrypted</span> | dd conv=swab,ascii &gt; <span class="hljs-variable">$file_plaintext</span>
+<span class="hljs-comment"># Decode.</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN14523" href="extmisc.html#AEN14523" id="FTN.AEN14523"><span class="footnote">[6]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>A <i class="FIRSTTERM">macro</i> is a symbolic constant that expands into a command string or a set of operations on parameters. Simply put, it's a shortcut or abbreviation.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="mathc.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="system.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Math Commands</td>
+        <td width="34%" align="center" valign="top"><a href="external.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">System and Administrative Commands</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

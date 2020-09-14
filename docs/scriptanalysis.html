@@ -1,0 +1,152 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Analyzing Scripts</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Exercises" href="exercises.html">
+  <link rel="PREVIOUS" title="Exercises" href="exercises.html">
+  <link rel="NEXT" title="Writing Scripts" href="writingscripts.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="exercises.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Appendix O. Exercises</td>
+        <td width="10%" align="right" valign="bottom"><a href="writingscripts.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="SCRIPTANALYSIS" id="SCRIPTANALYSIS"></a>O.1. Analyzing Scripts</h1>
+    <p>Examine the following script. Run it, then explain what it does. Annotate the script and rewrite it in a more compact and elegant manner.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+MAX=10000
+
+
+  <span class="hljs-keyword">for</span>((nr=1; nr&lt;<span class="hljs-variable">$MAX</span>; nr++))
+  <span class="hljs-keyword">do</span>
+
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"t1 = nr % 5"</span>
+    <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$t1</span>"</span> -ne 3 ]
+    <span class="hljs-keyword">then</span>
+      <span class="hljs-built_in">continue</span>
+    <span class="hljs-keyword">fi</span>
+
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"t2 = nr % 7"</span>
+    <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$t2</span>"</span> -ne 4 ]
+    <span class="hljs-keyword">then</span>
+      <span class="hljs-built_in">continue</span>
+    <span class="hljs-keyword">fi</span>
+
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"t3 = nr % 9"</span>
+    <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$t3</span>"</span> -ne 5 ]
+    <span class="hljs-keyword">then</span>
+      <span class="hljs-built_in">continue</span>
+    <span class="hljs-keyword">fi</span>
+
+  <span class="hljs-built_in">break</span>   <span class="hljs-comment"># What happens when you comment out this line? Why?</span>
+
+  <span class="hljs-keyword">done</span>
+
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Number = <span class="hljs-variable">$nr</span>"</span>
+
+
+<span class="hljs-built_in">exit</span> 0</pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>---</p>
+    <p>Explain what the following script does. It is really just a parameterized command-line pipe.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+DIRNAME=/usr/bin
+FILETYPE=<span class="hljs-string">"shell script"</span>
+LOGFILE=logfile
+
+file <span class="hljs-string">"<span class="hljs-variable">$DIRNAME</span>"</span>/* | fgrep <span class="hljs-string">"<span class="hljs-variable">$FILETYPE</span>"</span> | tee <span class="hljs-variable">$LOGFILE</span> | wc -l
+
+<span class="hljs-built_in">exit</span> 0</pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>---</p>
+    <p>Examine and explain the following script. For hints, you might refer to the listings for <a href="moreadv.html#FINDREF">find</a> and <a href="system.html#STATREF">stat</a>.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment"># Author:  Nathan Coulter</span>
+<span class="hljs-comment"># This code is released to the public domain.</span>
+<span class="hljs-comment"># The author gave permission to use this code snippet in the ABS Guide.</span>
+
+find -maxdepth 1 -<span class="hljs-built_in">type</span> f -<span class="hljs-built_in">printf</span> <span class="hljs-string">'%f\000'</span>  | {
+   <span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> -d $<span class="hljs-string">'\000'</span>; <span class="hljs-keyword">do</span>
+      mv <span class="hljs-string">"<span class="hljs-variable">$REPLY</span>"</span> <span class="hljs-string">"<span class="hljs-subst">$(date -d <span class="hljs-string">"<span class="hljs-subst">$(stat -c '%y' <span class="hljs-string">"<span class="hljs-variable">$REPLY</span>"</span>)</span> "</span> '+%Y%m%d%H%M%S'
+      )</span>-<span class="hljs-variable">$REPLY</span>"</span>
+   <span class="hljs-keyword">done</span>
+}
+
+<span class="hljs-comment"># Warning: Test-drive this script in a "scratch" directory.</span>
+<span class="hljs-comment"># It will somehow affect all the files there.</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>---</p>
+    <p>A reader sent in the following code snippet.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> LINE
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$LINE</span>
+<span class="hljs-keyword">done</span> &lt; `tail -f /var/<span class="hljs-built_in">log</span>/messages`</pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>He wished to write a script tracking changes to the system log file, <tt class="FILENAME">/var/log/messages</tt>. Unfortunately, the above code block hangs and does nothing useful. Why? Fix this so it does work. (Hint: rather than <a href="redircb.html#REDIRREF">redirecting the <tt class="FILENAME">stdin</tt> of the loop</a>, try a <a href="special-chars.html#PIPEREF">pipe</a>.)</p>
+    <p>---</p>
+    <p>Analyze the following <span class="QUOTE">"one-liner"</span> (here split into two lines for clarity) contributed by Rory Winston:</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-built_in">export</span> SUM=0; <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> $(find src -name <span class="hljs-string">"*.java"</span>);
+<span class="hljs-keyword">do</span> <span class="hljs-built_in">export</span> SUM=$((<span class="hljs-variable">$SUM</span> + $(wc -l <span class="hljs-variable">$f</span> | awk '{ print <span class="hljs-variable">$1</span> }'))); <span class="hljs-keyword">done</span>; <span class="hljs-built_in">echo</span> <span class="hljs-variable">$SUM</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>Hint: First, break the script up into bite-sized sections. Then, carefully examine its use of <a href="dblparens.html">double-parentheses</a> arithmetic, the <a href="internal.html#EXPORTREF">export</a> command, the <a href="moreadv.html#FINDREF">find</a> command, the <a href="textproc.html#WCREF">wc</a> command, and <a href="awk.html#AWKREF">awk</a>.</p>
+    <p>---</p>
+    <p>Analyze <a href="contributed-scripts.html#LIFESLOW">Example A-10</a>, and reorganize it in a simplified and more logical style. See how many of the variables can be eliminated, and try to optimize the script to speed up its execution time.</p>
+    <p>Alter the script so that it accepts any ordinary ASCII text file as input for its initial <span class="QUOTE">"generation"</span>. The script will read the first <tt class="PARAMETER"><i>$ROW*$COL</i></tt> characters, and set the occurrences of vowels as <span class="QUOTE">"living"</span> cells. Hint: be sure to translate the spaces in the input file to underscore characters.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="exercises.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="writingscripts.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Exercises</td>
+        <td width="34%" align="center" valign="top"><a href="exercises.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Writing Scripts</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

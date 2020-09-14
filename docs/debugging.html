@@ -1,0 +1,806 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Debugging</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="Of Zeros and Nulls" href="zeros.html">
+  <link rel="NEXT" title="Options" href="options.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="zeros.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="options.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="DEBUGGING" id="DEBUGGING"></a>Chapter 32. Debugging</h1>
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" class="EPIGRAPH">
+      <tbody><tr>
+        <td width="45%">&nbsp;</td>
+        <td width="45%" align="left" valign="top">
+          <p><i>Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.</i></p>
+          <p><i>--Brian Kernighan</i></p>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>The Bash shell contains no built-in debugger, and only bare-bones debugging-specific commands and constructs. Syntax errors or outright typos in the script generate cryptic error messages that are often of no help in debugging a non-functional script.</p>
+    <div class="EXAMPLE">
+      <a name="EX74" id="EX74"></a>
+      <p><b>Example 32-1. A buggy script</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># ex74.sh</span>
+
+<span class="hljs-comment"># This is a buggy script.</span>
+<span class="hljs-comment"># Where, oh where is the error?</span>
+
+a=37
+
+<span class="hljs-keyword">if</span> [<span class="hljs-variable">$a</span> -gt 27 ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$a</span>
+<span class="hljs-keyword">fi</span>  
+
+<span class="hljs-built_in">exit</span> $?   <span class="hljs-comment"># 0! Why?</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Output from script:</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs">./ex74.sh: [37: command not found</pre>
+        </td>
+      </tr>
+    </tbody></table>What's wrong with the above script? Hint: after the <i class="FIRSTTERM">if</i>.
+    <div class="EXAMPLE">
+      <a name="MISSINGKEYWORD" id="MISSINGKEYWORD"></a>
+      <p><b>Example 32-2. Missing <a href="internal.html#KEYWORDREF">keyword</a></b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># missing-keyword.sh</span>
+<span class="hljs-comment"># What error message will this script generate? And why?</span>
+
+<span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> 1 2 3
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span>
+<span class="hljs-comment"># done     # Required keyword 'done' commented out in line 8.</span>
+
+<span class="hljs-built_in">exit</span> 0     <span class="hljs-comment"># Will not exit here!</span>
+
+<span class="hljs-comment"># === #</span>
+
+<span class="hljs-comment"># From command line, after script terminates:</span>
+  <span class="hljs-built_in">echo</span> $?    <span class="hljs-comment"># 2</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Output from script:</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs">missing-keyword.sh: line 10: syntax error: unexpected end of file
+        </pre>
+        </td>
+      </tr>
+    </tbody></table>Note that the error message does <em>not</em> necessarily reference the line in which the error occurs, but the line where the Bash interpreter finally becomes aware of the error.
+    <p>Error messages may disregard comment lines in a script when reporting the line number of a syntax error.</p>
+    <p>What if the script executes, but does not work as expected? This is the all too familiar logic error.</p>
+    <div class="EXAMPLE">
+      <a name="EX75" id="EX75"></a>
+      <p><b>Example 32-3. <i class="FIRSTTERM">test24</i>: another buggy script</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment">#  This script is supposed to delete all filenames in current directory</span>
+<span class="hljs-comment">#+ containing embedded spaces.</span>
+<span class="hljs-comment">#  It doesn't work.</span>
+<span class="hljs-comment">#  Why not?</span>
+
+
+badname=`ls | grep <span class="hljs-string">' '</span>`
+
+<span class="hljs-comment"># Try this:</span>
+<span class="hljs-comment"># echo "$badname"</span>
+
+rm <span class="hljs-string">"<span class="hljs-variable">$badname</span>"</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Try to find out what's wrong with <a href="debugging.html#EX75">Example 32-3</a> by uncommenting the <tt class="USERINPUT"><b>echo "$badname"</b></tt> line. Echo statements are useful for seeing whether what you expect is actually what you get.</p>
+    <p>In this particular case, <tt class="USERINPUT"><b>rm "$badname"</b></tt> will not give the desired results because <tt class="VARNAME">$badname</tt> should not be quoted. Placing it in quotes ensures that <b class="COMMAND">rm</b> has only one argument (it will match only one filename). A partial fix is to remove to quotes from <tt class="VARNAME">$badname</tt> and to reset <tt class="VARNAME">$IFS</tt> to contain only a newline, <tt class="USERINPUT"><b>IFS=$'\n'</b></tt>. However, there are simpler ways of going about it.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># Correct methods of deleting filenames containing spaces.</span>
+rm *\ *
+rm *<span class="hljs-string">" "</span>*
+rm *<span class="hljs-string">' '</span>*
+<span class="hljs-comment"># Thank you. S.C.</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>Summarizing the symptoms of a buggy script,</p>
+    <ol type="1">
+      <li>
+        <p>It bombs with a <span class="QUOTE">"<span class="ERRORNAME">syntax error</span>"</span> message, or</p>
+      </li>
+      <li>
+        <p>It runs, but does not work as expected (<span class="ERRORNAME">logic error</span>).</p>
+      </li>
+      <li>
+        <p>It runs, works as expected, but has nasty side effects (<span class="ERRORNAME">logic bomb</span>).</p>
+      </li>
+    </ol>
+    <p><a name="DEBUGTOOLS" id="DEBUGTOOLS"></a></p>
+    <p>Tools for debugging non-working scripts include</p>
+    <ol type="1">
+      <li>
+        <p>Inserting <a href="internal.html#ECHOREF">echo</a> statements at critical points in the script to trace the variables, and otherwise give a snapshot of what is going on.</p>
+        <div class="TIP">
+          <table class="TIP" width="90%" border="0">
+            <tbody><tr>
+              <td width="25" align="center" valign="top"><img src="images/tip.gif" hspace="5" alt="Tip"></td>
+              <td align="left" valign="top">
+                <p>Even better is an <b class="COMMAND">echo</b> that echoes only when <i class="FIRSTTERM">debug</i> is on.</p>
+                <table border="0" bgcolor="#E0E0E0" width="90%">
+                  <tbody><tr>
+                    <td>
+                      <pre class="PROGRAMLISTING hljs"><span class="hljs-comment">### debecho (debug-echo), by Stefano Falsetto ###</span>
+<span class="hljs-comment">### Will echo passed parameters only if DEBUG is set to a value. ###</span>
+<span class="hljs-function"><span class="hljs-title">debecho</span></span> () {
+  <span class="hljs-keyword">if</span> [ ! -z <span class="hljs-string">"<span class="hljs-variable">$DEBUG</span>"</span> ]; <span class="hljs-keyword">then</span>
+     <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> &gt;&amp;2
+     <span class="hljs-comment">#         ^^^ to stderr</span>
+  <span class="hljs-keyword">fi</span>
+}
+
+DEBUG=on
+Whatever=whatnot
+debecho <span class="hljs-variable">$Whatever</span>   <span class="hljs-comment"># whatnot</span>
+
+DEBUG=
+Whatever=notwhat
+debecho <span class="hljs-variable">$Whatever</span>   <span class="hljs-comment"># (Will not echo.)</span></pre>
+                    </td>
+                  </tr>
+                </tbody></table>
+              </td>
+            </tr>
+          </tbody></table>
+        </div>
+      </li>
+      <li>
+        <p>Using the <a href="extmisc.html#TEEREF">tee</a> filter to check processes or data flows at critical points.</p>
+      </li>
+      <li>
+        <p>Setting option flags <tt class="OPTION">-n -v -x</tt></p>
+        <p><tt class="USERINPUT"><b>sh -n scriptname</b></tt> checks for syntax errors without actually running the script. This is the equivalent of inserting <tt class="USERINPUT"><b>set -n</b></tt> or <tt class="USERINPUT"><b>set -o noexec</b></tt> into the script. Note that certain types of syntax errors can slip past this check.</p>
+        <p><tt class="USERINPUT"><b>sh -v scriptname</b></tt> echoes each command before executing it. This is the equivalent of inserting <tt class="USERINPUT"><b>set -v</b></tt> or <tt class="USERINPUT"><b>set -o verbose</b></tt> in the script.</p>
+        <p>The <tt class="OPTION">-n</tt> and <tt class="OPTION">-v</tt> flags work well together. <tt class="USERINPUT"><b>sh -nv scriptname</b></tt> gives a verbose syntax check.</p>
+        <p><tt class="USERINPUT"><b>sh -x scriptname</b></tt> echoes the result each command, but in an abbreviated manner. This is the equivalent of inserting <tt class="USERINPUT"><b>set -x</b></tt> or <tt class="USERINPUT"><b>set -o xtrace</b></tt> in the script.</p>
+        <p><a name="UNDVARERR" id="UNDVARERR"></a></p>
+        <p>Inserting <tt class="USERINPUT"><b>set -u</b></tt> or <tt class="USERINPUT"><b>set -o nounset</b></tt> in the script runs it, but gives an <span class="ERRORNAME">unbound variable</span> error message and aborts the script.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-built_in">set</span> -u   <span class="hljs-comment"># Or   set -o nounset</span>
+
+<span class="hljs-comment"># Setting a variable to null will not trigger the error/abort.</span>
+<span class="hljs-comment"># unset_var=</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$unset_var</span>   <span class="hljs-comment"># Unset (and undeclared) variable.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Should not echo!"</span>
+
+<span class="hljs-comment"># sh t2.sh</span>
+<span class="hljs-comment"># t2.sh: line 6: unset_var: unbound variable</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p>Using an <span class="QUOTE">"assert"</span> function to test a variable or condition at critical points in a script. (This is an idea borrowed from C.)</p>
+        <div class="EXAMPLE">
+          <a name="ASSERT" id="ASSERT"></a>
+          <p><b>Example 32-4. Testing a condition with an <i class="FIRSTTERM">assert</i></b></p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># assert.sh</span>
+
+<span class="hljs-comment">#######################################################################</span>
+assert ()                 <span class="hljs-comment">#  If condition false,</span>
+{                         <span class="hljs-comment">#+ exit from script</span>
+                          <span class="hljs-comment">#+ with appropriate error message.</span>
+  E_PARAM_ERR=98
+  E_ASSERT_FAILED=99
+
+
+  <span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span> ]          <span class="hljs-comment">#  Not enough parameters passed</span>
+  <span class="hljs-keyword">then</span>                    <span class="hljs-comment">#+ to assert() function.</span>
+    <span class="hljs-built_in">return</span> <span class="hljs-variable">$E_PARAM_ERR</span>   <span class="hljs-comment">#  No damage done.</span>
+  <span class="hljs-keyword">fi</span>
+
+  lineno=<span class="hljs-variable">$2</span>
+
+  <span class="hljs-keyword">if</span> [ ! <span class="hljs-variable">$1</span> ] 
+  <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Assertion failed:  \"<span class="hljs-variable">$1</span>\""</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"File \"<span class="hljs-variable">$0</span>\", line <span class="hljs-variable">$lineno</span>"</span>    <span class="hljs-comment"># Give name of file and line number.</span>
+    <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_ASSERT_FAILED</span>
+  <span class="hljs-comment"># else</span>
+  <span class="hljs-comment">#   return</span>
+  <span class="hljs-comment">#   and continue executing the script.</span>
+  <span class="hljs-keyword">fi</span>  
+} <span class="hljs-comment"># Insert a similar assert() function into a script you need to debug.    </span>
+<span class="hljs-comment">#######################################################################</span>
+
+
+a=5
+b=4
+condition=<span class="hljs-string">"<span class="hljs-variable">$a</span> -lt <span class="hljs-variable">$b</span>"</span>     <span class="hljs-comment">#  Error message and exit from script.</span>
+                          <span class="hljs-comment">#  Try setting "condition" to something else</span>
+                          <span class="hljs-comment">#+ and see what happens.</span>
+
+assert <span class="hljs-string">"<span class="hljs-variable">$condition</span>"</span> <span class="hljs-variable">$LINENO</span>
+<span class="hljs-comment"># The remainder of the script executes only if the "assert" does not fail.</span>
+
+
+<span class="hljs-comment"># Some commands.</span>
+<span class="hljs-comment"># Some more commands . . .</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"This statement echoes only if the \"assert\" does not fail."</span>
+<span class="hljs-comment"># . . .</span>
+<span class="hljs-comment"># More commands . . .</span>
+
+<span class="hljs-built_in">exit</span> $?</pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </div>
+      </li>
+      <li>
+        <p>Using the <a href="internalvariables.html#LINENOREF">$LINENO</a> variable and the <a href="internal.html#CALLERREF">caller</a> builtin.</p>
+      </li>
+      <li>
+        <p><a name="DEBUGTRAP" id="DEBUGTRAP"></a>Trapping at exit.</p>
+        <p>The <a href="internal.html#EXITREF">exit</a> command in a script triggers a signal <span class="RETURNVALUE">0</span>, terminating the process, that is, the script itself. <a name="AEN19460" href="#FTN.AEN19460" id="AEN19460"><span class="footnote">[1]</span></a> It is often useful to trap the <i class="FIRSTTERM">exit</i>, forcing a <span class="QUOTE">"printout"</span> of variables, for example. The <i class="FIRSTTERM">trap</i> must be the first command in the script.</p>
+      </li>
+    </ol>
+    <div class="VARIABLELIST">
+      <p><b><a name="TRAPREF1" id="TRAPREF1"></a>Trapping signals</b></p>
+      <dl>
+        <dt><b class="COMMAND">trap</b></dt>
+        <dd>
+          <p>Specifies an action on receipt of a signal; also useful for debugging.</p>
+          <p><a name="SIGNALD" id="SIGNALD"></a></p>
+          <table class="SIDEBAR" border="1" cellpadding="5">
+            <tbody><tr>
+              <td>
+                <div class="SIDEBAR">
+                  <a name="AEN19477" id="AEN19477"></a>
+                  <p>A <i class="FIRSTTERM">signal</i> is a message sent to a process, either by the kernel or another process, telling it to take some specified action (usually to terminate). For example, hitting a <a href="special-chars.html#CTLCREF">Control-C</a> sends a user interrupt, an INT signal, to a running program.</p>
+                </div>
+              </td>
+            </tr>
+          </tbody></table>
+          <p><em>A simple instance:</em></p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-built_in">trap</span> <span class="hljs-string">''</span> 2
+<span class="hljs-comment"># Ignore interrupt 2 (Control-C), with no action specified. </span>
+
+<span class="hljs-built_in">trap</span> <span class="hljs-string">'echo "Control-C disabled."'</span> 2
+<span class="hljs-comment"># Message when Control-C pressed.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+      </dl>
+    </div>
+    <div class="EXAMPLE">
+      <a name="EX76" id="EX76"></a>
+      <p><b>Example 32-5. Trapping at exit</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Hunting variables with a trap.</span>
+
+<span class="hljs-built_in">trap</span> <span class="hljs-string">'echo Variable Listing --- a = $a  b = $b'</span> EXIT
+<span class="hljs-comment">#  EXIT is the name of the signal generated upon exit from a script.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  The command specified by the "trap" doesn't execute until</span>
+<span class="hljs-comment">#+ the appropriate signal is sent.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"This prints before the \"trap\" --"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"even though the script sees the \"trap\" first."</span>
+<span class="hljs-built_in">echo</span>
+
+a=39
+
+b=36
+
+<span class="hljs-built_in">exit</span> 0
+<span class="hljs-comment">#  Note that commenting out the 'exit' command makes no difference,</span>
+<span class="hljs-comment">#+ since the script exits in any case after running out of commands.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="ONLINE" id="ONLINE"></a>
+      <p><b>Example 32-6. Cleaning up after Control-C</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># logon.sh: A quick 'n dirty script to check whether you are on-line yet.</span>
+
+<span class="hljs-built_in">umask</span> 177  <span class="hljs-comment"># Make sure temp files are not world readable.</span>
+
+
+TRUE=1
+LOGFILE=/var/<span class="hljs-built_in">log</span>/messages
+<span class="hljs-comment">#  Note that $LOGFILE must be readable</span>
+<span class="hljs-comment">#+ (as root, chmod 644 /var/log/messages).</span>
+TEMPFILE=temp.$$
+<span class="hljs-comment">#  Create a "unique" temp file name, using process id of the script.</span>
+<span class="hljs-comment">#     Using 'mktemp' is an alternative.</span>
+<span class="hljs-comment">#     For example:</span>
+<span class="hljs-comment">#     TEMPFILE=`mktemp temp.XXXXXX`</span>
+KEYWORD=address
+<span class="hljs-comment">#  At logon, the line "remote IP address xxx.xxx.xxx.xxx"</span>
+<span class="hljs-comment">#                      appended to /var/log/messages.</span>
+ONLINE=22
+USER_INTERRUPT=13
+CHECK_LINES=100
+<span class="hljs-comment">#  How many lines in log file to check.</span>
+
+<span class="hljs-built_in">trap</span> <span class="hljs-string">'rm -f $TEMPFILE; exit $USER_INTERRUPT'</span> TERM INT
+<span class="hljs-comment">#  Cleans up the temp file if script interrupted by control-c.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-variable">$TRUE</span> ]  <span class="hljs-comment">#Endless loop.</span>
+<span class="hljs-keyword">do</span>
+  tail -n <span class="hljs-variable">$CHECK_LINES</span> <span class="hljs-variable">$LOGFILE</span>&gt; <span class="hljs-variable">$TEMPFILE</span>
+  <span class="hljs-comment">#  Saves last 100 lines of system log file as temp file.</span>
+  <span class="hljs-comment">#  Necessary, since newer kernels generate many log messages at log on.</span>
+  search=`grep <span class="hljs-variable">$KEYWORD</span> <span class="hljs-variable">$TEMPFILE</span>`
+  <span class="hljs-comment">#  Checks for presence of the "IP address" phrase,</span>
+  <span class="hljs-comment">#+ indicating a successful logon.</span>
+
+  <span class="hljs-keyword">if</span> [ ! -z <span class="hljs-string">"<span class="hljs-variable">$search</span>"</span> ] <span class="hljs-comment">#  Quotes necessary because of possible spaces.</span>
+  <span class="hljs-keyword">then</span>
+     <span class="hljs-built_in">echo</span> <span class="hljs-string">"On-line"</span>
+     rm -f <span class="hljs-variable">$TEMPFILE</span>    <span class="hljs-comment">#  Clean up temp file.</span>
+     <span class="hljs-built_in">exit</span> <span class="hljs-variable">$ONLINE</span>
+  <span class="hljs-keyword">else</span>
+     <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"."</span>        <span class="hljs-comment">#  The -n option to echo suppresses newline,</span>
+                        <span class="hljs-comment">#+ so you get continuous rows of dots.</span>
+  <span class="hljs-keyword">fi</span>
+
+  sleep 1  
+<span class="hljs-keyword">done</span>  
+
+
+<span class="hljs-comment">#  Note: if you change the KEYWORD variable to "Exit",</span>
+<span class="hljs-comment">#+ this script can be used while on-line</span>
+<span class="hljs-comment">#+ to check for an unexpected logoff.</span>
+
+<span class="hljs-comment"># Exercise: Change the script, per the above note,</span>
+<span class="hljs-comment">#           and prettify it.</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+
+<span class="hljs-comment"># Nick Drage suggests an alternate method:</span>
+
+<span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
+  <span class="hljs-keyword">do</span> ifconfig ppp0 | grep UP 1&gt; /dev/null &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-string">"connected"</span> &amp;&amp; <span class="hljs-built_in">exit</span> 0
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"."</span>   <span class="hljs-comment"># Prints dots (.....) until connected.</span>
+  sleep 2
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment"># Problem: Hitting Control-C to terminate this process may be insufficient.</span>
+<span class="hljs-comment">#+         (Dots may keep on echoing.)</span>
+<span class="hljs-comment"># Exercise: Fix this.</span>
+
+
+
+<span class="hljs-comment"># Stephane Chazelas has yet another alternative:</span>
+
+CHECK_INTERVAL=1
+
+<span class="hljs-keyword">while</span> ! tail -n 1 <span class="hljs-string">"<span class="hljs-variable">$LOGFILE</span>"</span> | grep -q <span class="hljs-string">"<span class="hljs-variable">$KEYWORD</span>"</span>
+<span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> -n .
+   sleep <span class="hljs-variable">$CHECK_INTERVAL</span>
+<span class="hljs-keyword">done</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"On-line"</span>
+
+<span class="hljs-comment"># Exercise: Discuss the relative strengths and weaknesses</span>
+<span class="hljs-comment">#           of each of these various approaches.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="PROGRESSBAR2" id="PROGRESSBAR2"></a>
+      <p><b>Example 32-7. A Simple Implementation of a Progress Bar</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#! /bin/bash</span>
+<span class="hljs-comment"># progress-bar2.sh</span>
+<span class="hljs-comment"># Author: Graham Ewart (with reformatting by ABS Guide author).</span>
+<span class="hljs-comment"># Used in ABS Guide with permission (thanks!).</span>
+
+<span class="hljs-comment"># Invoke this script with bash. It doesn't work with sh.</span>
+
+interval=1
+long_interval=10
+
+{
+     <span class="hljs-built_in">trap</span> <span class="hljs-string">"exit"</span> SIGUSR1
+     sleep <span class="hljs-variable">$interval</span>; sleep <span class="hljs-variable">$interval</span>
+     <span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
+     <span class="hljs-keyword">do</span>
+       <span class="hljs-built_in">echo</span> -n <span class="hljs-string">'.'</span>     <span class="hljs-comment"># Use dots.</span>
+       sleep <span class="hljs-variable">$interval</span>
+     <span class="hljs-keyword">done</span>; } &amp;         <span class="hljs-comment"># Start a progress bar as a background process.</span>
+
+pid=$!
+<span class="hljs-built_in">trap</span> <span class="hljs-string">"echo !; kill -USR1 <span class="hljs-variable">$pid</span>; wait <span class="hljs-variable">$pid</span>"</span>  EXIT        <span class="hljs-comment"># To handle ^C.</span>
+
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">'Long-running process '</span>
+sleep <span class="hljs-variable">$long_interval</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">' Finished!'</span>
+
+<span class="hljs-built_in">kill</span> -USR1 <span class="hljs-variable">$pid</span>
+<span class="hljs-built_in">wait</span> <span class="hljs-variable">$pid</span>              <span class="hljs-comment"># Stop the progress bar.</span>
+<span class="hljs-built_in">trap</span> EXIT
+
+<span class="hljs-built_in">exit</span> $?</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>The <tt class="OPTION">DEBUG</tt> argument to <b class="COMMAND">trap</b> causes a specified action to execute after every command in a script. This permits tracing variables, for example.</p>
+            <div class="EXAMPLE">
+              <a name="VARTRACE" id="VARTRACE"></a>
+              <p><b>Example 32-8. Tracing a variable</b></p>
+              <table border="0" bgcolor="#E0E0E0" width="100%">
+                <tbody><tr>
+                  <td>
+                    <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-built_in">trap</span> <span class="hljs-string">'echo "VARIABLE-TRACE&gt; \$variable = \"$variable\""'</span> DEBUG
+<span class="hljs-comment"># Echoes the value of $variable after every command.</span>
+
+variable=29; line=<span class="hljs-variable">$LINENO</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"  Just initialized \$variable to <span class="hljs-variable">$variable</span> in line number <span class="hljs-variable">$line</span>."</span>
+
+<span class="hljs-built_in">let</span> <span class="hljs-string">"variable *= 3"</span>; line=<span class="hljs-variable">$LINENO</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"  Just multiplied \$variable by 3 in line number <span class="hljs-variable">$line</span>."</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment">#  The "trap 'command1 . . . command2 . . .' DEBUG" construct is</span>
+<span class="hljs-comment">#+ more appropriate in the context of a complex script,</span>
+<span class="hljs-comment">#+ where inserting multiple "echo $variable" statements might be</span>
+<span class="hljs-comment">#+ awkward and time-consuming.</span>
+
+<span class="hljs-comment"># Thanks, Stephane Chazelas for the pointer.</span>
+
+
+Output of script:
+
+VARIABLE-TRACE&gt; <span class="hljs-variable">$variable</span> = <span class="hljs-string">""</span>
+VARIABLE-TRACE&gt; <span class="hljs-variable">$variable</span> = <span class="hljs-string">"29"</span>
+  Just initialized <span class="hljs-variable">$variable</span> to 29.
+VARIABLE-TRACE&gt; <span class="hljs-variable">$variable</span> = <span class="hljs-string">"29"</span>
+VARIABLE-TRACE&gt; <span class="hljs-variable">$variable</span> = <span class="hljs-string">"87"</span>
+  Just multiplied <span class="hljs-variable">$variable</span> by 3.
+VARIABLE-TRACE&gt; <span class="hljs-variable">$variable</span> = <span class="hljs-string">"87"</span></pre>
+                  </td>
+                </tr>
+              </tbody></table>
+            </div>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Of course, the <b class="COMMAND">trap</b> command has other uses aside from debugging, such as disabling certain keystrokes within a script (see <a href="contributed-scripts.html#STOPWATCH">Example A-43</a>).</p>
+    <div class="EXAMPLE">
+      <a name="MULTIPLEPROC" id="MULTIPLEPROC"></a>
+      <p><b>Example 32-9. Running multiple processes (on an SMP box)</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># parent.sh</span>
+<span class="hljs-comment"># Running multiple processes on an SMP box.</span>
+<span class="hljs-comment"># Author: Tedman Eng</span>
+
+<span class="hljs-comment">#  This is the first of two scripts,</span>
+<span class="hljs-comment">#+ both of which must be present in the current working directory.</span>
+
+
+
+
+LIMIT=<span class="hljs-variable">$1</span>         <span class="hljs-comment"># Total number of process to start</span>
+NUMPROC=4        <span class="hljs-comment"># Number of concurrent threads (forks?)</span>
+PROCID=1         <span class="hljs-comment"># Starting Process ID</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"My PID is $$"</span>
+
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">start_thread</span></span>() {
+        <span class="hljs-keyword">if</span> [ <span class="hljs-variable">$PROCID</span> -le <span class="hljs-variable">$LIMIT</span> ] ; <span class="hljs-keyword">then</span>
+                ./child.sh <span class="hljs-variable">$PROCID</span>&amp;
+                <span class="hljs-built_in">let</span> <span class="hljs-string">"PROCID++"</span>
+        <span class="hljs-keyword">else</span>
+           <span class="hljs-built_in">echo</span> <span class="hljs-string">"Limit reached."</span>
+           <span class="hljs-built_in">wait</span>
+           <span class="hljs-built_in">exit</span>
+        <span class="hljs-keyword">fi</span>
+}
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$NUMPROC</span>"</span> -gt 0 ]; <span class="hljs-keyword">do</span>
+        start_thread;
+        <span class="hljs-built_in">let</span> <span class="hljs-string">"NUMPROC--"</span>
+<span class="hljs-keyword">done</span>
+
+
+<span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
+<span class="hljs-keyword">do</span>
+
+<span class="hljs-built_in">trap</span> <span class="hljs-string">"start_thread"</span> SIGRTMIN
+
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+
+
+<span class="hljs-comment"># ======== Second script follows ========</span>
+
+
+<span class="hljs-comment">#!/bin/bash</span>
+<span class="hljs-comment"># child.sh</span>
+<span class="hljs-comment"># Running multiple processes on an SMP box.</span>
+<span class="hljs-comment"># This script is called by parent.sh.</span>
+<span class="hljs-comment"># Author: Tedman Eng</span>
+
+temp=<span class="hljs-variable">$RANDOM</span>
+index=<span class="hljs-variable">$1</span>
+<span class="hljs-built_in">shift</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"temp %= 5"</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"temp += 4"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Starting <span class="hljs-variable">$index</span>  Time:<span class="hljs-variable">$temp</span>"</span> <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span>
+sleep <span class="hljs-variable">${temp}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Ending <span class="hljs-variable">$index</span>"</span>
+<span class="hljs-built_in">kill</span> -s SIGRTMIN <span class="hljs-variable">$PPID</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+
+<span class="hljs-comment"># ======================= SCRIPT AUTHOR'S NOTES ======================= #</span>
+<span class="hljs-comment">#  It's not completely bug free.</span>
+<span class="hljs-comment">#  I ran it with limit = 500 and after the first few hundred iterations,</span>
+<span class="hljs-comment">#+ one of the concurrent threads disappeared!</span>
+<span class="hljs-comment">#  Not sure if this is collisions from trap signals or something else.</span>
+<span class="hljs-comment">#  Once the trap is received, there's a brief moment while executing the</span>
+<span class="hljs-comment">#+ trap handler but before the next trap is set.  During this time, it may</span>
+<span class="hljs-comment">#+ be possible to miss a trap signal, thus miss spawning a child process.</span>
+
+<span class="hljs-comment">#  No doubt someone may spot the bug and will be writing </span>
+<span class="hljs-comment">#+ . . . in the future.</span>
+
+
+
+<span class="hljs-comment"># ===================================================================== #</span>
+
+
+
+<span class="hljs-comment"># ----------------------------------------------------------------------#</span>
+
+
+
+<span class="hljs-comment">#################################################################</span>
+<span class="hljs-comment"># The following is the original script written by Vernia Damiano.</span>
+<span class="hljs-comment"># Unfortunately, it doesn't work properly.</span>
+<span class="hljs-comment">#################################################################</span>
+
+<span class="hljs-comment">#!/bin/bash</span>
+
+<span class="hljs-comment">#  Must call script with at least one integer parameter</span>
+<span class="hljs-comment">#+ (number of concurrent processes).</span>
+<span class="hljs-comment">#  All other parameters are passed through to the processes started.</span>
+
+
+INDICE=8        <span class="hljs-comment"># Total number of process to start</span>
+TEMPO=5         <span class="hljs-comment"># Maximum sleep time per process</span>
+E_BADARGS=65    <span class="hljs-comment"># No arg(s) passed to script.</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -eq 0 ] <span class="hljs-comment"># Check for at least one argument passed to script.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` number_of_processes [passed params]"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>
+
+NUMPROC=<span class="hljs-variable">$1</span>              <span class="hljs-comment"># Number of concurrent process</span>
+<span class="hljs-built_in">shift</span>
+PARAMETRI=( <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span> )      <span class="hljs-comment"># Parameters of each process</span>
+
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">avvia</span></span>() {
+         <span class="hljs-built_in">local</span> temp
+         <span class="hljs-built_in">local</span> index
+         temp=<span class="hljs-variable">$RANDOM</span>
+         index=<span class="hljs-variable">$1</span>
+         <span class="hljs-built_in">shift</span>
+         <span class="hljs-built_in">let</span> <span class="hljs-string">"temp %= <span class="hljs-variable">$TEMPO</span>"</span>
+         <span class="hljs-built_in">let</span> <span class="hljs-string">"temp += 1"</span>
+         <span class="hljs-built_in">echo</span> <span class="hljs-string">"Starting <span class="hljs-variable">$index</span> Time:<span class="hljs-variable">$temp</span>"</span> <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span>
+         sleep <span class="hljs-variable">${temp}</span>
+         <span class="hljs-built_in">echo</span> <span class="hljs-string">"Ending <span class="hljs-variable">$index</span>"</span>
+         <span class="hljs-built_in">kill</span> -s SIGRTMIN $$
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">parti</span></span>() {
+         <span class="hljs-keyword">if</span> [ <span class="hljs-variable">$INDICE</span> -gt 0 ] ; <span class="hljs-keyword">then</span>
+              avvia <span class="hljs-variable">$INDICE</span> <span class="hljs-string">"<span class="hljs-variable">${PARAMETRI[@]}</span>"</span> &amp;
+                <span class="hljs-built_in">let</span> <span class="hljs-string">"INDICE--"</span>
+         <span class="hljs-keyword">else</span>
+                <span class="hljs-built_in">trap</span> : SIGRTMIN
+         <span class="hljs-keyword">fi</span>
+}
+
+<span class="hljs-built_in">trap</span> parti SIGRTMIN
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$NUMPROC</span>"</span> -gt 0 ]; <span class="hljs-keyword">do</span>
+         parti;
+         <span class="hljs-built_in">let</span> <span class="hljs-string">"NUMPROC--"</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">wait</span>
+<span class="hljs-built_in">trap</span> - SIGRTMIN
+
+<span class="hljs-built_in">exit</span> $?
+
+: &lt;&lt;SCRIPT_AUTHOR_COMMENTS
+I had the need to run a program, with specified options, on a number of
+different files, using a SMP machine. So I thought [I<span class="hljs-string">'d] keep running
+a specified number of processes and start a new one each time . . . one
+of these terminates.
+
+The "wait" instruction does not help, since it waits for a given process
+or *all* process started in background. So I wrote [this] bash script
+that can do the job, using the "trap" instruction.
+  --Vernia Damiano
+SCRIPT_AUTHOR_COMMENTS</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p><tt class="USERINPUT"><b>trap '' SIGNAL</b></tt> (two adjacent apostrophes) disables SIGNAL for the remainder of the script. <tt class="USERINPUT"><b>trap SIGNAL</b></tt> restores the functioning of SIGNAL once more. This is useful to protect a critical portion of a script from an undesirable interrupt.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">       <span class="hljs-built_in">trap</span> <span class="hljs-string">''</span> 2  <span class="hljs-comment"># Signal 2 is Control-C, now disabled.</span>
+        <span class="hljs-built_in">command</span>
+        <span class="hljs-built_in">command</span>
+        <span class="hljs-built_in">command</span>
+        <span class="hljs-built_in">trap</span> 2     <span class="hljs-comment"># Reenables Control-C</span>
+        </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <table class="SIDEBAR" border="1" cellpadding="5">
+      <tbody><tr>
+        <td>
+          <div class="SIDEBAR">
+            <a name="AEN19513" id="AEN19513"></a>
+            <p><a href="bashver3.html#BASH3REF">Version 3</a> of Bash adds the following <a href="internalvariables.html#INTERNALVARIABLES1">internal variables</a> for use by the debugger.</p>
+            <ol type="1">
+              <li>
+                <p><tt class="VARNAME">$BASH_ARGC</tt></p>
+                <p>Number of command-line arguments passed to script, similar to <a href="internalvariables.html#CLACOUNTREF"><tt class="VARNAME">$#</tt></a>.</p>
+              </li>
+              <li>
+                <p><tt class="VARNAME">$BASH_ARGV</tt></p>
+                <p>Final command-line parameter passed to script, equivalent <a href="othertypesv.html#LASTARGREF"><tt class="VARNAME">${!#}</tt></a>.</p>
+              </li>
+              <li>
+                <p><tt class="VARNAME">$BASH_COMMAND</tt></p>
+                <p>Command currently executing.</p>
+              </li>
+              <li>
+                <p><tt class="VARNAME">$BASH_EXECUTION_STRING</tt></p>
+                <p>The <i class="FIRSTTERM">option string</i> following the <tt class="OPTION">-c</tt> <a href="bash-options.html#CLOPTS">option</a> to Bash.</p>
+              </li>
+              <li>
+                <p><tt class="VARNAME">$BASH_LINENO</tt></p>
+                <p>In a <a href="functions.html#FUNCTIONREF">function</a>, indicates the line number of the function call.</p>
+              </li>
+              <li>
+                <p><tt class="VARNAME">$BASH_REMATCH</tt></p>
+                <p>Array variable associated with <b class="COMMAND">=~</b> <a href="bashver3.html#REGEXMATCHREF">conditional regex matching</a>.</p>
+              </li>
+              <li>
+                <p><a name="BASHSOURCEREF" id="BASHSOURCEREF"></a></p>
+                <p><tt class="VARNAME">$BASH_SOURCE</tt></p>
+                <p>This is the name of the script, usually the same as <a href="othertypesv.html#ARG0">$0</a>.</p>
+              </li>
+              <li>
+                <p><a href="internalvariables.html#BASHSUBSHELLREF"><tt class="VARNAME">$BASH_SUBSHELL</tt></a></p>
+              </li>
+            </ol>
+          </div>
+        </td>
+      </tr>
+    </tbody></table>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN19460" href="debugging.html#AEN19460" id="FTN.AEN19460"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>By convention, <tt class="REPLACEABLE"><i>signal 0</i></tt> is assigned to <a href="exit-status.html#EXITCOMMANDREF">exit</a>.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="zeros.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="options.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Of Zeros and Nulls</td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Options</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

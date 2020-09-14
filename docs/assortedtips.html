@@ -1,0 +1,928 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Assorted Tips</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Miscellany" href="miscellany.html">
+  <link rel="PREVIOUS" title="Optimizations" href="optimizations.html">
+  <link rel="NEXT" title="Security Issues" href="securityissues.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="optimizations.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 36. Miscellany</td>
+        <td width="10%" align="right" valign="bottom"><a href="securityissues.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="ASSORTEDTIPS" id="ASSORTEDTIPS"></a>36.7. Assorted Tips</h1>
+    <div class="SECT2">
+      <h2 class="SECT2"><a name="AEN20460" id="AEN20460"></a>36.7.1. Ideas for more powerful scripts</h2>
+      <ul>
+        <li>
+          <p><a name="PSEUDOCODEREF" id="PSEUDOCODEREF"></a></p>
+          <p>You have a problem that you want to solve by writing a Bash script. Unfortunately, you don't know quite where to start. One method is to plunge right in and code those parts of the script that come easily, and write the hard parts as <i class="FIRSTTERM">pseudo-code</i>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+ARGCOUNT=1                     <span class="hljs-comment"># Need name as argument.</span>
+E_WRONGARGS=65
+
+<span class="hljs-keyword">if</span> [ number-of-arguments is-not-equal-to <span class="hljs-string">"<span class="hljs-variable">$ARGCOUNT</span>"</span> ]
+<span class="hljs-comment">#    ^^^^^^^^^^^^^^^^^^^ ^^^^^^^^^^^^^^^</span>
+<span class="hljs-comment">#  Can't figure out how to code this . . .</span>
+<span class="hljs-comment">#+ . . . so write it in pseudo-code.</span>
+
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: name-of-script name"</span>
+  <span class="hljs-comment">#            ^^^^^^^^^^^^^^     More pseudo-code.</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_WRONGARGS</span>
+<span class="hljs-keyword">fi</span> 
+
+. . .
+
+<span class="hljs-built_in">exit</span> 0
+
+
+<span class="hljs-comment"># Later on, substitute working code for the pseudo-code.</span>
+
+<span class="hljs-comment"># Line 6 becomes:</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -ne <span class="hljs-string">"<span class="hljs-variable">$ARGCOUNT</span>"</span> ]
+
+<span class="hljs-comment"># Line 12 becomes:</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` name"</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>For an example of using pseudo-code, see the <a href="writingscripts.html#NEWTONSQRT">Square Root</a> exercise.</p>
+        </li>
+        <li>
+          <p><a name="TRACKINGSCR" id="TRACKINGSCR"></a></p>
+          <p>To keep a record of which user scripts have run during a particular session or over a number of sessions, add the following lines to each script you want to keep track of. This will keep a continuing file record of the script names and invocation times.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># Append (&gt;&gt;) following to end of each script tracked.</span>
+
+whoami&gt;&gt; <span class="hljs-variable">$SAVE_FILE</span>    <span class="hljs-comment"># User invoking the script.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$0</span>&gt;&gt; <span class="hljs-variable">$SAVE_FILE</span>   <span class="hljs-comment"># Script name.</span>
+date&gt;&gt; <span class="hljs-variable">$SAVE_FILE</span>      <span class="hljs-comment"># Date and time.</span>
+<span class="hljs-built_in">echo</span>&gt;&gt; <span class="hljs-variable">$SAVE_FILE</span>      <span class="hljs-comment"># Blank line as separator.</span>
+
+<span class="hljs-comment">#  Of course, SAVE_FILE defined and exported as environmental variable in ~/.bashrc</span>
+<span class="hljs-comment">#+ (something like ~/.scripts-run)</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </li>
+        <li>
+          <p><a name="PREPENDREF" id="PREPENDREF"></a></p>
+          <p>The <span class="TOKEN">&gt;&gt;</span> operator <i class="FIRSTTERM">appends</i> lines to a file. What if you wish to <i class="FIRSTTERM">prepend</i> a line to an existing file, that is, to paste it in at the beginning?</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">file=data.txt
+title=<span class="hljs-string">"***This is the title line of data text file***"</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$title</span> | cat - <span class="hljs-variable">$file</span> &gt;<span class="hljs-variable">$file</span>.new
+<span class="hljs-comment"># "cat -" concatenates stdout to $file.</span>
+<span class="hljs-comment">#  End result is</span>
+<span class="hljs-comment">#+ to write a new file with $title appended at *beginning*.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>This is a simplified variant of the <a href="x17837.html#PREPENDEX">Example 19-13</a> script given earlier. And, of course, <a href="sedawk.html#SEDREF">sed</a> can also do this.</p>
+        </li>
+        <li>
+          <p><a name="SCRIPTASEMB" id="SCRIPTASEMB"></a></p>
+          <p>A shell script may act as an embedded command inside another shell script, a <i class="FIRSTTERM">Tcl</i> or <i class="FIRSTTERM">wish</i> script, or even a <a href="filearchiv.html#MAKEFILEREF">Makefile</a>. It can be invoked as an external shell command in a C program using the <tt class="REPLACEABLE"><i>system()</i></tt> call, i.e., <tt class="REPLACEABLE"><i>system("script_name");</i></tt>.</p>
+        </li>
+        <li>
+          <p><a name="SETVAREMB" id="SETVAREMB"></a></p>
+          <p>Setting a variable to the contents of an embedded <i class="FIRSTTERM">sed</i> or <i class="FIRSTTERM">awk</i> script increases the readability of the surrounding <a href="wrapper.html#SHWRAPPER">shell wrapper</a>. See <a href="contributed-scripts.html#MAILFORMAT">Example A-1</a> and <a href="internal.html#COLTOTALER3">Example 15-20</a>.</p>
+        </li>
+        <li>
+          <p><a name="LIBROUTINES" id="LIBROUTINES"></a></p>
+          <p>Put together files containing your favorite and most useful definitions and functions. As necessary, <span class="QUOTE">"include"</span> one or more of these <span class="QUOTE">"library files"</span> in scripts with either the <a href="special-chars.html#DOTREF">dot</a> (<b class="COMMAND">.</b>) or <a href="internal.html#SOURCEREF">source</a> command.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># SCRIPT LIBRARY</span>
+<span class="hljs-comment"># ------ -------</span>
+
+<span class="hljs-comment"># Note:</span>
+<span class="hljs-comment"># No "#!" here.</span>
+<span class="hljs-comment"># No "live code" either.</span>
+
+
+<span class="hljs-comment"># Useful variable definitions</span>
+
+ROOT_UID=0             <span class="hljs-comment"># Root has $UID 0.</span>
+E_NOTROOT=101          <span class="hljs-comment"># Not root user error. </span>
+MAXRETVAL=255          <span class="hljs-comment"># Maximum (positive) return value of a function.</span>
+SUCCESS=0
+FAILURE=-1
+
+
+
+<span class="hljs-comment"># Functions</span>
+
+Usage ()               <span class="hljs-comment"># "Usage:" message.</span>
+{
+  <span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]       <span class="hljs-comment"># No arg passed.</span>
+  <span class="hljs-keyword">then</span>
+    msg=filename
+  <span class="hljs-keyword">else</span>
+    msg=<span class="hljs-variable">$@</span>
+  <span class="hljs-keyword">fi</span>
+
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` "</span><span class="hljs-variable">$msg</span><span class="hljs-string">""</span>
+}  
+
+
+Check_if_root ()       <span class="hljs-comment"># Check if root running script.</span>
+{                      <span class="hljs-comment"># From "ex39.sh" example.</span>
+  <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$UID</span>"</span> -ne <span class="hljs-string">"<span class="hljs-variable">$ROOT_UID</span>"</span> ]
+  <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Must be root to run this script."</span>
+    <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOTROOT</span>
+  <span class="hljs-keyword">fi</span>
+}  
+
+
+CreateTempfileName ()  <span class="hljs-comment"># Creates a "unique" temp filename.</span>
+{                      <span class="hljs-comment"># From "ex51.sh" example.</span>
+  prefix=temp
+  suffix=`<span class="hljs-built_in">eval</span> date +%s`
+  Tempfilename=<span class="hljs-variable">$prefix</span>.<span class="hljs-variable">$suffix</span>
+}
+
+
+isalpha2 ()            <span class="hljs-comment"># Tests whether *entire string* is alphabetic.</span>
+{                      <span class="hljs-comment"># From "isalpha.sh" example.</span>
+  [ <span class="hljs-variable">$#</span> -eq 1 ] || <span class="hljs-built_in">return</span> <span class="hljs-variable">$FAILURE</span>
+
+  <span class="hljs-keyword">case</span> <span class="hljs-variable">$1</span> <span class="hljs-keyword">in</span>
+  *[!a-zA-Z]*|<span class="hljs-string">""</span>) <span class="hljs-built_in">return</span> <span class="hljs-variable">$FAILURE</span>;;
+  *) <span class="hljs-built_in">return</span> <span class="hljs-variable">$SUCCESS</span>;;
+  <span class="hljs-keyword">esac</span>                 <span class="hljs-comment"># Thanks, S.C.</span>
+}
+
+
+abs ()                           <span class="hljs-comment"># Absolute value.</span>
+{                                <span class="hljs-comment"># Caution: Max return value = 255.</span>
+  E_ARGERR=-999999
+
+  <span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]                 <span class="hljs-comment"># Need arg passed.</span>
+  <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">return</span> <span class="hljs-variable">$E_ARGERR</span>             <span class="hljs-comment"># Obvious error value returned.</span>
+  <span class="hljs-keyword">fi</span>
+
+  <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> -ge 0 ]              <span class="hljs-comment"># If non-negative,</span>
+  <span class="hljs-keyword">then</span>                           <span class="hljs-comment">#</span>
+    absval=<span class="hljs-variable">$1</span>                    <span class="hljs-comment"># stays as-is.</span>
+  <span class="hljs-keyword">else</span>                           <span class="hljs-comment"># Otherwise,</span>
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"absval = (( 0 - <span class="hljs-variable">$1</span> ))"</span>  <span class="hljs-comment"># change sign.</span>
+  <span class="hljs-keyword">fi</span>  
+
+  <span class="hljs-built_in">return</span> <span class="hljs-variable">$absval</span>
+}
+
+
+tolower ()             <span class="hljs-comment">#  Converts string(s) passed as argument(s)</span>
+{                      <span class="hljs-comment">#+ to lowercase.</span>
+
+  <span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]       <span class="hljs-comment">#  If no argument(s) passed,</span>
+  <span class="hljs-keyword">then</span>                 <span class="hljs-comment">#+ send error message</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"(null)"</span>      <span class="hljs-comment">#+ (C-style void-pointer error message)</span>
+    <span class="hljs-built_in">return</span>             <span class="hljs-comment">#+ and return from function.</span>
+  <span class="hljs-keyword">fi</span>  
+
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span> | tr A-Z a-z
+  <span class="hljs-comment"># Translate all passed arguments ($@).</span>
+
+  <span class="hljs-built_in">return</span>
+
+<span class="hljs-comment"># Use command substitution to set a variable to function output.</span>
+<span class="hljs-comment"># For example:</span>
+<span class="hljs-comment">#    oldvar="A seT of miXed-caSe LEtTerS"</span>
+<span class="hljs-comment">#    newvar=`tolower "$oldvar"`</span>
+<span class="hljs-comment">#    echo "$newvar"    # a set of mixed-case letters</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># Exercise: Rewrite this function to change lowercase passed argument(s)</span>
+<span class="hljs-comment">#           to uppercase ... toupper()  [easy].</span>
+}</pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </li>
+        <li>
+          <p><a name="COMMENTH" id="COMMENTH"></a></p>
+          <p>Use special-purpose comment headers to increase clarity and legibility in scripts.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-comment">## Caution.</span>
+rm -rf *.zzy   <span class="hljs-comment">##  The "-rf" options to "rm" are very dangerous,</span>
+               <span class="hljs-comment">##+ especially with wild cards.</span>
+
+<span class="hljs-comment">#+ Line continuation.</span>
+<span class="hljs-comment">#  This is line 1</span>
+<span class="hljs-comment">#+ of a multi-line comment,</span>
+<span class="hljs-comment">#+ and this is the final line.</span>
+
+<span class="hljs-comment">#* Note.</span>
+
+<span class="hljs-comment">#o List item.</span>
+
+<span class="hljs-comment">#&gt; Another point of view.</span>
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$var1</span>"</span> != <span class="hljs-string">"end"</span> ]    <span class="hljs-comment">#&gt; while test "$var1" != "end"</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </li>
+        <li>
+          <p><a name="PROGBAR" id="PROGBAR"></a></p>
+          <p>Dotan Barak contributes template code for a <i class="FIRSTTERM">progress bar</i> in a script.</p>
+          <div class="EXAMPLE">
+            <a name="PROGRESSBAR" id="PROGRESSBAR"></a>
+            <p><b>Example 36-17. A Progress Bar</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># progress-bar.sh</span>
+
+<span class="hljs-comment"># Author: Dotan Barak (very minor revisions by ABS Guide author).</span>
+<span class="hljs-comment"># Used in ABS Guide with permission (thanks!).</span>
+
+
+BAR_WIDTH=50
+BAR_CHAR_START=<span class="hljs-string">"["</span>
+BAR_CHAR_END=<span class="hljs-string">"]"</span>
+BAR_CHAR_EMPTY=<span class="hljs-string">"."</span>
+BAR_CHAR_FULL=<span class="hljs-string">"="</span>
+BRACKET_CHARS=2
+LIMIT=100
+
+<span class="hljs-function"><span class="hljs-title">print_progress_bar</span></span>()
+{
+        <span class="hljs-comment"># Calculate how many characters will be full.</span>
+        <span class="hljs-built_in">let</span> <span class="hljs-string">"full_limit = (((<span class="hljs-variable">$1</span> - <span class="hljs-variable">$BRACKET_CHARS</span>) * <span class="hljs-variable">$2</span>) / <span class="hljs-variable">$LIMIT</span>)"</span>
+
+        <span class="hljs-comment"># Calculate how many characters will be empty.</span>
+        <span class="hljs-built_in">let</span> <span class="hljs-string">"empty_limit = (<span class="hljs-variable">$1</span> - <span class="hljs-variable">$BRACKET_CHARS</span>) - <span class="hljs-variable">${full_limit}</span>"</span>
+
+        <span class="hljs-comment"># Prepare the bar.</span>
+        bar_line=<span class="hljs-string">"<span class="hljs-variable">${BAR_CHAR_START}</span>"</span>
+        <span class="hljs-keyword">for</span> ((j=0; j&lt;full_limit; j++)); <span class="hljs-keyword">do</span>
+                bar_line=<span class="hljs-string">"<span class="hljs-variable">${bar_line}</span><span class="hljs-variable">${BAR_CHAR_FULL}</span>"</span>
+        <span class="hljs-keyword">done</span>
+
+        <span class="hljs-keyword">for</span> ((j=0; j&lt;empty_limit; j++)); <span class="hljs-keyword">do</span>
+                bar_line=<span class="hljs-string">"<span class="hljs-variable">${bar_line}</span><span class="hljs-variable">${BAR_CHAR_EMPTY}</span>"</span>
+        <span class="hljs-keyword">done</span>
+
+        bar_line=<span class="hljs-string">"<span class="hljs-variable">${bar_line}</span><span class="hljs-variable">${BAR_CHAR_END}</span>"</span>
+
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">"%3d%% %s"</span> <span class="hljs-variable">$2</span> <span class="hljs-variable">${bar_line}</span>
+}
+
+<span class="hljs-comment"># Here is a sample of code that uses it.</span>
+MAX_PERCENT=100
+<span class="hljs-keyword">for</span> ((i=0; i&lt;=MAX_PERCENT; i++)); <span class="hljs-keyword">do</span>
+        <span class="hljs-comment">#</span>
+        usleep 10000
+        <span class="hljs-comment"># ... Or run some other commands ...</span>
+        <span class="hljs-comment">#</span>
+        print_progress_bar <span class="hljs-variable">${BAR_WIDTH}</span> <span class="hljs-variable">${i}</span>
+        <span class="hljs-built_in">echo</span> -en <span class="hljs-string">"\r"</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">""</span>
+
+<span class="hljs-built_in">exit</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </li>
+        <li>
+          <p><a name="COMOUTBL" id="COMOUTBL"></a></p>
+          <p>A particularly clever use of <a href="testconstructs.html#TESTCONSTRUCTS1">if-test</a> constructs is for comment blocks.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+COMMENT_BLOCK=
+<span class="hljs-comment">#  Try setting the above variable to some value</span>
+<span class="hljs-comment">#+ for an unpleasant surprise.</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$COMMENT_BLOCK</span> ]; <span class="hljs-keyword">then</span>
+
+Comment block --
+=================================
+This is a comment line.
+This is another comment line.
+This is yet another comment line.
+=================================
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"This will not echo."</span>
+
+Comment blocks are error-free! Whee!
+
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"No more comments, please."</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>Compare this with <a href="here-docs.html#CBLOCK1">using here documents to comment out code blocks</a>.</p>
+        </li>
+        <li>
+          <p><a name="INTPARAM" id="INTPARAM"></a></p>
+          <p>Using the <a href="internalvariables.html#XSTATVARREF">$? exit status variable</a>, a script may test if a parameter contains only digits, so it can be treated as an integer.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+SUCCESS=0
+E_BADINPUT=85
+
+<span class="hljs-built_in">test</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> -ne 0 -o <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> -eq 0 2&gt;/dev/null
+<span class="hljs-comment"># An integer is either equal to 0 or not equal to 0.</span>
+<span class="hljs-comment"># 2&gt;/dev/null suppresses error message.</span>
+
+<span class="hljs-keyword">if</span> [ $? -ne <span class="hljs-string">"<span class="hljs-variable">$SUCCESS</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` integer-input"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADINPUT</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">let</span> <span class="hljs-string">"sum = <span class="hljs-variable">$1</span> + 25"</span>             <span class="hljs-comment"># Would give error if $1 not integer.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Sum = <span class="hljs-variable">$sum</span>"</span>
+
+<span class="hljs-comment"># Any variable, not just a command-line parameter, can be tested this way.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </li>
+        <li>
+          <p><a name="RVT" id="RVT"></a>The 0 - 255 range for function return values is a severe limitation. Global variables and other workarounds are often problematic. An alternative method for a function to communicate a value back to the main body of the script is to have the function write to <tt class="FILENAME">stdout</tt> (usually with <a href="internal.html#ECHOREF">echo</a>) the <span class="QUOTE">"return value,"</span> and assign this to a variable. This is actually a variant of <a href="commandsub.html#COMMANDSUBREF">command substitution.</a></p>
+          <div class="EXAMPLE">
+            <a name="MULTIPLICATION" id="MULTIPLICATION"></a>
+            <p><b>Example 36-18. Return value trickery</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># multiplication.sh</span>
+
+multiply ()                     <span class="hljs-comment"># Multiplies params passed.</span>
+{                               <span class="hljs-comment"># Will accept a variable number of args.</span>
+
+  <span class="hljs-built_in">local</span> product=1
+
+  until [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]             <span class="hljs-comment"># Until uses up arguments passed...</span>
+  <span class="hljs-keyword">do</span>
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"product *= <span class="hljs-variable">$1</span>"</span>
+    <span class="hljs-built_in">shift</span>
+  <span class="hljs-keyword">done</span>
+
+  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$product</span>                 <span class="hljs-comment">#  Will not echo to stdout,</span>
+}                               <span class="hljs-comment">#+ since this will be assigned to a variable.</span>
+
+mult1=15383; mult2=25211
+val1=`multiply <span class="hljs-variable">$mult1</span> <span class="hljs-variable">$mult2</span>`
+<span class="hljs-comment"># Assigns stdout (echo) of function to the variable val1.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$mult1</span> X <span class="hljs-variable">$mult2</span> = <span class="hljs-variable">$val1</span>"</span>                   <span class="hljs-comment"># 387820813</span>
+
+mult1=25; mult2=5; mult3=20
+val2=`multiply <span class="hljs-variable">$mult1</span> <span class="hljs-variable">$mult2</span> <span class="hljs-variable">$mult3</span>`
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$mult1</span> X <span class="hljs-variable">$mult2</span> X <span class="hljs-variable">$mult3</span> = <span class="hljs-variable">$val2</span>"</span>          <span class="hljs-comment"># 2500</span>
+
+mult1=188; mult2=37; mult3=25; mult4=47
+val3=`multiply <span class="hljs-variable">$mult1</span> <span class="hljs-variable">$mult2</span> <span class="hljs-variable">$mult3</span> <span class="hljs-variable">$mult4</span>`
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$mult1</span> X <span class="hljs-variable">$mult2</span> X <span class="hljs-variable">$mult3</span> X <span class="hljs-variable">$mult4</span> = <span class="hljs-variable">$val3</span>"</span> <span class="hljs-comment"># 8173300</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>The same technique also works for alphanumeric strings. This means that a function can <span class="QUOTE">"return"</span> a non-numeric value.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">capitalize_ichar ()          <span class="hljs-comment">#  Capitalizes initial character</span>
+{                            <span class="hljs-comment">#+ of argument string(s) passed.</span>
+
+  string0=<span class="hljs-string">"<span class="hljs-variable">$@</span>"</span>               <span class="hljs-comment"># Accepts multiple arguments.</span>
+
+  firstchar=<span class="hljs-variable">${string0:0:1}</span>   <span class="hljs-comment"># First character.</span>
+  string1=<span class="hljs-variable">${string0:1}</span>       <span class="hljs-comment"># Rest of string(s).</span>
+
+  FirstChar=`<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$firstchar</span>"</span> | tr a-z A-Z`
+                             <span class="hljs-comment"># Capitalize first character.</span>
+
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$FirstChar</span><span class="hljs-variable">$string1</span>"</span>  <span class="hljs-comment"># Output to stdout.</span>
+
+}  
+
+newstring=`capitalize_ichar <span class="hljs-string">"every sentence should start with a capital letter."</span>`
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$newstring</span>"</span>          <span class="hljs-comment"># Every sentence should start with a capital letter.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>It is even possible for a function to <span class="QUOTE">"return"</span> multiple values with this method.</p>
+          <div class="EXAMPLE">
+            <a name="SUMPRODUCT" id="SUMPRODUCT"></a>
+            <p><b>Example 36-19. Even more return value trickery</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># sum-product.sh</span>
+<span class="hljs-comment"># A function may "return" more than one value.</span>
+
+sum_and_product ()   <span class="hljs-comment"># Calculates both sum and product of passed args.</span>
+{
+  <span class="hljs-built_in">echo</span> $(( <span class="hljs-variable">$1</span> + <span class="hljs-variable">$2</span> )) $(( <span class="hljs-variable">$1</span> * <span class="hljs-variable">$2</span> ))
+<span class="hljs-comment"># Echoes to stdout each calculated value, separated by space.</span>
+}
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Enter first number "</span>
+<span class="hljs-built_in">read</span> first
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Enter second number "</span>
+<span class="hljs-built_in">read</span> second
+<span class="hljs-built_in">echo</span>
+
+retval=`sum_and_product <span class="hljs-variable">$first</span> <span class="hljs-variable">$second</span>`      <span class="hljs-comment"># Assigns output of function.</span>
+sum=`<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$retval</span>"</span> | awk <span class="hljs-string">'{print $1}'</span>`      <span class="hljs-comment"># Assigns first field.</span>
+product=`<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$retval</span>"</span> | awk <span class="hljs-string">'{print $2}'</span>`  <span class="hljs-comment"># Assigns second field.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$first</span> + <span class="hljs-variable">$second</span> = <span class="hljs-variable">$sum</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$first</span> * <span class="hljs-variable">$second</span> = <span class="hljs-variable">$product</span>"</span>
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p><a name="RVTCAUTION" id="RVTCAUTION"></a>There can be only <b class="COMMAND">one</b> <i class="FIRSTTERM">echo</i> statement in the function for this to work. If you alter the previous example:</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tbody><tr>
+                      <td>
+                        <pre class="PROGRAMLISTING hljs"><span class="hljs-function"><span class="hljs-title">sum_and_product</span></span> ()
+{
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"This is the sum_and_product function."</span> <span class="hljs-comment"># This messes things up!</span>
+  <span class="hljs-built_in">echo</span> $(( <span class="hljs-variable">$1</span> + <span class="hljs-variable">$2</span> )) $(( <span class="hljs-variable">$1</span> * <span class="hljs-variable">$2</span> ))
+}
+...
+retval=`sum_and_product <span class="hljs-variable">$first</span> <span class="hljs-variable">$second</span>`      <span class="hljs-comment"># Assigns output of function.</span>
+<span class="hljs-comment"># Now, this will not work correctly.</span></pre>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </li>
+        <li>
+          <p><a name="PASSARRAY" id="PASSARRAY"></a></p>
+          <p>Next in our bag of tricks are techniques for passing an <a href="arrays.html#ARRAYREF">array</a> to a <a href="functions.html#FUNCTIONREF">function</a>, then <span class="QUOTE">"returning"</span> an array back to the main body of the script.</p>
+          <p>Passing an array involves loading the space-separated elements of the array into a variable with <a href="commandsub.html#COMMANDSUBREF">command substitution</a>. <a name="RETARRAY" id="RETARRAY"></a>Getting an array back as the <span class="QUOTE">"return value"</span> from a function uses the previously mentioned strategem of <a href="internal.html#ECHOREF">echoing</a> the array in the function, then invoking command substitution and the <b class="COMMAND">( ... )</b> operator to assign it to an array.</p>
+          <div class="EXAMPLE">
+            <a name="ARRFUNC" id="ARRFUNC"></a>
+            <p><b>Example 36-20. Passing and returning arrays</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># array-function.sh: Passing an array to a function and ...</span>
+<span class="hljs-comment">#                   "returning" an array from a function</span>
+
+
+<span class="hljs-function"><span class="hljs-title">Pass_Array</span></span> ()
+{
+  <span class="hljs-built_in">local</span> passed_array   <span class="hljs-comment"># Local variable!</span>
+  passed_array=( `<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>` )
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">${passed_array[@]}</span>"</span>
+  <span class="hljs-comment">#  List all the elements of the new array</span>
+  <span class="hljs-comment">#+ declared and set within the function.</span>
+}
+
+
+original_array=( element1 element2 element3 element4 element5 )
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"original_array = <span class="hljs-variable">${original_array[@]}</span>"</span>
+<span class="hljs-comment">#                      List all elements of original array.</span>
+
+
+<span class="hljs-comment"># This is the trick that permits passing an array to a function.</span>
+<span class="hljs-comment"># **********************************</span>
+argument=`<span class="hljs-built_in">echo</span> <span class="hljs-variable">${original_array[@]}</span>`
+<span class="hljs-comment"># **********************************</span>
+<span class="hljs-comment">#  Pack a variable</span>
+<span class="hljs-comment">#+ with all the space-separated elements of the original array.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># Attempting to just pass the array itself will not work.</span>
+
+
+<span class="hljs-comment"># This is the trick that allows grabbing an array as a "return value".</span>
+<span class="hljs-comment"># *****************************************</span>
+returned_array=( `Pass_Array <span class="hljs-string">"<span class="hljs-variable">$argument</span>"</span>` )
+<span class="hljs-comment"># *****************************************</span>
+<span class="hljs-comment"># Assign 'echoed' output of function to array variable.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"returned_array = <span class="hljs-variable">${returned_array[@]}</span>"</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"============================================================="</span>
+
+<span class="hljs-comment">#  Now, try it again,</span>
+<span class="hljs-comment">#+ attempting to access (list) the array from outside the function.</span>
+Pass_Array <span class="hljs-string">"<span class="hljs-variable">$argument</span>"</span>
+
+<span class="hljs-comment"># The function itself lists the array, but ...</span>
+<span class="hljs-comment">#+ accessing the array from outside the function is forbidden.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Passed array (within function) = <span class="hljs-variable">${passed_array[@]}</span>"</span>
+<span class="hljs-comment"># NULL VALUE since the array is a variable local to the function.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment">############################################</span>
+
+<span class="hljs-comment"># And here is an even more explicit example:</span>
+
+<span class="hljs-function"><span class="hljs-title">ret_array</span></span> ()
+{
+  <span class="hljs-keyword">for</span> element <span class="hljs-keyword">in</span> {11..20}
+  <span class="hljs-keyword">do</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$element</span> "</span>   <span class="hljs-comment">#  Echo individual elements</span>
+  <span class="hljs-keyword">done</span>                 <span class="hljs-comment">#+ of what will be assembled into an array.</span>
+}
+
+arr=( $(ret_array) )   <span class="hljs-comment">#  Assemble into array.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Capturing array \"arr\" from function ret_array () ..."</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Third element of array \"arr\" is <span class="hljs-variable">${arr[2]}</span>."</span>   <span class="hljs-comment"># 13  (zero-indexed)</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Entire array is: "</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${arr[@]}</span>                <span class="hljs-comment"># 11 12 13 14 15 16 17 18 19 20</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment">#  Nathan Coulter points out that passing arrays with elements containing</span>
+<span class="hljs-comment">#+ whitespace breaks this example.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>For a more elaborate example of passing arrays to functions, see <a href="contributed-scripts.html#LIFESLOW">Example A-10</a>.</p>
+        </li>
+        <li>
+          <p><a name="CSTYLE" id="CSTYLE"></a></p>
+          <p>Using the <a href="dblparens.html">double-parentheses construct</a>, it is possible to use C-style syntax for setting and incrementing/decrementing variables and in <a href="loops1.html#FORLOOPREF1">for</a> and <a href="loops1.html#WHILELOOPREF">while</a> loops. See <a href="loops1.html#FORLOOPC">Example 11-13</a> and <a href="loops1.html#WHLOOPC">Example 11-18</a>.</p>
+        </li>
+        <li>
+          <p><a name="SETPUM" id="SETPUM"></a></p>
+          <p>Setting the <a href="internalvariables.html#PATHREF">path</a> and <a href="system.html#UMASKREF">umask</a> at the beginning of a script makes it more <a href="portabilityissues.html">portable</a> -- more likely to run on a <span class="QUOTE">"foreign"</span> machine whose user may have bollixed up the <tt class="VARNAME">$PATH</tt> and <b class="COMMAND">umask</b>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+PATH=/bin:/usr/bin:/usr/<span class="hljs-built_in">local</span>/bin ; <span class="hljs-built_in">export</span> PATH
+<span class="hljs-built_in">umask</span> 022   <span class="hljs-comment"># Files that the script creates will have 755 permission.</span>
+
+<span class="hljs-comment"># Thanks to Ian D. Allen, for this tip.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </li>
+        <li>
+          <p><a name="FILTEROUTP" id="FILTEROUTP"></a></p>
+          <p>A useful scripting technique is to <em>repeatedly</em> feed the output of a filter (by piping) back to the <em>same filter</em>, but with a different set of arguments and/or options. Especially suitable for this are <a href="textproc.html#TRREF">tr</a> and <a href="textproc.html#GREPREF">grep</a>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># From "wstrings.sh" example.</span>
+
+wlist=`strings <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> | tr A-Z a-z | tr <span class="hljs-string">'[:space:]'</span> Z | \
+tr -cs <span class="hljs-string">'[:alpha:]'</span> Z | tr -s <span class="hljs-string">'\173-\377'</span> Z | tr Z <span class="hljs-string">' '</span>`</pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <div class="EXAMPLE">
+            <a name="AGRAM" id="AGRAM"></a>
+            <p><b>Example 36-21. Fun with anagrams</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># agram.sh: Playing games with anagrams.</span>
+
+<span class="hljs-comment"># Find anagrams of...</span>
+LETTERSET=etaoinshrdlu
+FILTER=<span class="hljs-string">'.......'</span>       <span class="hljs-comment"># How many letters minimum?</span>
+<span class="hljs-comment">#       1234567</span>
+
+anagram <span class="hljs-string">"<span class="hljs-variable">$LETTERSET</span>"</span> | <span class="hljs-comment"># Find all anagrams of the letterset...</span>
+grep <span class="hljs-string">"<span class="hljs-variable">$FILTER</span>"</span> |       <span class="hljs-comment"># With at least 7 letters,</span>
+grep <span class="hljs-string">'^is'</span> |           <span class="hljs-comment"># starting with 'is'</span>
+grep -v <span class="hljs-string">'s$'</span> |         <span class="hljs-comment"># no plurals</span>
+grep -v <span class="hljs-string">'ed$'</span>          <span class="hljs-comment"># no past tense verbs</span>
+<span class="hljs-comment"># Possible to add many combinations of conditions and filters.</span>
+
+<span class="hljs-comment">#  Uses "anagram" utility</span>
+<span class="hljs-comment">#+ that is part of the author's "yawl" word list package.</span>
+<span class="hljs-comment">#  http://ibiblio.org/pub/Linux/libs/yawl-0.3.2.tar.gz</span>
+<span class="hljs-comment">#  http://bash.deta.in/yawl-0.3.2.tar.gz</span>
+
+<span class="hljs-built_in">exit</span> 0                 <span class="hljs-comment"># End of code.</span>
+
+
+bash$ sh agram.sh
+islander
+isolate
+isolead
+isotheral
+
+
+
+<span class="hljs-comment">#  Exercises:</span>
+<span class="hljs-comment">#  ---------</span>
+<span class="hljs-comment">#  Modify this script to take the LETTERSET as a command-line parameter.</span>
+<span class="hljs-comment">#  Parameterize the filters in lines 11 - 13 (as with $FILTER),</span>
+<span class="hljs-comment">#+ so that they can be specified by passing arguments to a function.</span>
+
+<span class="hljs-comment">#  For a slightly different approach to anagramming,</span>
+<span class="hljs-comment">#+ see the agram2.sh script.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>See also <a href="procref1.html#CONSTAT">Example 29-4</a>, <a href="textproc.html#CRYPTOQUOTE">Example 16-25</a>, and <a href="contributed-scripts.html#SOUNDEX">Example A-9</a>.</p>
+        </li>
+        <li>
+          <p><a name="COMMBLAHD" id="COMMBLAHD"></a></p>
+          <p>Use <span class="QUOTE">"<a href="here-docs.html#ANONHEREDOC0">anonymous here documents</a>"</span> to comment out blocks of code, to save having to individually comment out each line with a <span class="TOKEN">#</span>. See <a href="here-docs.html#COMMENTBLOCK">Example 19-11</a>.</p>
+        </li>
+        <li>
+          <p><a name="WHATISREF3" id="WHATISREF3"></a></p>
+          <p>Running a script on a machine that relies on a command that might not be installed is dangerous. Use <a href="filearchiv.html#WHATISREF">whatis</a> to avoid potential problems with this.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">CMD=command1                 <span class="hljs-comment"># First choice.</span>
+PlanB=command2               <span class="hljs-comment"># Fallback option.</span>
+
+command_test=$(whatis <span class="hljs-string">"<span class="hljs-variable">$CMD</span>"</span> | grep <span class="hljs-string">'nothing appropriate'</span>)
+<span class="hljs-comment">#  If 'command1' not found on system , 'whatis' will return</span>
+<span class="hljs-comment">#+ "command1: nothing appropriate."</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  A safer alternative is:</span>
+<span class="hljs-comment">#     command_test=$(whereis "$CMD" | grep \/)</span>
+<span class="hljs-comment">#  But then the sense of the following test would have to be reversed,</span>
+<span class="hljs-comment">#+ since the $command_test variable holds content only if</span>
+<span class="hljs-comment">#+ the $CMD exists on the system.</span>
+<span class="hljs-comment">#     (Thanks, bojster.)</span>
+
+
+<span class="hljs-keyword">if</span> [[ -z <span class="hljs-string">"<span class="hljs-variable">$command_test</span>"</span> ]]  <span class="hljs-comment"># Check whether command present.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-variable">$CMD</span> option1 option2       <span class="hljs-comment">#  Run command1 with options.</span>
+<span class="hljs-keyword">else</span>                         <span class="hljs-comment">#  Otherwise,</span>
+  <span class="hljs-variable">$PlanB</span>                     <span class="hljs-comment">#+ run command2. </span>
+<span class="hljs-keyword">fi</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </li>
+        <li>
+          <p><a name="IFGREPFIX" id="IFGREPFIX"></a></p>
+          <p>An <a href="testconstructs.html#IFGREPREF">if-grep test</a> may not return expected results in an error case, when text is output to <tt class="FILENAME">stderr</tt>, rather that <tt class="FILENAME">stdout</tt>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">if</span> ls -l nonexistent_filename | grep -q <span class="hljs-string">'No such file or directory'</span>
+  <span class="hljs-keyword">then</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"File \"nonexistent_filename\" does not exist."</span>
+<span class="hljs-keyword">fi</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p><a href="io-redirection.html#IOREDIRREF">Redirecting</a> <tt class="FILENAME">stderr</tt> to <tt class="FILENAME">stdout</tt> fixes this.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">if</span> ls -l nonexistent_filename 2&gt;&amp;1 | grep -q <span class="hljs-string">'No such file or directory'</span>
+<span class="hljs-comment">#                             ^^^^</span>
+  <span class="hljs-keyword">then</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"File \"nonexistent_filename\" does not exist."</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment"># Thanks, Chris Martin, for pointing this out.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </li>
+        <li>
+          <p><a name="SUBSHTMP" id="SUBSHTMP"></a> If you absolutely must access a subshell variable outside the subshell, here's a way to do it.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">TMPFILE=tmpfile                  <span class="hljs-comment"># Create a temp file to store the variable.</span>
+
+(   <span class="hljs-comment"># Inside the subshell ...</span>
+inner_variable=Inner
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$inner_variable</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$inner_variable</span> &gt;&gt;<span class="hljs-variable">$TMPFILE</span>  <span class="hljs-comment"># Append to temp file.</span>
+)
+
+    <span class="hljs-comment"># Outside the subshell ...</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span> <span class="hljs-string">"-----"</span>; <span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$inner_variable</span>             <span class="hljs-comment"># Null, as expected.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"-----"</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># Now ...</span>
+<span class="hljs-built_in">read</span> inner_variable &lt;<span class="hljs-variable">$TMPFILE</span>    <span class="hljs-comment"># Read back shell variable.</span>
+rm -f <span class="hljs-string">"<span class="hljs-variable">$TMPFILE</span>"</span>                 <span class="hljs-comment"># Get rid of temp file.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$inner_variable</span>"</span>           <span class="hljs-comment"># It's an ugly kludge, but it works.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </li>
+        <li>
+          <p><a name="RUNPARTSREF2" id="RUNPARTSREF2"></a></p>
+          <p>The <a href="extmisc.html#RUNPARTSREF">run-parts</a> command is handy for running a set of command scripts in a particular sequence, especially in combination with <a href="system.html#CRONREF">cron</a> or <a href="timedate.html#ATREF">at</a>.</p>
+        </li>
+        <li>
+          <p><a name="RCSREF" id="RCSREF"></a></p>
+          <p>For doing multiple revisions on a complex script, use the <i class="FIRSTTERM">rcs</i> Revision Control System package.</p>
+          <p>Among other benefits of this is automatically updated ID header tags. The <b class="COMMAND">co</b> command in <i class="FIRSTTERM">rcs</i> does a parameter replacement of certain reserved key words, for example, replacing <tt class="PARAMETER"><i># $Id$</i></tt> in a script with something like:</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># $Id: hello-world.sh,v 1.1 2004/10/16 02:43:05 bozo Exp $</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </li>
+      </ul>
+    </div>
+    <div class="SECT2">
+      <h2 class="SECT2"><a name="AEN20679" id="AEN20679"></a>36.7.2. Widgets</h2>
+      <p><a name="WIDGETREF" id="WIDGETREF"></a></p>
+      <p>It would be nice to be able to invoke X-Windows widgets from a shell script. There happen to exist several packages that purport to do so, namely <i class="FIRSTTERM">Xscript</i>, <i class="FIRSTTERM">Xmenu</i>, and <i class="FIRSTTERM">widtools</i>. The first two of these no longer seem to be maintained. Fortunately, it is still possible to obtain <i class="FIRSTTERM">widtools</i> <a href="http://www.batse.msfc.nasa.gov/~mallozzi/home/software/xforms/src/widtools-2.0.tgz" target="_top">here</a>.</p>
+      <div class="CAUTION">
+        <table class="CAUTION" width="100%" border="0">
+          <tbody><tr>
+            <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+            <td align="left" valign="top">
+              <p>The <i class="FIRSTTERM">widtools</i> (widget tools) package requires the <i class="FIRSTTERM">XForms</i> library to be installed. Additionally, the <a href="filearchiv.html#MAKEFILEREF">Makefile</a> needs some judicious editing before the package will build on a typical Linux system. Finally, three of the six widgets offered do not work (and, in fact, segfault).</p>
+            </td>
+          </tr>
+        </tbody></table>
+      </div>
+      <p><a name="DIALOGREF" id="DIALOGREF"></a></p>
+      <p>The <i class="FIRSTTERM">dialog</i> family of tools offers a method of calling <span class="QUOTE">"dialog"</span> widgets from a shell script. The original <i class="FIRSTTERM">dialog</i> utility works in a text console, but its successors, <i class="FIRSTTERM">gdialog</i>, <i class="FIRSTTERM">Xdialog</i>, and <i class="FIRSTTERM">kdialog</i> use X-Windows-based widget sets.</p>
+      <div class="EXAMPLE">
+        <a name="DIALOG" id="DIALOG"></a>
+        <p><b>Example 36-22. Widgets invoked from a shell script</b></p>
+        <table border="0" bgcolor="#E0E0E0" width="100%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># dialog.sh: Using 'gdialog' widgets.</span>
+
+<span class="hljs-comment"># Must have 'gdialog' installed on your system to run this script.</span>
+<span class="hljs-comment"># Or, you can replace all instance of 'gdialog' below with 'kdialog' ...</span>
+<span class="hljs-comment"># Version 1.1 (corrected 04/05/05)</span>
+
+<span class="hljs-comment"># This script was inspired by the following article.</span>
+<span class="hljs-comment">#     "Scripting for X Productivity," by Marco Fioretti,</span>
+<span class="hljs-comment">#      LINUX JOURNAL, Issue 113, September 2003, pp. 86-9.</span>
+<span class="hljs-comment"># Thank you, all you good people at LJ.</span>
+
+
+<span class="hljs-comment"># Input error in dialog box.</span>
+E_INPUT=85
+<span class="hljs-comment"># Dimensions of display, input widgets.</span>
+HEIGHT=50
+WIDTH=60
+
+<span class="hljs-comment"># Output file name (constructed out of script name).</span>
+OUTFILE=<span class="hljs-variable">$0</span>.output
+
+<span class="hljs-comment"># Display this script in a text widget.</span>
+gdialog --title <span class="hljs-string">"Displaying: <span class="hljs-variable">$0</span>"</span> --textbox <span class="hljs-variable">$0</span> <span class="hljs-variable">$HEIGHT</span> <span class="hljs-variable">$WIDTH</span>
+
+
+
+<span class="hljs-comment"># Now, we'll try saving input in a file.</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"VARIABLE="</span> &gt; <span class="hljs-variable">$OUTFILE</span>
+gdialog --title <span class="hljs-string">"User Input"</span> --inputbox <span class="hljs-string">"Enter variable, please:"</span> \
+<span class="hljs-variable">$HEIGHT</span> <span class="hljs-variable">$WIDTH</span> 2&gt;&gt; <span class="hljs-variable">$OUTFILE</span>
+
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"$?"</span> -eq 0 ]
+<span class="hljs-comment"># It's good practice to check exit status.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Executed \"dialog box\" without errors."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Error(s) in \"dialog box\" execution."</span>
+        <span class="hljs-comment"># Or, clicked on "Cancel", instead of "OK" button.</span>
+  rm <span class="hljs-variable">$OUTFILE</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_INPUT</span>
+<span class="hljs-keyword">fi</span>
+
+
+
+<span class="hljs-comment"># Now, we'll retrieve and display the saved variable.</span>
+. <span class="hljs-variable">$OUTFILE</span>   <span class="hljs-comment"># 'Source' the saved file.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"The variable input in the \"input box\" was: "</span><span class="hljs-variable">$VARIABLE</span><span class="hljs-string">""</span>
+
+
+rm <span class="hljs-variable">$OUTFILE</span>  <span class="hljs-comment"># Clean up by removing the temp file.</span>
+             <span class="hljs-comment"># Some applications may need to retain this file.</span>
+
+<span class="hljs-built_in">exit</span> $?
+
+<span class="hljs-comment"># Exercise: Rewrite this script using the 'zenity' widget set.</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </div>
+      <p><a name="XMESSAGEREF2" id="XMESSAGEREF2"></a> The <a href="extmisc.html#XMESSAGEREF">xmessage</a> command is a simple method of popping up a message/query window. For example:</p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs">xmessage Fatal error <span class="hljs-keyword">in</span> script! -button <span class="hljs-built_in">exit</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+      <p><a name="ZENITYREF2" id="ZENITYREF2"></a> The latest entry in the widget sweepstakes is <a href="extmisc.html#ZENITYREF">zenity</a>. This utility pops up <i class="FIRSTTERM">GTK+</i> dialog widgets-and-windows, and it works very nicely within a script.</p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-function"><span class="hljs-title">get_info</span></span> ()
+{
+  zenity --entry       <span class="hljs-comment">#  Pops up query window . . .</span>
+                       <span class="hljs-comment">#+ and prints user entry to stdout.</span>
+
+                       <span class="hljs-comment">#  Also try the --calendar and --scale options.</span>
+}
+
+answer=$( get_info )   <span class="hljs-comment">#  Capture stdout in $answer variable.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"User entered: "</span><span class="hljs-variable">$answer</span><span class="hljs-string">""</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+      <p>For other methods of scripting with widgets, try <i class="FIRSTTERM">Tk</i> or <i class="FIRSTTERM">wish</i> (<i class="FIRSTTERM">Tcl</i> derivatives), <i class="FIRSTTERM">PerlTk</i> (<i class="FIRSTTERM">Perl</i> with <i class="FIRSTTERM">Tk</i> extensions), <i class="FIRSTTERM">tksh</i> (<i class="FIRSTTERM">ksh</i> with <i class="FIRSTTERM">Tk</i> extensions), <i class="FIRSTTERM">XForms4Perl</i> (<i class="FIRSTTERM">Perl</i> with <i class="FIRSTTERM">XForms</i> extensions), <i class="FIRSTTERM">Gtk-Perl</i> (<i class="FIRSTTERM">Perl</i> with <i class="FIRSTTERM">Gtk</i> extensions), or <i class="FIRSTTERM">PyQt</i> (<i class="FIRSTTERM">Python</i> with <i class="FIRSTTERM">Qt</i> extensions).</p>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="optimizations.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="securityissues.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Optimizations</td>
+        <td width="34%" align="center" valign="top"><a href="miscellany.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Security Issues</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

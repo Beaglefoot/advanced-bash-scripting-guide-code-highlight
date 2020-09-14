@@ -1,0 +1,121 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Bash Variables Are Untyped</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Introduction to Variables and Parameters" href="variables.html">
+  <link rel="PREVIOUS" title="Variable Assignment" href="varassignment.html">
+  <link rel="NEXT" title="Special Variable Types" href="othertypesv.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="varassignment.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 4. Introduction to Variables and Parameters</td>
+        <td width="10%" align="right" valign="bottom"><a href="othertypesv.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="UNTYPED" id="UNTYPED"></a>4.3. Bash Variables Are Untyped</h1>
+    <p><a name="BVUNTYPED" id="BVUNTYPED"></a></p>
+    <p>Unlike many other programming languages, Bash does not segregate its variables by <span class="QUOTE">"type."</span> Essentially, <em>Bash variables are character strings</em>, but, depending on context, Bash permits arithmetic operations and comparisons on variables. The determining factor is whether the value of a variable contains only digits.</p>
+    <div class="EXAMPLE">
+      <a name="INTORSTRING" id="INTORSTRING"></a>
+      <p><b>Example 4-4. Integer or string?</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># int-or-string.sh</span>
+
+a=2334                   <span class="hljs-comment"># Integer.</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"a += 1"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span> "</span>           <span class="hljs-comment"># a = 2335</span>
+<span class="hljs-built_in">echo</span>                     <span class="hljs-comment"># Integer, still.</span>
+
+
+b=<span class="hljs-variable">${a/23/BB}</span>             <span class="hljs-comment"># Substitute "BB" for "23".</span>
+                         <span class="hljs-comment"># This transforms $b into a string.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"b = <span class="hljs-variable">$b</span>"</span>            <span class="hljs-comment"># b = BB35</span>
+<span class="hljs-built_in">declare</span> -i b             <span class="hljs-comment"># Declaring it an integer doesn't help.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"b = <span class="hljs-variable">$b</span>"</span>            <span class="hljs-comment"># b = BB35</span>
+
+<span class="hljs-built_in">let</span> <span class="hljs-string">"b += 1"</span>             <span class="hljs-comment"># BB35 + 1</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"b = <span class="hljs-variable">$b</span>"</span>            <span class="hljs-comment"># b = 1</span>
+<span class="hljs-built_in">echo</span>                     <span class="hljs-comment"># Bash sets the "integer value" of a string to 0.</span>
+
+c=BB34
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"c = <span class="hljs-variable">$c</span>"</span>            <span class="hljs-comment"># c = BB34</span>
+d=<span class="hljs-variable">${c/BB/23}</span>             <span class="hljs-comment"># Substitute "23" for "BB".</span>
+                         <span class="hljs-comment"># This makes $d an integer.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"d = <span class="hljs-variable">$d</span>"</span>            <span class="hljs-comment"># d = 2334</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"d += 1"</span>             <span class="hljs-comment"># 2334 + 1</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"d = <span class="hljs-variable">$d</span>"</span>            <span class="hljs-comment"># d = 2335</span>
+<span class="hljs-built_in">echo</span>
+
+
+<span class="hljs-comment"># What about null variables?</span>
+e=<span class="hljs-string">''</span>                     <span class="hljs-comment"># ... Or e="" ... Or e=</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"e = <span class="hljs-variable">$e</span>"</span>            <span class="hljs-comment"># e =</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"e += 1"</span>             <span class="hljs-comment"># Arithmetic operations allowed on a null variable?</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"e = <span class="hljs-variable">$e</span>"</span>            <span class="hljs-comment"># e = 1</span>
+<span class="hljs-built_in">echo</span>                     <span class="hljs-comment"># Null variable transformed into an integer.</span>
+
+<span class="hljs-comment"># What about undeclared variables?</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"f = <span class="hljs-variable">$f</span>"</span>            <span class="hljs-comment"># f =</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"f += 1"</span>             <span class="hljs-comment"># Arithmetic operations allowed?</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"f = <span class="hljs-variable">$f</span>"</span>            <span class="hljs-comment"># f = 1</span>
+<span class="hljs-built_in">echo</span>                     <span class="hljs-comment"># Undeclared variable transformed into an integer.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># However ...</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"f /= <span class="hljs-variable">$undecl_var</span>"</span>   <span class="hljs-comment"># Divide by zero?</span>
+<span class="hljs-comment">#   let: f /= : syntax error: operand expected (error token is " ")</span>
+<span class="hljs-comment"># Syntax error! Variable $undecl_var is not set to zero here!</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># But still ...</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"f /= 0"</span>
+<span class="hljs-comment">#   let: f /= 0: division by 0 (error token is "0")</span>
+<span class="hljs-comment"># Expected behavior.</span>
+
+
+<span class="hljs-comment">#  Bash (usually) sets the "integer value" of null to zero</span>
+<span class="hljs-comment">#+ when performing an arithmetic operation.</span>
+<span class="hljs-comment">#  But, don't try this at home, folks!</span>
+<span class="hljs-comment">#  It's undocumented and probably non-portable behavior.</span>
+
+
+<span class="hljs-comment"># Conclusion: Variables in Bash are untyped,</span>
+<span class="hljs-comment">#+ with all attendant consequences.</span>
+
+<span class="hljs-built_in">exit</span> $?</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Untyped variables are both a blessing and a curse. They permit more flexibility in scripting and make it easier to grind out lines of code (and give you enough rope to hang yourself!). However, they likewise permit subtle errors to creep in and encourage sloppy programming habits.</p>
+    <p>To lighten the burden of keeping track of variable types in a script, Bash <em>does</em> permit <a href="declareref.html">declaring</a> variables.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="varassignment.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="othertypesv.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Variable Assignment</td>
+        <td width="34%" align="center" valign="top"><a href="variables.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Special Variable Types</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

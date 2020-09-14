@@ -1,0 +1,65 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>A Sed and Awk Micro-Primer</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="PREVIOUS" title="Reference Cards" href="refcards.html">
+  <link rel="NEXT" title="Sed" href="x23170.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="APPENDIX" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="refcards.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="x23170.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="APPENDIX">
+    <h1><a name="SEDAWK" id="SEDAWK"></a>Appendix C. A Sed and Awk Micro-Primer</h1>
+    <div class="TOC">
+      <dl>
+        <dt><b>Table of Contents</b></dt>
+        <dt>C.1. <a href="x23170.html">Sed</a></dt>
+        <dt>C.2. <a href="awk.html">Awk</a></dt>
+      </dl>
+    </div>
+    <p><a name="SEDREF" id="SEDREF"></a></p>
+    <p>This is a very brief introduction to the <b class="COMMAND">sed</b> and <b class="COMMAND">awk</b> text processing utilities. We will deal with only a few basic commands here, but that will suffice for understanding simple sed and awk constructs within shell scripts.</p>
+    <p><b class="COMMAND">sed</b>: a non-interactive text file editor</p>
+    <p><b class="COMMAND">awk</b>: a field-oriented pattern processing language with a <b class="COMMAND">C</b>-style syntax</p>
+    <p>For all their differences, the two utilities share a similar invocation syntax, use <a href="regexp.html#REGEXREF">regular expressions</a> , read input by default from <tt class="FILENAME">stdin</tt>, and output to <tt class="FILENAME">stdout</tt>. These are well-behaved UNIX tools, and they work together well. The output from one can be piped to the other, and their combined capabilities give shell scripts some of the power of <a href="wrapper.html#PERLREF">Perl</a>.</p>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>One important difference between the utilities is that while shell scripts can easily pass arguments to sed, it is more cumbersome for awk (see <a href="wrapper.html#COLTOTALER">Example 36-5</a> and <a href="ivr.html#COLTOTALER2">Example 28-2</a>).</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="refcards.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="x23170.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Reference Cards</td>
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+        <td width="33%" align="right" valign="top">Sed</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

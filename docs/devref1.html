@@ -1,0 +1,269 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>/dev</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="/dev and /proc" href="devproc.html">
+  <link rel="PREVIOUS" title="/dev and /proc" href="devproc.html">
+  <link rel="NEXT" title="/proc" href="procref1.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="devproc.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 29. <tt class="FILENAME">/dev</tt> and <tt class="FILENAME">/proc</tt></td>
+        <td width="10%" align="right" valign="bottom"><a href="procref1.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="DEVREF1" id="DEVREF1"></a>29.1. <tt class="FILENAME">/dev</tt></h1>
+    <p><a name="DEVFILEREF" id="DEVFILEREF"></a>The <tt class="FILENAME">/dev</tt> directory contains entries for the <i class="FIRSTTERM">physical devices</i> that may or may not be present in the hardware. <a name="AEN19045" href="#FTN.AEN19045" id="AEN19045"><span class="footnote">[1]</span></a> Appropriately enough, these are called <i class="FIRSTTERM">device files</i>. As an example, the hard drive partitions containing the mounted filesystem(s) have entries in <tt class="FILENAME">/dev</tt>, as <a href="system.html#DFREF">df</a> shows.</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> df</span>
+Filesystem           1k-blocks      Used Available Use%
+ Mounted on
+ /dev/hda6               495876    222748    247527  48% /
+ /dev/hda1                50755      3887     44248   9% /boot
+ /dev/hda8               367013     13262    334803   4% /home
+ /dev/hda5              1714416   1123624    503704  70% /usr
+              </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="LOOPBACKREF" id="LOOPBACKREF"></a>Among other things, the <tt class="FILENAME">/dev</tt> directory contains <i class="FIRSTTERM">loopback</i> devices, such as <tt class="FILENAME">/dev/loop0</tt>. A loopback device is a gimmick that allows an ordinary file to be accessed as if it were a block device. <a name="AEN19065" href="#FTN.AEN19065" id="AEN19065"><span class="footnote">[2]</span></a> This permits mounting an entire filesystem within a single large file. See <a href="system.html#CREATEFS">Example 17-8</a> and <a href="system.html#ISOMOUNTREF">Example 17-7</a>.</p>
+    <p>A few of the pseudo-devices in <tt class="FILENAME">/dev</tt> have other specialized uses, such as <a href="zeros.html#ZEROSREF"><tt class="FILENAME">/dev/null</tt></a>, <a href="zeros.html#ZEROSREF1"><tt class="FILENAME">/dev/zero</tt></a>, <a href="randomvar.html#URANDOMREF"><tt class="FILENAME">/dev/urandom</tt></a>, <tt class="FILENAME">/dev/sda1</tt> (hard drive partition), <tt class="FILENAME">/dev/udp</tt> (<i class="FIRSTTERM">User Datagram Packet</i> port), and <a href="devref1.html#DEVTCP"><tt class="FILENAME">/dev/tcp</tt></a>.</p>
+    <p>For instance:</p>
+    <p>To manually <a href="system.html#MOUNTREF">mount</a> a USB flash drive, append the following line to <a href="system.html#FSTABREF"><tt class="FILENAME">/etc/fstab</tt></a>. <a name="AEN19093" href="#FTN.AEN19093" id="AEN19093"><span class="footnote">[3]</span></a></p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">/dev/sda1    /mnt/flashdrive    auto    noauto,user,noatime    0 0</pre>
+        </td>
+      </tr>
+    </tbody></table>(See also <a href="contributed-scripts.html#USBINST">Example A-23</a>.)
+    <p>Checking whether a disk is in the CD-burner (soft-linked to <tt class="FILENAME">/dev/hdc</tt>):</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">head -1 /dev/hdc
+
+
+<span class="hljs-comment">#  head: cannot open '/dev/hdc' for reading: No medium found</span>
+<span class="hljs-comment">#  (No disc in the drive.)</span>
+
+<span class="hljs-comment">#  head: error reading '/dev/hdc': Input/output error</span>
+<span class="hljs-comment">#  (There is a disk in the drive, but it can't be read;</span>
+<span class="hljs-comment">#+  possibly it's an unrecorded CDR blank.)   </span>
+
+<span class="hljs-comment">#  Stream of characters and assorted gibberish</span>
+<span class="hljs-comment">#  (There is a pre-recorded disk in the drive,</span>
+<span class="hljs-comment">#+ and this is raw output -- a stream of ASCII and binary data.)</span>
+<span class="hljs-comment">#  Here we see the wisdom of using 'head' to limit the output</span>
+<span class="hljs-comment">#+ to manageable proportions, rather than 'cat' or something similar.</span>
+
+
+<span class="hljs-comment">#  Now, it's just a matter of checking/parsing the output and taking</span>
+<span class="hljs-comment">#+ appropriate action.</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="SOCKETREF" id="SOCKETREF"></a></p>
+    <p>When executing a command on a <tt class="FILENAME">/dev/tcp/$host/$port</tt> pseudo-device file, Bash opens a TCP connection to the associated <i class="FIRSTTERM">socket</i>.</p>
+    <table class="SIDEBAR" border="1" cellpadding="5">
+      <tbody><tr>
+        <td>
+          <div class="SIDEBAR">
+            <a name="AEN19112" id="AEN19112"></a>
+            <p>A <i class="FIRSTTERM">socket</i> is a communications node associated with a specific I/O port. (This is analogous to a <i class="FIRSTTERM">hardware socket</i>, or <i class="FIRSTTERM">receptacle</i>, for a connecting cable.) It permits data transfer between hardware devices on the same machine, between machines on the same network, between machines across different networks, and, of course, between machines at different locations on the Internet.</p>
+          </div>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="NPREF" id="NPREF"></a>The following examples assume an active Internet connection.</p>
+    <p>Getting the time from <tt class="FILENAME">nist.gov</tt>:</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> cat &lt;/dev/tcp/time.nist.gov/13</span>
+53082 04-03-18 04:26:54 68 0 0 502.3 UTC(NIST) *
+              </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>[Mark contributed this example.]</p>
+    <p>Generalizing the above into a script:</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># This script must run with root permissions.</span>
+
+URL=<span class="hljs-string">"time.nist.gov/13"</span>
+
+Time=$(cat &lt;/dev/tcp/<span class="hljs-string">"<span class="hljs-variable">$URL</span>"</span>)
+UTC=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$Time</span>"</span> | awk <span class="hljs-string">'{print$3}'</span>)   <span class="hljs-comment"># Third field is UTC (GMT) time.</span>
+<span class="hljs-comment"># Exercise: modify this for different time zones.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"UTC Time = "</span><span class="hljs-variable">$UTC</span><span class="hljs-string">""</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="NW001" id="NW001"></a>Downloading a URL:</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">exec</span> 5&lt;&gt;/dev/tcp/www.net.cn/80</span>
+<span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"GET / HTTP/1.0\n"</span> &gt;&amp;5</span>
+<span class="hljs-meta">bash$</span><span class="bash"> cat &lt;&amp;5</span>
+              </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>[Thanks, Mark and Mihai Maties.]</p>
+    <div class="EXAMPLE">
+      <a name="DEVTCP" id="DEVTCP"></a>
+      <p><b>Example 29-1. Using <tt class="FILENAME">/dev/tcp</tt> for troubleshooting</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># dev-tcp.sh: /dev/tcp redirection to check Internet connection.</span>
+
+<span class="hljs-comment"># Script by Troy Engel.</span>
+<span class="hljs-comment"># Used with permission.</span>
+ 
+TCP_HOST=news-15.net       <span class="hljs-comment"># A known spam-friendly ISP.</span>
+TCP_PORT=80                <span class="hljs-comment"># Port 80 is http.</span>
+  
+<span class="hljs-comment"># Try to connect. (Somewhat similar to a 'ping' . . .) </span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"HEAD / HTTP/1.0"</span> &gt;/dev/tcp/<span class="hljs-variable">${TCP_HOST}</span>/<span class="hljs-variable">${TCP_PORT}</span>
+MYEXIT=$?
+
+: &lt;&lt;EXPLANATION
+If bash was compiled with --enable-net-redirections, it has the capability of
+using a special character device <span class="hljs-keyword">for</span> both TCP and UDP redirections. These
+redirections are used identically as STDIN/STDOUT/STDERR. The device entries
+are 30,36 <span class="hljs-keyword">for</span> /dev/tcp:
+
+  mknod /dev/tcp c 30 36
+
+&gt;From the bash reference:
+/dev/tcp/host/port
+    If host is a valid hostname or Internet address, and port is an <span class="hljs-built_in">integer</span>
+port number or service name, Bash attempts to open a TCP connection to the
+corresponding socket.
+EXPLANATION
+
+   
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"X<span class="hljs-variable">$MYEXIT</span>"</span> = <span class="hljs-string">"X0"</span> ]; <span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Connection successful. Exit code: <span class="hljs-variable">$MYEXIT</span>"</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Connection unsuccessful. Exit code: <span class="hljs-variable">$MYEXIT</span>"</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">exit</span> <span class="hljs-variable">$MYEXIT</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="MUSICSCR" id="MUSICSCR"></a>
+      <p><b>Example 29-2. Playing music</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># music.sh</span>
+
+<span class="hljs-comment"># Music without external files</span>
+
+<span class="hljs-comment"># Author: Antonio Macchi</span>
+<span class="hljs-comment"># Used in ABS Guide with permission.</span>
+
+
+<span class="hljs-comment">#  /dev/dsp default = 8000 frames per second, 8 bits per frame (1 byte),</span>
+<span class="hljs-comment">#+ 1 channel (mono)</span>
+
+duration=2000       <span class="hljs-comment"># If 8000 bytes = 1 second, then 2000 = 1/4 second.</span>
+volume=$<span class="hljs-string">'\xc0'</span>      <span class="hljs-comment"># Max volume = \xff (or \x00).</span>
+mute=$<span class="hljs-string">'\x80'</span>        <span class="hljs-comment"># No volume = \x80 (the middle).</span>
+
+<span class="hljs-keyword">function</span> mknote ()  <span class="hljs-comment"># $1=Note Hz in bytes (e.g. A = 440Hz ::</span>
+{                   <span class="hljs-comment">#+ 8000 fps / 440 = 16 :: A = 16 bytes per second)</span>
+  <span class="hljs-keyword">for</span> t <span class="hljs-keyword">in</span> `seq 0 <span class="hljs-variable">$duration</span>`
+  <span class="hljs-keyword">do</span>
+    <span class="hljs-built_in">test</span> $(( <span class="hljs-variable">$t</span> % <span class="hljs-variable">$1</span> )) = 0 &amp;&amp; <span class="hljs-built_in">echo</span> -n <span class="hljs-variable">$volume</span> || <span class="hljs-built_in">echo</span> -n <span class="hljs-variable">$mute</span>
+  <span class="hljs-keyword">done</span>
+}
+
+e=`mknote 49`
+g=`mknote 41`
+a=`mknote 36`
+b=`mknote 32`
+c=`mknote 30`
+cis=`mknote 29`
+d=`mknote 27`
+e2=`mknote 24`
+n=`mknote 32767`
+<span class="hljs-comment"># European notation.</span>
+
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$g</span><span class="hljs-variable">$e2</span><span class="hljs-variable">$d</span><span class="hljs-variable">$c</span><span class="hljs-variable">$d</span><span class="hljs-variable">$c</span><span class="hljs-variable">$a</span><span class="hljs-variable">$g</span><span class="hljs-variable">$n</span><span class="hljs-variable">$g</span><span class="hljs-variable">$e</span><span class="hljs-variable">$n</span><span class="hljs-variable">$g</span><span class="hljs-variable">$e2</span><span class="hljs-variable">$d</span><span class="hljs-variable">$c</span><span class="hljs-variable">$c</span><span class="hljs-variable">$b</span><span class="hljs-variable">$c</span><span class="hljs-variable">$cis</span><span class="hljs-variable">$n</span><span class="hljs-variable">$cis</span><span class="hljs-variable">$d</span> \
+<span class="hljs-variable">$n</span><span class="hljs-variable">$g</span><span class="hljs-variable">$e2</span><span class="hljs-variable">$d</span><span class="hljs-variable">$c</span><span class="hljs-variable">$d</span><span class="hljs-variable">$c</span><span class="hljs-variable">$a</span><span class="hljs-variable">$g</span><span class="hljs-variable">$n</span><span class="hljs-variable">$g</span><span class="hljs-variable">$e</span><span class="hljs-variable">$n</span><span class="hljs-variable">$g</span><span class="hljs-variable">$a</span><span class="hljs-variable">$d</span><span class="hljs-variable">$c</span><span class="hljs-variable">$b</span><span class="hljs-variable">$a</span><span class="hljs-variable">$b</span><span class="hljs-variable">$c</span>"</span> &gt; /dev/dsp
+<span class="hljs-comment"># dsp = Digital Signal Processor</span>
+
+<span class="hljs-built_in">exit</span>      <span class="hljs-comment"># A "bonny" example of an elegant shell script!</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN19045" href="devref1.html#AEN19045" id="FTN.AEN19045"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>The entries in <tt class="FILENAME">/dev</tt> provide mount points for physical and virtual devices. These entries use very little drive space.</p>
+        <p>Some devices, such as <tt class="FILENAME">/dev/null</tt>, <tt class="FILENAME">/dev/zero</tt>, and <tt class="FILENAME">/dev/urandom</tt> are virtual. They are not actual physical devices and exist only in software.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN19065" href="devref1.html#AEN19065" id="FTN.AEN19065"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><a name="BLOCKDEVREF" id="BLOCKDEVREF"></a>A <i class="FIRSTTERM">block device</i> reads and/or writes data in chunks, or <i class="FIRSTTERM">blocks</i>, in contrast to a <a name="CHARDEVREF" id="CHARDEVREF"></a><i class="FIRSTTERM">character device</i>, which acesses data in <i class="FIRSTTERM">character</i> units. Examples of block devices are hard drives, CDROM drives, and flash drives. Examples of character devices are keyboards, modems, sound cards.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN19093" href="devref1.html#AEN19093" id="FTN.AEN19093"><span class="footnote">[3]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Of course, the mount point <tt class="FILENAME">/mnt/flashdrive</tt> must exist. If not, then, as <i class="FIRSTTERM">root</i>, <b class="COMMAND">mkdir /mnt/flashdrive</b>.</p>
+        <p>To actually mount the drive, use the following command: <b class="COMMAND">mount /mnt/flashdrive</b></p>
+        <p>Newer Linux distros automount flash drives in the <tt class="FILENAME">/media</tt> directory without user intervention.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="devproc.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="procref1.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top"><tt class="FILENAME">/dev</tt> and <tt class="FILENAME">/proc</tt></td>
+        <td width="34%" align="center" valign="top"><a href="devproc.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top"><tt class="FILENAME">/proc</tt></td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

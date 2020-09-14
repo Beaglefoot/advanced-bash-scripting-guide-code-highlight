@@ -1,0 +1,737 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Reference Cards</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="PREVIOUS" title="Contributed Scripts" href="contributed-scripts.html">
+  <link rel="NEXT" title="A Sed and Awk Micro-Primer" href="sedawk.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="APPENDIX" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="contributed-scripts.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="sedawk.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="APPENDIX">
+    <h1><a name="REFCARDS" id="REFCARDS"></a>Appendix B. Reference Cards</h1>
+    <p>The following reference cards provide a useful <em>summary</em> of certain scripting concepts. The foregoing text treats these matters in more depth, as well as giving usage examples.</p>
+    <p><a name="SPECSHVARTAB" id="SPECSHVARTAB"></a></p>
+    <div class="TABLE">
+      <a name="AEN22402" id="AEN22402"></a>
+      <p><b>Table B-1. Special Shell Variables</b></p>
+      <table border="1" class="CALSTABLE">
+        <thead>
+          <tr>
+            <th align="left" valign="top">Variable</th>
+            <th align="left" valign="top">Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">$0</tt></td>
+            <td align="left" valign="top">Filename of script</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">$1</tt></td>
+            <td align="left" valign="top">Positional parameter #1</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">$2 - $9</tt></td>
+            <td align="left" valign="top">Positional parameters #2 - #9</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${10}</tt></td>
+            <td align="left" valign="top">Positional parameter #10</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">$#</tt></td>
+            <td align="left" valign="top">Number of positional parameters</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">"$*"</tt></td>
+            <td align="left" valign="top">All the positional parameters (as a single word) *</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">"$@"</tt></td>
+            <td align="left" valign="top">All the positional parameters (as separate strings)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${#*}</tt></td>
+            <td align="left" valign="top">Number of positional parameters</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${#@}</tt></td>
+            <td align="left" valign="top">Number of positional parameters</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">$?</tt></td>
+            <td align="left" valign="top">Return value</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">$$</tt></td>
+            <td align="left" valign="top">Process ID (PID) of script</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">$-</tt></td>
+            <td align="left" valign="top">Flags passed to script (using <i class="FIRSTTERM">set</i>)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">$_</tt></td>
+            <td align="left" valign="top">Last argument of previous command</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">$!</tt></td>
+            <td align="left" valign="top">Process ID (PID) of last job run in background</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b class="COMMAND">*</b> <em>Must be quoted</em>, otherwise it defaults to <tt class="VARNAME">$@</tt>.</p>
+    <p><a name="BINCOMPTAB" id="BINCOMPTAB"></a></p>
+    <div class="TABLE">
+      <a name="AEN22473" id="AEN22473"></a>
+      <p><b>Table B-2. TEST Operators: Binary Comparison</b></p>
+      <table border="1" class="CALSTABLE">
+        <thead>
+          <tr>
+            <th align="left" valign="top">Operator</th>
+            <th align="left" valign="top">Meaning</th>
+            <th align="left" valign="top">-----</th>
+            <th align="left" valign="top">Operator</th>
+            <th align="left" valign="top">Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><a href="comparison-ops.html#ICOMPARISON1">Arithmetic Comparison</a></td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><a href="comparison-ops.html#SCOMPARISON1">String Comparison</a></td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-eq</tt></td>
+            <td align="left" valign="top">Equal to</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">=</tt></td>
+            <td align="left" valign="top">Equal to</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">==</tt></td>
+            <td align="left" valign="top">Equal to</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-ne</tt></td>
+            <td align="left" valign="top">Not equal to</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">!=</tt></td>
+            <td align="left" valign="top">Not equal to</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-lt</tt></td>
+            <td align="left" valign="top">Less than</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">\&lt;</tt></td>
+            <td align="left" valign="top">Less than (<a href="special-chars.html#ASCIIDEF">ASCII</a>) *</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-le</tt></td>
+            <td align="left" valign="top">Less than or equal to</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-gt</tt></td>
+            <td align="left" valign="top">Greater than</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">\&gt;</tt></td>
+            <td align="left" valign="top">Greater than (ASCII) *</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-ge</tt></td>
+            <td align="left" valign="top">Greater than or equal to</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">-z</tt></td>
+            <td align="left" valign="top">String is empty</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">-n</tt></td>
+            <td align="left" valign="top">String is not empty</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">Arithmetic Comparison</td>
+            <td align="left" valign="top"><a href="testconstructs.html#DBLPRX">within double parentheses</a> (( ... ))</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">&gt;</tt></td>
+            <td align="left" valign="top">Greater than</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">&gt;=</tt></td>
+            <td align="left" valign="top">Greater than or equal to</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">&lt;</tt></td>
+            <td align="left" valign="top">Less than</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">&lt;=</tt></td>
+            <td align="left" valign="top">Less than or equal to</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b class="COMMAND">*</b> <em>If within a double-bracket</em> <span class="TOKEN">[[ ... ]]</span> <em>test construct, then no escape</em> <span class="TOKEN">\</span> <em>is needed.</em></p>
+    <p><a name="FILESTAB" id="FILESTAB"></a></p>
+    <div class="TABLE">
+      <a name="AEN22593" id="AEN22593"></a>
+      <p><b>Table B-3. TEST Operators: Files</b></p>
+      <table border="1" class="CALSTABLE">
+        <thead>
+          <tr>
+            <th align="left" valign="top">Operator</th>
+            <th align="left" valign="top">Tests Whether</th>
+            <th align="left" valign="top">-----</th>
+            <th align="left" valign="top">Operator</th>
+            <th align="left" valign="top">Tests Whether</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-e</tt></td>
+            <td align="left" valign="top">File exists</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">-s</tt></td>
+            <td align="left" valign="top">File is not zero size</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-f</tt></td>
+            <td align="left" valign="top">File is a <i class="FIRSTTERM">regular</i> file</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-d</tt></td>
+            <td align="left" valign="top">File is a <i class="FIRSTTERM">directory</i></td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">-r</tt></td>
+            <td align="left" valign="top">File has <i class="FIRSTTERM">read</i> permission</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-h</tt></td>
+            <td align="left" valign="top">File is a <a href="basic.html#SYMLINKREF">symbolic link</a></td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">-w</tt></td>
+            <td align="left" valign="top">File has <i class="FIRSTTERM">write</i> permission</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-L</tt></td>
+            <td align="left" valign="top">File is a <i class="FIRSTTERM">symbolic link</i></td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">-x</tt></td>
+            <td align="left" valign="top">File has <i class="FIRSTTERM">execute</i> permission</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-b</tt></td>
+            <td align="left" valign="top">File is a <a href="devref1.html#BLOCKDEVREF">block device</a></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-c</tt></td>
+            <td align="left" valign="top">File is a <a href="devref1.html#CHARDEVREF">character device</a></td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">-g</tt></td>
+            <td align="left" valign="top"><i class="FIRSTTERM">sgid</i> flag set</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-p</tt></td>
+            <td align="left" valign="top">File is a <a href="special-chars.html#PIPEREF">pipe</a></td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">-u</tt></td>
+            <td align="left" valign="top"><i class="FIRSTTERM">suid</i> flag set</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-S</tt></td>
+            <td align="left" valign="top">File is a <a href="devref1.html#SOCKETREF">socket</a></td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">-k</tt></td>
+            <td align="left" valign="top"><span class="QUOTE">"sticky bit"</span> set</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-t</tt></td>
+            <td align="left" valign="top">File is associated with a <i class="FIRSTTERM">terminal</i></td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-N</tt></td>
+            <td align="left" valign="top">File modified since it was last read</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">F1 -nt F2</tt></td>
+            <td align="left" valign="top">File F1 is <em>newer</em> than F2 *</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-O</tt></td>
+            <td align="left" valign="top">You own the file</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">F1 -ot F2</tt></td>
+            <td align="left" valign="top">File F1 is <em>older</em> than F2 *</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">-G</tt></td>
+            <td align="left" valign="top"><i class="FIRSTTERM">Group id</i> of file same as yours</td>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top"><tt class="OPTION">F1 -ef F2</tt></td>
+            <td align="left" valign="top">Files F1 and F2 are <i class="FIRSTTERM">hard links</i> to the same file *</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">!</tt></td>
+            <td align="left" valign="top">NOT (inverts sense of above tests)</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+            <td>&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b class="COMMAND">*</b> <i class="FIRSTTERM">Binary</i> operator (requires two operands).</p>
+    <p><a name="PARSUBTAB" id="PARSUBTAB"></a></p>
+    <div class="TABLE">
+      <a name="AEN22728" id="AEN22728"></a>
+      <p><b>Table B-4. Parameter Substitution and Expansion</b></p>
+      <table border="1" class="CALSTABLE">
+        <thead>
+          <tr>
+            <th align="left" valign="top">Expression</th>
+            <th align="left" valign="top">Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${var}</tt></td>
+            <td align="left" valign="top">Value of <tt class="PARAMETER"><i>var</i></tt> (same as <tt class="PARAMETER"><i>$var</i></tt>)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${var-$DEFAULT}</tt></td>
+            <td align="left" valign="top">If <tt class="PARAMETER"><i>var</i></tt> not set, <a href="internal.html#EVALREF">evaluate</a> expression as <tt class="PARAMETER"><i>$DEFAULT</i></tt> *</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${var:-$DEFAULT}</tt></td>
+            <td align="left" valign="top">If <tt class="PARAMETER"><i>var</i></tt> not set or is empty, <i class="FIRSTTERM">evaluate</i> expression as <tt class="PARAMETER"><i>$DEFAULT</i></tt> *</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${var=$DEFAULT}</tt></td>
+            <td align="left" valign="top">If <tt class="PARAMETER"><i>var</i></tt> not set, evaluate expression as <tt class="PARAMETER"><i>$DEFAULT</i></tt> *</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${var:=$DEFAULT}</tt></td>
+            <td align="left" valign="top">If <tt class="PARAMETER"><i>var</i></tt> not set or is empty, evaluate expression as <tt class="PARAMETER"><i>$DEFAULT</i></tt> *</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${var+$OTHER}</tt></td>
+            <td align="left" valign="top">If <tt class="PARAMETER"><i>var</i></tt> set, evaluate expression as <tt class="PARAMETER"><i>$OTHER</i></tt>, otherwise as null string</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${var:+$OTHER}</tt></td>
+            <td align="left" valign="top">If <tt class="PARAMETER"><i>var</i></tt> set, evaluate expression as <tt class="PARAMETER"><i>$OTHER</i></tt>, otherwise as null string</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${var?$ERR_MSG}</tt></td>
+            <td align="left" valign="top">If <tt class="PARAMETER"><i>var</i></tt> not set, print <tt class="PARAMETER"><i>$ERR_MSG</i></tt> and abort script with an exit status of <span class="ERRORCODE">1</span>.*</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${var:?$ERR_MSG}</tt></td>
+            <td align="left" valign="top">If <tt class="PARAMETER"><i>var</i></tt> not set, print <tt class="PARAMETER"><i>$ERR_MSG</i></tt> and abort script with an exit status of <span class="ERRORCODE">1</span>.*</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${!varprefix*}</tt></td>
+            <td align="left" valign="top">Matches all previously declared variables beginning with <tt class="PARAMETER"><i>varprefix</i></tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${!varprefix@}</tt></td>
+            <td align="left" valign="top">Matches all previously declared variables beginning with <tt class="PARAMETER"><i>varprefix</i></tt></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b class="COMMAND">*</b> If <tt class="PARAMETER"><i>var</i></tt> <em>is</em> set, evaluate the expression as <tt class="PARAMETER"><i>$var</i></tt> with no side-effects.</p>
+    <p><b class="COMMAND"># Note</b> that some of the above behavior of operators has changed from earlier versions of Bash.</p>
+    <p><a name="STRINGOPSTAB" id="STRINGOPSTAB"></a></p>
+    <div class="TABLE">
+      <a name="AEN22828" id="AEN22828"></a>
+      <p><b>Table B-5. String Operations</b></p>
+      <table border="1" class="CALSTABLE">
+        <thead>
+          <tr>
+            <th align="left" valign="top">Expression</th>
+            <th align="left" valign="top">Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${#string}</tt></td>
+            <td align="left" valign="top">Length of <tt class="PARAMETER"><i>$string</i></tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${string:position}</tt></td>
+            <td align="left" valign="top">Extract substring from <tt class="PARAMETER"><i>$string</i></tt> at <tt class="PARAMETER"><i>$position</i></tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${string:position:length}</tt></td>
+            <td align="left" valign="top">Extract <tt class="PARAMETER"><i>$length</i></tt> characters substring from <tt class="PARAMETER"><i>$string</i></tt> at <tt class="PARAMETER"><i>$position</i></tt> [zero-indexed, first character is at position 0]</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${string#substring}</tt></td>
+            <td align="left" valign="top">Strip shortest match of <tt class="PARAMETER"><i>$substring</i></tt> from front of <tt class="PARAMETER"><i>$string</i></tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${string##substring}</tt></td>
+            <td align="left" valign="top">Strip longest match of <tt class="PARAMETER"><i>$substring</i></tt> from front of <tt class="PARAMETER"><i>$string</i></tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${string%substring}</tt></td>
+            <td align="left" valign="top">Strip shortest match of <tt class="PARAMETER"><i>$substring</i></tt> from back of <tt class="PARAMETER"><i>$string</i></tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${string%%substring}</tt></td>
+            <td align="left" valign="top">Strip longest match of <tt class="PARAMETER"><i>$substring</i></tt> from back of <tt class="PARAMETER"><i>$string</i></tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${string/substring/replacement}</tt></td>
+            <td align="left" valign="top">Replace first match of <tt class="PARAMETER"><i>$substring</i></tt> with <tt class="PARAMETER"><i>$replacement</i></tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${string//substring/replacement}</tt></td>
+            <td align="left" valign="top">Replace <em>all</em> matches of <tt class="PARAMETER"><i>$substring</i></tt> with <tt class="PARAMETER"><i>$replacement</i></tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${string/#substring/replacement}</tt></td>
+            <td align="left" valign="top">If <tt class="PARAMETER"><i>$substring</i></tt> matches <em>front</em> end of <tt class="PARAMETER"><i>$string</i></tt>, substitute <tt class="PARAMETER"><i>$replacement</i></tt> for <tt class="PARAMETER"><i>$substring</i></tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${string/%substring/replacement}</tt></td>
+            <td align="left" valign="top">If <tt class="PARAMETER"><i>$substring</i></tt> matches <em>back</em> end of <tt class="PARAMETER"><i>$string</i></tt>, substitute <tt class="PARAMETER"><i>$replacement</i></tt> for <tt class="PARAMETER"><i>$substring</i></tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">expr match "$string" '$substring'</tt></td>
+            <td align="left" valign="top">Length of matching <tt class="PARAMETER"><i>$substring</i></tt>* at beginning of <tt class="PARAMETER"><i>$string</i></tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">expr "$string" : '$substring'</tt></td>
+            <td align="left" valign="top">Length of matching <tt class="PARAMETER"><i>$substring</i></tt>* at beginning of <tt class="PARAMETER"><i>$string</i></tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">expr index "$string" $substring</tt></td>
+            <td align="left" valign="top">Numerical position in <tt class="PARAMETER"><i>$string</i></tt> of first character in <tt class="PARAMETER"><i>$substring</i></tt>* that matches [0 if no match, first character counts as position 1]</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">expr substr $string $position $length</tt></td>
+            <td align="left" valign="top">Extract <tt class="PARAMETER"><i>$length</i></tt> characters from <tt class="PARAMETER"><i>$string</i></tt> starting at <tt class="PARAMETER"><i>$position</i></tt> [0 if no match, first character counts as position 1]</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">expr match "$string" '\($substring\)'</tt></td>
+            <td align="left" valign="top">Extract <tt class="PARAMETER"><i>$substring</i></tt>*, searching from beginning of <tt class="PARAMETER"><i>$string</i></tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">expr "$string" : '\($substring\)'</tt></td>
+            <td align="left" valign="top">Extract <tt class="PARAMETER"><i>$substring</i></tt>* , searching from beginning of <tt class="PARAMETER"><i>$string</i></tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">expr match "$string" '.*\($substring\)'</tt></td>
+            <td align="left" valign="top">Extract <tt class="PARAMETER"><i>$substring</i></tt>*, searching from end of <tt class="PARAMETER"><i>$string</i></tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">expr "$string" : '.*\($substring\)'</tt></td>
+            <td align="left" valign="top">Extract <tt class="PARAMETER"><i>$substring</i></tt>*, searching from end of <tt class="PARAMETER"><i>$string</i></tt></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><b class="COMMAND">*</b> Where <tt class="PARAMETER"><i>$substring</i></tt> is a <a href="regexp.html#REGEXREF">Regular Expression</a>.</p>
+    <p><a name="MISCTAB" id="MISCTAB"></a></p>
+    <div class="TABLE">
+      <a name="AEN22979" id="AEN22979"></a>
+      <p><b>Table B-6. Miscellaneous Constructs</b></p>
+      <table border="1" class="CALSTABLE">
+        <thead>
+          <tr>
+            <th align="left" valign="top">Expression</th>
+            <th align="left" valign="top">Interpretation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><a href="x17129.html#BRACKETSREF">Brackets</a></td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">if [ CONDITION ]</tt></td>
+            <td align="left" valign="top"><a href="special-chars.html#LEFTBRACKET">Test construct</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">if [[ CONDITION ]]</tt></td>
+            <td align="left" valign="top"><a href="testconstructs.html#DBLBRACKETS">Extended test construct</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">Array[1]=element1</tt></td>
+            <td align="left" valign="top"><a href="arrays.html#ARRAYREF">Array initialization</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">[a-z]</tt></td>
+            <td align="left" valign="top"><a href="x17129.html#BRACKETSREF">Range of characters</a> within a <a href="regexp.html#REGEXREF">Regular Expression</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">Curly Brackets</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${variable}</tt></td>
+            <td align="left" valign="top"><a href="parameter-substitution.html#PARAMSUBREF">Parameter substitution</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">${!variable}</tt></td>
+            <td align="left" valign="top"><a href="ivr.html#IVRREF">Indirect variable reference</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">{ command1; command2; . . . commandN; }</tt></td>
+            <td align="left" valign="top"><a href="special-chars.html#CODEBLOCKREF">Block of code</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">{string1,string2,string3,...}</tt></td>
+            <td align="left" valign="top"><a href="special-chars.html#BRACEEXPREF">Brace expansion</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">{a..z}</tt></td>
+            <td align="left" valign="top"><a href="bashver3.html#BRACEEXPREF3">Extended brace expansion</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">{}</tt></td>
+            <td align="left" valign="top">Text replacement, after <a href="moreadv.html#CURLYBRACKETSREF">find</a> and <a href="moreadv.html#XARGSCURLYREF">xargs</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><a href="special-chars.html#PARENSREF">Parentheses</a></td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">( command1; command2 )</tt></td>
+            <td align="left" valign="top">Command group executed within a <a href="subshells.html#SUBSHELLSREF">subshell</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">Array=(element1 element2 element3)</tt></td>
+            <td align="left" valign="top"><a href="arrays.html#ARRAYINIT0">Array initialization</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">result=$(COMMAND)</tt></td>
+            <td align="left" valign="top"><a href="commandsub.html#CSPARENS">Command substitution</a>, new style</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">&gt;(COMMAND)</tt></td>
+            <td align="left" valign="top"><a href="process-sub.html#PROCESSSUBREF">Process substitution</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">&lt;(COMMAND)</tt></td>
+            <td align="left" valign="top">Process substitution</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><a href="dblparens.html">Double Parentheses</a></td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">(( var = 78 ))</tt></td>
+            <td align="left" valign="top"><a href="dblparens.html#DBLPARENSREF">Integer arithmetic</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">var=$(( 20 + 5 ))</tt></td>
+            <td align="left" valign="top">Integer arithmetic, with variable assignment</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">(( var++ ))</tt></td>
+            <td align="left" valign="top"><i class="FIRSTTERM">C-style</i> <a href="dblparens.html#PLUSPLUSREF">variable increment</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">(( var-- ))</tt></td>
+            <td align="left" valign="top"><i class="FIRSTTERM">C-style</i> <a href="dblparens.html#PLUSPLUSREF">variable decrement</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">(( var0 = var1&lt;98?9:21 ))</tt></td>
+            <td align="left" valign="top"><i class="FIRSTTERM">C-style</i> <a href="special-chars.html#CSTRINARY">ternary</a> operation</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><a href="quoting.html#QUOTINGREF">Quoting</a></td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">"$variable"</tt></td>
+            <td align="left" valign="top"><a href="varsubn.html#DBLQUO">"Weak" quoting</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">'string'</tt></td>
+            <td align="left" valign="top"><a href="varsubn.html#SNGLQUO">'Strong' quoting</a></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top">&nbsp;</td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><a href="commandsub.html#BACKQUOTESREF">Back Quotes</a></td>
+            <td align="left" valign="top">&nbsp;</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">result=`COMMAND`</tt></td>
+            <td align="left" valign="top"><a href="commandsub.html#COMMANDSUBREF">Command substitution</a>, classic style</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="contributed-scripts.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="sedawk.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Contributed Scripts</td>
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+        <td width="33%" align="right" valign="top">A Sed and Awk Micro-Primer</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

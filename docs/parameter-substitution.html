@@ -1,0 +1,733 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Parameter Substitution</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Manipulating Variables" href="manipulatingvars.html">
+  <link rel="PREVIOUS" title="Manipulating Strings" href="string-manipulation.html">
+  <link rel="NEXT" title="Loops and Branches" href="loops.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="string-manipulation.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 10. Manipulating Variables</td>
+        <td width="10%" align="right" valign="bottom"><a href="loops.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="PARAMETER-SUBSTITUTION" id="PARAMETER-SUBSTITUTION"></a>10.2. Parameter Substitution</h1>
+    <p><a name="PARAMSUBREF" id="PARAMSUBREF"></a></p>
+    <div class="VARIABLELIST">
+      <p><b><a name="PSSUB1" id="PSSUB1"></a>Manipulating and/or expanding variables</b></p>
+      <dl>
+        <dt><tt class="USERINPUT"><b>${parameter}</b></tt></dt>
+        <dd>
+          <p>Same as <tt class="REPLACEABLE"><i>$parameter</i></tt>, i.e., value of the variable <tt class="REPLACEABLE"><i>parameter</i></tt>. In certain contexts, only the less ambiguous <tt class="REPLACEABLE"><i>${parameter}</i></tt> form works.</p>
+          <p>May be used for concatenating variables with strings.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">your_id=<span class="hljs-variable">${USER}</span>-on-<span class="hljs-variable">${HOSTNAME}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$your_id</span>"</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Old \$PATH = <span class="hljs-variable">$PATH</span>"</span>
+PATH=<span class="hljs-variable">${PATH}</span>:/opt/bin  <span class="hljs-comment"># Add /opt/bin to $PATH for duration of script.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"New \$PATH = <span class="hljs-variable">$PATH</span>"</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="DEFPARAM1" id="DEFPARAM1"></a><tt class="USERINPUT"><b>${parameter-default}</b></tt>, <tt class="USERINPUT"><b>${parameter:-default}</b></tt></dt>
+        <dd>
+          <p>If parameter not set, use default.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">var1=1
+var2=2
+<span class="hljs-comment"># var3 is unset.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${var1-$var2}</span>   <span class="hljs-comment"># 1</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${var3-$var2}</span>   <span class="hljs-comment"># 2</span>
+<span class="hljs-comment">#           ^          Note the $ prefix.</span>
+
+
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${username-`whoami`}</span>
+<span class="hljs-comment"># Echoes the result of `whoami`, if variable $username is still unset.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p><a name="UNDDR" id="UNDDR"></a><tt class="REPLACEABLE"><i>${parameter-default}</i></tt> and <tt class="REPLACEABLE"><i>${parameter:-default}</i></tt> are almost equivalent. The extra <span class="TOKEN">:</span> makes a difference only when <tt class="PARAMETER"><i>parameter</i></tt> has been declared, but is null.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># param-sub.sh</span>
+
+<span class="hljs-comment">#  Whether a variable has been declared</span>
+<span class="hljs-comment">#+ affects triggering of the default option</span>
+<span class="hljs-comment">#+ even if the variable is null.</span>
+
+username0=
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"username0 has been declared, but is set to null."</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"username0 = <span class="hljs-variable">${username0-`whoami`}</span>"</span>
+<span class="hljs-comment"># Will not echo.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> username1 has not been declared.
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"username1 = <span class="hljs-variable">${username1-`whoami`}</span>"</span>
+<span class="hljs-comment"># Will echo.</span>
+
+username2=
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"username2 has been declared, but is set to null."</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"username2 = <span class="hljs-variable">${username2:-`whoami`}</span>"</span>
+<span class="hljs-comment">#                            ^</span>
+<span class="hljs-comment"># Will echo because of :- rather than just - in condition test.</span>
+<span class="hljs-comment"># Compare to first instance, above.</span>
+
+
+<span class="hljs-comment">#</span>
+
+<span class="hljs-comment"># Once again:</span>
+
+variable=
+<span class="hljs-comment"># variable has been declared, but is set to null.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">${variable-0}</span>"</span>    <span class="hljs-comment"># (no output)</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">${variable:-1}</span>"</span>   <span class="hljs-comment"># 1</span>
+<span class="hljs-comment">#               ^</span>
+
+<span class="hljs-built_in">unset</span> variable
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">${variable-2}</span>"</span>    <span class="hljs-comment"># 2</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">${variable:-3}</span>"</span>   <span class="hljs-comment"># 3</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>The <i class="FIRSTTERM">default parameter</i> construct finds use in providing <span class="QUOTE">"missing"</span> command-line arguments in scripts.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">DEFAULT_FILENAME=generic.data
+filename=<span class="hljs-variable">${1:-<span class="hljs-variable">$DEFAULT_FILENAME</span>}</span>
+<span class="hljs-comment">#  If not otherwise specified, the following command block operates</span>
+<span class="hljs-comment">#+ on the file "generic.data".</span>
+<span class="hljs-comment">#  Begin-Command-Block</span>
+<span class="hljs-comment">#  ...</span>
+<span class="hljs-comment">#  ...</span>
+<span class="hljs-comment">#  ...</span>
+<span class="hljs-comment">#  End-Command-Block</span>
+
+
+
+<span class="hljs-comment">#  From "hanoi2.bash" example:</span>
+DISKS=<span class="hljs-variable">${1:-E_NOPARAM}</span>   <span class="hljs-comment"># Must specify how many disks.</span>
+<span class="hljs-comment">#  Set $DISKS to $1 command-line-parameter,</span>
+<span class="hljs-comment">#+ or to $E_NOPARAM if that is unset.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>See also <a href="special-chars.html#EX58">Example 3-4</a>, <a href="zeros.html#EX73">Example 31-2</a>, and <a href="contributed-scripts.html#COLLATZ">Example A-6</a>.</p>
+          <p>Compare this method with <a href="list-cons.html#ANDDEFAULT">using an <i class="FIRSTTERM">and list</i> to supply a default command-line argument</a>.</p>
+        </dd>
+        <dt><tt class="USERINPUT"><b>${parameter=default}</b></tt>, <tt class="USERINPUT"><b>${parameter:=default}</b></tt></dt>
+        <dd>
+          <p><a name="DEFPARAM" id="DEFPARAM"></a></p>
+          <p>If parameter not set, set it to <i class="FIRSTTERM">default</i>.</p>
+          <p>Both forms nearly equivalent. The <span class="TOKEN">:</span> makes a difference only when <tt class="VARNAME">$parameter</tt> has been declared and is null, <a name="AEN6310" href="#FTN.AEN6310" id="AEN6310"><span class="footnote">[1]</span></a> as above.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-built_in">echo</span> <span class="hljs-variable">${var=abc}</span>   <span class="hljs-comment"># abc</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${var=xyz}</span>   <span class="hljs-comment"># abc</span>
+<span class="hljs-comment"># $var had already been set to abc, so it did not change.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="PARAMALTV" id="PARAMALTV"></a><tt class="USERINPUT"><b>${parameter+alt_value}</b></tt>, <tt class="USERINPUT"><b>${parameter:+alt_value}</b></tt></dt>
+        <dd>
+          <p>If parameter set, use <tt class="USERINPUT"><b>alt_value</b></tt>, else use null string.</p>
+          <p>Both forms nearly equivalent. The <span class="TOKEN">:</span> makes a difference only when <tt class="PARAMETER"><i>parameter</i></tt> has been declared and is null, see below.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-built_in">echo</span> <span class="hljs-string">"###### \${parameter+alt_value} ########"</span>
+<span class="hljs-built_in">echo</span>
+
+a=<span class="hljs-variable">${param1+xyz}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>      <span class="hljs-comment"># a =</span>
+
+param2=
+a=<span class="hljs-variable">${param2+xyz}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>      <span class="hljs-comment"># a = xyz</span>
+
+param3=123
+a=<span class="hljs-variable">${param3+xyz}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>      <span class="hljs-comment"># a = xyz</span>
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"###### \${parameter:+alt_value} ########"</span>
+<span class="hljs-built_in">echo</span>
+
+a=<span class="hljs-variable">${param4:+xyz}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>      <span class="hljs-comment"># a =</span>
+
+param5=
+a=<span class="hljs-variable">${param5:+xyz}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>      <span class="hljs-comment"># a =</span>
+<span class="hljs-comment"># Different result from   a=${param5+xyz}</span>
+
+param6=123
+a=<span class="hljs-variable">${param6:+xyz}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>      <span class="hljs-comment"># a = xyz</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="QERRMSG" id="QERRMSG"></a><tt class="USERINPUT"><b>${parameter?err_msg}</b></tt>, <tt class="USERINPUT"><b>${parameter:?err_msg}</b></tt></dt>
+        <dd>
+          <p>If parameter set, use it, else print <i class="FIRSTTERM">err_msg</i> and <em>abort the script</em> with an <a href="exit-status.html#EXITSTATUSREF">exit status</a> of <span class="ERRORCODE">1</span>.</p>
+          <p>Both forms nearly equivalent. The <span class="TOKEN">:</span> makes a difference only when <tt class="PARAMETER"><i>parameter</i></tt> has been declared and is null, as above.</p>
+        </dd>
+      </dl>
+    </div>
+    <div class="EXAMPLE">
+      <a name="EX6" id="EX6"></a>
+      <p><b>Example 10-7. Using parameter substitution and error messages</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment">#  Check some of the system's environmental variables.</span>
+<span class="hljs-comment">#  This is good preventative maintenance.</span>
+<span class="hljs-comment">#  If, for example, $USER, the name of the person at the console, is not set,</span>
+<span class="hljs-comment">#+ the machine will not recognize you.</span>
+
+: <span class="hljs-variable">${HOSTNAME?}</span> <span class="hljs-variable">${USER?}</span> <span class="hljs-variable">${HOME?}</span> <span class="hljs-variable">${MAIL?}</span>
+  <span class="hljs-built_in">echo</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Name of the machine is <span class="hljs-variable">$HOSTNAME</span>."</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"You are <span class="hljs-variable">$USER</span>."</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Your home directory is <span class="hljs-variable">$HOME</span>."</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Your mail INBOX is located in <span class="hljs-variable">$MAIL</span>."</span>
+  <span class="hljs-built_in">echo</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"If you are reading this message,"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"critical environmental variables have been set."</span>
+  <span class="hljs-built_in">echo</span>
+  <span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># ------------------------------------------------------</span>
+
+<span class="hljs-comment">#  The ${variablename?} construction can also check</span>
+<span class="hljs-comment">#+ for variables set within the script.</span>
+
+ThisVariable=Value-of-ThisVariable
+<span class="hljs-comment">#  Note, by the way, that string variables may be set</span>
+<span class="hljs-comment">#+ to characters disallowed in their names.</span>
+: <span class="hljs-variable">${ThisVariable?}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Value of ThisVariable is <span class="hljs-variable">$ThisVariable</span>"</span>.
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+
+: <span class="hljs-variable">${ZZXy23AB?"ZZXy23AB has not been set."}</span>
+<span class="hljs-comment">#  Since ZZXy23AB has not been set,</span>
+<span class="hljs-comment">#+ then the script terminates with an error message.</span>
+
+<span class="hljs-comment"># You can specify the error message.</span>
+<span class="hljs-comment"># : ${variablename?"ERROR MESSAGE"}</span>
+
+
+<span class="hljs-comment"># Same result with:   dummy_variable=${ZZXy23AB?}</span>
+<span class="hljs-comment">#                     dummy_variable=${ZZXy23AB?"ZXy23AB has not been set."}</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#                     echo ${ZZXy23AB?} &gt;/dev/null</span>
+
+<span class="hljs-comment">#  Compare these methods of checking whether a variable has been set</span>
+<span class="hljs-comment">#+ with "set -u" . . .</span>
+
+
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"You will not see this message, because script already terminated."</span>
+
+HERE=0
+<span class="hljs-built_in">exit</span> <span class="hljs-variable">$HERE</span>   <span class="hljs-comment"># Will NOT exit here.</span>
+
+<span class="hljs-comment"># In fact, this script will return an exit status (echo $?) of 1.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="USAGEMESSAGE" id="USAGEMESSAGE"></a>
+      <p><b>Example 10-8. Parameter substitution and <span class="QUOTE">"usage"</span> messages</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># usage-message.sh</span>
+
+: <span class="hljs-variable">${1?"Usage: $0 ARGUMENT"}</span>
+<span class="hljs-comment">#  Script exits here if command-line parameter absent,</span>
+<span class="hljs-comment">#+ with following error message.</span>
+<span class="hljs-comment">#    usage-message.sh: 1: Usage: usage-message.sh ARGUMENT</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"These two lines echo only if command-line parameter given."</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"command-line parameter = \"<span class="hljs-variable">$1</span>\""</span>
+
+<span class="hljs-built_in">exit</span> 0  <span class="hljs-comment"># Will exit here only if command-line parameter present.</span>
+
+<span class="hljs-comment"># Check the exit status, both with and without command-line parameter.</span>
+<span class="hljs-comment"># If command-line parameter present, then "$?" is 0.</span>
+<span class="hljs-comment"># If not, then "$?" is 1.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="FORMALPARA">
+      <p><b>Parameter substitution and/or expansion.</b> <a name="PSUB2" id="PSUB2"></a>The following expressions are the complement to the <b class="COMMAND">match</b> <tt class="REPLACEABLE"><i>in</i></tt> <b class="COMMAND">expr</b> string operations (see <a href="moreadv.html#EX45">Example 16-9</a>). These particular ones are used mostly in parsing file path names.</p>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="PSOREX1" id="PSOREX1"></a>Variable length / Substring removal</b></p>
+      <dl>
+        <dt><tt class="USERINPUT"><b>${#var}</b></tt></dt>
+        <dd>
+          <p><tt class="USERINPUT"><b>String length</b></tt> (number of characters in <tt class="VARNAME">$var</tt>). For an <a href="arrays.html#ARRAYREF">array</a>, <b class="COMMAND">${#array}</b> is the length of the first element in the array.</p>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>Exceptions:</p>
+                  <ul>
+                    <li>
+                      <p><a name="NUMPOSPARAM" id="NUMPOSPARAM"></a></p>
+                      <p><b class="COMMAND">${#*}</b> and <b class="COMMAND">${#@}</b> give the <em>number of positional parameters</em>.</p>
+                    </li>
+                    <li>
+                      <p>For an array, <b class="COMMAND">${#array[*]}</b> and <b class="COMMAND">${#array[@]}</b> give the number of elements in the array.</p>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="EXAMPLE">
+            <a name="LENGTH" id="LENGTH"></a>
+            <p><b>Example 10-9. Length of a variable</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># length.sh</span>
+
+E_NO_ARGS=65
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -eq 0 ]  <span class="hljs-comment"># Must have command-line args to demo script.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Please invoke this script with one or more command-line arguments."</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NO_ARGS</span>
+<span class="hljs-keyword">fi</span>  
+
+var01=abcdEFGH28ij
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"var01 = <span class="hljs-variable">${var01}</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Length of var01 = <span class="hljs-variable">${#var01}</span>"</span>
+<span class="hljs-comment"># Now, let's try embedding a space.</span>
+var02=<span class="hljs-string">"abcd EFGH28ij"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"var02 = <span class="hljs-variable">${var02}</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Length of var02 = <span class="hljs-variable">${#var02}</span>"</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Number of command-line arguments passed to script = <span class="hljs-variable">${#@}</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Number of command-line arguments passed to script = <span class="hljs-variable">${#*}</span>"</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="PSOREX2" id="PSOREX2"></a><tt class="USERINPUT"><b>${var#Pattern}</b></tt>, <tt class="USERINPUT"><b>${var##Pattern}</b></tt></dt>
+        <dd>
+          <p><a name="PSOREXSH" id="PSOREXSH"></a></p>
+          <p><b class="COMMAND">${var#Pattern}</b> Remove from <tt class="VARNAME">$var</tt> the <em>shortest</em> part of <tt class="VARNAME">$Pattern</tt> that matches the <tt class="REPLACEABLE"><i>front end</i></tt> of <tt class="VARNAME">$var</tt>.</p>
+          <p><a name="PSOREXLO" id="PSOREXLO"></a></p>
+          <p><b class="COMMAND">${var##Pattern}</b> Remove from <tt class="VARNAME">$var</tt> the <em>longest</em> part of <tt class="VARNAME">$Pattern</tt> that matches the <tt class="REPLACEABLE"><i>front end</i></tt> of <tt class="VARNAME">$var</tt>.</p>
+          <p>A usage illustration from <a href="contributed-scripts.html#DAYSBETWEEN">Example A-7</a>:</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># Function from "days-between.sh" example.</span>
+<span class="hljs-comment"># Strips leading zero(s) from argument passed.</span>
+
+strip_leading_zero () <span class="hljs-comment">#  Strip possible leading zero(s)</span>
+{                     <span class="hljs-comment">#+ from argument passed.</span>
+  <span class="hljs-built_in">return</span>=<span class="hljs-variable">${1#0}</span>       <span class="hljs-comment">#  The "1" refers to "$1" -- passed arg.</span>
+}                     <span class="hljs-comment">#  The "0" is what to remove from "$1" -- strips zeros.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>Manfred Schwarb's more elaborate variation of the above:</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">strip_leading_zero2 () <span class="hljs-comment"># Strip possible leading zero(s), since otherwise</span>
+{                      <span class="hljs-comment"># Bash will interpret such numbers as octal values.</span>
+  <span class="hljs-built_in">shopt</span> -s extglob     <span class="hljs-comment"># Turn on extended globbing.</span>
+  <span class="hljs-built_in">local</span> val=<span class="hljs-variable">${1##+(0)}</span> <span class="hljs-comment"># Use local variable, longest matching series of 0's.</span>
+  <span class="hljs-built_in">shopt</span> -u extglob     <span class="hljs-comment"># Turn off extended globbing.</span>
+  _strip_leading_zero2=<span class="hljs-variable">${val:-0}</span>
+                       <span class="hljs-comment"># If input was 0, return 0 instead of "".</span>
+}</pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>Another usage illustration:</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-built_in">echo</span> `basename <span class="hljs-variable">$PWD</span>`        <span class="hljs-comment"># Basename of current working directory.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">${PWD##*/}</span>"</span>           <span class="hljs-comment"># Basename of current working directory.</span>
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> `basename <span class="hljs-variable">$0</span>`          <span class="hljs-comment"># Name of script.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$0</span>                     <span class="hljs-comment"># Name of script.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">${0##*/}</span>"</span>             <span class="hljs-comment"># Name of script.</span>
+<span class="hljs-built_in">echo</span>
+filename=test.data
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">${filename##*.}</span>"</span>      <span class="hljs-comment"># data</span>
+                            <span class="hljs-comment"># Extension of filename.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="PCTPATREF" id="PCTPATREF"></a><tt class="USERINPUT"><b>${var%Pattern}</b></tt>, <tt class="USERINPUT"><b>${var%%Pattern}</b></tt></dt>
+        <dd>
+          <p><a name="PCTREP1" id="PCTREP1"></a></p>
+          <p><b class="COMMAND">${var%Pattern}</b> Remove from <tt class="VARNAME">$var</tt> the <em>shortest</em> part of <tt class="VARNAME">$Pattern</tt> that matches the <tt class="REPLACEABLE"><i>back end</i></tt> of <tt class="VARNAME">$var</tt>.</p>
+          <p><a name="PCTREP2" id="PCTREP2"></a></p>
+          <p><b class="COMMAND">${var%%Pattern}</b> Remove from <tt class="VARNAME">$var</tt> the <em>longest</em> part of <tt class="VARNAME">$Pattern</tt> that matches the <tt class="REPLACEABLE"><i>back end</i></tt> of <tt class="VARNAME">$var</tt>.</p>
+        </dd>
+      </dl>
+    </div>
+    <p><a href="bashver2.html#BASH2REF">Version 2</a> of Bash added additional options.</p>
+    <div class="EXAMPLE">
+      <a name="PATTMATCHING" id="PATTMATCHING"></a>
+      <p><b>Example 10-10. Pattern matching in parameter substitution</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># patt-matching.sh</span>
+
+<span class="hljs-comment"># Pattern matching  using the # ## % %% parameter substitution operators.</span>
+
+var1=abcd12345abc6789
+pattern1=a*c  <span class="hljs-comment"># * (wild card) matches everything between a - c.</span>
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"var1 = <span class="hljs-variable">$var1</span>"</span>           <span class="hljs-comment"># abcd12345abc6789</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"var1 = <span class="hljs-variable">${var1}</span>"</span>         <span class="hljs-comment"># abcd12345abc6789</span>
+                              <span class="hljs-comment"># (alternate form)</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Number of characters in <span class="hljs-variable">${var1}</span> = <span class="hljs-variable">${#var1}</span>"</span>
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"pattern1 = <span class="hljs-variable">$pattern1</span>"</span>   <span class="hljs-comment"># a*c  (everything between 'a' and 'c')</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"--------------"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'${var1#$pattern1}  ='</span> <span class="hljs-string">"<span class="hljs-variable">${var1#$pattern1}</span>"</span>    <span class="hljs-comment">#         d12345abc6789</span>
+<span class="hljs-comment"># Shortest possible match, strips out first 3 characters  abcd12345abc6789</span>
+<span class="hljs-comment">#                                     ^^^^^               |-|</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'${var1##$pattern1} ='</span> <span class="hljs-string">"<span class="hljs-variable">${var1##$pattern1}</span>"</span>   <span class="hljs-comment">#                  6789      </span>
+<span class="hljs-comment"># Longest possible match, strips out first 12 characters  abcd12345abc6789</span>
+<span class="hljs-comment">#                                    ^^^^^                |----------|</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+pattern2=b*9            <span class="hljs-comment"># everything between 'b' and '9'</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"var1 = <span class="hljs-variable">$var1</span>"</span>     <span class="hljs-comment"># Still  abcd12345abc6789</span>
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"pattern2 = <span class="hljs-variable">$pattern2</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"--------------"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'${var1%pattern2}  ='</span> <span class="hljs-string">"<span class="hljs-variable">${var1%$pattern2}</span>"</span>     <span class="hljs-comment">#     abcd12345a</span>
+<span class="hljs-comment"># Shortest possible match, strips out last 6 characters  abcd12345abc6789</span>
+<span class="hljs-comment">#                                     ^^^^                         |----|</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'${var1%%pattern2} ='</span> <span class="hljs-string">"<span class="hljs-variable">${var1%%$pattern2}</span>"</span>    <span class="hljs-comment">#     a</span>
+<span class="hljs-comment"># Longest possible match, strips out last 12 characters  abcd12345abc6789</span>
+<span class="hljs-comment">#                                    ^^^^                 |-------------|</span>
+
+<span class="hljs-comment"># Remember, # and ## work from the left end (beginning) of string,</span>
+<span class="hljs-comment">#           % and %% work from the right end.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="RFE" id="RFE"></a>
+      <p><b>Example 10-11. Renaming file extensions<span class="TOKEN">:</span></b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># rfe.sh: Renaming file extensions.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#         rfe old_extension new_extension</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># Example:</span>
+<span class="hljs-comment"># To rename all *.gif files in working directory to *.jpg,</span>
+<span class="hljs-comment">#          rfe gif jpg</span>
+
+
+E_BADARGS=65
+
+<span class="hljs-keyword">case</span> <span class="hljs-variable">$#</span> <span class="hljs-keyword">in</span>
+  0|1)             <span class="hljs-comment"># The vertical bar means "or" in this context.</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` old_file_suffix new_file_suffix"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>  <span class="hljs-comment"># If 0 or 1 arg, then bail out.</span>
+  ;;
+<span class="hljs-keyword">esac</span>
+
+
+<span class="hljs-keyword">for</span> filename <span class="hljs-keyword">in</span> *.<span class="hljs-variable">$1</span>
+<span class="hljs-comment"># Traverse list of files ending with 1st argument.</span>
+<span class="hljs-keyword">do</span>
+  mv <span class="hljs-variable">$filename</span> <span class="hljs-variable">${filename%$1}</span><span class="hljs-variable">$2</span>
+  <span class="hljs-comment">#  Strip off part of filename matching 1st argument,</span>
+  <span class="hljs-comment">#+ then append 2nd argument.</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="EXPREPL1" id="EXPREPL1"></a>Variable expansion / Substring replacement</b></p>
+      <dl>
+        <dd>
+          <p>These constructs have been adopted from <i class="FIRSTTERM">ksh</i>.</p>
+        </dd>
+        <dt><tt class="USERINPUT"><b>${var:pos}</b></tt></dt>
+        <dd>
+          <p>Variable <tt class="REPLACEABLE"><i>var</i></tt> expanded, starting from offset <tt class="REPLACEABLE"><i>pos</i></tt>.</p>
+        </dd>
+        <dt><tt class="USERINPUT"><b>${var:pos:len}</b></tt></dt>
+        <dd>
+          <p>Expansion to a max of <tt class="REPLACEABLE"><i>len</i></tt> characters of variable <tt class="REPLACEABLE"><i>var</i></tt>, from offset <tt class="REPLACEABLE"><i>pos</i></tt>. See <a href="contributed-scripts.html#PW">Example A-13</a> for an example of the creative use of this operator.</p>
+        </dd>
+        <dt><tt class="USERINPUT"><b>${var/Pattern/Replacement}</b></tt></dt>
+        <dd>
+          <p>First match of <tt class="REPLACEABLE"><i>Pattern</i></tt>, within <tt class="REPLACEABLE"><i>var</i></tt> replaced with <tt class="REPLACEABLE"><i>Replacement</i></tt>.</p>
+          <p>If <tt class="REPLACEABLE"><i>Replacement</i></tt> is omitted, then the first match of <tt class="REPLACEABLE"><i>Pattern</i></tt> is replaced by <em>nothing</em>, that is, deleted.</p>
+        </dd>
+        <dt><tt class="USERINPUT"><b>${var//Pattern/Replacement}</b></tt></dt>
+        <dd>
+          <div class="FORMALPARA">
+            <p><b>Global replacement.</b> <a name="PSGLOB" id="PSGLOB"></a> All matches of <tt class="REPLACEABLE"><i>Pattern</i></tt>, within <tt class="REPLACEABLE"><i>var</i></tt> replaced with <tt class="REPLACEABLE"><i>Replacement</i></tt>.</p>
+          </div>
+          <p>As above, if <tt class="REPLACEABLE"><i>Replacement</i></tt> is omitted, then all occurrences of <tt class="REPLACEABLE"><i>Pattern</i></tt> are replaced by <em>nothing</em>, that is, deleted.</p>
+          <div class="EXAMPLE">
+            <a name="EX7" id="EX7"></a>
+            <p><b>Example 10-12. Using pattern matching to parse arbitrary strings</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+var1=abcd-1234-defg
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"var1 = <span class="hljs-variable">$var1</span>"</span>
+
+t=<span class="hljs-variable">${var1#*-*}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"var1 (with everything, up to and including first - stripped out) = <span class="hljs-variable">$t</span>"</span>
+<span class="hljs-comment">#  t=${var1#*-}  works just the same,</span>
+<span class="hljs-comment">#+ since # matches the shortest string,</span>
+<span class="hljs-comment">#+ and * matches everything preceding, including an empty string.</span>
+<span class="hljs-comment"># (Thanks, Stephane Chazelas, for pointing this out.)</span>
+
+t=<span class="hljs-variable">${var1##*-*}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"If var1 contains a \"-\", returns empty string...   var1 = <span class="hljs-variable">$t</span>"</span>
+
+
+t=<span class="hljs-variable">${var1%*-*}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"var1 (with everything from the last - on stripped out) = <span class="hljs-variable">$t</span>"</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># -------------------------------------------</span>
+path_name=/home/bozo/ideas/thoughts.for.today
+<span class="hljs-comment"># -------------------------------------------</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"path_name = <span class="hljs-variable">$path_name</span>"</span>
+t=<span class="hljs-variable">${path_name##/*/}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"path_name, stripped of prefixes = <span class="hljs-variable">$t</span>"</span>
+<span class="hljs-comment"># Same effect as   t=`basename $path_name` in this particular case.</span>
+<span class="hljs-comment">#  t=${path_name%/}; t=${t##*/}   is a more general solution,</span>
+<span class="hljs-comment">#+ but still fails sometimes.</span>
+<span class="hljs-comment">#  If $path_name ends with a newline, then `basename $path_name` will not work,</span>
+<span class="hljs-comment">#+ but the above expression will.</span>
+<span class="hljs-comment"># (Thanks, S.C.)</span>
+
+t=<span class="hljs-variable">${path_name%/*.*}</span>
+<span class="hljs-comment"># Same effect as   t=`dirname $path_name`</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"path_name, stripped of suffixes = <span class="hljs-variable">$t</span>"</span>
+<span class="hljs-comment"># These will fail in some cases, such as "../", "/foo////", # "foo/", "/".</span>
+<span class="hljs-comment">#  Removing suffixes, especially when the basename has no suffix,</span>
+<span class="hljs-comment">#+ but the dirname does, also complicates matters.</span>
+<span class="hljs-comment"># (Thanks, S.C.)</span>
+
+<span class="hljs-built_in">echo</span>
+
+t=<span class="hljs-variable">${path_name:11}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$path_name</span>, with first 11 chars stripped off = <span class="hljs-variable">$t</span>"</span>
+t=<span class="hljs-variable">${path_name:11:5}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$path_name</span>, with first 11 chars stripped off, length 5 = <span class="hljs-variable">$t</span>"</span>
+
+<span class="hljs-built_in">echo</span>
+
+t=<span class="hljs-variable">${path_name/bozo/clown}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$path_name</span> with \"bozo\" replaced  by \"clown\" = <span class="hljs-variable">$t</span>"</span>
+t=<span class="hljs-variable">${path_name/today/}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$path_name</span> with \"today\" deleted = <span class="hljs-variable">$t</span>"</span>
+t=<span class="hljs-variable">${path_name//o/O}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$path_name</span> with all o's capitalized = <span class="hljs-variable">$t</span>"</span>
+t=<span class="hljs-variable">${path_name//o/}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$path_name</span> with all o's deleted = <span class="hljs-variable">$t</span>"</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><tt class="USERINPUT"><b>${var/#Pattern/Replacement}</b></tt></dt>
+        <dd>
+          <p>If <i class="FIRSTTERM">prefix</i> of <tt class="REPLACEABLE"><i>var</i></tt> matches <tt class="REPLACEABLE"><i>Pattern</i></tt>, then substitute <tt class="REPLACEABLE"><i>Replacement</i></tt> for <tt class="REPLACEABLE"><i>Pattern</i></tt>.</p>
+        </dd>
+        <dt><tt class="USERINPUT"><b>${var/%Pattern/Replacement}</b></tt></dt>
+        <dd>
+          <p>If <i class="FIRSTTERM">suffix</i> of <tt class="REPLACEABLE"><i>var</i></tt> matches <tt class="REPLACEABLE"><i>Pattern</i></tt>, then substitute <tt class="REPLACEABLE"><i>Replacement</i></tt> for <tt class="REPLACEABLE"><i>Pattern</i></tt>.</p>
+          <div class="EXAMPLE">
+            <a name="VARMATCH" id="VARMATCH"></a>
+            <p><b>Example 10-13. Matching patterns at prefix or suffix of string</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># var-match.sh:</span>
+<span class="hljs-comment"># Demo of pattern replacement at prefix / suffix of string.</span>
+
+v0=abc1234zip1234abc    <span class="hljs-comment"># Original variable.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"v0 = <span class="hljs-variable">$v0</span>"</span>         <span class="hljs-comment"># abc1234zip1234abc</span>
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># Match at prefix (beginning) of string.</span>
+v1=<span class="hljs-variable">${v0/#abc/ABCDEF}</span>    <span class="hljs-comment"># abc1234zip1234abc</span>
+                        <span class="hljs-comment"># |-|</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"v1 = <span class="hljs-variable">$v1</span>"</span>         <span class="hljs-comment"># ABCDEF1234zip1234abc</span>
+                        <span class="hljs-comment"># |----|</span>
+
+<span class="hljs-comment"># Match at suffix (end) of string.</span>
+v2=<span class="hljs-variable">${v0/%abc/ABCDEF}</span>    <span class="hljs-comment"># abc1234zip123abc</span>
+                        <span class="hljs-comment">#              |-|</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"v2 = <span class="hljs-variable">$v2</span>"</span>         <span class="hljs-comment"># abc1234zip1234ABCDEF</span>
+                        <span class="hljs-comment">#               |----|</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment">#  ----------------------------------------------------</span>
+<span class="hljs-comment">#  Must match at beginning / end of string,</span>
+<span class="hljs-comment">#+ otherwise no replacement results.</span>
+<span class="hljs-comment">#  ----------------------------------------------------</span>
+v3=<span class="hljs-variable">${v0/#123/000}</span>       <span class="hljs-comment"># Matches, but not at beginning.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"v3 = <span class="hljs-variable">$v3</span>"</span>         <span class="hljs-comment"># abc1234zip1234abc</span>
+                        <span class="hljs-comment"># NO REPLACEMENT.</span>
+v4=<span class="hljs-variable">${v0/%123/000}</span>       <span class="hljs-comment"># Matches, but not at end.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"v4 = <span class="hljs-variable">$v4</span>"</span>         <span class="hljs-comment"># abc1234zip1234abc</span>
+                        <span class="hljs-comment"># NO REPLACEMENT.</span>
+
+<span class="hljs-built_in">exit</span> 0                  </pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="VARPREFIXM" id="VARPREFIXM"></a><tt class="USERINPUT"><b>${!varprefix*}</b></tt>, <tt class="USERINPUT"><b>${!varprefix@}</b></tt></dt>
+        <dd>
+          <p>Matches <em>names</em> of all previously declared variables beginning with <tt class="PARAMETER"><i>varprefix</i></tt>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># This is a variation on indirect reference, but with a * or @.</span>
+<span class="hljs-comment"># Bash, version 2.04, adds this feature.</span>
+
+xyz23=whatever
+xyz24=
+
+a=<span class="hljs-variable">${!xyz*}</span>         <span class="hljs-comment">#  Expands to *names* of declared variables</span>
+<span class="hljs-comment"># ^ ^   ^           + beginning with "xyz".</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>      <span class="hljs-comment">#  a = xyz23 xyz24</span>
+a=<span class="hljs-variable">${!xyz@}</span>         <span class="hljs-comment">#  Same as above.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>      <span class="hljs-comment">#  a = xyz23 xyz24</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"---"</span>
+
+abc23=something_else
+b=<span class="hljs-variable">${!abc*}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"b = <span class="hljs-variable">$b</span>"</span>      <span class="hljs-comment">#  b = abc23</span>
+c=<span class="hljs-variable">${!b}</span>            <span class="hljs-comment">#  Now, the more familiar type of indirect reference.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$c</span>            <span class="hljs-comment">#  something_else</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN6310" href="parameter-substitution.html#AEN6310" id="FTN.AEN6310"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>If $parameter is null in a non-interactive script, it will terminate with a <a href="exitcodes.html#EXITCODESREF"><span class="RETURNVALUE">127</span> exit status</a> (the Bash error code for <span class="QUOTE">"command not found"</span>).</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="string-manipulation.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="loops.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Manipulating Strings</td>
+        <td width="34%" align="center" valign="top"><a href="manipulatingvars.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Loops and Branches</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

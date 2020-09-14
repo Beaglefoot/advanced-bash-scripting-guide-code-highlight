@@ -1,0 +1,778 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Math Commands</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="External Filters, Programs and Commands" href="external.html">
+  <link rel="PREVIOUS" title="Terminal Control Commands" href="terminalccmds.html">
+  <link rel="NEXT" title="Miscellaneous Commands" href="extmisc.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="terminalccmds.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 16. External Filters, Programs and Commands</td>
+        <td width="10%" align="right" valign="bottom"><a href="extmisc.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="MATHC" id="MATHC"></a>16.8. Math Commands</h1>
+    <div class="VARIABLELIST">
+      <p><b><a name="MATHCOMMANDLISTING1" id="MATHCOMMANDLISTING1"></a><span class="QUOTE">"Doing the numbers"</span></b></p>
+      <dl>
+        <dt><a name="FACTORREF" id="FACTORREF"></a><b class="COMMAND">factor</b></dt>
+        <dd>
+          <p>Decompose an integer into prime factors.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> factor 27417</span>
+27417: 3 13 19 37
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <div class="EXAMPLE">
+            <a name="PRIMES2" id="PRIMES2"></a>
+            <p><b>Example 16-46. Generating prime numbers</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># primes2.sh</span>
+
+<span class="hljs-comment">#  Generating prime numbers the quick-and-easy way,</span>
+<span class="hljs-comment">#+ without resorting to fancy algorithms.</span>
+
+CEILING=10000   <span class="hljs-comment"># 1 to 10000</span>
+PRIME=0
+E_NOTPRIME=
+
+<span class="hljs-function"><span class="hljs-title">is_prime</span></span> ()
+{
+  <span class="hljs-built_in">local</span> factors
+  factors=( $(factor <span class="hljs-variable">$1</span>) )  <span class="hljs-comment"># Load output of `factor` into array.</span>
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">${factors[2]}</span>"</span> ]
+<span class="hljs-comment">#  Third element of "factors" array:</span>
+<span class="hljs-comment">#+ ${factors[2]} is 2nd factor of argument.</span>
+<span class="hljs-comment">#  If it is blank, then there is no 2nd factor,</span>
+<span class="hljs-comment">#+ and the argument is therefore prime.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">return</span> <span class="hljs-variable">$PRIME</span>             <span class="hljs-comment"># 0</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">return</span> <span class="hljs-variable">$E_NOTPRIME</span>        <span class="hljs-comment"># null</span>
+<span class="hljs-keyword">fi</span>
+}
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> $(seq <span class="hljs-variable">$CEILING</span>)
+<span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">if</span> is_prime <span class="hljs-variable">$n</span>
+  <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">printf</span> %5d <span class="hljs-variable">$n</span>
+  <span class="hljs-keyword">fi</span>   <span class="hljs-comment">#    ^  Five positions per number suffices.</span>
+<span class="hljs-keyword">done</span>   <span class="hljs-comment">#       For a higher $CEILING, adjust upward, as necessary.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="BCREF" id="BCREF"></a><b class="COMMAND">bc</b></dt>
+        <dd>
+          <p>Bash can't handle floating point calculations, and it lacks operators for certain important mathematical functions. Fortunately, <b class="COMMAND">bc</b> gallops to the rescue.</p>
+          <p>Not just a versatile, arbitrary precision calculation utility, <b class="COMMAND">bc</b> offers many of the facilities of a programming language. It has a syntax vaguely resembling <b class="COMMAND">C</b>.</p>
+          <p>Since it is a fairly well-behaved UNIX utility, and may therefore be used in a <a href="special-chars.html#PIPEREF">pipe</a>, <b class="COMMAND">bc</b> comes in handy in scripts.</p>
+          <p><a name="BCTEMPLATE" id="BCTEMPLATE"></a></p>
+          <p>Here is a simple template for using <b class="COMMAND">bc</b> to calculate a script variable. This uses <a href="commandsub.html#COMMANDSUBREF">command substitution</a>.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs">             variable=$(echo "OPTIONS; OPERATIONS" | bc)
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p><a name="MONTHLYPMT0" id="MONTHLYPMT0"></a></p>
+          <div class="EXAMPLE">
+            <a name="MONTHLYPMT" id="MONTHLYPMT"></a>
+            <p><b>Example 16-47. Monthly Payment on a Mortgage</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># monthlypmt.sh: Calculates monthly payment on a mortgage.</span>
+
+
+<span class="hljs-comment">#  This is a modification of code in the</span>
+<span class="hljs-comment">#+ "mcalc" (mortgage calculator) package,</span>
+<span class="hljs-comment">#+ by Jeff Schmidt</span>
+<span class="hljs-comment">#+ and</span>
+<span class="hljs-comment">#+ Mendel Cooper (yours truly, the ABS Guide author).</span>
+<span class="hljs-comment">#   http://www.ibiblio.org/pub/Linux/apps/financial/mcalc-1.6.tar.gz</span>
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Given the principal, interest rate, and term of a mortgage,"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"calculate the monthly payment."</span>
+
+bottom=1.0
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Enter principal (no commas) "</span>
+<span class="hljs-built_in">read</span> principal
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Enter interest rate (percent) "</span>  <span class="hljs-comment"># If 12%, enter "12", not ".12".</span>
+<span class="hljs-built_in">read</span> interest_r
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Enter term (months) "</span>
+<span class="hljs-built_in">read</span> term
+
+
+ interest_r=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">"scale=9; <span class="hljs-variable">$interest_r</span>/100.0"</span> | bc) <span class="hljs-comment"># Convert to decimal.</span>
+                 <span class="hljs-comment">#           ^^^^^^^^^^^^^^^^^  Divide by 100. </span>
+                 <span class="hljs-comment"># "scale" determines how many decimal places.</span>
+
+ interest_rate=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">"scale=9; <span class="hljs-variable">$interest_r</span>/12 + 1.0"</span> | bc)
+ 
+
+ top=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">"scale=9; <span class="hljs-variable">$principal</span>*<span class="hljs-variable">$interest_rate</span>^<span class="hljs-variable">$term</span>"</span> | bc)
+          <span class="hljs-comment">#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
+          <span class="hljs-comment">#           Standard formula for figuring interest.</span>
+
+ <span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span> <span class="hljs-string">"Please be patient. This may take a while."</span>
+
+ <span class="hljs-built_in">let</span> <span class="hljs-string">"months = <span class="hljs-variable">$term</span> - 1"</span>
+<span class="hljs-comment"># ==================================================================== </span>
+ <span class="hljs-keyword">for</span> ((x=<span class="hljs-variable">$months</span>; x &gt; 0; x--))
+ <span class="hljs-keyword">do</span>
+   bot=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">"scale=9; <span class="hljs-variable">$interest_rate</span>^<span class="hljs-variable">$x</span>"</span> | bc)
+   bottom=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">"scale=9; <span class="hljs-variable">$bottom</span>+<span class="hljs-variable">$bot</span>"</span> | bc)
+<span class="hljs-comment">#  bottom = $(($bottom + $bot"))</span>
+ <span class="hljs-keyword">done</span>
+<span class="hljs-comment"># ==================================================================== </span>
+
+<span class="hljs-comment"># -------------------------------------------------------------------- </span>
+<span class="hljs-comment">#  Rick Boivie pointed out a more efficient implementation</span>
+<span class="hljs-comment">#+ of the above loop, which decreases computation time by 2/3.</span>
+
+<span class="hljs-comment"># for ((x=1; x &lt;= $months; x++))</span>
+<span class="hljs-comment"># do</span>
+<span class="hljs-comment">#   bottom=$(echo "scale=9; $bottom * $interest_rate + 1" | bc)</span>
+<span class="hljs-comment"># done</span>
+
+
+<span class="hljs-comment">#  And then he came up with an even more efficient alternative,</span>
+<span class="hljs-comment">#+ one that cuts down the run time by about 95%!</span>
+
+<span class="hljs-comment"># bottom=`{</span>
+<span class="hljs-comment">#     echo "scale=9; bottom=$bottom; interest_rate=$interest_rate"</span>
+<span class="hljs-comment">#     for ((x=1; x &lt;= $months; x++))</span>
+<span class="hljs-comment">#     do</span>
+<span class="hljs-comment">#          echo 'bottom = bottom * interest_rate + 1'</span>
+<span class="hljs-comment">#     done</span>
+<span class="hljs-comment">#     echo 'bottom'</span>
+<span class="hljs-comment">#     } | bc`       # Embeds a 'for loop' within command substitution.</span>
+<span class="hljs-comment"># --------------------------------------------------------------------------</span>
+<span class="hljs-comment">#  On the other hand, Frank Wang suggests:</span>
+<span class="hljs-comment">#  bottom=$(echo "scale=9; ($interest_rate^$term-1)/($interest_rate-1)" | bc)</span>
+
+<span class="hljs-comment">#  Because . . .</span>
+<span class="hljs-comment">#  The algorithm behind the loop</span>
+<span class="hljs-comment">#+ is actually a sum of geometric proportion series.</span>
+<span class="hljs-comment">#  The sum formula is e0(1-q^n)/(1-q),</span>
+<span class="hljs-comment">#+ where e0 is the first element and q=e(n+1)/e(n)</span>
+<span class="hljs-comment">#+ and n is the number of elements.</span>
+<span class="hljs-comment"># --------------------------------------------------------------------------</span>
+
+
+ <span class="hljs-comment"># let "payment = $top/$bottom"</span>
+ payment=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">"scale=2; <span class="hljs-variable">$top</span>/<span class="hljs-variable">$bottom</span>"</span> | bc)
+ <span class="hljs-comment"># Use two decimal places for dollars and cents.</span>
+ 
+ <span class="hljs-built_in">echo</span>
+ <span class="hljs-built_in">echo</span> <span class="hljs-string">"monthly payment = \$<span class="hljs-variable">$payment</span>"</span>  <span class="hljs-comment"># Echo a dollar sign in front of amount.</span>
+ <span class="hljs-built_in">echo</span>
+
+
+ <span class="hljs-built_in">exit</span> 0
+
+
+ <span class="hljs-comment"># Exercises:</span>
+ <span class="hljs-comment">#   1) Filter input to permit commas in principal amount.</span>
+ <span class="hljs-comment">#   2) Filter input to permit interest to be entered as percent or decimal.</span>
+ <span class="hljs-comment">#   3) If you are really ambitious,</span>
+ <span class="hljs-comment">#+     expand this script to print complete amortization tables.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="BASE0" id="BASE0"></a></p>
+          <div class="EXAMPLE">
+            <a name="BASE" id="BASE"></a>
+            <p><b>Example 16-48. Base Conversion</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment">###########################################################################</span>
+<span class="hljs-comment"># Shellscript:  base.sh - print number to different bases (Bourne Shell)</span>
+<span class="hljs-comment"># Author     :  Heiner Steven (heiner.steven@odn.de)</span>
+<span class="hljs-comment"># Date       :  07-03-95</span>
+<span class="hljs-comment"># Category   :  Desktop</span>
+<span class="hljs-comment"># $Id: base.sh,v 1.2 2000/02/06 19:55:35 heiner Exp $</span>
+<span class="hljs-comment"># ==&gt; Above line is RCS ID info.</span>
+<span class="hljs-comment">###########################################################################</span>
+<span class="hljs-comment"># Description</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># Changes</span>
+<span class="hljs-comment"># 21-03-95 stv  fixed error occuring with 0xb as input (0.2)</span>
+<span class="hljs-comment">###########################################################################</span>
+
+<span class="hljs-comment"># ==&gt; Used in ABS Guide with the script author's permission.</span>
+<span class="hljs-comment"># ==&gt; Comments added by ABS Guide author.</span>
+
+NOARGS=85
+PN=`basename <span class="hljs-string">"<span class="hljs-variable">$0</span>"</span>`                             <span class="hljs-comment"># Program name</span>
+VER=`<span class="hljs-built_in">echo</span> <span class="hljs-string">'$Revision: 1.2 $'</span> | cut -d<span class="hljs-string">' '</span> -f2`  <span class="hljs-comment"># ==&gt; VER=1.2</span>
+
+<span class="hljs-function"><span class="hljs-title">Usage</span></span> () {
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$PN</span> - print number to different bases, <span class="hljs-variable">$VER</span> (stv '95)
+usage: <span class="hljs-variable">$PN</span> [number ...]
+
+If no number is given, the numbers are read from standard input.
+A number may be
+    binary (base 2)             starting with 0b (i.e. 0b1100)
+    octal (base 8)              starting with 0  (i.e. 014)
+    hexadecimal (base 16)       starting with 0x (i.e. 0xc)
+    decimal                     otherwise (i.e. 12)"</span> &gt;&amp;2
+    <span class="hljs-built_in">exit</span> <span class="hljs-variable">$NOARGS</span> 
+}   <span class="hljs-comment"># ==&gt; Prints usage message.</span>
+
+<span class="hljs-function"><span class="hljs-title">Msg</span></span> () {
+    <span class="hljs-keyword">for</span> i   <span class="hljs-comment"># ==&gt; in [list] missing. Why?</span>
+    <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$PN</span>: <span class="hljs-variable">$i</span>"</span> &gt;&amp;2
+    <span class="hljs-keyword">done</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">Fatal</span></span> () { Msg <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span>; <span class="hljs-built_in">exit</span> 66; }
+
+<span class="hljs-function"><span class="hljs-title">PrintBases</span></span> () {
+    <span class="hljs-comment"># Determine base of the number</span>
+    <span class="hljs-keyword">for</span> i      <span class="hljs-comment"># ==&gt; in [list] missing...</span>
+    <span class="hljs-keyword">do</span>         <span class="hljs-comment"># ==&gt; so operates on command-line arg(s).</span>
+        <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$i</span>"</span> <span class="hljs-keyword">in</span>
+            0b*)                ibase=2;;       <span class="hljs-comment"># binary</span>
+            0x*|[a-f]*|[A-F]*)  ibase=16;;      <span class="hljs-comment"># hexadecimal</span>
+            0*)                 ibase=8;;       <span class="hljs-comment"># octal</span>
+            [1-9]*)             ibase=10;;      <span class="hljs-comment"># decimal</span>
+            *)
+                Msg <span class="hljs-string">"illegal number <span class="hljs-variable">$i</span> - ignored"</span>
+                <span class="hljs-built_in">continue</span>;;
+        <span class="hljs-keyword">esac</span>
+
+        <span class="hljs-comment"># Remove prefix, convert hex digits to uppercase (bc needs this).</span>
+        number=`<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$i</span>"</span> | sed -e <span class="hljs-string">'s:^0[bBxX]::'</span> | tr <span class="hljs-string">'[a-f]'</span> <span class="hljs-string">'[A-F]'</span>`
+        <span class="hljs-comment"># ==&gt; Uses ":" as sed separator, rather than "/".</span>
+
+        <span class="hljs-comment"># Convert number to decimal</span>
+        dec=`<span class="hljs-built_in">echo</span> <span class="hljs-string">"ibase=<span class="hljs-variable">$ibase</span>; <span class="hljs-variable">$number</span>"</span> | bc`  <span class="hljs-comment"># ==&gt; 'bc' is calculator utility.</span>
+        <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$dec</span>"</span> <span class="hljs-keyword">in</span>
+            [0-9]*)     ;;                       <span class="hljs-comment"># number ok</span>
+            *)          <span class="hljs-built_in">continue</span>;;               <span class="hljs-comment"># error: ignore</span>
+        <span class="hljs-keyword">esac</span>
+
+        <span class="hljs-comment"># Print all conversions in one line.</span>
+        <span class="hljs-comment"># ==&gt; 'here document' feeds command list to 'bc'.</span>
+        <span class="hljs-built_in">echo</span> `bc &lt;&lt;!
+            obase=16; <span class="hljs-string">"hex="</span>; <span class="hljs-variable">$dec</span>
+            obase=10; <span class="hljs-string">"dec="</span>; <span class="hljs-variable">$dec</span>
+            obase=8;  <span class="hljs-string">"oct="</span>; <span class="hljs-variable">$dec</span>
+            obase=2;  <span class="hljs-string">"bin="</span>; <span class="hljs-variable">$dec</span>
+!
+    ` | sed -e <span class="hljs-string">'s: :    :g'</span>
+
+    <span class="hljs-keyword">done</span>
+}
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-variable">$#</span> -gt 0 ]
+<span class="hljs-comment"># ==&gt;  Is a "while loop" really necessary here,</span>
+<span class="hljs-comment"># ==&gt;+ since all the cases either break out of the loop</span>
+<span class="hljs-comment"># ==&gt;+ or terminate the script.</span>
+<span class="hljs-comment"># ==&gt; (Above comment by Paulo Marcel Coelho Aragao.)</span>
+<span class="hljs-keyword">do</span>
+    <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> <span class="hljs-keyword">in</span>
+        --)     <span class="hljs-built_in">shift</span>; <span class="hljs-built_in">break</span>;;
+        -h)     Usage;;                 <span class="hljs-comment"># ==&gt; Help message.</span>
+        -*)     Usage;;
+         *)     <span class="hljs-built_in">break</span>;;                 <span class="hljs-comment"># First number</span>
+    <span class="hljs-keyword">esac</span>   <span class="hljs-comment"># ==&gt; Error checking for illegal input might be appropriate.</span>
+    <span class="hljs-built_in">shift</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -gt 0 ]
+<span class="hljs-keyword">then</span>
+    PrintBases <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span>
+<span class="hljs-keyword">else</span>                                    <span class="hljs-comment"># Read from stdin.</span>
+    <span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> line
+    <span class="hljs-keyword">do</span>
+        PrintBases <span class="hljs-variable">$line</span>
+    <span class="hljs-keyword">done</span>
+<span class="hljs-keyword">fi</span>
+
+
+<span class="hljs-built_in">exit</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="BCHEREDOC" id="BCHEREDOC"></a></p>
+          <p>An alternate method of invoking <b class="COMMAND">bc</b> involves using a <a href="here-docs.html#HEREDOCREF">here document</a> embedded within a <a href="commandsub.html#COMMANDSUBREF">command substitution</a> block. This is especially appropriate when a script needs to pass a list of options and commands to <b class="COMMAND">bc</b>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">variable=`bc &lt;&lt; LIMIT_STRING
+options
+statements
+operations
+LIMIT_STRING
+`
+
+...or...
+
+
+variable=$(bc &lt;&lt; LIMIT_STRING
+options
+statements
+operations
+LIMIT_STRING
+)</pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <div class="EXAMPLE">
+            <a name="ALTBC" id="ALTBC"></a>
+            <p><b>Example 16-49. Invoking <i class="FIRSTTERM">bc</i> using a <i class="FIRSTTERM">here document</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Invoking 'bc' using command substitution</span>
+<span class="hljs-comment"># in combination with a 'here document'.</span>
+
+
+var1=`bc &lt;&lt; EOF
+18.33 * 19.78
+EOF
+`
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$var1</span>       <span class="hljs-comment"># 362.56</span>
+
+
+<span class="hljs-comment">#  $( ... ) notation also works.</span>
+v1=23.53
+v2=17.881
+v3=83.501
+v4=171.63
+
+var2=$(bc &lt;&lt; EOF
+scale = 4
+a = ( <span class="hljs-variable">$v1</span> + <span class="hljs-variable">$v2</span> )
+b = ( <span class="hljs-variable">$v3</span> * <span class="hljs-variable">$v4</span> )
+a * b + 15.35
+EOF
+)
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$var2</span>       <span class="hljs-comment"># 593487.8452</span>
+
+
+var3=$(bc -l &lt;&lt; EOF
+scale = 9
+s ( 1.7 )
+EOF
+)
+<span class="hljs-comment"># Returns the sine of 1.7 radians.</span>
+<span class="hljs-comment"># The "-l" option calls the 'bc' math library.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$var3</span>       <span class="hljs-comment"># .991664810</span>
+
+
+<span class="hljs-comment"># Now, try it in a function...</span>
+hypotenuse ()    <span class="hljs-comment"># Calculate hypotenuse of a right triangle.</span>
+{                <span class="hljs-comment"># c = sqrt( a^2 + b^2 )</span>
+hyp=$(bc -l &lt;&lt; EOF
+scale = 9
+sqrt ( <span class="hljs-variable">$1</span> * <span class="hljs-variable">$1</span> + <span class="hljs-variable">$2</span> * <span class="hljs-variable">$2</span> )
+EOF
+)
+<span class="hljs-comment"># Can't directly return floating point values from a Bash function.</span>
+<span class="hljs-comment"># But, can echo-and-capture:</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$hyp</span>"</span>
+}
+
+hyp=$(hypotenuse 3.68 7.31)
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"hypotenuse = <span class="hljs-variable">$hyp</span>"</span>    <span class="hljs-comment"># 8.184039344</span>
+
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="CANNONREF" id="CANNONREF"></a></p>
+          <div class="EXAMPLE">
+            <a name="CANNON" id="CANNON"></a>
+            <p><b>Example 16-50. Calculating PI</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># cannon.sh: Approximating PI by firing cannonballs.</span>
+
+<span class="hljs-comment"># Author: Mendel Cooper</span>
+<span class="hljs-comment"># License: Public Domain</span>
+<span class="hljs-comment"># Version 2.2, reldate 13oct08.</span>
+
+<span class="hljs-comment"># This is a very simple instance of a "Monte Carlo" simulation:</span>
+<span class="hljs-comment">#+ a mathematical model of a real-life event,</span>
+<span class="hljs-comment">#+ using pseudorandom numbers to emulate random chance.</span>
+
+<span class="hljs-comment">#  Consider a perfectly square plot of land, 10000 units on a side.</span>
+<span class="hljs-comment">#  This land has a perfectly circular lake in its center,</span>
+<span class="hljs-comment">#+ with a diameter of 10000 units.</span>
+<span class="hljs-comment">#  The plot is actually mostly water, except for land in the four corners.</span>
+<span class="hljs-comment">#  (Think of it as a square with an inscribed circle.)</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  We will fire iron cannonballs from an old-style cannon</span>
+<span class="hljs-comment">#+ at the square.</span>
+<span class="hljs-comment">#  All the shots impact somewhere on the square,</span>
+<span class="hljs-comment">#+ either in the lake or on the dry corners.</span>
+<span class="hljs-comment">#  Since the lake takes up most of the area,</span>
+<span class="hljs-comment">#+ most of the shots will SPLASH! into the water.</span>
+<span class="hljs-comment">#  Just a few shots will THUD! into solid ground</span>
+<span class="hljs-comment">#+ in the four corners of the square.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  If we take enough random, unaimed shots at the square,</span>
+<span class="hljs-comment">#+ Then the ratio of SPLASHES to total shots will approximate</span>
+<span class="hljs-comment">#+ the value of PI/4.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  The simplified explanation is that the cannon is actually</span>
+<span class="hljs-comment">#+ shooting only at the upper right-hand quadrant of the square,</span>
+<span class="hljs-comment">#+ i.e., Quadrant I of the Cartesian coordinate plane.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  Theoretically, the more shots taken, the better the fit.</span>
+<span class="hljs-comment">#  However, a shell script, as opposed to a compiled language</span>
+<span class="hljs-comment">#+ with floating-point math built in, requires some compromises.</span>
+<span class="hljs-comment">#  This decreases the accuracy of the simulation.</span>
+
+
+DIMENSION=10000  <span class="hljs-comment"># Length of each side of the plot.</span>
+                 <span class="hljs-comment"># Also sets ceiling for random integers generated.</span>
+
+MAXSHOTS=1000    <span class="hljs-comment"># Fire this many shots.</span>
+                 <span class="hljs-comment"># 10000 or more would be better, but would take too long.</span>
+PMULTIPLIER=4.0  <span class="hljs-comment"># Scaling factor.</span>
+
+<span class="hljs-built_in">declare</span> -r M_PI=3.141592654
+                 <span class="hljs-comment"># Actual 9-place value of PI, for comparison purposes.</span>
+
+<span class="hljs-function"><span class="hljs-title">get_random</span></span> ()
+{
+SEED=$(head -n 1 /dev/urandom | od -N 1 | awk <span class="hljs-string">'{ print $2 }'</span>)
+RANDOM=<span class="hljs-variable">$SEED</span>                                  <span class="hljs-comment">#  From "seeding-random.sh"</span>
+                                              <span class="hljs-comment">#+ example script.</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"rnum = <span class="hljs-variable">$RANDOM</span> % <span class="hljs-variable">$DIMENSION</span>"</span>             <span class="hljs-comment">#  Range less than 10000.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$rnum</span>
+}
+
+distance=        <span class="hljs-comment"># Declare global variable.</span>
+hypotenuse ()    <span class="hljs-comment"># Calculate hypotenuse of a right triangle.</span>
+{                <span class="hljs-comment"># From "alt-bc.sh" example.</span>
+distance=$(bc -l &lt;&lt; EOF
+scale = 0
+sqrt ( <span class="hljs-variable">$1</span> * <span class="hljs-variable">$1</span> + <span class="hljs-variable">$2</span> * <span class="hljs-variable">$2</span> )
+EOF
+)
+<span class="hljs-comment">#  Setting "scale" to zero rounds down result to integer value,</span>
+<span class="hljs-comment">#+ a necessary compromise in this script.</span>
+<span class="hljs-comment">#  It decreases the accuracy of this simulation.</span>
+}
+
+
+<span class="hljs-comment"># ==========================================================</span>
+<span class="hljs-comment"># main() {</span>
+<span class="hljs-comment"># "Main" code block, mimicking a C-language main() function.</span>
+
+<span class="hljs-comment"># Initialize variables.</span>
+shots=0
+splashes=0
+thuds=0
+Pi=0
+error=0
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$shots</span>"</span> -lt  <span class="hljs-string">"<span class="hljs-variable">$MAXSHOTS</span>"</span> ]           <span class="hljs-comment"># Main loop.</span>
+<span class="hljs-keyword">do</span>
+
+  xCoord=$(get_random)                        <span class="hljs-comment"># Get random X and Y coords.</span>
+  yCoord=$(get_random)
+  hypotenuse <span class="hljs-variable">$xCoord</span> <span class="hljs-variable">$yCoord</span>                  <span class="hljs-comment">#  Hypotenuse of</span>
+                                              <span class="hljs-comment">#+ right-triangle = distance.</span>
+  ((shots++))
+
+  <span class="hljs-built_in">printf</span> <span class="hljs-string">"#%4d   "</span> <span class="hljs-variable">$shots</span>
+  <span class="hljs-built_in">printf</span> <span class="hljs-string">"Xc = %4d  "</span> <span class="hljs-variable">$xCoord</span>
+  <span class="hljs-built_in">printf</span> <span class="hljs-string">"Yc = %4d  "</span> <span class="hljs-variable">$yCoord</span>
+  <span class="hljs-built_in">printf</span> <span class="hljs-string">"Distance = %5d  "</span> <span class="hljs-variable">$distance</span>         <span class="hljs-comment">#   Distance from</span>
+                                              <span class="hljs-comment">#+  center of lake</span>
+                                              <span class="hljs-comment">#+  -- the "origin" --</span>
+                                              <span class="hljs-comment">#+  coordinate (0,0).</span>
+
+  <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$distance</span>"</span> -le <span class="hljs-string">"<span class="hljs-variable">$DIMENSION</span>"</span> ]
+  <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"SPLASH!  "</span>
+    ((splashes++))
+  <span class="hljs-keyword">else</span>
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"THUD!    "</span>
+    ((thuds++))
+  <span class="hljs-keyword">fi</span>
+
+  Pi=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">"scale=9; <span class="hljs-variable">$PMULTIPLIER</span>*<span class="hljs-variable">$splashes</span>/<span class="hljs-variable">$shots</span>"</span> | bc)
+  <span class="hljs-comment"># Multiply ratio by 4.0.</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"PI ~ <span class="hljs-variable">$Pi</span>"</span>
+  <span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"After <span class="hljs-variable">$shots</span> shots, PI looks like approximately   <span class="hljs-variable">$Pi</span>"</span>
+<span class="hljs-comment">#  Tends to run a bit high,</span>
+<span class="hljs-comment">#+ possibly due to round-off error and imperfect randomness of $RANDOM.</span>
+<span class="hljs-comment">#  But still usually within plus-or-minus 5% . . .</span>
+<span class="hljs-comment">#+ a pretty fair rough approximation.</span>
+error=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">"scale=9; <span class="hljs-variable">$Pi</span> - <span class="hljs-variable">$M_PI</span>"</span> | bc)
+pct_error=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">"scale=2; 100.0 * <span class="hljs-variable">$error</span> / <span class="hljs-variable">$M_PI</span>"</span> | bc)
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Deviation from mathematical value of PI =        <span class="hljs-variable">$error</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">" (<span class="hljs-variable">$pct_error</span>% error)"</span>
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># End of "main" code block.</span>
+<span class="hljs-comment"># }</span>
+<span class="hljs-comment"># ==========================================================</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment">#  One might well wonder whether a shell script is appropriate for</span>
+<span class="hljs-comment">#+ an application as complex and computation-intensive as a simulation.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  There are at least two justifications.</span>
+<span class="hljs-comment">#  1) As a proof of concept: to show it can be done.</span>
+<span class="hljs-comment">#  2) To prototype and test the algorithms before rewriting</span>
+<span class="hljs-comment">#+    it in a compiled high-level language.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>See also <a href="contributed-scripts.html#STDDEV">Example A-37</a>.</p>
+        </dd>
+        <dt><a name="DCREF" id="DCREF"></a><b class="COMMAND">dc</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">dc</b> (<b class="COMMAND">d</b>esk <b class="COMMAND">c</b>alculator) utility is <a href="internalvariables.html#STACKDEFREF">stack-oriented</a> and uses RPN (<i class="FIRSTTERM">Reverse Polish Notation</i>). Like <b class="COMMAND">bc</b>, it has much of the power of a programming language.</p>
+          <p>Similar to the procedure with <b class="COMMAND">bc</b>, <a href="internal.html#ECHOREF">echo</a> a command-string to <b class="COMMAND">dc</b>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-built_in">echo</span> <span class="hljs-string">"[Printing a string ... ]P"</span> | dc
+<span class="hljs-comment"># The P command prints the string between the preceding brackets.</span>
+
+<span class="hljs-comment"># And now for some simple arithmetic.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"7 8 * p"</span> | dc     <span class="hljs-comment"># 56</span>
+<span class="hljs-comment">#  Pushes 7, then 8 onto the stack,</span>
+<span class="hljs-comment">#+ multiplies ("*" operator), then prints the result ("p" operator).</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>Most persons avoid <b class="COMMAND">dc</b>, because of its non-intuitive input and rather cryptic operators. Yet, it has its uses.</p>
+          <div class="EXAMPLE">
+            <a name="HEXCONVERT" id="HEXCONVERT"></a>
+            <p><b>Example 16-51. Converting a decimal number to hexadecimal</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># hexconvert.sh: Convert a decimal number to hexadecimal.</span>
+
+E_NOARGS=85 <span class="hljs-comment"># Command-line arg missing.</span>
+BASE=16     <span class="hljs-comment"># Hexadecimal.</span>
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]
+<span class="hljs-keyword">then</span>        <span class="hljs-comment"># Need a command-line argument.</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: <span class="hljs-variable">$0</span> number"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOARGS</span>
+<span class="hljs-keyword">fi</span>          <span class="hljs-comment"># Exercise: add argument validity checking.</span>
+
+
+<span class="hljs-function"><span class="hljs-title">hexcvt</span></span> ()
+{
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> 0
+  <span class="hljs-built_in">return</span>    <span class="hljs-comment"># "Return" 0 if no arg passed to function.</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">""</span><span class="hljs-variable">$1</span><span class="hljs-string">" "</span><span class="hljs-variable">$BASE</span><span class="hljs-string">" o p"</span> | dc
+<span class="hljs-comment">#                  o    sets radix (numerical base) of output.</span>
+<span class="hljs-comment">#                    p  prints the top of stack.</span>
+<span class="hljs-comment"># For other options: 'man dc' ...</span>
+<span class="hljs-built_in">return</span>
+}
+
+hexcvt <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>
+
+<span class="hljs-built_in">exit</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>Studying the <a href="basic.html#INFOREF">info</a> page for <b class="COMMAND">dc</b> is a painful path to understanding its intricacies. There seems to be a small, select group of <em>dc wizards</em> who delight in showing off their mastery of this powerful, but arcane utility.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> <span class="hljs-string">"16i[q]sa[ln0=aln100%Pln100/snlbx]sbA0D68736142snlbxq"</span> | dc</span>
+Bash
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p><a name="GOLDENRATIO" id="GOLDENRATIO"></a></p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">dc &lt;&lt;&lt; 10k5v1+2/p <span class="hljs-comment"># 1.6180339887</span>
+<span class="hljs-comment">#  ^^^            Feed operations to dc using a Here String.</span>
+<span class="hljs-comment">#      ^^^        Pushes 10 and sets that as the precision (10k).</span>
+<span class="hljs-comment">#         ^^      Pushes 5 and takes its square root</span>
+<span class="hljs-comment">#                 (5v, v = square root).</span>
+<span class="hljs-comment">#           ^^    Pushes 1 and adds it to the running total (1+).</span>
+<span class="hljs-comment">#             ^^  Pushes 2 and divides the running total by that (2/).</span>
+<span class="hljs-comment">#               ^ Pops and prints the result (p)</span>
+<span class="hljs-comment">#  The result is  1.6180339887 ...</span>
+<span class="hljs-comment">#  ... which happens to be the Pythagorean Golden Ratio, to 10 places.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <div class="EXAMPLE">
+            <a name="FACTR" id="FACTR"></a>
+            <p><b>Example 16-52. Factoring</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># factr.sh: Factor a number</span>
+
+MIN=2       <span class="hljs-comment"># Will not work for number smaller than this.</span>
+E_NOARGS=85
+E_TOOSMALL=86
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-variable">$1</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: <span class="hljs-variable">$0</span> number"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOARGS</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> -lt <span class="hljs-string">"<span class="hljs-variable">$MIN</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Number to factor must be <span class="hljs-variable">$MIN</span> or greater."</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_TOOSMALL</span>
+<span class="hljs-keyword">fi</span>  
+
+<span class="hljs-comment"># Exercise: Add type checking (to reject non-integer arg).</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Factors of <span class="hljs-variable">$1</span>:"</span>
+<span class="hljs-comment"># -------------------------------------------------------</span>
+<span class="hljs-built_in">echo</span>  <span class="hljs-string">"<span class="hljs-variable">$1</span>[p]s2[lip/dli%0=1dvsr]s12sid2%0=13sidvsr[dli%0=\
+1lrli2+dsi!&gt;.]ds.xd1&lt;2"</span> | dc
+<span class="hljs-comment"># -------------------------------------------------------</span>
+<span class="hljs-comment">#  Above code written by Michel Charpentier &lt;charpov@cs.unh.edu&gt;</span>
+<span class="hljs-comment">#  (as a one-liner, here broken into two lines for display purposes).</span>
+<span class="hljs-comment">#  Used in ABS Guide with permission (thanks!).</span>
+
+ <span class="hljs-built_in">exit</span>
+
+ <span class="hljs-comment"># $ sh factr.sh 270138</span>
+ <span class="hljs-comment"># 2</span>
+ <span class="hljs-comment"># 3</span>
+ <span class="hljs-comment"># 11</span>
+ <span class="hljs-comment"># 4093</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="AWKMATH" id="AWKMATH"></a><b class="COMMAND">awk</b></dt>
+        <dd>
+          <p>Yet another way of doing floating point math in a script is using <a href="awk.html#AWKREF">awk's</a> built-in math functions in a <a href="wrapper.html#SHWRAPPER">shell wrapper</a>.</p>
+          <div class="EXAMPLE">
+            <a name="HYPOT" id="HYPOT"></a>
+            <p><b>Example 16-53. Calculating the hypotenuse of a triangle</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># hypotenuse.sh: Returns the "hypotenuse" of a right triangle.</span>
+<span class="hljs-comment">#                (square root of sum of squares of the "legs")</span>
+
+ARGS=2                <span class="hljs-comment"># Script needs sides of triangle passed.</span>
+E_BADARGS=85          <span class="hljs-comment"># Wrong number of arguments.</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -ne <span class="hljs-string">"<span class="hljs-variable">$ARGS</span>"</span> ] <span class="hljs-comment"># Test number of arguments to script.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` side_1 side_2"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>
+
+
+AWKSCRIPT=<span class="hljs-string">' { printf( "%3.7f\n", sqrt($1*$1 + $2*$2) ) } '</span>
+<span class="hljs-comment">#             command(s) / parameters passed to awk</span>
+
+
+<span class="hljs-comment"># Now, pipe the parameters to awk.</span>
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Hypotenuse of <span class="hljs-variable">$1</span> and <span class="hljs-variable">$2</span> = "</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-variable">$1</span> <span class="hljs-variable">$2</span> | awk <span class="hljs-string">"<span class="hljs-variable">$AWKSCRIPT</span>"</span>
+<span class="hljs-comment">#   ^^^^^^^^^^^^</span>
+<span class="hljs-comment"># An echo-and-pipe is an easy way of passing shell parameters to awk.</span>
+
+<span class="hljs-built_in">exit</span>
+
+<span class="hljs-comment"># Exercise: Rewrite this script using 'bc' rather than awk.</span>
+<span class="hljs-comment">#           Which method is more intuitive?</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="terminalccmds.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="extmisc.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Terminal Control Commands</td>
+        <td width="34%" align="center" valign="top"><a href="external.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Miscellaneous Commands</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

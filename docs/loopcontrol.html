@@ -1,0 +1,288 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Loop Control</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Loops and Branches" href="loops.html">
+  <link rel="PREVIOUS" title="Nested Loops" href="nestedloops.html">
+  <link rel="NEXT" title="Testing and Branching" href="testbranch.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="nestedloops.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 11. Loops and Branches</td>
+        <td width="10%" align="right" valign="bottom"><a href="testbranch.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="LOOPCONTROL" id="LOOPCONTROL"></a>11.3. Loop Control</h1>
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" class="EPIGRAPH">
+      <tbody><tr>
+        <td width="45%">&nbsp;</td>
+        <td width="45%" align="left" valign="top">
+          <p><i>Tournez cent tours, tournez mille tours,</i></p>
+          <p><i>Tournez souvent et tournez toujours . . .</i></p>
+          <p><i>--Verlaine, <span class="QUOTE">"Chevaux de bois"</span></i></p>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="VARIABLELIST">
+      <p><b><a name="BRKCONT1" id="BRKCONT1"></a>Commands affecting loop behavior</b></p>
+      <dl>
+        <dt><b class="COMMAND">break</b>, <b class="COMMAND">continue</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">break</b> and <b class="COMMAND">continue</b> loop control commands <a name="AEN6981" href="#FTN.AEN6981" id="AEN6981"><span class="footnote">[1]</span></a> correspond exactly to their counterparts in other programming languages. The <b class="COMMAND">break</b> command terminates the loop (<em>breaks</em> out of it), while <b class="COMMAND">continue</b> causes a jump to the next <a href="loops1.html#ITERATIONREF">iteration</a> of the loop, skipping all the remaining commands in that particular loop cycle.</p>
+          <div class="EXAMPLE">
+            <a name="EX28" id="EX28"></a>
+            <p><b>Example 11-21. Effects of <i class="FIRSTTERM">break</i> and continue in a loop</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+LIMIT=19  <span class="hljs-comment"># Upper limit</span>
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Printing Numbers 1 through 20 (but not 3 and 11)."</span>
+
+a=0
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-variable">$a</span> -le <span class="hljs-string">"<span class="hljs-variable">$LIMIT</span>"</span> ]
+<span class="hljs-keyword">do</span>
+ a=$((<span class="hljs-variable">$a</span>+<span class="hljs-number">1</span>))
+
+ <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> -eq 3 ] || [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> -eq 11 ]  <span class="hljs-comment"># Excludes 3 and 11.</span>
+ <span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">continue</span>      <span class="hljs-comment"># Skip rest of this particular loop iteration.</span>
+ <span class="hljs-keyword">fi</span>
+
+ <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$a</span> "</span>   <span class="hljs-comment"># This will not execute for 3 and 11.</span>
+<span class="hljs-keyword">done</span> 
+
+<span class="hljs-comment"># Exercise:</span>
+<span class="hljs-comment"># Why does the loop print up to 20?</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> Printing Numbers 1 through 20, but something happens after 2.
+
+<span class="hljs-comment">##################################################################</span>
+
+<span class="hljs-comment"># Same loop, but substituting 'break' for 'continue'.</span>
+
+a=0
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> -le <span class="hljs-string">"<span class="hljs-variable">$LIMIT</span>"</span> ]
+<span class="hljs-keyword">do</span>
+ a=$((<span class="hljs-variable">$a</span>+<span class="hljs-number">1</span>))
+
+ <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> -gt 2 ]
+ <span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">break</span>  <span class="hljs-comment"># Skip entire rest of loop.</span>
+ <span class="hljs-keyword">fi</span>
+
+ <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$a</span> "</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="BREAKPARAM" id="BREAKPARAM"></a></p>
+          <p>The <b class="COMMAND">break</b> command may optionally take a parameter. A plain <b class="COMMAND">break</b> terminates only the innermost loop in which it is embedded, but a <b class="COMMAND">break N</b> breaks out of <tt class="PARAMETER"><i>N</i></tt> levels of loop.</p>
+          <div class="EXAMPLE">
+            <a name="BREAKLEVELS" id="BREAKLEVELS"></a>
+            <p><b>Example 11-22. Breaking out of multiple loop levels</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># break-levels.sh: Breaking out of loops.</span>
+
+<span class="hljs-comment"># "break N" breaks out of N level loops.</span>
+
+<span class="hljs-keyword">for</span> outerloop <span class="hljs-keyword">in</span> 1 2 3 4 5
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Group <span class="hljs-variable">$outerloop</span>:   "</span>
+
+  <span class="hljs-comment"># --------------------------------------------------------</span>
+  <span class="hljs-keyword">for</span> innerloop <span class="hljs-keyword">in</span> 1 2 3 4 5
+  <span class="hljs-keyword">do</span>
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$innerloop</span> "</span>
+
+    <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$innerloop</span>"</span> -eq 3 ]
+    <span class="hljs-keyword">then</span>
+      <span class="hljs-built_in">break</span>  <span class="hljs-comment"># Try   break 2   to see what happens.</span>
+             <span class="hljs-comment"># ("Breaks" out of both inner and outer loops.)</span>
+    <span class="hljs-keyword">fi</span>
+  <span class="hljs-keyword">done</span>
+  <span class="hljs-comment"># --------------------------------------------------------</span>
+
+  <span class="hljs-built_in">echo</span>
+<span class="hljs-keyword">done</span>  
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>The <b class="COMMAND">continue</b> command, similar to <b class="COMMAND">break</b>, optionally takes a parameter. A plain <b class="COMMAND">continue</b> cuts short the current iteration within its loop and begins the next. A <b class="COMMAND">continue N</b> terminates all remaining iterations at its loop level and continues with the next iteration at the loop, <tt class="OPTION">N</tt> levels above.</p>
+          <div class="EXAMPLE">
+            <a name="CONTINUELEVELS" id="CONTINUELEVELS"></a>
+            <p><b>Example 11-23. Continuing at a higher loop level</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># The "continue N" command, continuing at the Nth level loop.</span>
+
+<span class="hljs-keyword">for</span> outer <span class="hljs-keyword">in</span> I II III IV V           <span class="hljs-comment"># outer loop</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Group <span class="hljs-variable">$outer</span>: "</span>
+
+  <span class="hljs-comment"># --------------------------------------------------------------------</span>
+  <span class="hljs-keyword">for</span> inner <span class="hljs-keyword">in</span> 1 2 3 4 5 6 7 8 9 10  <span class="hljs-comment"># inner loop</span>
+  <span class="hljs-keyword">do</span>
+
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-string">"<span class="hljs-variable">$inner</span>"</span> -eq 7 &amp;&amp; <span class="hljs-string">"<span class="hljs-variable">$outer</span>"</span> = <span class="hljs-string">"III"</span> ]]
+    <span class="hljs-keyword">then</span>
+      <span class="hljs-built_in">continue</span> 2  <span class="hljs-comment"># Continue at loop on 2nd level, that is "outer loop".</span>
+                  <span class="hljs-comment"># Replace above line with a simple "continue"</span>
+                  <span class="hljs-comment"># to see normal loop behavior.</span>
+    <span class="hljs-keyword">fi</span>  
+
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$inner</span> "</span>  <span class="hljs-comment"># 7 8 9 10 will not echo on "Group III."</span>
+  <span class="hljs-keyword">done</span>  
+  <span class="hljs-comment"># --------------------------------------------------------------------</span>
+
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># Exercise:</span>
+<span class="hljs-comment"># Come up with a meaningful use for "continue N" in a script.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="EXAMPLE">
+            <a name="CONTINUENEX" id="CONTINUENEX"></a>
+            <p><b>Example 11-24. Using <i class="FIRSTTERM">continue N</i> in an actual task</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># Albert Reiner gives an example of how to use "continue N":</span>
+<span class="hljs-comment"># ---------------------------------------------------------</span>
+
+<span class="hljs-comment">#  Suppose I have a large number of jobs that need to be run, with</span>
+<span class="hljs-comment">#+ any data that is to be treated in files of a given name pattern</span>
+<span class="hljs-comment">#+ in a directory. There are several machines that access</span>
+<span class="hljs-comment">#+ this directory, and I want to distribute the work over these</span>
+<span class="hljs-comment">#+ different boxen.</span>
+<span class="hljs-comment">#  Then I usually nohup something like the following on every box:</span>
+
+<span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> .iso.*
+  <span class="hljs-keyword">do</span>
+    [ <span class="hljs-string">"<span class="hljs-variable">$n</span>"</span> = <span class="hljs-string">".iso.opts"</span> ] &amp;&amp; <span class="hljs-built_in">continue</span>
+    beta=<span class="hljs-variable">${n#.iso.}</span>
+    [ -r .Iso.<span class="hljs-variable">$beta</span> ] &amp;&amp; <span class="hljs-built_in">continue</span>
+    [ -r .lock.<span class="hljs-variable">$beta</span> ] &amp;&amp; sleep 10 &amp;&amp; <span class="hljs-built_in">continue</span>
+    lockfile -r0 .lock.<span class="hljs-variable">$beta</span> || <span class="hljs-built_in">continue</span>
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$beta</span>: "</span> `date`
+    run-isotherm <span class="hljs-variable">$beta</span>
+    date
+    ls -alF .Iso.<span class="hljs-variable">$beta</span>
+    [ -r .Iso.<span class="hljs-variable">$beta</span> ] &amp;&amp; rm -f .lock.<span class="hljs-variable">$beta</span>
+    <span class="hljs-built_in">continue</span> 2
+  <span class="hljs-keyword">done</span>
+  <span class="hljs-built_in">break</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment">#  The details, in particular the sleep N, are particular to my</span>
+<span class="hljs-comment">#+ application, but the general pattern is:</span>
+
+<span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">for</span> job <span class="hljs-keyword">in</span> {pattern}
+  <span class="hljs-keyword">do</span>
+    {job already <span class="hljs-keyword">done</span> or running} &amp;&amp; <span class="hljs-built_in">continue</span>
+    {mark job as running, <span class="hljs-keyword">do</span> job, mark job as <span class="hljs-keyword">done</span>}
+    <span class="hljs-built_in">continue</span> 2
+  <span class="hljs-keyword">done</span>
+  <span class="hljs-built_in">break</span>        <span class="hljs-comment"># Or something like `sleep 600' to avoid termination.</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment">#  This way the script will stop only when there are no more jobs to do</span>
+<span class="hljs-comment">#+ (including jobs that were added during runtime). Through the use</span>
+<span class="hljs-comment">#+ of appropriate lockfiles it can be run on several machines</span>
+<span class="hljs-comment">#+ concurrently without duplication of calculations [which run a couple</span>
+<span class="hljs-comment">#+ of hours in my case, so I really want to avoid this]. Also, as search</span>
+<span class="hljs-comment">#+ always starts again from the beginning, one can encode priorities in</span>
+<span class="hljs-comment">#+ the file names. Of course, one could also do this without `continue 2',</span>
+<span class="hljs-comment">#+ but then one would have to actually check whether or not some job</span>
+<span class="hljs-comment">#+ was done (so that we should immediately look for the next job) or not</span>
+<span class="hljs-comment">#+ (in which case we terminate or sleep for a long time before checking</span>
+<span class="hljs-comment">#+ for a new job).</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>The <b class="COMMAND">continue N</b> construct is difficult to understand and tricky to use in any meaningful context. It is probably best avoided.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN6981" href="loopcontrol.html#AEN6981" id="FTN.AEN6981"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>These are shell <a href="internal.html#BUILTINREF">builtins</a>, whereas other loop commands, such as <a href="loops1.html#WHILELOOPREF">while</a> and <a href="testbranch.html#CASEESAC1">case</a>, are <a href="internal.html#KEYWORDREF">keywords</a>.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="nestedloops.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="testbranch.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Nested Loops</td>
+        <td width="34%" align="center" valign="top"><a href="loops.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Testing and Branching</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

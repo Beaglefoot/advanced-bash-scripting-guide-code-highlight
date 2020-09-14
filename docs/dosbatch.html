@@ -1,0 +1,485 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Converting DOS Batch Files to Shell Scripts</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="PREVIOUS" title="Sample .bashrc and .bash_profile Files" href="sample-bashrc.html">
+  <link rel="NEXT" title="Exercises" href="exercises.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="APPENDIX" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="sample-bashrc.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="exercises.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="APPENDIX">
+    <h1><a name="DOSBATCH" id="DOSBATCH"></a>Appendix N. Converting DOS Batch Files to Shell Scripts</h1>
+    <p><a name="DOSBATCH1" id="DOSBATCH1"></a></p>
+    <p>Quite a number of programmers learned scripting on a PC running DOS. Even the crippled DOS batch file language allowed writing some fairly powerful scripts and applications, though they often required extensive kludges and workarounds. Occasionally, the need still arises to convert an old DOS batch file to a UNIX shell script. This is generally not difficult, as DOS batch file operators are only a limited subset of the equivalent shell scripting ones.</p>
+    <div class="TABLE">
+      <a name="AEN24336" id="AEN24336"></a>
+      <p><b>Table N-1. Batch file keywords / variables / operators, and their shell equivalents</b></p>
+      <table border="1" class="CALSTABLE">
+        <thead>
+          <tr>
+            <th align="left" valign="top">Batch File Operator</th>
+            <th align="left" valign="top">Shell Script Equivalent</th>
+            <th align="left" valign="top">Meaning</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">%</tt></td>
+            <td align="left" valign="top">$</td>
+            <td align="left" valign="top">command-line parameter prefix</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">/</tt></td>
+            <td align="left" valign="top">-</td>
+            <td align="left" valign="top">command option flag</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">\</tt></td>
+            <td align="left" valign="top">/</td>
+            <td align="left" valign="top">directory path separator</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">==</tt></td>
+            <td align="left" valign="top">=</td>
+            <td align="left" valign="top">(equal-to) string comparison test</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">!==!</tt></td>
+            <td align="left" valign="top">!=</td>
+            <td align="left" valign="top">(not equal-to) string comparison test</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">|</tt></td>
+            <td align="left" valign="top">|</td>
+            <td align="left" valign="top">pipe</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">@</tt></td>
+            <td align="left" valign="top">set <tt class="OPTION">+v</tt></td>
+            <td align="left" valign="top">do not echo current command</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">*</tt></td>
+            <td align="left" valign="top">*</td>
+            <td align="left" valign="top">filename <span class="QUOTE">"wild card"</span></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">&gt;</tt></td>
+            <td align="left" valign="top">&gt;</td>
+            <td align="left" valign="top">file redirection (overwrite)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">&gt;&gt;</tt></td>
+            <td align="left" valign="top">&gt;&gt;</td>
+            <td align="left" valign="top">file redirection (append)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">&lt;</tt></td>
+            <td align="left" valign="top">&lt;</td>
+            <td align="left" valign="top">redirect <tt class="FILENAME">stdin</tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">%VAR%</tt></td>
+            <td align="left" valign="top">$VAR</td>
+            <td align="left" valign="top">environmental variable</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">REM</tt></td>
+            <td align="left" valign="top">#</td>
+            <td align="left" valign="top">comment</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">NOT</tt></td>
+            <td align="left" valign="top">!</td>
+            <td align="left" valign="top">negate following test</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">NUL</tt></td>
+            <td align="left" valign="top"><tt class="FILENAME">/dev/null</tt></td>
+            <td align="left" valign="top"><span class="QUOTE">"black hole"</span> for burying command output</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">ECHO</tt></td>
+            <td align="left" valign="top">echo</td>
+            <td align="left" valign="top">echo (many more option in Bash)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">ECHO.</tt></td>
+            <td align="left" valign="top">echo</td>
+            <td align="left" valign="top">echo blank line</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">ECHO OFF</tt></td>
+            <td align="left" valign="top">set <tt class="OPTION">+v</tt></td>
+            <td align="left" valign="top">do not echo command(s) following</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">FOR %%VAR IN (LIST) DO</tt></td>
+            <td align="left" valign="top">for var in [list]; do</td>
+            <td align="left" valign="top"><span class="QUOTE">"for"</span> loop</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">:LABEL</tt></td>
+            <td align="left" valign="top">none (unnecessary)</td>
+            <td align="left" valign="top">label</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">GOTO</tt></td>
+            <td align="left" valign="top">none (use a function)</td>
+            <td align="left" valign="top">jump to another location in the script</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">PAUSE</tt></td>
+            <td align="left" valign="top">sleep</td>
+            <td align="left" valign="top">pause or wait an interval</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">CHOICE</tt></td>
+            <td align="left" valign="top">case or select</td>
+            <td align="left" valign="top">menu choice</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">IF</tt></td>
+            <td align="left" valign="top">if</td>
+            <td align="left" valign="top">if-test</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">IF EXIST <tt class="REPLACEABLE"><i>FILENAME</i></tt></tt></td>
+            <td align="left" valign="top">if [ -e filename ]</td>
+            <td align="left" valign="top">test if file exists</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">IF !%N==!</tt></td>
+            <td align="left" valign="top">if [ -z "$N" ]</td>
+            <td align="left" valign="top">if replaceable parameter <span class="QUOTE">"N"</span> not present</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">CALL</tt></td>
+            <td align="left" valign="top">source or . (dot operator)</td>
+            <td align="left" valign="top"><span class="QUOTE">"include"</span> another script</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">COMMAND /C</tt></td>
+            <td align="left" valign="top">source or . (dot operator)</td>
+            <td align="left" valign="top"><span class="QUOTE">"include"</span> another script (same as CALL)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">SET</tt></td>
+            <td align="left" valign="top">export</td>
+            <td align="left" valign="top">set an environmental variable</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">SHIFT</tt></td>
+            <td align="left" valign="top">shift</td>
+            <td align="left" valign="top">left shift command-line argument list</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">SGN</tt></td>
+            <td align="left" valign="top">-lt or -gt</td>
+            <td align="left" valign="top">sign (of integer)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">ERRORLEVEL</tt></td>
+            <td align="left" valign="top">$?</td>
+            <td align="left" valign="top">exit status</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">CON</tt></td>
+            <td align="left" valign="top"><tt class="FILENAME">stdin</tt></td>
+            <td align="left" valign="top"><span class="QUOTE">"console"</span> (<tt class="FILENAME">stdin</tt>)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">PRN</tt></td>
+            <td align="left" valign="top"><tt class="FILENAME">/dev/lp0</tt></td>
+            <td align="left" valign="top">(generic) printer device</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">LPT1</tt></td>
+            <td align="left" valign="top"><tt class="FILENAME">/dev/lp0</tt></td>
+            <td align="left" valign="top">first printer device</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">COM1</tt></td>
+            <td align="left" valign="top"><tt class="FILENAME">/dev/ttyS0</tt></td>
+            <td align="left" valign="top">first serial port</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p><a name="DOSUNIXEQUIV" id="DOSUNIXEQUIV"></a></p>
+    <p>Batch files usually contain DOS commands. These must be translated into their UNIX equivalents in order to convert a batch file into a shell script.</p>
+    <div class="TABLE">
+      <a name="AEN24545" id="AEN24545"></a>
+      <p><b>Table N-2. DOS commands and their UNIX equivalents</b></p>
+      <table border="1" class="CALSTABLE">
+        <thead>
+          <tr>
+            <th align="left" valign="top">DOS Command</th>
+            <th align="left" valign="top">UNIX Equivalent</th>
+            <th align="left" valign="top">Effect</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">ASSIGN</tt></td>
+            <td align="left" valign="top">ln</td>
+            <td align="left" valign="top">link file or directory</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">ATTRIB</tt></td>
+            <td align="left" valign="top">chmod</td>
+            <td align="left" valign="top">change file permissions</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">CD</tt></td>
+            <td align="left" valign="top">cd</td>
+            <td align="left" valign="top">change directory</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">CHDIR</tt></td>
+            <td align="left" valign="top">cd</td>
+            <td align="left" valign="top">change directory</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">CLS</tt></td>
+            <td align="left" valign="top">clear</td>
+            <td align="left" valign="top">clear screen</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">COMP</tt></td>
+            <td align="left" valign="top">diff, comm, cmp</td>
+            <td align="left" valign="top">file compare</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">COPY</tt></td>
+            <td align="left" valign="top">cp</td>
+            <td align="left" valign="top">file copy</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">Ctl-C</tt></td>
+            <td align="left" valign="top">Ctl-C</td>
+            <td align="left" valign="top">break (signal)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">Ctl-Z</tt></td>
+            <td align="left" valign="top">Ctl-D</td>
+            <td align="left" valign="top">EOF (end-of-file)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">DEL</tt></td>
+            <td align="left" valign="top">rm</td>
+            <td align="left" valign="top">delete file(s)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">DELTREE</tt></td>
+            <td align="left" valign="top">rm -rf</td>
+            <td align="left" valign="top">delete directory recursively</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">DIR</tt></td>
+            <td align="left" valign="top">ls -l</td>
+            <td align="left" valign="top">directory listing</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">ERASE</tt></td>
+            <td align="left" valign="top">rm</td>
+            <td align="left" valign="top">delete file(s)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">EXIT</tt></td>
+            <td align="left" valign="top">exit</td>
+            <td align="left" valign="top">exit current process</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">FC</tt></td>
+            <td align="left" valign="top">comm, cmp</td>
+            <td align="left" valign="top">file compare</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">FIND</tt></td>
+            <td align="left" valign="top">grep</td>
+            <td align="left" valign="top">find strings in files</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">MD</tt></td>
+            <td align="left" valign="top">mkdir</td>
+            <td align="left" valign="top">make directory</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">MKDIR</tt></td>
+            <td align="left" valign="top">mkdir</td>
+            <td align="left" valign="top">make directory</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">MORE</tt></td>
+            <td align="left" valign="top">more</td>
+            <td align="left" valign="top">text file paging filter</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">MOVE</tt></td>
+            <td align="left" valign="top">mv</td>
+            <td align="left" valign="top">move</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">PATH</tt></td>
+            <td align="left" valign="top">$PATH</td>
+            <td align="left" valign="top">path to executables</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">REN</tt></td>
+            <td align="left" valign="top">mv</td>
+            <td align="left" valign="top">rename (move)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">RENAME</tt></td>
+            <td align="left" valign="top">mv</td>
+            <td align="left" valign="top">rename (move)</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">RD</tt></td>
+            <td align="left" valign="top">rmdir</td>
+            <td align="left" valign="top">remove directory</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">RMDIR</tt></td>
+            <td align="left" valign="top">rmdir</td>
+            <td align="left" valign="top">remove directory</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">SORT</tt></td>
+            <td align="left" valign="top">sort</td>
+            <td align="left" valign="top">sort file</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">TIME</tt></td>
+            <td align="left" valign="top">date</td>
+            <td align="left" valign="top">display system time</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">TYPE</tt></td>
+            <td align="left" valign="top">cat</td>
+            <td align="left" valign="top">output file to <tt class="FILENAME">stdout</tt></td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">XCOPY</tt></td>
+            <td align="left" valign="top">cp</td>
+            <td align="left" valign="top">(extended) file copy</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>Virtually all UNIX and shell operators and commands have many more options and enhancements than their DOS and batch file counterparts. Many DOS batch files rely on auxiliary utilities, such as <b class="COMMAND">ask.com</b>, a crippled counterpart to <a href="internal.html#READREF">read</a>.</p>
+            <p>DOS supports only a very limited and incompatible subset of filename <a href="globbingref.html">wild-card expansion</a>, recognizing just the <span class="TOKEN">*</span> and <span class="TOKEN">?</span> characters.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Converting a DOS batch file into a shell script is generally straightforward, and the result ofttimes reads better than the original.</p>
+    <div class="EXAMPLE">
+      <a name="VIEWDAT" id="VIEWDAT"></a>
+      <p><b>Example N-1. VIEWDATA.BAT: DOS Batch File</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs">REM VIEWDATA
+
+REM INSPIRED BY AN EXAMPLE IN <span class="hljs-string">"DOS POWERTOOLS"</span>
+REM                           BY PAUL SOMERSON
+
+
+@ECHO OFF
+
+IF !%1==! GOTO VIEWDATA
+REM  IF NO COMMAND-LINE ARG...
+FIND <span class="hljs-string">"%1"</span> C:\BOZO\BOOKLIST.TXT
+GOTO EXIT0
+REM  PRINT LINE WITH STRING MATCH, THEN EXIT.
+
+:VIEWDATA
+TYPE C:\BOZO\BOOKLIST.TXT | MORE
+REM  SHOW ENTIRE FILE, 1 PAGE AT A TIME.
+
+:EXIT0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>The script conversion is somewhat of an improvement. <a name="AEN24713" href="#FTN.AEN24713" id="AEN24713"><span class="footnote">[1]</span></a></p>
+    <div class="EXAMPLE">
+      <a name="VIEWDATA" id="VIEWDATA"></a>
+      <p><b>Example N-2. <i class="FIRSTTERM">viewdata.sh</i>: Shell Script Conversion of VIEWDATA.BAT</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># viewdata.sh</span>
+<span class="hljs-comment"># Conversion of VIEWDATA.BAT to shell script.</span>
+
+DATAFILE=/home/bozo/datafiles/book-collection.data
+ARGNO=1
+
+<span class="hljs-comment"># @ECHO OFF                 Command unnecessary here.</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -lt <span class="hljs-string">"<span class="hljs-variable">$ARGNO</span>"</span> ]    <span class="hljs-comment"># IF !%1==! GOTO VIEWDATA</span>
+<span class="hljs-keyword">then</span>
+  less <span class="hljs-variable">$DATAFILE</span>          <span class="hljs-comment"># TYPE C:\MYDIR\BOOKLIST.TXT | MORE</span>
+<span class="hljs-keyword">else</span>
+  grep <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> <span class="hljs-variable">$DATAFILE</span>     <span class="hljs-comment"># FIND "%1" C:\MYDIR\BOOKLIST.TXT</span>
+<span class="hljs-keyword">fi</span>  
+
+<span class="hljs-built_in">exit</span> 0                    <span class="hljs-comment"># :EXIT0</span>
+
+<span class="hljs-comment">#  GOTOs, labels, smoke-and-mirrors, and flimflam unnecessary.</span>
+<span class="hljs-comment">#  The converted script is short, sweet, and clean,</span>
+<span class="hljs-comment">#+ which is more than can be said for the original.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Ted Davis' <a href="http://www.maem.umr.edu/batch/" target="_top">Shell Scripts on the PC</a> site had a set of comprehensive tutorials on the old-fashioned art of batch file programming. Unfortunately the page has vanished without a trace.</p>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN24713" href="dosbatch.html#AEN24713" id="FTN.AEN24713"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Various readers have suggested modifications of the above batch file to prettify it and make it more compact and efficient. In the opinion of the <em>ABS Guide</em> author, this is wasted effort. A Bash script can access a DOS filesystem, or even an NTFS partition (with the help of <a href="http://www.ntfs-3g.org" target="_top">ntfs-3g</a>) to do batch or scripted operations.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="sample-bashrc.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="exercises.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Sample <tt class="FILENAME">.bashrc</tt> and <tt class="FILENAME">.bash_profile</tt> Files</td>
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+        <td width="33%" align="right" valign="top">Exercises</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

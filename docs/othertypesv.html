@@ -1,0 +1,394 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Special Variable Types</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Introduction to Variables and Parameters" href="variables.html">
+  <link rel="PREVIOUS" title="Bash Variables Are Untyped" href="untyped.html">
+  <link rel="NEXT" title="Quoting" href="quoting.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="untyped.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 4. Introduction to Variables and Parameters</td>
+        <td width="10%" align="right" valign="bottom"><a href="quoting.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="OTHERTYPESV" id="OTHERTYPESV"></a>4.4. Special Variable Types</h1>
+    <div class="VARIABLELIST">
+      <dl>
+        <dt><tt class="REPLACEABLE"><i>Local variables</i></tt></dt>
+        <dd>
+          <p>Variables <a href="subshells.html#SCOPEREF">visible</a> only within a <a href="special-chars.html#CODEBLOCKREF">code block</a> or function (see also <a href="localvar.html#LOCALREF">local variables</a> in <a href="functions.html#FUNCTIONREF">functions</a>)</p>
+        </dd>
+        <dt><a name="ENVREF" id="ENVREF"></a><tt class="REPLACEABLE"><i>Environmental variables</i></tt></dt>
+        <dd>
+          <p>Variables that affect the behavior of the shell and user interface</p>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>In a more general context, each <a href="special-chars.html#PROCESSREF">process</a> has an <span class="QUOTE">"environment"</span>, that is, a group of variables that the process may reference. In this sense, the shell behaves like any other process.</p>
+                  <p>Every time a shell starts, it creates shell variables that correspond to its own environmental variables. Updating or adding new environmental variables causes the shell to update its environment, and all the shell's <i class="FIRSTTERM">child processes</i> (the commands it executes) inherit this environment.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="CAUTION">
+            <table class="CAUTION no-border" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>The space allotted to the environment is limited. Creating too many environmental variables or ones that use up excessive space may cause problems.</p>
+                  <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+                    <tbody><tr>
+                      <td>
+                        <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">eval</span> <span class="hljs-string">"`seq 10000 | sed -e 's/.*/export var&amp;=ZZZZZZZZZZZZZZ/'`"</span></span>
+<span class="hljs-meta">
+bash$</span><span class="bash"> du</span>
+bash: /usr/bin/du: Argument list too long
+                  </pre>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                  <p>Note: this <span class="QUOTE">"error"</span> has been fixed, as of kernel version 2.6.23.</p>
+                  <p>(Thank you, Stephane Chazelas for the clarification, and for providing the above example.)</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>If a script sets environmental variables, they need to be <span class="QUOTE">"exported,"</span> that is, reported to the <i class="FIRSTTERM">environment</i> local to the script. This is the function of the <a href="internal.html#EXPORTREF">export</a> command.</p><a name="CHILDREF" id="CHILDREF"></a>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>A script can <b class="COMMAND">export</b> variables only to child <a href="special-chars.html#PROCESSREF">processes</a>, that is, only to commands or processes which that particular script initiates. A script invoked from the command-line <tt class="REPLACEABLE"><i>cannot</i></tt> export variables back to the command-line environment. <em><a href="internal.html#FORKREF">Child processes</a> cannot export variables back to the parent processes that spawned them.</em></p>
+                  <p><a name="CHILDREF2" id="CHILDREF2"></a><tt class="USERINPUT"><b>Definition:</b></tt> A <i class="FIRSTTERM">child process</i> is a subprocess launched by another process, its <a href="internal.html#PARENTREF">parent</a>.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="POSPARAMREF1" id="POSPARAMREF1"></a><tt class="REPLACEABLE"><i>Positional parameters</i></tt></dt>
+        <dd>
+          <p>Arguments passed to the script from the command line <a name="AEN2450" href="#FTN.AEN2450" id="AEN2450"><span class="footnote">[1]</span></a> : <tt class="VARNAME">$0</tt>, <tt class="VARNAME">$1</tt>, <tt class="VARNAME">$2</tt>, <tt class="VARNAME">$3</tt> . . .</p>
+          <p><a name="SCRNAMEPARAM" id="SCRNAMEPARAM"></a><tt class="VARNAME">$0</tt> is the name of the script itself, <tt class="VARNAME">$1</tt> is the first argument, <tt class="VARNAME">$2</tt> the second, <tt class="VARNAME">$3</tt> the third, and so forth. <a name="AEN2464" href="#FTN.AEN2464" id="AEN2464"><span class="footnote">[2]</span></a> <a name="BRACKETNOTATION" id="BRACKETNOTATION"></a> After <tt class="VARNAME">$9</tt>, the arguments must be enclosed in brackets, for example, <tt class="VARNAME">${10}</tt>, <tt class="VARNAME">${11}</tt>, <tt class="VARNAME">${12}</tt>.</p>
+          <p>The special variables <a href="internalvariables.html#APPREF">$* and $@</a> denote <em>all</em> the positional parameters.</p>
+          <div class="EXAMPLE">
+            <a name="EX17" id="EX17"></a>
+            <p><b>Example 4-5. Positional Parameters</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment"># Call this script with at least 10 parameters, for example</span>
+<span class="hljs-comment"># ./scriptname 1 2 3 4 5 6 7 8 9 10</span>
+MINPARAMS=10
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"The name of this script is \"<span class="hljs-variable">$0</span>\"."</span>
+<span class="hljs-comment"># Adds ./ for current directory</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"The name of this script is \"`basename <span class="hljs-variable">$0</span>`\"."</span>
+<span class="hljs-comment"># Strips out path name info (see 'basename')</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]              <span class="hljs-comment"># Tested variable is quoted.</span>
+<span class="hljs-keyword">then</span>
+ <span class="hljs-built_in">echo</span> <span class="hljs-string">"Parameter #1 is <span class="hljs-variable">$1</span>"</span>  <span class="hljs-comment"># Need quotes to escape #</span>
+<span class="hljs-keyword">fi</span> 
+
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span> ]
+<span class="hljs-keyword">then</span>
+ <span class="hljs-built_in">echo</span> <span class="hljs-string">"Parameter #2 is <span class="hljs-variable">$2</span>"</span>
+<span class="hljs-keyword">fi</span> 
+
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">"<span class="hljs-variable">$3</span>"</span> ]
+<span class="hljs-keyword">then</span>
+ <span class="hljs-built_in">echo</span> <span class="hljs-string">"Parameter #3 is <span class="hljs-variable">$3</span>"</span>
+<span class="hljs-keyword">fi</span> 
+
+<span class="hljs-comment"># ...</span>
+
+
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">"<span class="hljs-variable">${10}</span>"</span> ]  <span class="hljs-comment"># Parameters &gt; $9 must be enclosed in {brackets}.</span>
+<span class="hljs-keyword">then</span>
+ <span class="hljs-built_in">echo</span> <span class="hljs-string">"Parameter #10 is <span class="hljs-variable">${10}</span>"</span>
+<span class="hljs-keyword">fi</span> 
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"-----------------------------------"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"All the command-line parameters are: "</span>$*<span class="hljs-string">""</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -lt <span class="hljs-string">"<span class="hljs-variable">$MINPARAMS</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"This script needs at least <span class="hljs-variable">$MINPARAMS</span> command-line arguments!"</span>
+<span class="hljs-keyword">fi</span>  
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><i class="FIRSTTERM">Bracket notation</i> for positional parameters leads to a fairly simple way of referencing the <em>last</em> argument passed to a script on the command-line. This also requires <a href="bashver2.html#VARREFNEW">indirect referencing</a>.</p>
+          <p><a name="LASTARGREF" id="LASTARGREF"></a></p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">args=<span class="hljs-variable">$#</span>           <span class="hljs-comment"># Number of args passed.</span>
+lastarg=<span class="hljs-variable">${!args}</span>
+<span class="hljs-comment"># Note: This is an *indirect reference* to $args ...</span>
+
+
+<span class="hljs-comment"># Or:       lastarg=${!#}             (Thanks, Chris Monson.)</span>
+<span class="hljs-comment"># This is an *indirect reference* to the $# variable.</span>
+<span class="hljs-comment"># Note that lastarg=${!$#} doesn't work.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>Some scripts can perform different operations, depending on which name they are invoked with. For this to work, the script needs to check <tt class="VARNAME">$0</tt>, the name it was invoked by. <a name="AEN2501" href="#FTN.AEN2501" id="AEN2501"><span class="footnote">[3]</span></a> There must also exist symbolic links to all the alternate names of the script. See <a href="basic.html#HELLOL">Example 16-2</a>.</p>
+          <p><a name="NULLVAR" id="NULLVAR"></a></p>
+          <div class="TIP">
+            <table class="TIP" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/tip.gif" hspace="5" alt="Tip"></td>
+                <td align="left" valign="top">
+                  <p>If a script expects a command-line parameter but is invoked without one, this may cause a <i class="FIRSTTERM">null variable assignment</i>, generally an undesirable result. One way to prevent this is to append an extra character to both sides of the assignment statement using the expected positional parameter.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">variable1_=<span class="hljs-variable">$1_</span>  <span class="hljs-comment"># Rather than variable1=$1</span>
+<span class="hljs-comment"># This will prevent an error, even if positional parameter is absent.</span>
+
+critical_argument01=<span class="hljs-variable">$variable1_</span>
+
+<span class="hljs-comment"># The extra character can be stripped off later, like so.</span>
+variable1=<span class="hljs-variable">${variable1_/_/}</span>
+<span class="hljs-comment"># Side effects only if $variable1_ begins with an underscore.</span>
+<span class="hljs-comment"># This uses one of the parameter substitution templates discussed later.</span>
+<span class="hljs-comment"># (Leaving out the replacement pattern results in a deletion.)</span>
+
+<span class="hljs-comment">#  A more straightforward way of dealing with this is</span>
+<span class="hljs-comment">#+ to simply test whether expected positional parameters have been passed.</span>
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-variable">$1</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_MISSING_POS_PARAM</span>
+<span class="hljs-keyword">fi</span>
+
+
+<span class="hljs-comment">#  However, as Fabian Kreutz points out,</span>
+<span class="hljs-comment">#+ the above method may have unexpected side-effects.</span>
+<span class="hljs-comment">#  A better method is parameter substitution:</span>
+<span class="hljs-comment">#         ${1:-$DefaultVal}</span>
+<span class="hljs-comment">#  See the "Parameter Substition" section</span>
+<span class="hljs-comment">#+ in the "Variables Revisited" chapter.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>---</p>
+          <div class="EXAMPLE">
+            <a name="EX18" id="EX18"></a>
+            <p><b>Example 4-6. <i class="FIRSTTERM">wh</i>, <i class="FIRSTTERM">whois</i> domain name lookup</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># ex18.sh</span>
+
+<span class="hljs-comment"># Does a 'whois domain-name' lookup on any of 3 alternate servers:</span>
+<span class="hljs-comment">#                    ripe.net, cw.net, radb.net</span>
+
+<span class="hljs-comment"># Place this script -- renamed 'wh' -- in /usr/local/bin</span>
+
+<span class="hljs-comment"># Requires symbolic links:</span>
+<span class="hljs-comment"># ln -s /usr/local/bin/wh /usr/local/bin/wh-ripe</span>
+<span class="hljs-comment"># ln -s /usr/local/bin/wh /usr/local/bin/wh-apnic</span>
+<span class="hljs-comment"># ln -s /usr/local/bin/wh /usr/local/bin/wh-tucows</span>
+
+E_NOARGS=75
+
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` [domain-name]"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOARGS</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment"># Check script name and call proper server.</span>
+<span class="hljs-keyword">case</span> `basename <span class="hljs-variable">$0</span>` <span class="hljs-keyword">in</span>    <span class="hljs-comment"># Or:    case ${0##*/} in</span>
+    <span class="hljs-string">"wh"</span>       ) whois <span class="hljs-variable">$1</span>@whois.tucows.com;;
+    <span class="hljs-string">"wh-ripe"</span>  ) whois <span class="hljs-variable">$1</span>@whois.ripe.net;;
+    <span class="hljs-string">"wh-apnic"</span> ) whois <span class="hljs-variable">$1</span>@whois.apnic.net;;
+    <span class="hljs-string">"wh-cw"</span>    ) whois <span class="hljs-variable">$1</span>@whois.cw.net;;
+    *          ) <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` [domain-name]"</span>;;
+<span class="hljs-keyword">esac</span> 
+
+<span class="hljs-built_in">exit</span> $?</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>---</p>
+          <p><a name="SHIFTREF" id="SHIFTREF"></a></p>
+          <p>The <b class="COMMAND">shift</b> command reassigns the positional parameters, in effect shifting them to the left one notch.</p>
+          <p><tt class="VARNAME">$1</tt> &lt;--- <tt class="VARNAME">$2</tt>, <tt class="VARNAME">$2</tt> &lt;--- <tt class="VARNAME">$3</tt>, <tt class="VARNAME">$3</tt> &lt;--- <tt class="VARNAME">$4</tt>, etc.</p>
+          <p>The old <tt class="VARNAME">$1</tt> disappears, but <em><tt class="VARNAME">$0</tt> (the script name) does not change</em>. If you use a large number of positional parameters to a script, <b class="COMMAND">shift</b> lets you access those past <tt class="LITERAL">10</tt>, although <a href="othertypesv.html#BRACKETNOTATION">{bracket} notation</a> also permits this.</p>
+          <div class="EXAMPLE">
+            <a name="EX19" id="EX19"></a>
+            <p><b>Example 4-7. Using <i class="FIRSTTERM">shift</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># shft.sh: Using 'shift' to step through all the positional parameters.</span>
+
+<span class="hljs-comment">#  Name this script something like shft.sh,</span>
+<span class="hljs-comment">#+ and invoke it with some parameters.</span>
+<span class="hljs-comment">#+ For example:</span>
+<span class="hljs-comment">#             sh shft.sh a b c def 83 barndoor</span>
+
+until [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]  <span class="hljs-comment"># Until all parameters used up . . .</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$1</span> "</span>
+  <span class="hljs-built_in">shift</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span>               <span class="hljs-comment"># Extra linefeed.</span>
+
+<span class="hljs-comment"># But, what happens to the "used-up" parameters?</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span>
+<span class="hljs-comment">#  Nothing echoes!</span>
+<span class="hljs-comment">#  When $2 shifts into $1 (and there is no $3 to shift into $2)</span>
+<span class="hljs-comment">#+ then $2 remains empty.</span>
+<span class="hljs-comment">#  So, it is not a parameter *copy*, but a *move*.</span>
+
+<span class="hljs-built_in">exit</span>
+
+<span class="hljs-comment">#  See also the echo-params.sh script for a "shiftless"</span>
+<span class="hljs-comment">#+ alternative method of stepping through the positional params.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>The <b class="COMMAND">shift</b> command can take a numerical parameter indicating how many positions to shift.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># shift-past.sh</span>
+
+<span class="hljs-built_in">shift</span> 3    <span class="hljs-comment"># Shift 3 positions.</span>
+<span class="hljs-comment">#  n=3; shift $n</span>
+<span class="hljs-comment">#  Has the same effect.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># ======================== #</span>
+
+
+$ sh shift-past.sh 1 2 3 4 5
+4
+
+<span class="hljs-comment">#  However, as Eleni Fragkiadaki, points out,</span>
+<span class="hljs-comment">#+ attempting a 'shift' past the number of</span>
+<span class="hljs-comment">#+ positional parameters ($#) returns an exit status of 1,</span>
+<span class="hljs-comment">#+ and the positional parameters themselves do not change.</span>
+<span class="hljs-comment">#  This means possibly getting stuck in an endless loop. . . .</span>
+<span class="hljs-comment">#  For example:</span>
+<span class="hljs-comment">#      until [ -z "$1" ]</span>
+<span class="hljs-comment">#      do</span>
+<span class="hljs-comment">#         echo -n "$1 "</span>
+<span class="hljs-comment">#         shift 20    #  If less than 20 pos params,</span>
+<span class="hljs-comment">#      done           #+ then loop never ends!</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># When in doubt, add a sanity check. . . .</span>
+<span class="hljs-comment">#           shift 20 || break</span>
+<span class="hljs-comment">#                    ^^^^^^^^</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>The <b class="COMMAND">shift</b> command works in a similar fashion on parameters passed to a <a href="functions.html#FUNCTIONREF">function</a>. See <a href="assortedtips.html#MULTIPLICATION">Example 36-18</a>.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES no-border" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN2450" href="othertypesv.html#AEN2450" id="FTN.AEN2450"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Note that <a href="complexfunct.html#PASSEDARGS"><i class="FIRSTTERM">functions</i> also take positional parameters</a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN2464" href="othertypesv.html#AEN2464" id="FTN.AEN2464"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><a name="ARG0" id="ARG0"></a>The process calling the script sets the <tt class="VARNAME">$0</tt> parameter. By convention, this parameter is the name of the script. See the <a href="basic.html#MANREF">manpage</a> (manual page) for <b class="COMMAND">execv</b>.</p>
+        <p>From the <i class="FIRSTTERM">command-line</i>, however, <tt class="VARNAME">$0</tt> is the name of the shell.</p>
+        <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+          <tbody><tr>
+            <td>
+              <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> <span class="hljs-variable">$0</span></span>
+bash
+<span class="hljs-meta">
+tcsh%</span><span class="bash"> <span class="hljs-built_in">echo</span> <span class="hljs-variable">$0</span></span>
+tcsh</pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN2501" href="othertypesv.html#AEN2501" id="FTN.AEN2501"><span class="footnote">[3]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>If the the script is <a href="internal.html#SOURCEREF">sourced</a> or <a href="basic.html#SYMLINKREF">symlinked</a>, then this will not work. It is safer to check <a href="debugging.html#BASHSOURCEREF">$BASH_Source</a>.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="untyped.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="quoting.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Bash Variables Are Untyped</td>
+        <td width="34%" align="center" valign="top"><a href="variables.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Quoting</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

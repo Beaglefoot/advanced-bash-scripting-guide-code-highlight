@@ -1,0 +1,250 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Here Strings</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Here Documents" href="here-docs.html">
+  <link rel="PREVIOUS" title="Here Documents" href="here-docs.html">
+  <link rel="NEXT" title="I/O Redirection" href="io-redirection.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="here-docs.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 19. Here Documents</td>
+        <td width="10%" align="right" valign="bottom"><a href="io-redirection.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="AEN17837" id="AEN17837"></a>19.1. Here Strings</h1>
+    <p><a name="HERESTRINGSREF" id="HERESTRINGSREF"></a></p><a name="AEN17841" id="AEN17841"></a>
+    <blockquote class="BLOCKQUOTE">
+      <p class="LITERALLAYOUT">A&nbsp;<i class="FIRSTTERM">here string</i>&nbsp;can&nbsp;be&nbsp;considered&nbsp;as&nbsp;a&nbsp;stripped-down&nbsp;form&nbsp;of&nbsp;a&nbsp;<i class="FIRSTTERM">here document</i>.<br>
+      It&nbsp;consists&nbsp;of&nbsp;nothing&nbsp;more&nbsp;than&nbsp;<b class="COMMAND">COMMAND &lt;&lt;&lt; $WORD</b>,<br>
+      where&nbsp;<tt class="VARNAME">$WORD</tt>&nbsp;is&nbsp;expanded&nbsp;and&nbsp;fed&nbsp;to&nbsp;the&nbsp;<tt class="FILENAME">stdin</tt>&nbsp;of&nbsp;<b class="COMMAND">COMMAND</b>.<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+    </blockquote>
+    <p>As a simple example, consider this alternative to the <a href="internal.html#ECHOGREPREF">echo-grep</a> construction.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># Instead of:</span>
+<span class="hljs-keyword">if</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$VAR</span>"</span> | grep -q txt   <span class="hljs-comment"># if [[ $VAR = *txt* ]]</span>
+<span class="hljs-comment"># etc.</span>
+
+<span class="hljs-comment"># Try:</span>
+<span class="hljs-keyword">if</span> grep -q <span class="hljs-string">"txt"</span> &lt;&lt;&lt; <span class="hljs-string">"<span class="hljs-variable">$VAR</span>"</span>
+<span class="hljs-keyword">then</span>   <span class="hljs-comment">#         ^^^</span>
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$VAR</span> contains the substring sequence \"txt\""</span>
+<span class="hljs-keyword">fi</span>
+<span class="hljs-comment"># Thank you, Sebastian Kaminski, for the suggestion.</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="HSREAD" id="HSREAD"></a></p>
+    <p>Or, in combination with <a href="internal.html#READREF">read</a>:</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">String=<span class="hljs-string">"This is a string of words."</span>
+
+<span class="hljs-built_in">read</span> -r -a Words &lt;&lt;&lt; <span class="hljs-string">"<span class="hljs-variable">$String</span>"</span>
+<span class="hljs-comment">#  The -a option to "read"</span>
+<span class="hljs-comment">#+ assigns the resulting values to successive members of an array.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"First word in String is:    <span class="hljs-variable">${Words[0]}</span>"</span>   <span class="hljs-comment"># This</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Second word in String is:   <span class="hljs-variable">${Words[1]}</span>"</span>   <span class="hljs-comment"># is</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Third word in String is:    <span class="hljs-variable">${Words[2]}</span>"</span>   <span class="hljs-comment"># a</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Fourth word in String is:   <span class="hljs-variable">${Words[3]}</span>"</span>   <span class="hljs-comment"># string</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Fifth word in String is:    <span class="hljs-variable">${Words[4]}</span>"</span>   <span class="hljs-comment"># of</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Sixth word in String is:    <span class="hljs-variable">${Words[5]}</span>"</span>   <span class="hljs-comment"># words.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Seventh word in String is:  <span class="hljs-variable">${Words[6]}</span>"</span>   <span class="hljs-comment"># (null)</span>
+                                                 <span class="hljs-comment"># Past end of $String.</span>
+
+<span class="hljs-comment"># Thank you, Francisco Lobo, for the suggestion.</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="HSLOOP" id="HSLOOP"></a>It is, of course, possible to feed the output of a <i class="FIRSTTERM">here string</i> into the <tt class="FILENAME">stdin</tt> of a <a href="loops.html#LOOPREF00">loop</a>.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># As Seamus points out . . .</span>
+
+ArrayVar=( element0 element1 element2 {A..D} )
+
+<span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> element ; <span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$element</span>"</span> 1&gt;&amp;2
+<span class="hljs-keyword">done</span> &lt;&lt;&lt; $(<span class="hljs-built_in">echo</span> <span class="hljs-variable">${ArrayVar[*]}</span>)
+
+<span class="hljs-comment"># element0 element1 element2 A B C D</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="HSPRE" id="HSPRE"></a></p>
+    <div class="EXAMPLE">
+      <a name="PREPENDEX" id="PREPENDEX"></a>
+      <p><b>Example 19-13. Prepending a line to a file</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># prepend.sh: Add text at beginning of file.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  Example contributed by Kenny Stauffer,</span>
+<span class="hljs-comment">#+ and slightly modified by document author.</span>
+
+
+E_NOSUCHFILE=85
+
+<span class="hljs-built_in">read</span> -p <span class="hljs-string">"File: "</span> file   <span class="hljs-comment"># -p arg to 'read' displays prompt.</span>
+<span class="hljs-keyword">if</span> [ ! -e <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span> ]
+<span class="hljs-keyword">then</span>   <span class="hljs-comment"># Bail out if no such file.</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"File <span class="hljs-variable">$file</span> not found."</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOSUCHFILE</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">read</span> -p <span class="hljs-string">"Title: "</span> title
+cat - <span class="hljs-variable">$file</span> &lt;&lt;&lt;<span class="hljs-variable">$title</span> &gt; <span class="hljs-variable">$file</span>.new
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Modified file is <span class="hljs-variable">$file</span>.new"</span>
+
+<span class="hljs-built_in">exit</span>  <span class="hljs-comment"># Ends script execution.</span>
+
+  from <span class="hljs-string">'man bash'</span>:
+  Here Strings
+        A variant of here documents, the format is:
+  
+                &lt;&lt;&lt;word
+  
+        The word is expanded and supplied to the <span class="hljs-built_in">command</span> on its standard input.
+
+
+  Of course, the following also works:
+   sed -e <span class="hljs-string">'1i\
+   Title: '</span> <span class="hljs-variable">$file</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="MAILBOXGREP" id="MAILBOXGREP"></a>
+      <p><b>Example 19-14. Parsing a mailbox</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment">#  Script by Francisco Lobo,</span>
+<span class="hljs-comment">#+ and slightly modified and commented by ABS Guide author.</span>
+<span class="hljs-comment">#  Used in ABS Guide with permission. (Thank you!)</span>
+
+<span class="hljs-comment"># This script will not run under Bash versions -lt 3.0.</span>
+
+
+E_MISSING_ARG=87
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: <span class="hljs-variable">$0</span> mailbox-file"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_MISSING_ARG</span>
+<span class="hljs-keyword">fi</span>
+
+mbox_grep()  <span class="hljs-comment"># Parse mailbox file.</span>
+{
+    <span class="hljs-built_in">declare</span> -i body=0 match=0
+    <span class="hljs-built_in">declare</span> -a date sender
+    <span class="hljs-built_in">declare</span> mail header value
+
+
+    <span class="hljs-keyword">while</span> IFS= <span class="hljs-built_in">read</span> -r mail
+<span class="hljs-comment">#         ^^^^                 Reset $IFS.</span>
+<span class="hljs-comment">#  Otherwise "read" will strip leading &amp; trailing space from its input.</span>
+
+   <span class="hljs-keyword">do</span>
+       <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$mail</span> =~ ^From  ]]   <span class="hljs-comment"># Match "From" field in message.</span>
+       <span class="hljs-keyword">then</span>
+          (( body  = 0 ))           <span class="hljs-comment"># "Zero out" variables.</span>
+          (( match = 0 ))
+          <span class="hljs-built_in">unset</span> date
+
+       <span class="hljs-keyword">elif</span> (( body ))
+       <span class="hljs-keyword">then</span>
+            (( match ))
+            <span class="hljs-comment">#  echo "$mail"</span>
+            <span class="hljs-comment">#  Uncomment above line if you want entire body</span>
+            <span class="hljs-comment">#+ of message to display.</span>
+
+   <span class="hljs-keyword">elif</span> [[ <span class="hljs-variable">$mail</span> ]]; <span class="hljs-keyword">then</span>
+      IFS=: <span class="hljs-built_in">read</span> -r header value &lt;&lt;&lt; <span class="hljs-string">"<span class="hljs-variable">$mail</span>"</span>
+      <span class="hljs-comment">#                          ^^^  "here string"</span>
+
+      <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$header</span>"</span> <span class="hljs-keyword">in</span>
+      [Ff][Rr][Oo][Mm] ) [[ <span class="hljs-variable">$value</span> =~ <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span> ]] &amp;&amp; (( match++ )) ;;
+      <span class="hljs-comment"># Match "From" line.</span>
+      [Dd][Aa][Tt][Ee] ) <span class="hljs-built_in">read</span> -r -a date &lt;&lt;&lt; <span class="hljs-string">"<span class="hljs-variable">$value</span>"</span> ;;
+      <span class="hljs-comment">#                                  ^^^</span>
+      <span class="hljs-comment"># Match "Date" line.</span>
+      [Rr][Ee][Cc][Ee][Ii][Vv][Ee][Dd] ) <span class="hljs-built_in">read</span> -r -a sender &lt;&lt;&lt; <span class="hljs-string">"<span class="hljs-variable">$value</span>"</span> ;;
+      <span class="hljs-comment">#                                                    ^^^</span>
+      <span class="hljs-comment"># Match IP Address (may be spoofed).</span>
+      <span class="hljs-keyword">esac</span>
+
+       <span class="hljs-keyword">else</span>
+          (( body++ ))
+          (( match  )) &amp;&amp;
+          <span class="hljs-built_in">echo</span> <span class="hljs-string">"MESSAGE <span class="hljs-variable">${date:+of: ${date[*]}</span> }"</span>
+       <span class="hljs-comment">#    Entire $date array             ^</span>
+          <span class="hljs-built_in">echo</span> <span class="hljs-string">"IP address of sender: <span class="hljs-variable">${sender[1]}</span>"</span>
+       <span class="hljs-comment">#    Second field of "Received" line    ^</span>
+
+       <span class="hljs-keyword">fi</span>
+
+
+    <span class="hljs-keyword">done</span> &lt; <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> <span class="hljs-comment"># Redirect stdout of file into loop.</span>
+}
+
+
+mbox_grep <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>  <span class="hljs-comment"># Send mailbox file to function.</span>
+
+<span class="hljs-built_in">exit</span> $?
+
+<span class="hljs-comment"># Exercises:</span>
+<span class="hljs-comment"># ---------</span>
+<span class="hljs-comment"># 1) Break the single function, above, into multiple functions,</span>
+<span class="hljs-comment">#+   for the sake of readability.</span>
+<span class="hljs-comment"># 2) Add additional parsing to the script, checking for various keywords.</span>
+
+
+
+$ mailbox_grep.sh scam_mail
+  MESSAGE of Thu, 5 Jan 2006 08:00:56 -0500 (EST) 
+  IP address of sender: 196.3.62.4</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Exercise: Find other uses for <i class="FIRSTTERM">here strings</i>, such as, for example, <a href="mathc.html#GOLDENRATIO">feeding input to <i class="FIRSTTERM">dc</i></a>.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="here-docs.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="io-redirection.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Here Documents</td>
+        <td width="34%" align="center" valign="top"><a href="here-docs.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">I/O Redirection</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

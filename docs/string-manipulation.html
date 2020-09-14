@@ -1,0 +1,745 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Manipulating Strings</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Manipulating Variables" href="manipulatingvars.html">
+  <link rel="PREVIOUS" title="Manipulating Variables" href="manipulatingvars.html">
+  <link rel="NEXT" title="Parameter Substitution" href="parameter-substitution.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="manipulatingvars.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 10. Manipulating Variables</td>
+        <td width="10%" align="right" valign="bottom"><a href="parameter-substitution.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="STRING-MANIPULATION" id="STRING-MANIPULATION"></a>10.1. Manipulating Strings</h1>
+    <p><a name="STRINGMANIP" id="STRINGMANIP"></a></p>
+    <p>Bash supports a surprising number of string manipulation operations. Unfortunately, these tools lack a unified focus. Some are a subset of <a href="parameter-substitution.html#PARAMSUBREF">parameter substitution</a>, and others fall under the functionality of the UNIX <a href="moreadv.html#EXPRREF">expr</a> command. This results in inconsistent command syntax and overlap of functionality, not to mention confusion.</p>
+    <div class="VARIABLELIST">
+      <p><b>String Length</b></p>
+      <dl>
+        <dt>${#string}</dt>
+        <dd></dd>
+        <dt>expr length $string</dt>
+        <dd>
+          <p><a name="STRLEN" id="STRLEN"></a>These are the equivalent of <i class="FIRSTTERM">strlen()</i> in <i class="FIRSTTERM">C</i>.</p>
+        </dd>
+        <dt>expr "$string" : '.*'</dt>
+        <dd>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">stringZ=abcABC123ABCabc
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${#stringZ}</span>                 <span class="hljs-comment"># 15</span>
+<span class="hljs-built_in">echo</span> `expr length <span class="hljs-variable">$stringZ</span>`      <span class="hljs-comment"># 15</span>
+<span class="hljs-built_in">echo</span> `expr <span class="hljs-string">"<span class="hljs-variable">$stringZ</span>"</span> : <span class="hljs-string">'.*'</span>`    <span class="hljs-comment"># 15</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+      </dl>
+    </div>
+    <div class="EXAMPLE">
+      <a name="PARAGRAPHSPACE" id="PARAGRAPHSPACE"></a>
+      <p><b>Example 10-1. Inserting a blank line between paragraphs in a text file</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># paragraph-space.sh</span>
+<span class="hljs-comment"># Ver. 2.1, Reldate 29Jul12 [fixup]</span>
+
+<span class="hljs-comment"># Inserts a blank line between paragraphs of a single-spaced text file.</span>
+<span class="hljs-comment"># Usage: $0 &lt;FILENAME</span>
+
+MINLEN=60        <span class="hljs-comment"># Change this value? It's a judgment call.</span>
+<span class="hljs-comment">#  Assume lines shorter than $MINLEN characters ending in a period</span>
+<span class="hljs-comment">#+ terminate a paragraph. See exercises below.</span>
+
+<span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> line  <span class="hljs-comment"># For as many lines as the input file has ...</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$line</span>"</span>   <span class="hljs-comment"># Output the line itself.</span>
+
+  len=<span class="hljs-variable">${#line}</span>
+  <span class="hljs-keyword">if</span> [[ <span class="hljs-string">"<span class="hljs-variable">$len</span>"</span> -lt <span class="hljs-string">"<span class="hljs-variable">$MINLEN</span>"</span> &amp;&amp; <span class="hljs-string">"<span class="hljs-variable">$line</span>"</span> =~ [*{\.}]$ ]]
+<span class="hljs-comment"># if [[ "$len" -lt "$MINLEN" &amp;&amp; "$line" =~ \[*\.\] ]]</span>
+<span class="hljs-comment"># An update to Bash broke the previous version of this script. Ouch!</span>
+<span class="hljs-comment"># Thank you, Halim Srama, for pointing this out and suggesting a fix.</span>
+    <span class="hljs-keyword">then</span> <span class="hljs-built_in">echo</span>    <span class="hljs-comment">#  Add a blank line immediately</span>
+  <span class="hljs-keyword">fi</span>             <span class="hljs-comment">#+ after a short line terminated by a period.</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">exit</span>
+
+<span class="hljs-comment"># Exercises:</span>
+<span class="hljs-comment"># ---------</span>
+<span class="hljs-comment">#  1) The script usually inserts a blank line at the end</span>
+<span class="hljs-comment">#+    of the target file. Fix this.</span>
+<span class="hljs-comment">#  2) Line 17 only considers periods as sentence terminators.</span>
+<span class="hljs-comment">#     Modify this to include other common end-of-sentence characters,</span>
+<span class="hljs-comment">#+    such as ?, !, and ".</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b>Length of Matching Substring at Beginning of String</b></p>
+      <dl>
+        <dt><a name="EXPRMATCH" id="EXPRMATCH"></a>expr match "$string" '$substring'</dt>
+        <dd>
+          <p><tt class="REPLACEABLE"><i>$substring</i></tt> is a <a href="regexp.html#REGEXREF">regular expression</a>.</p>
+        </dd>
+        <dt>expr "$string" : '$substring'</dt>
+        <dd>
+          <p><tt class="REPLACEABLE"><i>$substring</i></tt> is a regular expression.</p>
+          <p></p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">stringZ=abcABC123ABCabc
+<span class="hljs-comment">#       |------|</span>
+<span class="hljs-comment">#       12345678</span>
+
+<span class="hljs-built_in">echo</span> `expr match <span class="hljs-string">"<span class="hljs-variable">$stringZ</span>"</span> <span class="hljs-string">'abc[A-Z]*.2'</span>`   <span class="hljs-comment"># 8</span>
+<span class="hljs-built_in">echo</span> `expr <span class="hljs-string">"<span class="hljs-variable">$stringZ</span>"</span> : <span class="hljs-string">'abc[A-Z]*.2'</span>`       <span class="hljs-comment"># 8</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b>Index</b></p>
+      <dl>
+        <dt><a name="SUBSTRINGINDEX2" id="SUBSTRINGINDEX2"></a>expr index $string $substring</dt>
+        <dd>
+          <p>Numerical position in $string of first character in $substring that matches.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">stringZ=abcABC123ABCabc
+<span class="hljs-comment">#       123456 ...</span>
+<span class="hljs-built_in">echo</span> `expr index <span class="hljs-string">"<span class="hljs-variable">$stringZ</span>"</span> C12`             <span class="hljs-comment"># 6</span>
+                                             <span class="hljs-comment"># C position.</span>
+
+<span class="hljs-built_in">echo</span> `expr index <span class="hljs-string">"<span class="hljs-variable">$stringZ</span>"</span> 1c`              <span class="hljs-comment"># 3</span>
+<span class="hljs-comment"># 'c' (in #3 position) matches before '1'.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>This is the near equivalent of <i class="FIRSTTERM">strchr()</i> in <i class="FIRSTTERM">C</i>.</p>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b>Substring Extraction</b></p>
+      <dl>
+        <dt><a name="SUBSTREXTR01" id="SUBSTREXTR01"></a>${string:position}</dt>
+        <dd>
+          <p>Extracts substring from <tt class="REPLACEABLE"><i>$string</i></tt> at <tt class="REPLACEABLE"><i>$position</i></tt>.</p>
+          <p>If the <tt class="VARNAME">$string</tt> parameter is <span class="QUOTE">"<span class="TOKEN">*</span>"</span> or <span class="QUOTE">"<span class="TOKEN">@</span>"</span>, then this extracts the <a href="internalvariables.html#POSPARAMREF">positional parameters</a>, <a name="AEN5987" href="#FTN.AEN5987" id="AEN5987"><span class="footnote">[1]</span></a> starting at <tt class="VARNAME">$position</tt>.</p>
+        </dd>
+        <dt><a name="SUBSTREXTR02" id="SUBSTREXTR02"></a>${string:position:length}</dt>
+        <dd>
+          <p>Extracts <tt class="REPLACEABLE"><i>$length</i></tt> characters of substring from <tt class="REPLACEABLE"><i>$string</i></tt> at <tt class="REPLACEABLE"><i>$position</i></tt>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">stringZ=abcABC123ABCabc
+<span class="hljs-comment">#       0123456789.....</span>
+<span class="hljs-comment">#       0-based indexing.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ:0}</span>                            <span class="hljs-comment"># abcABC123ABCabc</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ:1}</span>                            <span class="hljs-comment"># bcABC123ABCabc</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ:7}</span>                            <span class="hljs-comment"># 23ABCabc</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ:7:3}</span>                          <span class="hljs-comment"># 23A</span>
+                                             <span class="hljs-comment"># Three characters of substring.</span>
+
+
+
+<span class="hljs-comment"># Is it possible to index from the right end of the string?</span>
+    
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ:-4}</span>                           <span class="hljs-comment"># abcABC123ABCabc</span>
+<span class="hljs-comment"># Defaults to full string, as in ${parameter:-default}.</span>
+<span class="hljs-comment"># However . . .</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ:(-4)}</span>                         <span class="hljs-comment"># Cabc </span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ: -4}</span>                          <span class="hljs-comment"># Cabc</span>
+<span class="hljs-comment"># Now, it works.</span>
+<span class="hljs-comment"># Parentheses or added space "escape" the position parameter.</span>
+
+<span class="hljs-comment"># Thank you, Dan Jacobson, for pointing this out.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>The <i class="FIRSTTERM">position</i> and <i class="FIRSTTERM">length</i> arguments can be <span class="QUOTE">"parameterized,"</span> that is, represented as a variable, rather than as a numerical constant.</p>
+          <p><a name="RANDSTRING0" id="RANDSTRING0"></a></p>
+          <div class="EXAMPLE">
+            <a name="RANDSTRING" id="RANDSTRING"></a>
+            <p><b>Example 10-2. Generating an 8-character <span class="QUOTE">"random"</span> string</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># rand-string.sh</span>
+<span class="hljs-comment"># Generating an 8-character "random" string.</span>
+
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]  <span class="hljs-comment">#  If command-line argument present,</span>
+<span class="hljs-keyword">then</span>            <span class="hljs-comment">#+ then set start-string to it.</span>
+  str0=<span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>
+<span class="hljs-keyword">else</span>            <span class="hljs-comment">#  Else use PID of script as start-string.</span>
+  str0=<span class="hljs-string">"$$"</span>
+<span class="hljs-keyword">fi</span>
+
+POS=2  <span class="hljs-comment"># Starting from position 2 in the string.</span>
+LEN=8  <span class="hljs-comment"># Extract eight characters.</span>
+
+str1=$( <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$str0</span>"</span> | md5sum | md5sum )
+<span class="hljs-comment">#  Doubly scramble     ^^^^^^   ^^^^^^</span>
+<span class="hljs-comment">#+ by piping and repiping to md5sum.</span>
+
+randstring=<span class="hljs-string">"<span class="hljs-variable">${str1:$POS:$LEN}</span>"</span>
+<span class="hljs-comment"># Can parameterize ^^^^ ^^^^</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$randstring</span>"</span>
+
+<span class="hljs-built_in">exit</span> $?
+
+<span class="hljs-comment"># bozo$ ./rand-string.sh my-password</span>
+<span class="hljs-comment"># 1bdd88c4</span>
+
+<span class="hljs-comment">#  No, this is is not recommended</span>
+<span class="hljs-comment">#+ as a method of generating hack-proof passwords.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="SUBSTREXTRP" id="SUBSTREXTRP"></a></p>
+          <p>If the <tt class="VARNAME">$string</tt> parameter is <span class="QUOTE">"<span class="TOKEN">*</span>"</span> or <span class="QUOTE">"<span class="TOKEN">@</span>"</span>, then this extracts a maximum of <tt class="VARNAME">$length</tt> positional parameters, starting at <tt class="VARNAME">$position</tt>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-built_in">echo</span> <span class="hljs-variable">${*:2}</span>          <span class="hljs-comment"># Echoes second and following positional parameters.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${@:2}</span>          <span class="hljs-comment"># Same as above.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${*:2:3}</span>        <span class="hljs-comment"># Echoes three positional parameters, starting at second.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt>expr substr $string $position $length</dt>
+        <dd>
+          <p>Extracts <tt class="REPLACEABLE"><i>$length</i></tt> characters from <tt class="REPLACEABLE"><i>$string</i></tt> starting at <tt class="REPLACEABLE"><i>$position</i></tt>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">stringZ=abcABC123ABCabc
+<span class="hljs-comment">#       123456789......</span>
+<span class="hljs-comment">#       1-based indexing.</span>
+
+<span class="hljs-built_in">echo</span> `expr substr <span class="hljs-variable">$stringZ</span> 1 2`              <span class="hljs-comment"># ab</span>
+<span class="hljs-built_in">echo</span> `expr substr <span class="hljs-variable">$stringZ</span> 4 3`              <span class="hljs-comment"># ABC</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p><a name="EXPRPAREN" id="EXPRPAREN"></a></p>
+        </dd>
+        <dt>expr match "$string" '\($substring\)'</dt>
+        <dd>
+          <p>Extracts <tt class="REPLACEABLE"><i>$substring</i></tt> at beginning of <tt class="REPLACEABLE"><i>$string</i></tt>, where <tt class="REPLACEABLE"><i>$substring</i></tt> is a <a href="regexp.html#REGEXREF">regular expression</a>.</p>
+        </dd>
+        <dt>expr "$string" : '\($substring\)'</dt>
+        <dd>
+          <p>Extracts <tt class="REPLACEABLE"><i>$substring</i></tt> at beginning of <tt class="REPLACEABLE"><i>$string</i></tt>, where <tt class="REPLACEABLE"><i>$substring</i></tt> is a regular expression.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">stringZ=abcABC123ABCabc
+<span class="hljs-comment">#       =======     </span>
+
+<span class="hljs-built_in">echo</span> `expr match <span class="hljs-string">"<span class="hljs-variable">$stringZ</span>"</span> <span class="hljs-string">'\(.[b-c]*[A-Z]..[0-9]\)'</span>`   <span class="hljs-comment"># abcABC1</span>
+<span class="hljs-built_in">echo</span> `expr <span class="hljs-string">"<span class="hljs-variable">$stringZ</span>"</span> : <span class="hljs-string">'\(.[b-c]*[A-Z]..[0-9]\)'</span>`       <span class="hljs-comment"># abcABC1</span>
+<span class="hljs-built_in">echo</span> `expr <span class="hljs-string">"<span class="hljs-variable">$stringZ</span>"</span> : <span class="hljs-string">'\(.......\)'</span>`                   <span class="hljs-comment"># abcABC1</span>
+<span class="hljs-comment"># All of the above forms give an identical result.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt>expr match "$string" '.*\($substring\)'</dt>
+        <dd>
+          <p>Extracts <tt class="REPLACEABLE"><i>$substring</i></tt> at <em>end</em> of <tt class="REPLACEABLE"><i>$string</i></tt>, where <tt class="REPLACEABLE"><i>$substring</i></tt> is a regular expression.</p>
+        </dd>
+        <dt>expr "$string" : '.*\($substring\)'</dt>
+        <dd>
+          <p>Extracts <tt class="REPLACEABLE"><i>$substring</i></tt> at <em>end</em> of <tt class="REPLACEABLE"><i>$string</i></tt>, where <tt class="REPLACEABLE"><i>$substring</i></tt> is a regular expression.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">stringZ=abcABC123ABCabc
+<span class="hljs-comment">#                ======</span>
+
+<span class="hljs-built_in">echo</span> `expr match <span class="hljs-string">"<span class="hljs-variable">$stringZ</span>"</span> <span class="hljs-string">'.*\([A-C][A-C][A-C][a-c]*\)'</span>`    <span class="hljs-comment"># ABCabc</span>
+<span class="hljs-built_in">echo</span> `expr <span class="hljs-string">"<span class="hljs-variable">$stringZ</span>"</span> : <span class="hljs-string">'.*\(......\)'</span>`                       <span class="hljs-comment"># ABCabc</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b>Substring Removal</b></p>
+      <dl>
+        <dt>${string#substring}</dt>
+        <dd>
+          <p>Deletes shortest match of <tt class="REPLACEABLE"><i>$substring</i></tt> from <em>front</em> of <tt class="REPLACEABLE"><i>$string</i></tt>.</p>
+        </dd>
+        <dt>${string##substring}</dt>
+        <dd>
+          <p>Deletes longest match of <tt class="REPLACEABLE"><i>$substring</i></tt> from <em>front</em> of <tt class="REPLACEABLE"><i>$string</i></tt>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">stringZ=abcABC123ABCabc
+<span class="hljs-comment">#       |----|          shortest</span>
+<span class="hljs-comment">#       |----------|    longest</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ#a*C}</span>      <span class="hljs-comment"># 123ABCabc</span>
+<span class="hljs-comment"># Strip out shortest match between 'a' and 'C'.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ##a*C}</span>     <span class="hljs-comment"># abc</span>
+<span class="hljs-comment"># Strip out longest match between 'a' and 'C'.</span>
+
+
+
+<span class="hljs-comment"># You can parameterize the substrings.</span>
+
+X=<span class="hljs-string">'a*C'</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ#$X}</span>      <span class="hljs-comment"># 123ABCabc</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ##$X}</span>     <span class="hljs-comment"># abc</span>
+                        <span class="hljs-comment"># As above.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt>${string%substring}</dt>
+        <dd>
+          <p>Deletes shortest match of <tt class="REPLACEABLE"><i>$substring</i></tt> from <em>back</em> of <tt class="REPLACEABLE"><i>$string</i></tt>.</p>
+          <p>For example:</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># Rename all filenames in $PWD with "TXT" suffix to a "txt" suffix.</span>
+<span class="hljs-comment"># For example, "file1.TXT" becomes "file1.txt" . . .</span>
+
+SUFF=TXT
+suff=txt
+
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> $(ls *.<span class="hljs-variable">$SUFF</span>)
+<span class="hljs-keyword">do</span>
+  mv -f <span class="hljs-variable">$i</span> <span class="hljs-variable">${i%.$SUFF}</span>.<span class="hljs-variable">$suff</span>
+  <span class="hljs-comment">#  Leave unchanged everything *except* the shortest pattern match</span>
+  <span class="hljs-comment">#+ starting from the right-hand-side of the variable $i . . .</span>
+<span class="hljs-keyword">done</span> <span class="hljs-comment">### This could be condensed into a "one-liner" if desired.</span>
+
+<span class="hljs-comment"># Thank you, Rory Winston.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt>${string%%substring}</dt>
+        <dd>
+          <p>Deletes longest match of <tt class="REPLACEABLE"><i>$substring</i></tt> from <em>back</em> of <tt class="REPLACEABLE"><i>$string</i></tt>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">stringZ=abcABC123ABCabc
+<span class="hljs-comment">#                    ||     shortest</span>
+<span class="hljs-comment">#        |------------|     longest</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ%b*c}</span>      <span class="hljs-comment"># abcABC123ABCa</span>
+<span class="hljs-comment"># Strip out shortest match between 'b' and 'c', from back of $stringZ.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ%%b*c}</span>     <span class="hljs-comment"># a</span>
+<span class="hljs-comment"># Strip out longest match between 'b' and 'c', from back of $stringZ.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>This operator is useful for generating filenames.</p>
+          <div class="EXAMPLE">
+            <a name="CVT" id="CVT"></a>
+            <p><b>Example 10-3. Converting graphic file formats, with filename change</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment">#  cvt.sh:</span>
+<span class="hljs-comment">#  Converts all the MacPaint image files in a directory to "pbm" format.</span>
+
+<span class="hljs-comment">#  Uses the "macptopbm" binary from the "netpbm" package,</span>
+<span class="hljs-comment">#+ which is maintained by Brian Henderson (bryanh@giraffe-data.com).</span>
+<span class="hljs-comment">#  Netpbm is a standard part of most Linux distros.</span>
+
+OPERATION=macptopbm
+SUFFIX=pbm          <span class="hljs-comment"># New filename suffix. </span>
+
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  directory=<span class="hljs-variable">$1</span>      <span class="hljs-comment"># If directory name given as a script argument...</span>
+<span class="hljs-keyword">else</span>
+  directory=<span class="hljs-variable">$PWD</span>    <span class="hljs-comment"># Otherwise use current working directory.</span>
+<span class="hljs-keyword">fi</span>  
+  
+<span class="hljs-comment">#  Assumes all files in the target directory are MacPaint image files,</span>
+<span class="hljs-comment">#+ with a ".mac" filename suffix.</span>
+
+<span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> <span class="hljs-variable">$directory</span>/*    <span class="hljs-comment"># Filename globbing.</span>
+<span class="hljs-keyword">do</span>
+  filename=<span class="hljs-variable">${file%.*c}</span>      <span class="hljs-comment">#  Strip ".mac" suffix off filename</span>
+                            <span class="hljs-comment">#+ ('.*c' matches everything</span>
+                            <span class="hljs-comment">#+ between '.' and 'c', inclusive).</span>
+  <span class="hljs-variable">$OPERATION</span> <span class="hljs-variable">$file</span> &gt; <span class="hljs-string">"<span class="hljs-variable">$filename</span>.<span class="hljs-variable">$SUFFIX</span>"</span>
+                            <span class="hljs-comment"># Redirect conversion to new filename.</span>
+  rm -f <span class="hljs-variable">$file</span>               <span class="hljs-comment"># Delete original files after converting.   </span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$filename</span>.<span class="hljs-variable">$SUFFIX</span>"</span>  <span class="hljs-comment"># Log what is happening to stdout.</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># Exercise:</span>
+<span class="hljs-comment"># --------</span>
+<span class="hljs-comment">#  As it stands, this script converts *all* the files in the current</span>
+<span class="hljs-comment">#+ working directory.</span>
+<span class="hljs-comment">#  Modify it to work *only* on files with a ".mac" suffix.</span>
+
+
+
+<span class="hljs-comment"># *** And here's another way to do it. *** #</span>
+
+<span class="hljs-comment">#!/bin/bash</span>
+<span class="hljs-comment"># Batch convert into different graphic formats.</span>
+<span class="hljs-comment"># Assumes imagemagick installed (standard in most Linux distros).</span>
+
+INFMT=png   <span class="hljs-comment"># Can be tif, jpg, gif, etc.</span>
+OUTFMT=pdf  <span class="hljs-comment"># Can be tif, jpg, gif, pdf, etc.</span>
+
+<span class="hljs-keyword">for</span> pic <span class="hljs-keyword">in</span> *<span class="hljs-string">"<span class="hljs-variable">$INFMT</span>"</span>
+<span class="hljs-keyword">do</span>
+  p2=$(ls <span class="hljs-string">"<span class="hljs-variable">$pic</span>"</span> | sed -e s/\.<span class="hljs-variable">$INFMT</span>//)
+  <span class="hljs-comment"># echo $p2</span>
+    convert <span class="hljs-string">"<span class="hljs-variable">$pic</span>"</span> <span class="hljs-variable">$p2</span>.<span class="hljs-variable">$OUTFMT</span>
+    <span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">exit</span> $?</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="EXAMPLE">
+            <a name="RA2OGG" id="RA2OGG"></a>
+            <p><b>Example 10-4. Converting streaming audio files to <i class="FIRSTTERM">ogg</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># ra2ogg.sh: Convert streaming audio files (*.ra) to ogg.</span>
+
+<span class="hljs-comment"># Uses the "mplayer" media player program:</span>
+<span class="hljs-comment">#      http://www.mplayerhq.hu/homepage</span>
+<span class="hljs-comment"># Uses the "ogg" library and "oggenc":</span>
+<span class="hljs-comment">#      http://www.xiph.org/</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># This script may need appropriate codecs installed, such as sipr.so ...</span>
+<span class="hljs-comment"># Possibly also the compat-libstdc++ package.</span>
+
+
+OFILEPREF=<span class="hljs-variable">${1%%ra}</span>      <span class="hljs-comment"># Strip off the "ra" suffix.</span>
+OFILESUFF=wav           <span class="hljs-comment"># Suffix for wav file.</span>
+OUTFILE=<span class="hljs-string">"<span class="hljs-variable">$OFILEPREF</span>"</span><span class="hljs-string">"<span class="hljs-variable">$OFILESUFF</span>"</span>
+E_NOARGS=85
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]          <span class="hljs-comment"># Must specify a filename to convert.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` [filename]"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOARGS</span>
+<span class="hljs-keyword">fi</span>
+
+
+<span class="hljs-comment">##########################################################################</span>
+mplayer <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> -ao pcm:file=<span class="hljs-variable">$OUTFILE</span>
+oggenc <span class="hljs-string">"<span class="hljs-variable">$OUTFILE</span>"</span>  <span class="hljs-comment"># Correct file extension automatically added by oggenc.</span>
+<span class="hljs-comment">##########################################################################</span>
+
+rm <span class="hljs-string">"<span class="hljs-variable">$OUTFILE</span>"</span>      <span class="hljs-comment"># Delete intermediate *.wav file.</span>
+                   <span class="hljs-comment"># If you want to keep it, comment out above line.</span>
+
+<span class="hljs-built_in">exit</span> $?
+
+<span class="hljs-comment">#  Note:</span>
+<span class="hljs-comment">#  ----</span>
+<span class="hljs-comment">#  On a Website, simply clicking on a *.ram streaming audio file</span>
+<span class="hljs-comment">#+ usually only downloads the URL of the actual *.ra audio file.</span>
+<span class="hljs-comment">#  You can then use "wget" or something similar</span>
+<span class="hljs-comment">#+ to download the *.ra file itself.</span>
+
+
+<span class="hljs-comment">#  Exercises:</span>
+<span class="hljs-comment">#  ---------</span>
+<span class="hljs-comment">#  As is, this script converts only *.ra filenames.</span>
+<span class="hljs-comment">#  Add flexibility by permitting use of *.ram and other filenames.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  If you're really ambitious, expand the script</span>
+<span class="hljs-comment">#+ to do automatic downloads and conversions of streaming audio files.</span>
+<span class="hljs-comment">#  Given a URL, batch download streaming audio files (using "wget")</span>
+<span class="hljs-comment">#+ and convert them on the fly.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="GETOPTSIMPLE1" id="GETOPTSIMPLE1"></a></p>
+          <p>A simple emulation of <a href="extmisc.html#GETOPTY">getopt</a> using substring-extraction constructs.</p>
+          <div class="EXAMPLE">
+            <a name="GETOPTSIMPLE" id="GETOPTSIMPLE"></a>
+            <p><b>Example 10-5. Emulating <i class="FIRSTTERM">getopt</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># getopt-simple.sh</span>
+<span class="hljs-comment"># Author: Chris Morgan</span>
+<span class="hljs-comment"># Used in the ABS Guide with permission.</span>
+
+
+<span class="hljs-function"><span class="hljs-title">getopt_simple</span></span>()
+{
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"getopt_simple()"</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Parameters are '$*'"</span>
+    until [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]
+    <span class="hljs-keyword">do</span>
+      <span class="hljs-built_in">echo</span> <span class="hljs-string">"Processing parameter of: '<span class="hljs-variable">$1</span>'"</span>
+      <span class="hljs-keyword">if</span> [ <span class="hljs-variable">${1:0:1}</span> = <span class="hljs-string">'/'</span> ]
+      <span class="hljs-keyword">then</span>
+          tmp=<span class="hljs-variable">${1:1}</span>               <span class="hljs-comment"># Strip off leading '/' . . .</span>
+          parameter=<span class="hljs-variable">${tmp%%=*}</span>     <span class="hljs-comment"># Extract name.</span>
+          value=<span class="hljs-variable">${tmp##*=}</span>         <span class="hljs-comment"># Extract value.</span>
+          <span class="hljs-built_in">echo</span> <span class="hljs-string">"Parameter: '<span class="hljs-variable">$parameter</span>', value: '<span class="hljs-variable">$value</span>'"</span>
+          <span class="hljs-built_in">eval</span> <span class="hljs-variable">$parameter</span>=<span class="hljs-variable">$value</span>
+      <span class="hljs-keyword">fi</span>
+      <span class="hljs-built_in">shift</span>
+    <span class="hljs-keyword">done</span>
+}
+
+<span class="hljs-comment"># Pass all options to getopt_simple().</span>
+getopt_simple $*
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"test is '<span class="hljs-variable">$test</span>'"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"test2 is '<span class="hljs-variable">$test2</span>'"</span>
+
+<span class="hljs-built_in">exit</span> 0  <span class="hljs-comment"># See also, UseGetOpt.sh, a modified version of this script.</span>
+
+---
+
+sh getopt_example.sh /<span class="hljs-built_in">test</span>=value1 /test2=value2
+
+Parameters are <span class="hljs-string">'/test=value1 /test2=value2'</span>
+Processing parameter of: <span class="hljs-string">'/test=value1'</span>
+Parameter: <span class="hljs-string">'test'</span>, value: <span class="hljs-string">'value1'</span>
+Processing parameter of: <span class="hljs-string">'/test2=value2'</span>
+Parameter: <span class="hljs-string">'test2'</span>, value: <span class="hljs-string">'value2'</span>
+<span class="hljs-built_in">test</span> is <span class="hljs-string">'value1'</span>
+test2 is <span class="hljs-string">'value2'</span>
+</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b>Substring Replacement</b></p>
+      <dl>
+        <dt><a name="SUBSTRREPL00" id="SUBSTRREPL00"></a>${string/substring/replacement}</dt>
+        <dd>
+          <p>Replace first <i class="FIRSTTERM">match</i> of <tt class="REPLACEABLE"><i>$substring</i></tt> with <tt class="REPLACEABLE"><i>$replacement</i></tt>. <a name="AEN6164" href="#FTN.AEN6164" id="AEN6164"><span class="footnote">[2]</span></a></p>
+        </dd>
+        <dt><a name="SUBSTRREPL01" id="SUBSTRREPL01"></a>${string//substring/replacement}</dt>
+        <dd>
+          <p>Replace all matches of <tt class="REPLACEABLE"><i>$substring</i></tt> with <tt class="REPLACEABLE"><i>$replacement</i></tt>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">stringZ=abcABC123ABCabc
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ/abc/xyz}</span>       <span class="hljs-comment"># xyzABC123ABCabc</span>
+                              <span class="hljs-comment"># Replaces first match of 'abc' with 'xyz'.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ//abc/xyz}</span>      <span class="hljs-comment"># xyzABC123ABCxyz</span>
+                              <span class="hljs-comment"># Replaces all matches of 'abc' with # 'xyz'.</span>
+
+<span class="hljs-built_in">echo</span>  ---------------
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$stringZ</span>"</span>               <span class="hljs-comment"># abcABC123ABCabc</span>
+<span class="hljs-built_in">echo</span>  ---------------
+                              <span class="hljs-comment"># The string itself is not altered!</span>
+
+<span class="hljs-comment"># Can the match and replacement strings be parameterized?</span>
+match=abc
+repl=000
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ/$match/$repl}</span>  <span class="hljs-comment"># 000ABC123ABCabc</span>
+<span class="hljs-comment">#              ^      ^         ^^^</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ//$match/$repl}</span> <span class="hljs-comment"># 000ABC123ABC000</span>
+<span class="hljs-comment"># Yes!          ^      ^        ^^^         ^^^</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># What happens if no $replacement string is supplied?</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ/abc}</span>           <span class="hljs-comment"># ABC123ABCabc</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ//abc}</span>          <span class="hljs-comment"># ABC123ABC</span>
+<span class="hljs-comment"># A simple deletion takes place.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="SUBSTRREPL02" id="SUBSTRREPL02"></a>${string/#substring/replacement}</dt>
+        <dd>
+          <p>If <tt class="REPLACEABLE"><i>$substring</i></tt> matches <em>front</em> end of <tt class="REPLACEABLE"><i>$string</i></tt>, substitute <tt class="REPLACEABLE"><i>$replacement</i></tt> for <tt class="REPLACEABLE"><i>$substring</i></tt>.</p>
+        </dd>
+        <dt><a name="SUBSTRREPL03" id="SUBSTRREPL03"></a>${string/%substring/replacement}</dt>
+        <dd>
+          <p>If <tt class="REPLACEABLE"><i>$substring</i></tt> matches <em>back</em> end of <tt class="REPLACEABLE"><i>$string</i></tt>, substitute <tt class="REPLACEABLE"><i>$replacement</i></tt> for <tt class="REPLACEABLE"><i>$substring</i></tt>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">stringZ=abcABC123ABCabc
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ/#abc/XYZ}</span>          <span class="hljs-comment"># XYZABC123ABCabc</span>
+                                  <span class="hljs-comment"># Replaces front-end match of 'abc' with 'XYZ'.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${stringZ/%abc/XYZ}</span>          <span class="hljs-comment"># abcABC123ABCXYZ</span>
+                                  <span class="hljs-comment"># Replaces back-end match of 'abc' with 'XYZ'.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+      </dl>
+    </div>
+    <div class="SECT2">
+      <h2 class="SECT2"><a name="AWKSTRINGMANIP" id="AWKSTRINGMANIP"></a>10.1.1. Manipulating strings using awk</h2>
+      <p><a name="AWKSTRINGMANIP2" id="AWKSTRINGMANIP2"></a></p>
+      <p>A Bash script may invoke the string manipulation facilities of <a href="awk.html#AWKREF">awk</a> as an alternative to using its built-in operations.</p>
+      <div class="EXAMPLE">
+        <a name="SUBSTRINGEX" id="SUBSTRINGEX"></a>
+        <p><b>Example 10-6. Alternate ways of extracting and locating substrings</b></p>
+        <table border="0" bgcolor="#E0E0E0" width="100%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># substring-extraction.sh</span>
+
+String=23skidoo1
+<span class="hljs-comment">#      012345678    Bash</span>
+<span class="hljs-comment">#      123456789    awk</span>
+<span class="hljs-comment"># Note different string indexing system:</span>
+<span class="hljs-comment"># Bash numbers first character of string as 0.</span>
+<span class="hljs-comment"># Awk  numbers first character of string as 1.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${String:2:4}</span> <span class="hljs-comment"># position 3 (0-1-2), 4 characters long</span>
+                                         <span class="hljs-comment"># skid</span>
+
+<span class="hljs-comment"># The awk equivalent of ${string:pos:length} is substr(string,pos,length).</span>
+<span class="hljs-built_in">echo</span> | awk <span class="hljs-string">'
+{ print substr("'</span><span class="hljs-string">"<span class="hljs-variable">${String}</span>"</span><span class="hljs-string">'",3,4)      # skid
+}
+'</span>
+<span class="hljs-comment">#  Piping an empty "echo" to awk gives it dummy input,</span>
+<span class="hljs-comment">#+ and thus makes it unnecessary to supply a filename.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"----"</span>
+
+<span class="hljs-comment"># And likewise:</span>
+
+<span class="hljs-built_in">echo</span> | awk <span class="hljs-string">'
+{ print index("'</span><span class="hljs-string">"<span class="hljs-variable">${String}</span>"</span><span class="hljs-string">'", "skid")      # 3
+}                                           # (skid starts at position 3)
+'</span>   <span class="hljs-comment"># The awk equivalent of "expr index" ...</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </div>
+    </div>
+    <div class="SECT2">
+      <h2 class="SECT2"><a name="STRFDISC" id="STRFDISC"></a>10.1.2. Further Reference</h2>
+      <p>For more on string manipulation in scripts, refer to <a href="parameter-substitution.html">Section 10.2</a> and the <a href="moreadv.html#EXPEXTRSUB">relevant section</a> of the <a href="moreadv.html#EXPRREF">expr</a> command listing.</p>
+      <p>Script examples:</p>
+      <ol type="1">
+        <li>
+          <p><a href="moreadv.html#EX45">Example 16-9</a></p>
+        </li>
+        <li>
+          <p><a href="parameter-substitution.html#LENGTH">Example 10-9</a></p>
+        </li>
+        <li>
+          <p><a href="parameter-substitution.html#PATTMATCHING">Example 10-10</a></p>
+        </li>
+        <li>
+          <p><a href="parameter-substitution.html#RFE">Example 10-11</a></p>
+        </li>
+        <li>
+          <p><a href="parameter-substitution.html#VARMATCH">Example 10-13</a></p>
+        </li>
+        <li>
+          <p><a href="contributed-scripts.html#INSERTIONSORT">Example A-36</a></p>
+        </li>
+        <li>
+          <p><a href="contributed-scripts.html#QKY">Example A-41</a></p>
+        </li>
+      </ol>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN5987" href="string-manipulation.html#AEN5987" id="FTN.AEN5987"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>This applies to either command-line arguments or parameters passed to a <a href="functions.html#FUNCTIONREF">function</a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN6164" href="string-manipulation.html#AEN6164" id="FTN.AEN6164"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Note that <tt class="REPLACEABLE"><i>$substring</i></tt> and <tt class="REPLACEABLE"><i>$replacement</i></tt> may refer to either <i class="FIRSTTERM">literal strings</i> or <i class="FIRSTTERM">variables</i>, depending on context. See the first usage example.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="manipulatingvars.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="parameter-substitution.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Manipulating Variables</td>
+        <td width="34%" align="center" valign="top"><a href="manipulatingvars.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Parameter Substitution</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

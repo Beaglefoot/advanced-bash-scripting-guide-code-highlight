@@ -1,0 +1,65 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Testing Your Knowledge of Tests</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Tests" href="tests.html">
+  <link rel="PREVIOUS" title="Nested if/then Condition Tests" href="nestedifthen.html">
+  <link rel="NEXT" title="Operations and Related Topics" href="operations.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="nestedifthen.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 7. Tests</td>
+        <td width="10%" align="right" valign="bottom"><a href="operations.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="TESTTEST" id="TESTTEST"></a>7.5. Testing Your Knowledge of Tests</h1>
+    <p>The systemwide <tt class="FILENAME">xinitrc</tt> file can be used to launch the X server. This file contains quite a number of <i class="FIRSTTERM">if/then</i> tests. The following is excerpted from an <span class="QUOTE">"ancient"</span> version of <tt class="FILENAME">xinitrc</tt> (<i class="FIRSTTERM">Red Hat 7.1</i>, or thereabouts).</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">if</span> [ -f <span class="hljs-variable">$HOME</span>/.Xclients ]; <span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">exec</span> <span class="hljs-variable">$HOME</span>/.Xclients
+<span class="hljs-keyword">elif</span> [ -f /etc/X11/xinit/Xclients ]; <span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">exec</span> /etc/X11/xinit/Xclients
+<span class="hljs-keyword">else</span>
+     <span class="hljs-comment"># failsafe settings.  Although we should never get here</span>
+     <span class="hljs-comment"># (we provide fallbacks in Xclients as well) it can't hurt.</span>
+     xclock -geometry 100x100-5+5 &amp;
+     xterm -geometry 80x50-50+150 &amp;
+     <span class="hljs-keyword">if</span> [ -f /usr/bin/netscape -a -f /usr/share/doc/HTML/index.html ]; <span class="hljs-keyword">then</span>
+             netscape /usr/share/doc/HTML/index.html &amp;
+     <span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">fi</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>Explain the <i class="FIRSTTERM">test</i> constructs in the above snippet, then examine an updated version of the file, <tt class="FILENAME">/etc/X11/xinit/xinitrc</tt>, and analyze the <i class="FIRSTTERM">if/then</i> test constructs there. You may need to refer ahead to the discussions of <a href="textproc.html#GREPREF">grep</a>, <a href="sedawk.html#SEDREF">sed</a>, and <a href="regexp.html#REGEXREF">regular expressions</a>.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="nestedifthen.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="operations.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Nested <tt class="REPLACEABLE"><i>if/then</i></tt> Condition Tests</td>
+        <td width="34%" align="center" valign="top"><a href="tests.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Operations and Related Topics</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

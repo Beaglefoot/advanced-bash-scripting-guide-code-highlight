@@ -1,0 +1,687 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Gotchas</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="Options" href="options.html">
+  <link rel="NEXT" title="Scripting With Style" href="scrstyle.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="options.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="scrstyle.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="GOTCHAS" id="GOTCHAS"></a>Chapter 34. Gotchas</h1>
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" class="EPIGRAPH">
+      <tbody><tr>
+        <td width="45%">&nbsp;</td>
+        <td width="45%" align="left" valign="top">
+          <p><i>Turandot: Gli enigmi sono tre, la morte una!</i></p>
+          <p><i>Caleph: No, no! Gli enigmi sono tre, una la vita!</i></p>
+          <p><i>--Puccini</i></p>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="BASH3GOTCHA" id="BASH3GOTCHA"></a></p>
+    <p>Here are some (non-recommended!) scripting practices that will bring excitement into an otherwise dull life.</p>
+    <ul>
+      <li>
+        <p><a name="INAPPVN" id="INAPPVN"></a></p>
+        <p>Assigning reserved words or characters to variable names.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">case</span>=value0       <span class="hljs-comment"># Causes problems.</span>
+23skidoo=value1   <span class="hljs-comment"># Also problems.</span>
+<span class="hljs-comment"># Variable names starting with a digit are reserved by the shell.</span>
+<span class="hljs-comment"># Try _23skidoo=value1. Starting variables with an underscore is okay.</span>
+
+<span class="hljs-comment"># However . . .   using just an underscore will not work.</span>
+_=25
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$_</span>           <span class="hljs-comment"># $_ is a special variable set to last arg of last command.</span>
+<span class="hljs-comment"># But . . .       _ is a valid function name!</span>
+
+xyz((!*=value2    <span class="hljs-comment"># Causes severe problems.</span>
+<span class="hljs-comment"># As of version 3 of Bash, periods are not allowed within variable names.</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p>Using a hyphen or other reserved characters in a variable name (or function name).</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs">var-1=23
+<span class="hljs-comment"># Use 'var_1' instead.</span>
+
+function-whatever ()   <span class="hljs-comment"># Error</span>
+<span class="hljs-comment"># Use 'function_whatever ()' instead.</span>
+
+ 
+<span class="hljs-comment"># As of version 3 of Bash, periods are not allowed within function names.</span>
+function.whatever ()   <span class="hljs-comment"># Error</span>
+<span class="hljs-comment"># Use 'functionWhatever ()' instead.</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p>Using the same name for a variable and a function. This can make a script difficult to understand.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-function"><span class="hljs-title">do_something</span></span> ()
+{
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"This function does something with \"<span class="hljs-variable">$1</span>\"."</span>
+}
+
+do_something=do_something
+
+do_something do_something
+
+<span class="hljs-comment"># All this is legal, but highly confusing.</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p><a name="WSBAD" id="WSBAD"></a>Using <a href="special-chars.html#WHITESPACEREF">whitespace</a> inappropriately. In contrast to other programming languages, Bash can be quite finicky about whitespace.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs">var1 = 23   <span class="hljs-comment"># 'var1=23' is correct.</span>
+<span class="hljs-comment"># On line above, Bash attempts to execute command "var1"</span>
+<span class="hljs-comment"># with the arguments "=" and "23".</span>
+        
+<span class="hljs-built_in">let</span> c = <span class="hljs-variable">$a</span> - <span class="hljs-variable">$b</span>   <span class="hljs-comment"># Instead:   let c=$a-$b   or   let "c = $a - $b"</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$a</span> -le 5]    <span class="hljs-comment"># if [ $a -le 5 ]   is correct.</span>
+<span class="hljs-comment">#           ^^      if [ "$a" -le 5 ]   is even better.</span>
+                  <span class="hljs-comment"># [[ $a -le 5 ]] also works.</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p><a name="OMITSEMICOLON" id="OMITSEMICOLON"></a></p>
+        <p>Not terminating with a <a href="special-chars.html#SEMICOLONREF">semicolon</a> the final command in a <a href="special-chars.html#CODEBLOCKREF">code block within curly brackets</a>.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs">{ ls -l; df; <span class="hljs-built_in">echo</span> <span class="hljs-string">"Done."</span> }
+<span class="hljs-comment"># bash: syntax error: unexpected end of file</span>
+
+{ ls -l; df; <span class="hljs-built_in">echo</span> <span class="hljs-string">"Done."</span>; }
+<span class="hljs-comment">#                        ^     ### Final command needs semicolon.</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p><a name="UNINITVAR" id="UNINITVAR"></a></p>
+        <p>Assuming uninitialized variables (variables before a value is assigned to them) are <span class="QUOTE">"zeroed out"</span>. An uninitialized variable has a value of <i class="FIRSTTERM">null</i>, <em>not</em> zero.</p>
+        <p><a name="BASH4.2-UNINITIALIZED" id="BASH4.2-UNINITIALIZED"></a></p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"uninitialized_var = <span class="hljs-variable">$uninitialized_var</span>"</span>
+<span class="hljs-comment"># uninitialized_var =</span>
+
+<span class="hljs-comment"># However . . .</span>
+<span class="hljs-comment"># if $BASH_VERSION ≥ 4.2; then</span>
+
+<span class="hljs-keyword">if</span> [[ ! -v uninitialized_var ]]
+<span class="hljs-keyword">then</span>
+  uninitialized_var=0   <span class="hljs-comment"># Initialize it to zero!</span>
+<span class="hljs-keyword">fi</span>
+
+</pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p><a name="EQDIF" id="EQDIF"></a></p>
+        <p>Mixing up <i class="FIRSTTERM">=</i> and <i class="FIRSTTERM">-eq</i> in a test. Remember, <i class="FIRSTTERM">=</i> is for comparing literal variables and <i class="FIRSTTERM">-eq</i> for integers.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> = 273 ]      <span class="hljs-comment"># Is $a an integer or string?</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> -eq 273 ]    <span class="hljs-comment"># If $a is an integer.</span>
+
+<span class="hljs-comment"># Sometimes you can interchange -eq and = without adverse consequences.</span>
+<span class="hljs-comment"># However . . .</span>
+
+
+a=273.0   <span class="hljs-comment"># Not an integer.</span>
+           
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> = 273 ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Comparison works."</span>
+<span class="hljs-keyword">else</span>  
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Comparison does not work."</span>
+<span class="hljs-keyword">fi</span>    <span class="hljs-comment"># Comparison does not work.</span>
+
+<span class="hljs-comment"># Same with   a=" 273"  and a="0273".</span>
+
+
+<span class="hljs-comment"># Likewise, problems trying to use "-eq" with non-integer values.</span>
+           
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> -eq 273.0 ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>
+<span class="hljs-keyword">fi</span>  <span class="hljs-comment"># Aborts with an error message.  </span>
+<span class="hljs-comment"># test.sh: [: 273.0: integer expression expected</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p><a name="NUMSTRCOMPNE" id="NUMSTRCOMPNE"></a></p>
+        <p>Misusing <a href="comparison-ops.html#SCOMPARISON1">string comparison</a> operators.</p>
+        <div class="EXAMPLE">
+          <a name="BADOP" id="BADOP"></a>
+          <p><b>Example 34-1. Numerical and string comparison are not equivalent</b></p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># bad-op.sh: Trying to use a string comparison on integers.</span>
+
+<span class="hljs-built_in">echo</span>
+number=1
+
+<span class="hljs-comment">#  The following while-loop has two errors:</span>
+<span class="hljs-comment">#+ one blatant, and the other subtle.</span>
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$number</span>"</span> &lt; 5 ]    <span class="hljs-comment"># Wrong! Should be:  while [ "$number" -lt 5 ]</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$number</span> "</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"number += 1"</span>
+<span class="hljs-keyword">done</span>  
+<span class="hljs-comment">#  Attempt to run this bombs with the error message:</span>
+<span class="hljs-comment">#+ bad-op.sh: line 10: 5: No such file or directory</span>
+<span class="hljs-comment">#  Within single brackets, "&lt;" must be escaped,</span>
+<span class="hljs-comment">#+ and even then, it's still wrong for comparing integers.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"---------------------"</span>
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$number</span>"</span> \&lt; 5 ]    <span class="hljs-comment">#  1 2 3 4</span>
+<span class="hljs-keyword">do</span>                          <span class="hljs-comment">#</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$number</span> "</span>        <span class="hljs-comment">#  It *seems* to work, but . . .</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"number += 1"</span>         <span class="hljs-comment">#+ it actually does an ASCII comparison,</span>
+<span class="hljs-keyword">done</span>                        <span class="hljs-comment">#+ rather than a numerical one.</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span> <span class="hljs-string">"---------------------"</span>
+
+<span class="hljs-comment"># This can cause problems. For example:</span>
+
+lesser=5
+greater=105
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$greater</span>"</span> \&lt; <span class="hljs-string">"<span class="hljs-variable">$lesser</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$greater</span> is less than <span class="hljs-variable">$lesser</span>"</span>
+<span class="hljs-keyword">fi</span>                          <span class="hljs-comment"># 105 is less than 5</span>
+<span class="hljs-comment">#  In fact, "105" actually is less than "5"</span>
+<span class="hljs-comment">#+ in a string comparison (ASCII sort order).</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </div>
+      </li>
+      <li>
+        <p><a name="LETBAD" id="LETBAD"></a></p>
+        <p>Attempting to use <a href="internal.html#LETREF">let</a> to set string variables.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-built_in">let</span> <span class="hljs-string">"a = hello, you"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span>   <span class="hljs-comment"># 0</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p><a name="FAILQUOTE" id="FAILQUOTE"></a></p>
+        <p>Sometimes variables within <span class="QUOTE">"test"</span> brackets ([ ]) need to be quoted (double quotes). Failure to do so may cause unexpected behavior. See <a href="comparison-ops.html#STRTEST">Example 7-6</a>, <a href="redircb.html#REDIR2">Example 20-5</a>, and <a href="internalvariables.html#ARGLIST">Example 9-6</a>.</p>
+      </li>
+      <li>
+        <p><a name="FAILNOTQUOTE" id="FAILNOTQUOTE"></a></p>
+        <p>Quoting a variable containing whitespace <a href="quotingvar.html#WSQUO">prevents splitting</a>. Sometimes this produces <a href="quotingvar.html#VARSPLITTING">unintended consequences</a>.</p>
+      </li>
+      <li>
+        <p><a name="EXECPERM" id="EXECPERM"></a></p>
+        <p>Commands issued from a script may fail to execute because the script owner lacks execute permission for them. If a user cannot invoke a command from the command-line, then putting it into a script will likewise fail. Try changing the attributes of the command in question, perhaps even setting the suid bit (as <i class="FIRSTTERM">root</i>, of course).</p>
+      </li>
+      <li>
+        <p><a name="DASHNREDR" id="DASHNREDR"></a></p>
+        <p>Attempting to use <b class="COMMAND">-</b> as a redirection operator (which it is not) will usually result in an unpleasant surprise.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs">command1 2&gt; - | command2
+<span class="hljs-comment"># Trying to redirect error output of command1 into a pipe . . .</span>
+<span class="hljs-comment"># . . . will not work.  </span>
+
+command1 2&gt;&amp; - | command2  <span class="hljs-comment"># Also futile.</span>
+
+Thanks, S.C.</pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p><a name="LATEVERF" id="LATEVERF"></a></p>
+        <p>Using Bash <a href="bashver2.html#BASH2REF">version 2+</a> functionality may cause a bailout with error messages. Older Linux machines may have version 1.XX of Bash as the default installation.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+minimum_version=2
+<span class="hljs-comment"># Since Chet Ramey is constantly adding features to Bash,</span>
+<span class="hljs-comment"># you may set $minimum_version to 2.XX, 3.XX, or whatever is appropriate.</span>
+E_BAD_VERSION=80
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$BASH_VERSION</span>"</span> \&lt; <span class="hljs-string">"<span class="hljs-variable">$minimum_version</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"This script works only with Bash, version <span class="hljs-variable">$minimum</span> or greater."</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Upgrade strongly recommended."</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BAD_VERSION</span>
+<span class="hljs-keyword">fi</span>
+
+...</pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p>Using Bash-specific functionality in a <a href="why-shell.html#BASHDEF">Bourne shell</a> script (<tt class="USERINPUT"><b>#!/bin/sh</b></tt>) on a non-Linux machine <a href="gotchas.html#BINSH">may cause unexpected behavior</a>. A Linux system usually aliases <b class="COMMAND">sh</b> to <b class="COMMAND">bash</b>, but this does not necessarily hold true for a generic UNIX machine.</p>
+      </li>
+      <li>
+        <p><a name="UNDOCF" id="UNDOCF"></a></p>
+        <p>Using undocumented features in Bash turns out to be a dangerous practice. In previous releases of this book there were several scripts that depended on the <span class="QUOTE">"feature"</span> that, although the maximum value of an <a href="exit-status.html#EXITSTATUSREF">exit</a> or <a href="complexfunct.html#RETURNREF">return</a> value was 255, that limit did not apply to <em>negative</em> integers. Unfortunately, in version 2.05b and later, that loophole disappeared. See <a href="complexfunct.html#RETURNTEST">Example 24-9</a>.</p>
+      </li>
+      <li>
+        <p><a name="GOTCHAEXITVALANAMALIES" id="GOTCHAEXITVALANAMALIES"></a></p>
+        <p>In certain contexts, a misleading <a href="exit-status.html#EXITSTATUSREF">exit status</a> may be returned. This may occur when <a href="localvar.html#EXITVALANOMALY01">setting a local variable within a function</a> or when <a href="internal.html#EXITVALANOMALY02">assigning an arithmetic value to a variable</a>.</p>
+      </li>
+      <li>
+        <p><a name="ARXS1" id="ARXS1"></a>The <a href="testconstructs.html#ARXS">exit status of an arithmetic expression</a> is <em>not</em> equivalent to an <i class="FIRSTTERM">error code</i>.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs">var=1 &amp;&amp; ((--var)) &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-variable">$var</span>
+<span class="hljs-comment">#        ^^^^^^^^^ Here the and-list terminates with exit status 1.</span>
+<span class="hljs-comment">#                     $var doesn't echo!</span>
+<span class="hljs-built_in">echo</span> $?   <span class="hljs-comment"># 1</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p><a name="DOSNEWLINES" id="DOSNEWLINES"></a></p>
+        <p>A script with DOS-type newlines (<tt class="REPLACEABLE"><i>\r\n</i></tt>) will fail to execute, since <tt class="USERINPUT"><b>#!/bin/bash\r\n</b></tt> is <em>not</em> recognized, <em>not</em> the same as the expected <tt class="USERINPUT"><b>#!/bin/bash\n</b></tt>. The fix is to convert the script to UNIX-style newlines.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Here"</span>
+
+unix2dos <span class="hljs-variable">$0</span>    <span class="hljs-comment"># Script changes itself to DOS format.</span>
+chmod 755 <span class="hljs-variable">$0</span>   <span class="hljs-comment"># Change back to execute permission.</span>
+               <span class="hljs-comment"># The 'unix2dos' command removes execute permission.</span>
+
+./<span class="hljs-variable">$0</span>           <span class="hljs-comment"># Script tries to run itself again.</span>
+               <span class="hljs-comment"># But it won't work as a DOS file.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"There"</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p><a name="BINSH" id="BINSH"></a></p>
+        <p>A shell script headed by <tt class="USERINPUT"><b>#!/bin/sh</b></tt> will not run in full Bash-compatibility mode. Some Bash-specific functions might be disabled. Scripts that need complete access to all the Bash-specific extensions should start with <tt class="USERINPUT"><b>#!/bin/bash</b></tt>.</p>
+      </li>
+      <li>
+        <p><a href="here-docs.html#INDENTEDLS">Putting whitespace in front of the terminating limit string</a> of a <a href="here-docs.html#HEREDOCREF">here document</a> will cause unexpected behavior in a script.</p>
+      </li>
+      <li>
+        <p><a name="RVTCAUTION2" id="RVTCAUTION2"></a>Putting more than one <i class="FIRSTTERM">echo</i> statement in a function <a href="assortedtips.html#RVT">whose output is captured</a>.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-function"><span class="hljs-title">add2</span></span> ()
+{
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Whatever ... "</span>   <span class="hljs-comment"># Delete this line!</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"retval = <span class="hljs-variable">$1</span> + <span class="hljs-variable">$2</span>"</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-variable">$retval</span>
+    }
+
+    num1=12
+    num2=43
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Sum of <span class="hljs-variable">$num1</span> and <span class="hljs-variable">$num2</span> = <span class="hljs-subst">$(add2 $num1 $num2)</span>"</span>
+
+<span class="hljs-comment">#   Sum of 12 and 43 = Whatever ... </span>
+<span class="hljs-comment">#   55</span>
+
+<span class="hljs-comment">#        The "echoes" concatenate.</span></pre>
+            </td>
+          </tr>
+        </tbody></table>This <a href="assortedtips.html#RVTCAUTION">will not work</a>.
+      </li>
+      <li>
+        <p><a name="PARCHILDPROBREF" id="PARCHILDPROBREF"></a></p>
+        <p>A script may not <b class="COMMAND">export</b> variables back to its <a href="internal.html#FORKREF">parent process</a>, the shell, or to the environment. Just as we learned in biology, a child process can inherit from a parent, but not vice versa.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs">WHATEVER=/home/bozo
+<span class="hljs-built_in">export</span> WHATEVER
+<span class="hljs-built_in">exit</span> 0</pre>
+            </td>
+          </tr>
+        </tbody></table>
+        <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+          <tbody><tr>
+            <td>
+              <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> <span class="hljs-variable">$WHATEVER</span></span>
+<span class="hljs-meta">
+bash$</span><span class="bash"> </span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+        <p>Sure enough, back at the command prompt, $WHATEVER remains unset.</p>
+      </li>
+      <li>
+        <p><a name="VARSUBSH" id="VARSUBSH"></a></p>
+        <p>Setting and manipulating variables in a <a href="subshells.html#SUBSHELLSREF">subshell</a>, then attempting to use those same variables outside the scope of the subshell will result an unpleasant surprise.</p>
+        <div class="EXAMPLE">
+          <a name="SUBPIT" id="SUBPIT"></a>
+          <p><b>Example 34-2. Subshell Pitfalls</b></p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Pitfalls of variables in a subshell.</span>
+
+outer_variable=outer
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"outer_variable = <span class="hljs-variable">$outer_variable</span>"</span>
+<span class="hljs-built_in">echo</span>
+
+(
+<span class="hljs-comment"># Begin subshell</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"outer_variable inside subshell = <span class="hljs-variable">$outer_variable</span>"</span>
+inner_variable=inner  <span class="hljs-comment"># Set</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"inner_variable inside subshell = <span class="hljs-variable">$inner_variable</span>"</span>
+outer_variable=inner  <span class="hljs-comment"># Will value change globally?</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"outer_variable inside subshell = <span class="hljs-variable">$outer_variable</span>"</span>
+
+<span class="hljs-comment"># Will 'exporting' make a difference?</span>
+<span class="hljs-comment">#    export inner_variable</span>
+<span class="hljs-comment">#    export outer_variable</span>
+<span class="hljs-comment"># Try it and see.</span>
+
+<span class="hljs-comment"># End subshell</span>
+)
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"inner_variable outside subshell = <span class="hljs-variable">$inner_variable</span>"</span>  <span class="hljs-comment"># Unset.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"outer_variable outside subshell = <span class="hljs-variable">$outer_variable</span>"</span>  <span class="hljs-comment"># Unchanged.</span>
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># What happens if you uncomment lines 19 and 20?</span>
+<span class="hljs-comment"># Does it make a difference?</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </div>
+      </li>
+      <li>
+        <p><a name="BADREAD0" id="BADREAD0"></a></p>
+        <p><a href="special-chars.html#PIPEREF">Piping</a> <b class="COMMAND">echo</b> output to a <a href="internal.html#READREF">read</a> may produce unexpected results. In this scenario, the <b class="COMMAND">read</b> acts as if it were running in a subshell. Instead, use the <a href="internal.html#SETREF">set</a> command (as in <a href="internal.html#SETPOS">Example 15-18</a>).</p>
+        <div class="EXAMPLE">
+          <a name="BADREAD" id="BADREAD"></a>
+          <p><b>Example 34-3. Piping the output of <i class="FIRSTTERM">echo</i> to a <i class="FIRSTTERM">read</i></b></p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment">#  badread.sh:</span>
+<span class="hljs-comment">#  Attempting to use 'echo and 'read'</span>
+<span class="hljs-comment">#+ to assign variables non-interactively.</span>
+
+<span class="hljs-comment">#   shopt -s lastpipe</span>
+
+a=aaa
+b=bbb
+c=ccc
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"one two three"</span> | <span class="hljs-built_in">read</span> a b c
+<span class="hljs-comment"># Try to reassign a, b, and c.</span>
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>  <span class="hljs-comment"># a = aaa</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"b = <span class="hljs-variable">$b</span>"</span>  <span class="hljs-comment"># b = bbb</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"c = <span class="hljs-variable">$c</span>"</span>  <span class="hljs-comment"># c = ccc</span>
+<span class="hljs-comment"># Reassignment failed.</span>
+
+<span class="hljs-comment">### However . . .</span>
+<span class="hljs-comment">##  Uncommenting line 6:</span>
+<span class="hljs-comment">#   shopt -s lastpipe</span>
+<span class="hljs-comment">##+ fixes the problem!</span>
+<span class="hljs-comment">### This is a new feature in Bash, version 4.2.</span>
+
+<span class="hljs-comment"># ------------------------------</span>
+
+<span class="hljs-comment"># Try the following alternative.</span>
+
+var=`<span class="hljs-built_in">echo</span> <span class="hljs-string">"one two three"</span>`
+<span class="hljs-built_in">set</span> -- <span class="hljs-variable">$var</span>
+a=<span class="hljs-variable">$1</span>; b=<span class="hljs-variable">$2</span>; c=<span class="hljs-variable">$3</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"-------"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>  <span class="hljs-comment"># a = one</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"b = <span class="hljs-variable">$b</span>"</span>  <span class="hljs-comment"># b = two</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"c = <span class="hljs-variable">$c</span>"</span>  <span class="hljs-comment"># c = three </span>
+<span class="hljs-comment"># Reassignment succeeded.</span>
+
+<span class="hljs-comment"># ------------------------------</span>
+
+<span class="hljs-comment">#  Note also that an echo to a 'read' works within a subshell.</span>
+<span class="hljs-comment">#  However, the value of the variable changes *only* within the subshell.</span>
+
+a=aaa          <span class="hljs-comment"># Starting all over again.</span>
+b=bbb
+c=ccc
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"one two three"</span> | ( <span class="hljs-built_in">read</span> a b c;
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Inside subshell: "</span>; <span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>; <span class="hljs-built_in">echo</span> <span class="hljs-string">"b = <span class="hljs-variable">$b</span>"</span>; <span class="hljs-built_in">echo</span> <span class="hljs-string">"c = <span class="hljs-variable">$c</span>"</span> )
+<span class="hljs-comment"># a = one</span>
+<span class="hljs-comment"># b = two</span>
+<span class="hljs-comment"># c = three</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"-----------------"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Outside subshell: "</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>  <span class="hljs-comment"># a = aaa</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"b = <span class="hljs-variable">$b</span>"</span>  <span class="hljs-comment"># b = bbb</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"c = <span class="hljs-variable">$c</span>"</span>  <span class="hljs-comment"># c = ccc</span>
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </div>
+        <p><a name="PIPELOOP" id="PIPELOOP"></a></p>
+        <p>In fact, as Anthony Richardson points out, piping to <em>any</em> loop can cause a similar problem.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># Loop piping troubles.</span>
+<span class="hljs-comment">#  This example by Anthony Richardson,</span>
+<span class="hljs-comment">#+ with addendum by Wilbert Berendsen.</span>
+
+
+foundone=<span class="hljs-literal">false</span>
+find <span class="hljs-variable">$HOME</span> -<span class="hljs-built_in">type</span> f -atime +30 -size 100k |
+<span class="hljs-keyword">while</span> <span class="hljs-literal">true</span>
+<span class="hljs-keyword">do</span>
+   <span class="hljs-built_in">read</span> f
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$f</span> is over 100KB and has not been accessed in over 30 days"</span>
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"Consider moving the file to archives."</span>
+   foundone=<span class="hljs-literal">true</span>
+   <span class="hljs-comment"># ------------------------------------</span>
+     <span class="hljs-built_in">echo</span> <span class="hljs-string">"Subshell level = <span class="hljs-variable">$BASH_SUBSHELL</span>"</span>
+   <span class="hljs-comment"># Subshell level = 1</span>
+   <span class="hljs-comment"># Yes, we're inside a subshell.</span>
+   <span class="hljs-comment"># ------------------------------------</span>
+<span class="hljs-keyword">done</span>
+   
+<span class="hljs-comment">#  foundone will always be false here since it is</span>
+<span class="hljs-comment">#+ set to true inside a subshell</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$foundone</span> = <span class="hljs-literal">false</span> ]
+<span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"No files need archiving."</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment"># =====================Now, here is the correct way:=================</span>
+
+foundone=<span class="hljs-literal">false</span>
+<span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> $(find <span class="hljs-variable">$HOME</span> -<span class="hljs-built_in">type</span> f -atime +30 -size 100k)  <span class="hljs-comment"># No pipe here.</span>
+<span class="hljs-keyword">do</span>
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$f</span> is over 100KB and has not been accessed in over 30 days"</span>
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"Consider moving the file to archives."</span>
+   foundone=<span class="hljs-literal">true</span>
+<span class="hljs-keyword">done</span>
+   
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$foundone</span> = <span class="hljs-literal">false</span> ]
+<span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"No files need archiving."</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment"># ==================And here is another alternative==================</span>
+
+<span class="hljs-comment">#  Places the part of the script that reads the variables</span>
+<span class="hljs-comment">#+ within a code block, so they share the same subshell.</span>
+<span class="hljs-comment">#  Thank you, W.B.</span>
+
+find <span class="hljs-variable">$HOME</span> -<span class="hljs-built_in">type</span> f -atime +30 -size 100k | {
+     foundone=<span class="hljs-literal">false</span>
+     <span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> f
+     <span class="hljs-keyword">do</span>
+       <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$f</span> is over 100KB and has not been accessed in over 30 days"</span>
+       <span class="hljs-built_in">echo</span> <span class="hljs-string">"Consider moving the file to archives."</span>
+       foundone=<span class="hljs-literal">true</span>
+     <span class="hljs-keyword">done</span>
+
+     <span class="hljs-keyword">if</span> ! <span class="hljs-variable">$foundone</span>
+     <span class="hljs-keyword">then</span>
+       <span class="hljs-built_in">echo</span> <span class="hljs-string">"No files need archiving."</span>
+     <span class="hljs-keyword">fi</span>
+}</pre>
+            </td>
+          </tr>
+        </tbody></table>
+        <p><a name="PTAILGREP" id="PTAILGREP"></a></p>
+        <p>A lookalike problem occurs when trying to write the <tt class="FILENAME">stdout</tt> of a <b class="COMMAND">tail -f</b> piped to <a href="textproc.html#GREPREF">grep</a>.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs">tail -f /var/<span class="hljs-built_in">log</span>/messages | grep <span class="hljs-string">"<span class="hljs-variable">$ERROR_MSG</span>"</span> &gt;&gt; error.log
+<span class="hljs-comment">#  The "error.log" file will not have anything written to it.</span>
+<span class="hljs-comment">#  As Samuli Kaipiainen points out, this results from grep</span>
+<span class="hljs-comment">#+ buffering its output.</span>
+<span class="hljs-comment">#  The fix is to add the "--line-buffered" parameter to grep.</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p><a name="SUIDSCR" id="SUIDSCR"></a></p>
+        <p>Using <span class="QUOTE">"suid"</span> commands within scripts is risky, as it may compromise system security. <a name="AEN19993" href="#FTN.AEN19993" id="AEN19993"><span class="footnote">[1]</span></a></p>
+      </li>
+      <li>
+        <p><a name="CGIREF" id="CGIREF"></a></p>
+        <p>Using shell scripts for CGI programming may be problematic. Shell script variables are not <span class="QUOTE">"typesafe,"</span> and this can cause undesirable behavior as far as CGI is concerned. Moreover, it is difficult to <span class="QUOTE">"cracker-proof"</span> shell scripts.</p>
+      </li>
+      <li>
+        <p>Bash does not handle the <a href="internal.html#DOUBLESLASHREF">double slash (<span class="TOKEN">//</span>) string</a> correctly.</p>
+      </li>
+      <li>
+        <p><a name="GNUREF" id="GNUREF"></a></p>
+        <p>Bash scripts written for Linux or BSD systems may need fixups to run on a commercial UNIX machine. Such scripts often employ the GNU set of commands and filters, which have greater functionality than their generic UNIX counterparts. This is particularly true of such text processing utilites as <a href="textproc.html#TRREF">tr</a>.</p>
+      </li>
+      <li>
+        <p><a name="UPDATEBREAKS" id="UPDATEBREAKS"></a></p>
+        <p>Sadly, updates to Bash itself have broken older scripts that <a href="string-manipulation.html#PARAGRAPHSPACE">used to work perfectly fine</a>. Let us recall <a href="gotchas.html#UNDOCF">how risky it is to use undocumented Bash features</a>.</p>
+      </li>
+    </ul>
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" class="EPIGRAPH">
+      <tbody><tr>
+        <td width="45%">&nbsp;</td>
+        <td width="45%" align="left" valign="top">
+          <p><i>Danger is near thee --</i></p>
+          <p><i>Beware, beware, beware, beware.</i></p>
+          <p><i>Many brave hearts are asleep in the deep.</i></p>
+          <p><i>So beware --</i></p>
+          <p><i>Beware.</i></p>
+          <p><i>--A.J. Lamb and H.W. Petrie</i></p>
+        </td>
+      </tr>
+    </tbody></table>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN19993" href="gotchas.html#AEN19993" id="FTN.AEN19993"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Setting the <a href="fto.html#SUIDREF">suid</a> permission on the script itself has no effect in Linux and most other UNIX flavors.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="options.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="scrstyle.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Options</td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Scripting With Style</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

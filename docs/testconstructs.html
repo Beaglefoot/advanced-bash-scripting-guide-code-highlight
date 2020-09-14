@@ -1,0 +1,778 @@
+<!DOCTYPE html><html><head>
+    <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+    <title>Test Constructs</title>
+    <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+    <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+    <link rel="UP" title="Tests" href="tests.html">
+    <link rel="PREVIOUS" title="Tests" href="tests.html">
+    <link rel="NEXT" title="File test operators" href="fto.html">
+  <link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+  <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+    <div class="NAVHEADER">
+      <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr>
+          <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+        </tr>
+        <tr>
+          <td width="10%" align="left" valign="bottom">
+            <a href="tests.html" accesskey="P">Prev</a>
+          </td>
+          <td width="80%" align="center" valign="bottom">Chapter 7. Tests</td>
+          <td width="10%" align="right" valign="bottom">
+            <a href="fto.html" accesskey="N">Next</a>
+          </td>
+        </tr>
+      </tbody></table>
+      <hr align="left" width="100%">
+    </div>
+    <div class="SECT1">
+      <h1 class="SECT1">
+        <a name="TESTCONSTRUCTS" id="TESTCONSTRUCTS"></a>7.1. Test Constructs
+      </h1>
+      <p><a name="TESTCONSTRUCTS1" id="TESTCONSTRUCTS1"></a></p>
+      <ul>
+        <li>
+          <p>
+            An <b class="COMMAND">if/then</b> construct tests whether the
+            <a href="exit-status.html#EXITSTATUSREF">exit status</a> of a list
+            of commands is <span class="RETURNVALUE">0</span> (since 0 means
+            <span class="QUOTE">"success"</span> by UNIX convention), and if so,
+            executes one or more commands.
+          </p>
+        </li>
+        <li>
+          <p>
+            There exists a dedicated command called <b class="COMMAND">[</b> (<a href="special-chars.html#LEFTBRACKET">left bracket</a>
+            special character). It is a synonym for <b class="COMMAND">test</b>,
+            and a <a href="internal.html#BUILTINREF">builtin</a> for efficiency
+            reasons. This command considers its arguments as comparison
+            expressions or file tests and returns an exit status corresponding
+            to the result of the comparison (0 for true, 1 for false).
+          </p>
+        </li>
+        <li>
+          <p>
+            With version 2.02, Bash introduced the
+            <a href="testconstructs.html#DBLBRACKETS">[[ ... ]]</a>
+            <i class="FIRSTTERM">extended test command</i>, which performs
+            comparisons in a manner more familiar to programmers from other
+            languages. Note that <b class="COMMAND">[[</b> is a
+            <a href="internal.html#KEYWORDREF">keyword</a>, not a command.
+          </p>
+          <p>
+            Bash sees <tt class="USERINPUT"><b>[[ $a -lt $b ]]</b></tt> as a
+            single element, which returns an exit status.
+          </p>
+        </li>
+        <li>
+          <p><a name="DBLPARENSTST" id="DBLPARENSTST"></a></p>
+          <p>
+            The <a href="dblparens.html">(( ... ))</a> and
+            <a href="internal.html#LETREF">let ...</a> constructs return an
+            <a href="exit-status.html#EXITSTATUSREF">exit status</a>,
+            <em>according to whether the arithmetic expressions they evaluate
+              expand to a non-zero value</em>. These
+            <a href="arithexp.html#ARITHEXPREF">arithmetic-expansion</a>
+            constructs may therefore be used to perform
+            <a href="comparison-ops.html#ICOMPARISON1">arithmetic comparisons</a>.
+          </p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">(( 0 &amp;&amp; 1 ))                 <span class="hljs-comment"># Logical AND</span>
+<span class="hljs-built_in">echo</span> $?     <span class="hljs-comment"># 1     ***</span>
+<span class="hljs-comment"># And so ...</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"num = (( 0 &amp;&amp; 1 ))"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$num</span>   <span class="hljs-comment"># 0</span>
+<span class="hljs-comment"># But ...</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"num = (( 0 &amp;&amp; 1 ))"</span>
+<span class="hljs-built_in">echo</span> $?     <span class="hljs-comment"># 1     ***</span>
+
+
+(( 200 || 11 ))              <span class="hljs-comment"># Logical OR</span>
+<span class="hljs-built_in">echo</span> $?     <span class="hljs-comment"># 0     ***</span>
+<span class="hljs-comment"># ...</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"num = (( 200 || 11 ))"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$num</span>   <span class="hljs-comment"># 1</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"num = (( 200 || 11 ))"</span>
+<span class="hljs-built_in">echo</span> $?     <span class="hljs-comment"># 0     ***</span>
+
+
+(( 200 | 11 ))               <span class="hljs-comment"># Bitwise OR</span>
+<span class="hljs-built_in">echo</span> $?                      <span class="hljs-comment"># 0     ***</span>
+<span class="hljs-comment"># ...</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"num = (( 200 | 11 ))"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$num</span>                    <span class="hljs-comment"># 203</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"num = (( 200 | 11 ))"</span>
+<span class="hljs-built_in">echo</span> $?                      <span class="hljs-comment"># 0     ***</span>
+
+<span class="hljs-comment"># The "let" construct returns the same exit status</span>
+<span class="hljs-comment">#+ as the double-parentheses arithmetic expansion.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top">
+                  <img src="images/caution.gif" hspace="5" alt="Caution">
+                </td>
+                <td align="left" valign="top">
+                  <p>
+                    <a name="ARXS" id="ARXS"></a>Again, note that the
+                    <i class="FIRSTTERM">exit status</i> of an arithmetic
+                    expression is <em>not</em> an error value.
+                  </p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tbody><tr>
+                      <td>
+                        <pre class="PROGRAMLISTING hljs">var=-2 &amp;&amp; (( var+=2 ))
+<span class="hljs-built_in">echo</span> $?                   <span class="hljs-comment"># 1</span>
+
+var=-2 &amp;&amp; (( var+=2 )) &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-variable">$var</span>
+                          <span class="hljs-comment"># Will not echo $var!</span></pre>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </li>
+        <li>
+          <p><a name="IFGREPREF" id="IFGREPREF"></a></p>
+          <p>
+            An <b class="COMMAND">if</b> can test any command, not just
+            conditions enclosed within brackets.
+          </p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">if</span> cmp a b &amp;&gt; /dev/null  <span class="hljs-comment"># Suppress output.</span>
+<span class="hljs-keyword">then</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"Files a and b are identical."</span>
+<span class="hljs-keyword">else</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"Files a and b differ."</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment"># The very useful "if-grep" construct:</span>
+<span class="hljs-comment"># ----------------------------------- </span>
+<span class="hljs-keyword">if</span> grep -q Bash file
+  <span class="hljs-keyword">then</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"File contains at least one occurrence of Bash."</span>
+<span class="hljs-keyword">fi</span>
+
+word=Linux
+letter_sequence=inu
+<span class="hljs-keyword">if</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$word</span>"</span> | grep -q <span class="hljs-string">"<span class="hljs-variable">$letter_sequence</span>"</span>
+<span class="hljs-comment"># The "-q" option to grep suppresses output.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$letter_sequence</span> found in <span class="hljs-variable">$word</span>"</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$letter_sequence</span> not found in <span class="hljs-variable">$word</span>"</span>
+<span class="hljs-keyword">fi</span>
+
+
+<span class="hljs-keyword">if</span> COMMAND_WHOSE_EXIT_STATUS_IS_0_UNLESS_ERROR_OCCURRED
+  <span class="hljs-keyword">then</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"Command succeeded."</span>
+  <span class="hljs-keyword">else</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"Command failed."</span>
+<span class="hljs-keyword">fi</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </li>
+        <li>
+          <p><em>These last two examples courtesy of Stephane Chazelas.</em></p>
+        </li>
+      </ul>
+      <div class="EXAMPLE">
+        <a name="EX10" id="EX10"></a>
+        <p><b>Example 7-1. What is truth?</b></p>
+        <table border="0" bgcolor="#E0E0E0" width="100%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment">#  Tip:</span>
+<span class="hljs-comment">#  If you're unsure how a certain condition might evaluate,</span>
+<span class="hljs-comment">#+ test it in an if-test.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Testing \"0\""</span>
+<span class="hljs-keyword">if</span> [ 0 ]      <span class="hljs-comment"># zero</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"0 is true."</span>
+<span class="hljs-keyword">else</span>          <span class="hljs-comment"># Or else ...</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"0 is false."</span>
+<span class="hljs-keyword">fi</span>            <span class="hljs-comment"># 0 is true.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Testing \"1\""</span>
+<span class="hljs-keyword">if</span> [ 1 ]      <span class="hljs-comment"># one</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"1 is true."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"1 is false."</span>
+<span class="hljs-keyword">fi</span>            <span class="hljs-comment"># 1 is true.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Testing \"-1\""</span>
+<span class="hljs-keyword">if</span> [ -1 ]     <span class="hljs-comment"># minus one</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"-1 is true."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"-1 is false."</span>
+<span class="hljs-keyword">fi</span>            <span class="hljs-comment"># -1 is true.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Testing \"NULL\""</span>
+<span class="hljs-keyword">if</span> [ ]        <span class="hljs-comment"># NULL (empty condition)</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"NULL is true."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"NULL is false."</span>
+<span class="hljs-keyword">fi</span>            <span class="hljs-comment"># NULL is false.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Testing \"xyz\""</span>
+<span class="hljs-keyword">if</span> [ xyz ]    <span class="hljs-comment"># string</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Random string is true."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Random string is false."</span>
+<span class="hljs-keyword">fi</span>            <span class="hljs-comment"># Random string is true.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Testing \"\$xyz\""</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$xyz</span> ]   <span class="hljs-comment"># Tests if $xyz is null, but...</span>
+              <span class="hljs-comment"># it's only an uninitialized variable.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Uninitialized variable is true."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Uninitialized variable is false."</span>
+<span class="hljs-keyword">fi</span>            <span class="hljs-comment"># Uninitialized variable is false.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Testing \"-n \$xyz\""</span>
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">"<span class="hljs-variable">$xyz</span>"</span> ]            <span class="hljs-comment"># More pedantically correct.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Uninitialized variable is true."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Uninitialized variable is false."</span>
+<span class="hljs-keyword">fi</span>            <span class="hljs-comment"># Uninitialized variable is false.</span>
+
+<span class="hljs-built_in">echo</span>
+
+
+xyz=          <span class="hljs-comment"># Initialized, but set to null value.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Testing \"-n \$xyz\""</span>
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">"<span class="hljs-variable">$xyz</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Null variable is true."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Null variable is false."</span>
+<span class="hljs-keyword">fi</span>            <span class="hljs-comment"># Null variable is false.</span>
+
+
+<span class="hljs-built_in">echo</span>
+
+
+<span class="hljs-comment"># When is "false" true?</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Testing \"false\""</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"false"</span> ]              <span class="hljs-comment">#  It seems that "false" is just a string ...</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"\"false\" is true."</span> <span class="hljs-comment">#+ and it tests true.</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"\"false\" is false."</span>
+<span class="hljs-keyword">fi</span>            <span class="hljs-comment"># "false" is true.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Testing \"\$false\""</span>  <span class="hljs-comment"># Again, uninitialized variable.</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$false</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"\"\$false\" is true."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"\"\$false\" is false."</span>
+<span class="hljs-keyword">fi</span>            <span class="hljs-comment"># "$false" is false.</span>
+              <span class="hljs-comment"># Now, we get the expected result.</span>
+
+<span class="hljs-comment">#  What would happen if we tested the uninitialized variable "$true"?</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </div>
+      <div class="FORMALPARA">
+        <p>
+          <b>Exercise.</b> Explain the behavior of
+          <a href="testconstructs.html#EX10">Example 7-1</a>, above.
+        </p>
+      </div>
+      <p><a name="ELSEREF" id="ELSEREF"></a></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">if</span> [ condition-true ]
+<span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">command</span> 1
+   <span class="hljs-built_in">command</span> 2
+   ...
+<span class="hljs-keyword">else</span>  <span class="hljs-comment"># Or else ...</span>
+      <span class="hljs-comment"># Adds default code block executing if original condition tests false.</span>
+   <span class="hljs-built_in">command</span> 3
+   <span class="hljs-built_in">command</span> 4
+   ...
+<span class="hljs-keyword">fi</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+      <div class="NOTE">
+        <table class="NOTE" width="100%" border="0">
+          <tbody><tr>
+            <td width="25" align="center" valign="top">
+              <img src="images/note.gif" hspace="5" alt="Note">
+            </td>
+            <td align="left" valign="top">
+              <p>
+                When <i class="FIRSTTERM">if</i> and
+                <i class="FIRSTTERM">then</i> are on same line in a condition
+                test, a semicolon must terminate the
+                <i class="FIRSTTERM">if</i> statement. Both
+                <i class="FIRSTTERM">if</i> and
+                <i class="FIRSTTERM">then</i> are
+                <a href="internal.html#KEYWORDREF">keywords</a>. Keywords (or
+                commands) begin statements, and before a new statement on the
+                same line begins, the old one must terminate.
+              </p>
+              <table border="0" bgcolor="#E0E0E0" width="100%">
+                <tbody><tr>
+                  <td>
+                    <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">if</span> [ -x <span class="hljs-string">"<span class="hljs-variable">$filename</span>"</span> ]; <span class="hljs-keyword">then</span></pre>
+                  </td>
+                </tr>
+              </tbody></table>
+            </td>
+          </tr>
+        </tbody></table>
+      </div>
+      <div class="VARIABLELIST">
+        <p>
+          <b><a name="ELIFREF1" id="ELIFREF1"></a>Else if and elif</b>
+        </p>
+        <dl>
+          <dt><span class="TOKEN">elif</span></dt>
+          <dd>
+            <p>
+              <tt class="USERINPUT"><b>elif</b></tt> is a contraction for
+              <i class="FIRSTTERM">else if</i>. The effect is to nest an inner
+              <span class="TOKEN">if/then</span> construct within an outer one.
+            </p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">if</span> [ condition1 ]
+<span class="hljs-keyword">then</span>
+   command1
+   command2
+   command3
+<span class="hljs-keyword">elif</span> [ condition2 ]
+<span class="hljs-comment"># Same as else if</span>
+<span class="hljs-keyword">then</span>
+   command4
+   command5
+<span class="hljs-keyword">else</span>
+   default-command
+<span class="hljs-keyword">fi</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </dd>
+        </dl>
+      </div>
+      <p>
+        <a name="IFREF2" id="IFREF2"></a> The
+        <tt class="USERINPUT"><b>if test condition-true</b></tt> construct is
+        the exact equivalent of
+        <tt class="USERINPUT"><b>if [ condition-true ]</b></tt>. As it happens, the left bracket, <b class="COMMAND">[</b> , is a
+        <i class="FIRSTTERM">token</i>
+        <a name="AEN3140" href="#FTN.AEN3140" id="AEN3140"><span class="footnote">[1]</span></a>
+        which invokes the <b class="COMMAND">test</b> command. The closing right
+        bracket, <b class="COMMAND">]</b> , in an if/test should not therefore
+        be strictly necessary, however newer versions of Bash require it.
+      </p>
+      <p><a name="TTESTREF" id="TTESTREF"></a></p>
+      <div class="NOTE">
+        <table class="NOTE no-border" width="100%" border="0">
+          <tbody><tr>
+            <td width="25" align="center" valign="top">
+              <img src="images/note.gif" hspace="5" alt="Note">
+            </td>
+            <td align="left" valign="top">
+              <p>
+                The <b class="COMMAND">test</b> command is a Bash
+                <a href="internal.html#BUILTINREF">builtin</a> which tests file
+                types and compares strings. Therefore, in a Bash script,
+                <b class="COMMAND">test</b> does <em>not</em> call the external
+                <tt class="FILENAME">/usr/bin/test</tt> binary, which is part of
+                the <i class="FIRSTTERM">sh-utils</i> package. Likewise,
+                <b class="COMMAND">[</b> does not call
+                <tt class="FILENAME">/usr/bin/[</tt>, which is linked to
+                <tt class="FILENAME">/usr/bin/test</tt>.
+              </p>
+              <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+                <tbody><tr>
+                  <td>
+                    <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">type</span> <span class="hljs-built_in">test</span></span>
+test is a shell builtin
+<span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">type</span> <span class="hljs-string">'['</span></span>
+[ is a shell builtin
+<span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">type</span> <span class="hljs-string">'[['</span></span>
+[[ is a shell keyword
+<span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">type</span> <span class="hljs-string">']]'</span></span>
+]] is a shell keyword
+<span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">type</span> <span class="hljs-string">']'</span></span>
+bash: type: ]: not found
+              </pre>
+                  </td>
+                </tr>
+              </tbody></table>
+              <p><a name="USRBINTEST" id="USRBINTEST"></a></p>
+              <p>
+                If, for some reason, you wish to use
+                <tt class="FILENAME">/usr/bin/test</tt> in a Bash script, then
+                specify it by full pathname.
+              </p>
+            </td>
+          </tr>
+        </tbody></table>
+      </div>
+      <div class="EXAMPLE">
+        <a name="EX11" id="EX11"></a>
+        <p>
+          <b>Example 7-2. Equivalence of <i class="FIRSTTERM">test</i>,
+            <tt class="FILENAME">/usr/bin/test</tt>,
+            <span class="TOKEN">[ ]</span>, and
+            <tt class="FILENAME">/usr/bin/[</tt></b>
+        </p>
+        <table border="0" bgcolor="#E0E0E0" width="100%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">if</span> <span class="hljs-built_in">test</span> -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"No command-line arguments."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"First command-line argument is <span class="hljs-variable">$1</span>."</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">if</span> /usr/bin/<span class="hljs-built_in">test</span> -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>      <span class="hljs-comment"># Equivalent to "test" builtin.</span>
+<span class="hljs-comment">#  ^^^^^^^^^^^^^              # Specifying full pathname.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"No command-line arguments."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"First command-line argument is <span class="hljs-variable">$1</span>."</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]                <span class="hljs-comment"># Functionally identical to above code blocks.</span>
+<span class="hljs-comment">#   if [ -z "$1"                should work, but...</span>
+<span class="hljs-comment">#+  Bash responds to a missing close-bracket with an error message.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"No command-line arguments."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"First command-line argument is <span class="hljs-variable">$1</span>."</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">echo</span>
+
+
+<span class="hljs-keyword">if</span> /usr/bin/[ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]       <span class="hljs-comment"># Again, functionally identical to above.</span>
+<span class="hljs-comment"># if /usr/bin/[ -z "$1"       # Works, but gives an error message.</span>
+<span class="hljs-comment">#                             # Note:</span>
+<span class="hljs-comment">#                               This has been fixed in Bash, version 3.x.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"No command-line arguments."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"First command-line argument is <span class="hljs-variable">$1</span>."</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </div>
+      <table class="SIDEBAR" border="1" cellpadding="5">
+        <tbody><tr>
+          <td>
+            <div class="SIDEBAR">
+              <a name="AEN3206" id="AEN3206"></a>
+              <p>
+                <a name="DBLBRACKETS" id="DBLBRACKETS"></a>The
+                <span class="TOKEN">[[ ]]</span> construct is the more versatile
+                Bash version of <span class="TOKEN">[ ]</span>. This is the
+                <i class="FIRSTTERM">extended test command</i>, adopted from
+                <i class="FIRSTTERM">ksh88</i>.
+              </p>
+              <p>* * *</p>
+              <p>
+                No filename expansion or word splitting takes place between
+                <span class="TOKEN">[[</span> and <span class="TOKEN">]]</span>,
+                but there is parameter expansion and command substitution.
+              </p>
+              <table border="0" bgcolor="#E0E0E0" width="100%">
+                <tbody><tr>
+                  <td>
+                    <pre class="PROGRAMLISTING hljs">file=/etc/passwd
+
+<span class="hljs-keyword">if</span> [[ -e <span class="hljs-variable">$file</span> ]]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Password file exists."</span>
+<span class="hljs-keyword">fi</span></pre>
+                  </td>
+                </tr>
+              </tbody></table>
+              <p>
+                Using the <b class="COMMAND">[[ ... ]]</b> test construct,
+                rather than <b class="COMMAND">[ ... ]</b> can prevent many
+                logic errors in scripts. For example, the
+                <span class="TOKEN">&amp;&amp;</span>,
+                <span class="TOKEN">||</span>, <span class="TOKEN">&lt;</span>,
+                and <span class="TOKEN">&gt;</span> operators work within a
+                <span class="TOKEN">[[ ]]</span> test, despite giving an error
+                within a <span class="TOKEN">[ ]</span> construct.
+              </p>
+              <p><a name="DBLBRAEV" id="DBLBRAEV"></a></p>
+              <p>
+                <i class="FIRSTTERM">Arithmetic evaluation</i> of octal /
+                hexadecimal constants takes place automatically within a
+                <span class="TOKEN">[[ ... ]]</span> construct.
+              </p>
+              <table border="0" bgcolor="#E0E0E0" width="100%">
+                <tbody><tr>
+                  <td>
+                    <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># [[ Octal and hexadecimal evaluation ]]</span>
+<span class="hljs-comment"># Thank you, Moritz Gronbach, for pointing this out.</span>
+
+
+decimal=15
+octal=017   <span class="hljs-comment"># = 15 (decimal)</span>
+hex=0x0f    <span class="hljs-comment"># = 15 (decimal)</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$decimal</span>"</span> -eq <span class="hljs-string">"<span class="hljs-variable">$octal</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$decimal</span> equals <span class="hljs-variable">$octal</span>"</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$decimal</span> is not equal to <span class="hljs-variable">$octal</span>"</span>       <span class="hljs-comment"># 15 is not equal to 017</span>
+<span class="hljs-keyword">fi</span>      <span class="hljs-comment"># Doesn't evaluate within [ single brackets ]!</span>
+
+
+<span class="hljs-keyword">if</span> [[ <span class="hljs-string">"<span class="hljs-variable">$decimal</span>"</span> -eq <span class="hljs-string">"<span class="hljs-variable">$octal</span>"</span> ]]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$decimal</span> equals <span class="hljs-variable">$octal</span>"</span>                <span class="hljs-comment"># 15 equals 017</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$decimal</span> is not equal to <span class="hljs-variable">$octal</span>"</span>
+<span class="hljs-keyword">fi</span>      <span class="hljs-comment"># Evaluates within [[ double brackets ]]!</span>
+
+<span class="hljs-keyword">if</span> [[ <span class="hljs-string">"<span class="hljs-variable">$decimal</span>"</span> -eq <span class="hljs-string">"<span class="hljs-variable">$hex</span>"</span> ]]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$decimal</span> equals <span class="hljs-variable">$hex</span>"</span>                  <span class="hljs-comment"># 15 equals 0x0f</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$decimal</span> is not equal to <span class="hljs-variable">$hex</span>"</span>
+<span class="hljs-keyword">fi</span>      <span class="hljs-comment"># [[ $hexadecimal ]] also evaluates!</span></pre>
+                  </td>
+                </tr>
+              </tbody></table>
+            </div>
+          </td>
+        </tr>
+      </tbody></table>
+      <div class="NOTE">
+        <table class="NOTE" width="100%" border="0">
+          <tbody><tr>
+            <td width="25" align="center" valign="top">
+              <img src="images/note.gif" hspace="5" alt="Note">
+            </td>
+            <td align="left" valign="top">
+              <p>
+                Following an <b class="COMMAND">if</b>, neither the
+                <b class="COMMAND">test</b> command nor the test brackets ( [ ]
+                or [[ ]] ) are strictly necessary.
+              </p>
+              <table border="0" bgcolor="#E0E0E0" width="100%">
+                <tbody><tr>
+                  <td>
+                    <pre class="PROGRAMLISTING hljs">dir=/home/bozo
+
+<span class="hljs-keyword">if</span> <span class="hljs-built_in">cd</span> <span class="hljs-string">"<span class="hljs-variable">$dir</span>"</span> 2&gt;/dev/null; <span class="hljs-keyword">then</span>   <span class="hljs-comment"># "2&gt;/dev/null" hides error message.</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Now in <span class="hljs-variable">$dir</span>."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Can't change to <span class="hljs-variable">$dir</span>."</span>
+<span class="hljs-keyword">fi</span></pre>
+                  </td>
+                </tr>
+              </tbody></table>
+              The "if COMMAND" construct returns the exit status of COMMAND.
+              <p>
+                Similarly, a condition within test brackets may stand alone
+                without an <b class="COMMAND">if</b>, when used in combination
+                with a <a href="list-cons.html#LISTCONSREF">list construct</a>.
+              </p>
+              <table border="0" bgcolor="#E0E0E0" width="100%">
+                <tbody><tr>
+                  <td>
+                    <pre class="PROGRAMLISTING hljs">var1=20
+var2=22
+[ <span class="hljs-string">"<span class="hljs-variable">$var1</span>"</span> -ne <span class="hljs-string">"<span class="hljs-variable">$var2</span>"</span> ] &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$var1</span> is not equal to <span class="hljs-variable">$var2</span>"</span>
+
+home=/home/bozo
+[ -d <span class="hljs-string">"<span class="hljs-variable">$home</span>"</span> ] || <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$home</span> directory does not exist."</span></pre>
+                  </td>
+                </tr>
+              </tbody></table>
+            </td>
+          </tr>
+        </tbody></table>
+      </div>
+      <p>
+        <a name="DBLPRX" id="DBLPRX"></a>The
+        <a href="dblparens.html">(( )) construct</a> expands and evaluates an
+        arithmetic expression. If the expression evaluates as zero, it returns
+        an <a href="exit-status.html#EXITSTATUSREF">exit status</a> of
+        <span class="RETURNVALUE">1</span>, or
+        <span class="QUOTE">"false"</span>. A non-zero expression returns an
+        exit status of <span class="RETURNVALUE">0</span>, or
+        <span class="QUOTE">"true"</span>. This is in marked contrast to using
+        the <b class="COMMAND">test</b> and
+        <span class="TOKEN">[ ]</span> constructs previously discussed.
+      </p>
+      <div class="EXAMPLE">
+        <a name="ARITHTESTS" id="ARITHTESTS"></a>
+        <p>
+          <b>Example 7-3. Arithmetic Tests using
+            <span class="TOKEN">(( ))</span></b>
+        </p>
+        <table border="0" bgcolor="#E0E0E0" width="100%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># arith-tests.sh</span>
+<span class="hljs-comment"># Arithmetic tests.</span>
+
+<span class="hljs-comment"># The (( ... )) construct evaluates and tests numerical expressions.</span>
+<span class="hljs-comment"># Exit status opposite from [ ... ] construct!</span>
+
+(( 0 ))
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Exit status of \"(( 0 ))\" is $?."</span>         <span class="hljs-comment"># 1</span>
+
+(( 1 ))
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Exit status of \"(( 1 ))\" is $?."</span>         <span class="hljs-comment"># 0</span>
+
+(( 5 &gt; 4 ))                                      <span class="hljs-comment"># true</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Exit status of \"(( 5 &gt; 4 ))\" is $?."</span>     <span class="hljs-comment"># 0</span>
+
+(( 5 &gt; 9 ))                                      <span class="hljs-comment"># false</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Exit status of \"(( 5 &gt; 9 ))\" is $?."</span>     <span class="hljs-comment"># 1</span>
+
+(( 5 == 5 ))                                     <span class="hljs-comment"># true</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Exit status of \"(( 5 == 5 ))\" is $?."</span>    <span class="hljs-comment"># 0</span>
+<span class="hljs-comment"># (( 5 = 5 ))  gives an error message.</span>
+
+(( 5 - 5 ))                                      <span class="hljs-comment"># 0</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Exit status of \"(( 5 - 5 ))\" is $?."</span>     <span class="hljs-comment"># 1</span>
+
+(( 5 / 4 ))                                      <span class="hljs-comment"># Division o.k.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Exit status of \"(( 5 / 4 ))\" is $?."</span>     <span class="hljs-comment"># 0</span>
+
+(( 1 / 2 ))                                      <span class="hljs-comment"># Division result &lt; 1.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Exit status of \"(( 1 / 2 ))\" is $?."</span>     <span class="hljs-comment"># Rounded off to 0.</span>
+                                                 <span class="hljs-comment"># 1</span>
+
+(( 1 / 0 )) 2&gt;/dev/null                          <span class="hljs-comment"># Illegal division by 0.</span>
+<span class="hljs-comment">#           ^^^^^^^^^^^</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Exit status of \"(( 1 / 0 ))\" is $?."</span>     <span class="hljs-comment"># 1</span>
+
+<span class="hljs-comment"># What effect does the "2&gt;/dev/null" have?</span>
+<span class="hljs-comment"># What would happen if it were removed?</span>
+<span class="hljs-comment"># Try removing it, then rerunning the script.</span>
+
+<span class="hljs-comment"># ======================================= #</span>
+
+<span class="hljs-comment"># (( ... )) also useful in an if-then test.</span>
+
+var1=5
+var2=4
+
+<span class="hljs-keyword">if</span> (( var1 &gt; var2 ))
+<span class="hljs-keyword">then</span> <span class="hljs-comment">#^      ^      Note: Not $var1, $var2. Why?</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$var1</span> is greater than <span class="hljs-variable">$var2</span>"</span>
+<span class="hljs-keyword">fi</span>     <span class="hljs-comment"># 5 is greater than 4</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </div>
+    </div>
+    <h3 class="FOOTNOTES">Notes</h3>
+    <table border="0" class="FOOTNOTES" width="100%">
+      <tbody><tr>
+        <td align="left" valign="top" width="5%">
+          <a name="FTN.AEN3140" href="testconstructs.html#AEN3140" id="FTN.AEN3140"><span class="footnote">[1]</span></a>
+        </td>
+        <td align="left" valign="top" width="95%">
+          <p>
+            <a name="TOKENREF" id="TOKENREF"></a>A
+            <i class="FIRSTTERM">token</i> is a symbol or short string with a
+            special meaning attached to it (a
+            <a href="x17129.html#METAMEANINGREF">meta-meaning</a>). In Bash,
+            certain tokens, such as <b class="COMMAND">[</b> and
+            <a href="special-chars.html#DOTREF">. (dot-command)</a>, may expand
+            to <i class="FIRSTTERM">keywords</i> and commands.
+          </p>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="NAVFOOTER">
+      <hr align="left" width="100%">
+      <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr>
+          <td width="33%" align="left" valign="top">
+            <a href="tests.html" accesskey="P">Prev</a>
+          </td>
+          <td width="34%" align="center" valign="top">
+            <a href="index.html" accesskey="H">Home</a>
+          </td>
+          <td width="33%" align="right" valign="top">
+            <a href="fto.html" accesskey="N">Next</a>
+          </td>
+        </tr>
+        <tr>
+          <td width="33%" align="left" valign="top">Tests</td>
+          <td width="34%" align="center" valign="top">
+            <a href="tests.html" accesskey="U">Up</a>
+          </td>
+          <td width="33%" align="right" valign="top">File test operators</td>
+        </tr>
+      </tbody></table>
+    </div>
+  
+
+</body></html>

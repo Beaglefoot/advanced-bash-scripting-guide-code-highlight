@@ -1,0 +1,287 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Indirect References</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="Arrays" href="arrays.html">
+  <link rel="NEXT" title="/dev and /proc" href="devproc.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="arrays.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="devproc.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="IVR" id="IVR"></a>Chapter 28. Indirect References</h1>
+    <p><a name="IVRREF" id="IVRREF"></a></p>
+    <p>We have seen that <a href="varsubn.html">referencing a variable</a>, <tt class="VARNAME">$var</tt>, fetches its <i class="FIRSTTERM">value</i>. <a name="EVALINDREF" id="EVALINDREF"></a>But, what about the <em>value of a value</em>? What about <tt class="VARNAME">$$var</tt>?</p>
+    <p>The actual notation is <tt class="REPLACEABLE"><i>\$$var</i></tt>, usually preceded by an <a href="internal.html#EVALREF">eval</a> (and sometimes an <a href="internal.html#ECHOREF">echo</a>). This is called an <i class="FIRSTTERM">indirect reference</i>.</p>
+    <div class="EXAMPLE">
+      <a name="INDREF" id="INDREF"></a>
+      <p><b>Example 28-1. Indirect Variable References</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># ind-ref.sh: Indirect variable referencing.</span>
+<span class="hljs-comment"># Accessing the contents of the contents of a variable.</span>
+
+<span class="hljs-comment"># First, let's fool around a little.</span>
+
+var=23
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"\$var   = <span class="hljs-variable">$var</span>"</span>           <span class="hljs-comment"># $var   = 23</span>
+<span class="hljs-comment"># So far, everything as expected. But ...</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"\$\$var  = $<span class="hljs-variable">$var</span>"</span>         <span class="hljs-comment"># $$var  = 4570var</span>
+<span class="hljs-comment">#  Not useful ...</span>
+<span class="hljs-comment">#  \$\$ expanded to PID of the script</span>
+<span class="hljs-comment">#  -- refer to the entry on the $$ variable --</span>
+<span class="hljs-comment">#+ and "var" is echoed as plain text.</span>
+<span class="hljs-comment">#  (Thank you, Jakob Bohm, for pointing this out.)</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"\\\$\$var = \$<span class="hljs-variable">$var</span>"</span>       <span class="hljs-comment"># \$$var = $23</span>
+<span class="hljs-comment">#  As expected. The first $ is escaped and pasted on to</span>
+<span class="hljs-comment">#+ the value of var ($var = 23 ).</span>
+<span class="hljs-comment">#  Meaningful, but still not useful. </span>
+
+<span class="hljs-comment"># Now, let's start over and do it the right way.</span>
+
+<span class="hljs-comment"># ============================================== #</span>
+
+
+a=letter_of_alphabet   <span class="hljs-comment"># Variable "a" holds the name of another variable.</span>
+letter_of_alphabet=z
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># Direct reference.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>          <span class="hljs-comment"># a = letter_of_alphabet</span>
+
+<span class="hljs-comment"># Indirect reference.</span>
+  <span class="hljs-built_in">eval</span> a=\$<span class="hljs-variable">$a</span>
+<span class="hljs-comment"># ^^^        Forcing an eval(uation), and ...</span>
+<span class="hljs-comment">#        ^   Escaping the first $ ...</span>
+<span class="hljs-comment"># ------------------------------------------------------------------------</span>
+<span class="hljs-comment"># The 'eval' forces an update of $a, sets it to the updated value of \$$a.</span>
+<span class="hljs-comment"># So, we see why 'eval' so often shows up in indirect reference notation.</span>
+<span class="hljs-comment"># ------------------------------------------------------------------------</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Now a = <span class="hljs-variable">$a</span>"</span>    <span class="hljs-comment"># Now a = z</span>
+
+<span class="hljs-built_in">echo</span>
+
+
+<span class="hljs-comment"># Now, let's try changing the second-order reference.</span>
+
+t=table_cell_3
+table_cell_3=24
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"\"table_cell_3\" = <span class="hljs-variable">$table_cell_3</span>"</span>            <span class="hljs-comment"># "table_cell_3" = 24</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"dereferenced \"t\" = "</span>; <span class="hljs-built_in">eval</span> <span class="hljs-built_in">echo</span> \$<span class="hljs-variable">$t</span>    <span class="hljs-comment"># dereferenced "t" = 24</span>
+<span class="hljs-comment"># In this simple case, the following also works (why?).</span>
+<span class="hljs-comment">#         eval t=\$$t; echo "\"t\" = $t"</span>
+
+<span class="hljs-built_in">echo</span>
+
+t=table_cell_3
+NEW_VAL=387
+table_cell_3=<span class="hljs-variable">$NEW_VAL</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Changing value of \"table_cell_3\" to <span class="hljs-variable">$NEW_VAL</span>."</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"\"table_cell_3\" now <span class="hljs-variable">$table_cell_3</span>"</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"dereferenced \"t\" now "</span>; <span class="hljs-built_in">eval</span> <span class="hljs-built_in">echo</span> \$<span class="hljs-variable">$t</span>
+<span class="hljs-comment"># "eval" takes the two arguments "echo" and "\$$t" (set equal to $table_cell_3)</span>
+
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># (Thanks, Stephane Chazelas, for clearing up the above behavior.)</span>
+
+
+<span class="hljs-comment">#   A more straightforward method is the ${!t} notation, discussed in the</span>
+<span class="hljs-comment">#+ "Bash, version 2" section.</span>
+<span class="hljs-comment">#   See also ex78.sh.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="IRRREF" id="IRRREF"></a></p>
+    <table class="SIDEBAR" border="1" cellpadding="5">
+      <tbody><tr>
+        <td>
+          <div class="SIDEBAR">
+            <a name="AEN18998" id="AEN18998"></a>
+            <p>Indirect referencing in Bash is a multi-step process. First, take the name of a variable: <tt class="VARNAME">varname</tt>. Then, reference it: <tt class="VARNAME">$varname</tt>. Then, reference the reference: <tt class="VARNAME">$$varname</tt>. Then, <i class="FIRSTTERM">escape</i> the first <span class="TOKEN">$</span>: <tt class="VARNAME">\$$varname</tt>. Finally, force a reevaluation of the expression and assign it: <b class="COMMAND">eval newvar=\$$varname</b>.</p>
+          </div>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>Of what practical use is indirect referencing of variables? It gives Bash a little of the functionality of <a href="varsubn.html#POINTERREF">pointers</a> in <i class="FIRSTTERM">C</i>, for instance, in <a href="bashver2.html#RESISTOR">table lookup</a>. And, it also has some other very interesting applications. . . .</p>
+    <p>Nils Radtke shows how to build <span class="QUOTE">"dynamic"</span> variable names and evaluate their contents. This can be useful when <a href="internal.html#SOURCEREF">sourcing</a> configuration files.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+
+<span class="hljs-comment"># ---------------------------------------------</span>
+<span class="hljs-comment"># This could be "sourced" from a separate file.</span>
+isdnMyProviderRemoteNet=172.16.0.100
+isdnYourProviderRemoteNet=10.0.0.10
+isdnOnlineService=<span class="hljs-string">"MyProvider"</span>
+<span class="hljs-comment"># ---------------------------------------------</span>
+      
+
+remoteNet=$(<span class="hljs-built_in">eval</span> <span class="hljs-string">"echo \$<span class="hljs-subst">$(echo isdn${isdnOnlineService}RemoteNet)</span>"</span>)
+remoteNet=$(<span class="hljs-built_in">eval</span> <span class="hljs-string">"echo \$<span class="hljs-subst">$(echo isdnMyProviderRemoteNet)</span>"</span>)
+remoteNet=$(<span class="hljs-built_in">eval</span> <span class="hljs-string">"echo \$isdnMyProviderRemoteNet"</span>)
+remoteNet=$(<span class="hljs-built_in">eval</span> <span class="hljs-string">"echo <span class="hljs-variable">$isdnMyProviderRemoteNet</span>"</span>)
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$remoteNet</span>"</span>    <span class="hljs-comment"># 172.16.0.100</span>
+
+<span class="hljs-comment"># ================================================================</span>
+
+<span class="hljs-comment">#  And, it gets even better.</span>
+
+<span class="hljs-comment">#  Consider the following snippet given a variable named getSparc,</span>
+<span class="hljs-comment">#+ but no such variable getIa64:</span>
+
+<span class="hljs-function"><span class="hljs-title">chkMirrorArchs</span></span> () { 
+  arch=<span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>;
+  <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-subst">$(eval <span class="hljs-string">"echo \${<span class="hljs-subst">$(echo get$(echo -ne $arch |
+       sed 's/^\(.\).*/\1/g' | tr 'a-z' 'A-Z'; echo $arch |
+       sed 's/^.\(.*\)/\1/g')</span>):-false}"</span>)</span>"</span> = <span class="hljs-literal">true</span> ]
+  <span class="hljs-keyword">then</span>
+     <span class="hljs-built_in">return</span> 0;
+  <span class="hljs-keyword">else</span>
+     <span class="hljs-built_in">return</span> 1;
+  <span class="hljs-keyword">fi</span>;
+}
+
+getSparc=<span class="hljs-string">"true"</span>
+<span class="hljs-built_in">unset</span> getIa64
+chkMirrorArchs sparc
+<span class="hljs-built_in">echo</span> $?        <span class="hljs-comment"># 0</span>
+               <span class="hljs-comment"># True</span>
+
+chkMirrorArchs Ia64
+<span class="hljs-built_in">echo</span> $?        <span class="hljs-comment"># 1</span>
+               <span class="hljs-comment"># False</span>
+
+<span class="hljs-comment"># Notes:</span>
+<span class="hljs-comment"># -----</span>
+<span class="hljs-comment"># Even the to-be-substituted variable name part is built explicitly.</span>
+<span class="hljs-comment"># The parameters to the chkMirrorArchs calls are all lower case.</span>
+<span class="hljs-comment"># The variable name is composed of two parts: "get" and "Sparc" . . .</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="EXAMPLE">
+      <a name="COLTOTALER2" id="COLTOTALER2"></a>
+      <p><b>Example 28-2. Passing an indirect reference to <i class="FIRSTTERM">awk</i></b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment">#  Another version of the "column totaler" script</span>
+<span class="hljs-comment">#+ that adds up a specified column (of numbers) in the target file.</span>
+<span class="hljs-comment">#  This one uses indirect references.</span>
+
+ARGS=2
+E_WRONGARGS=85
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -ne <span class="hljs-string">"<span class="hljs-variable">$ARGS</span>"</span> ] <span class="hljs-comment"># Check for proper number of command-line args.</span>
+<span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` filename column-number"</span>
+   <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_WRONGARGS</span>
+<span class="hljs-keyword">fi</span>
+
+filename=<span class="hljs-variable">$1</span>         <span class="hljs-comment"># Name of file to operate on.</span>
+column_number=<span class="hljs-variable">$2</span>    <span class="hljs-comment"># Which column to total up.</span>
+
+<span class="hljs-comment">#===== Same as original script, up to this point =====#</span>
+
+
+<span class="hljs-comment"># A multi-line awk script is invoked by</span>
+<span class="hljs-comment">#   awk "</span>
+<span class="hljs-comment">#   ...</span>
+<span class="hljs-comment">#   ...</span>
+<span class="hljs-comment">#   ...</span>
+<span class="hljs-comment">#   "</span>
+
+
+<span class="hljs-comment"># Begin awk script.</span>
+<span class="hljs-comment"># -------------------------------------------------</span>
+awk <span class="hljs-string">"
+
+{ total += \$<span class="hljs-variable">${column_number}</span> # Indirect reference
+}
+END {
+     print total
+     }
+
+     "</span> <span class="hljs-string">"<span class="hljs-variable">$filename</span>"</span>
+<span class="hljs-comment"># Note that awk doesn't need an eval preceding \$$.</span>
+<span class="hljs-comment"># -------------------------------------------------</span>
+<span class="hljs-comment"># End awk script.</span>
+
+<span class="hljs-comment">#  Indirect variable reference avoids the hassles</span>
+<span class="hljs-comment">#+ of referencing a shell variable within the embedded awk script.</span>
+<span class="hljs-comment">#  Thanks, Stephane Chazelas.</span>
+
+
+<span class="hljs-built_in">exit</span> $?</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="CAUTION">
+      <table class="CAUTION" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+          <td align="left" valign="top">
+            <p>This method of indirect referencing is a bit tricky. If the second order variable changes its value, then the first order variable must be properly dereferenced (as in the above example). <a name="IVR2" id="IVR2"></a>Fortunately, the <tt class="REPLACEABLE"><i>${!variable}</i></tt> notation introduced with <a href="bashver2.html#BASH2REF">version 2</a> of Bash (see <a href="bashver2.html#EX78">Example 37-2</a> and <a href="contributed-scripts.html#HASHEX2">Example A-22</a>) makes indirect referencing more intuitive.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <table class="SIDEBAR" border="1" cellpadding="5">
+      <tbody><tr>
+        <td>
+          <div class="SIDEBAR">
+            <a name="AEN19027" id="AEN19027"></a>
+            <p>Bash does not support pointer arithmetic, and this severely limits the usefulness of indirect referencing. In fact, indirect referencing in a scripting language is, at best, something of an afterthought.</p>
+          </div>
+        </td>
+      </tr>
+    </tbody></table>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="arrays.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="devproc.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Arrays</td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top"><tt class="FILENAME">/dev</tt> and <tt class="FILENAME">/proc</tt></td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

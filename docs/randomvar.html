@@ -1,0 +1,815 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>$RANDOM: generate random integer</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Another Look at Variables" href="variables2.html">
+  <link rel="PREVIOUS" title="Typing variables: declare or typeset" href="declareref.html">
+  <link rel="NEXT" title="Manipulating Variables" href="manipulatingvars.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="declareref.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 9. Another Look at Variables</td>
+        <td width="10%" align="right" valign="bottom"><a href="manipulatingvars.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="RANDOMVAR" id="RANDOMVAR"></a>9.3. $RANDOM: generate random integer</h1>
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" class="EPIGRAPH">
+      <tbody><tr>
+        <td width="45%">&nbsp;</td>
+        <td width="45%" align="left" valign="top">
+          <p><i>Anyone who attempts to generate random numbers by deterministic means is, of course, living in a state of sin.</i></p>
+          <p><i>--John von Neumann</i></p>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="RANDOMVAR01" id="RANDOMVAR01"></a></p>
+    <p><tt class="VARNAME">$RANDOM</tt> is an internal Bash <a href="functions.html#FUNCTIONREF">function</a> (not a constant) that returns a <i class="FIRSTTERM">pseudorandom</i> <a name="AEN5817" href="#FTN.AEN5817" id="AEN5817"><span class="footnote">[1]</span></a> integer in the range 0 - 32767. It should <tt class="REPLACEABLE"><i>not</i></tt> be used to generate an encryption key.</p>
+    <div class="EXAMPLE">
+      <a name="EX21" id="EX21"></a>
+      <p><b>Example 9-11. Generating random numbers</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment"># $RANDOM returns a different random integer at each invocation.</span>
+<span class="hljs-comment"># Nominal range: 0 - 32767 (signed 16-bit integer).</span>
+
+MAXCOUNT=10
+count=1
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$MAXCOUNT</span> random numbers:"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"-----------------"</span>
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$count</span>"</span> -le <span class="hljs-variable">$MAXCOUNT</span> ]      <span class="hljs-comment"># Generate 10 ($MAXCOUNT) random integers.</span>
+<span class="hljs-keyword">do</span>
+  number=<span class="hljs-variable">$RANDOM</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$number</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"count += 1"</span>  <span class="hljs-comment"># Increment count.</span>
+<span class="hljs-keyword">done</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"-----------------"</span>
+
+<span class="hljs-comment"># If you need a random int within a certain range, use the 'modulo' operator.</span>
+<span class="hljs-comment"># This returns the remainder of a division operation.</span>
+
+RANGE=500
+
+<span class="hljs-built_in">echo</span>
+
+number=<span class="hljs-variable">$RANDOM</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"number %= <span class="hljs-variable">$RANGE</span>"</span>
+<span class="hljs-comment">#           ^^</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Random number less than <span class="hljs-variable">$RANGE</span>  ---  <span class="hljs-variable">$number</span>"</span>
+
+<span class="hljs-built_in">echo</span>
+
+
+
+<span class="hljs-comment">#  If you need a random integer greater than a lower bound,</span>
+<span class="hljs-comment">#+ then set up a test to discard all numbers below that.</span>
+
+FLOOR=200
+
+number=0   <span class="hljs-comment">#initialize</span>
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$number</span>"</span> -le <span class="hljs-variable">$FLOOR</span> ]
+<span class="hljs-keyword">do</span>
+  number=<span class="hljs-variable">$RANDOM</span>
+<span class="hljs-keyword">done</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Random number greater than <span class="hljs-variable">$FLOOR</span> ---  <span class="hljs-variable">$number</span>"</span>
+<span class="hljs-built_in">echo</span>
+
+   <span class="hljs-comment"># Let's examine a simple alternative to the above loop, namely</span>
+   <span class="hljs-comment">#       let "number = $RANDOM + $FLOOR"</span>
+   <span class="hljs-comment"># That would eliminate the while-loop and run faster.</span>
+   <span class="hljs-comment"># But, there might be a problem with that. What is it?</span>
+
+
+
+<span class="hljs-comment"># Combine above two techniques to retrieve random number between two limits.</span>
+number=0   <span class="hljs-comment">#initialize</span>
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$number</span>"</span> -le <span class="hljs-variable">$FLOOR</span> ]
+<span class="hljs-keyword">do</span>
+  number=<span class="hljs-variable">$RANDOM</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"number %= <span class="hljs-variable">$RANGE</span>"</span>  <span class="hljs-comment"># Scales $number down within $RANGE.</span>
+<span class="hljs-keyword">done</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Random number between <span class="hljs-variable">$FLOOR</span> and <span class="hljs-variable">$RANGE</span> ---  <span class="hljs-variable">$number</span>"</span>
+<span class="hljs-built_in">echo</span>
+
+
+
+<span class="hljs-comment"># Generate binary choice, that is, "true" or "false" value.</span>
+BINARY=2
+T=1
+number=<span class="hljs-variable">$RANDOM</span>
+
+<span class="hljs-built_in">let</span> <span class="hljs-string">"number %= <span class="hljs-variable">$BINARY</span>"</span>
+<span class="hljs-comment">#  Note that    let "number &gt;&gt;= 14"    gives a better random distribution</span>
+<span class="hljs-comment">#+ (right shifts out everything except last binary digit).</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$number</span>"</span> -eq <span class="hljs-variable">$T</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"TRUE"</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"FALSE"</span>
+<span class="hljs-keyword">fi</span>  
+
+<span class="hljs-built_in">echo</span>
+
+
+<span class="hljs-comment"># Generate a toss of the dice.</span>
+SPOTS=6   <span class="hljs-comment"># Modulo 6 gives range 0 - 5.</span>
+          <span class="hljs-comment"># Incrementing by 1 gives desired range of 1 - 6.</span>
+          <span class="hljs-comment"># Thanks, Paulo Marcel Coelho Aragao, for the simplification.</span>
+die1=0
+die2=0
+<span class="hljs-comment"># Would it be better to just set SPOTS=7 and not add 1? Why or why not?</span>
+
+<span class="hljs-comment"># Tosses each die separately, and so gives correct odds.</span>
+
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"die1 = <span class="hljs-variable">$RANDOM</span> % <span class="hljs-variable">$SPOTS</span> +1"</span> <span class="hljs-comment"># Roll first one.</span>
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"die2 = <span class="hljs-variable">$RANDOM</span> % <span class="hljs-variable">$SPOTS</span> +1"</span> <span class="hljs-comment"># Roll second one.</span>
+    <span class="hljs-comment">#  Which arithmetic operation, above, has greater precedence --</span>
+    <span class="hljs-comment">#+ modulo (%) or addition (+)?</span>
+
+
+<span class="hljs-built_in">let</span> <span class="hljs-string">"throw = <span class="hljs-variable">$die1</span> + <span class="hljs-variable">$die2</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Throw of the dice = <span class="hljs-variable">$throw</span>"</span>
+<span class="hljs-built_in">echo</span>
+
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="PICKCARD" id="PICKCARD"></a>
+      <p><b>Example 9-12. Picking a random card from a deck</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># pick-card.sh</span>
+
+<span class="hljs-comment"># This is an example of choosing random elements of an array.</span>
+
+
+<span class="hljs-comment"># Pick a card, any card.</span>
+
+Suites=<span class="hljs-string">"Clubs
+Diamonds
+Hearts
+Spades"</span>
+
+Denominations=<span class="hljs-string">"2
+3
+4
+5
+6
+7
+8
+9
+10
+Jack
+Queen
+King
+Ace"</span>
+
+<span class="hljs-comment"># Note variables spread over multiple lines.</span>
+
+
+suite=(<span class="hljs-variable">$Suites</span>)                <span class="hljs-comment"># Read into array variable.</span>
+denomination=(<span class="hljs-variable">$Denominations</span>)
+
+num_suites=<span class="hljs-variable">${#suite[*]}</span>        <span class="hljs-comment"># Count how many elements.</span>
+num_denominations=<span class="hljs-variable">${#denomination[*]}</span>
+
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">${denomination[$((RANDOM%num_denominations))]}</span> of "</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${suite[$((RANDOM%num_suites))]}</span>
+
+
+<span class="hljs-comment"># $bozo sh pick-cards.sh</span>
+<span class="hljs-comment"># Jack of Clubs</span>
+
+
+<span class="hljs-comment"># Thank you, "jipe," for pointing out this use of $RANDOM.</span>
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="BROWNIANREF" id="BROWNIANREF"></a></p>
+    <div class="EXAMPLE">
+      <a name="BROWNIAN" id="BROWNIAN"></a>
+      <p><b>Example 9-13. Brownian Motion Simulation</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># brownian.sh</span>
+<span class="hljs-comment"># Author: Mendel Cooper</span>
+<span class="hljs-comment"># Reldate: 10/26/07</span>
+<span class="hljs-comment"># License: GPL3</span>
+
+<span class="hljs-comment">#  ----------------------------------------------------------------</span>
+<span class="hljs-comment">#  This script models Brownian motion:</span>
+<span class="hljs-comment">#+ the random wanderings of tiny particles in a fluid,</span>
+<span class="hljs-comment">#+ as they are buffeted by random currents and collisions.</span>
+<span class="hljs-comment">#+ This is colloquially known as the "Drunkard's Walk."</span>
+
+<span class="hljs-comment">#  It can also be considered as a stripped-down simulation of a</span>
+<span class="hljs-comment">#+ Galton Board, a slanted board with a pattern of pegs,</span>
+<span class="hljs-comment">#+ down which rolls a succession of marbles, one at a time.</span>
+<span class="hljs-comment">#+ At the bottom is a row of slots or catch basins in which</span>
+<span class="hljs-comment">#+ the marbles come to rest at the end of their journey.</span>
+<span class="hljs-comment">#  Think of it as a kind of bare-bones Pachinko game.</span>
+<span class="hljs-comment">#  As you see by running the script,</span>
+<span class="hljs-comment">#+ most of the marbles cluster around the center slot.</span>
+<span class="hljs-comment">#+ This is consistent with the expected binomial distribution.</span>
+<span class="hljs-comment">#  As a Galton Board simulation, the script</span>
+<span class="hljs-comment">#+ disregards such parameters as</span>
+<span class="hljs-comment">#+ board tilt-angle, rolling friction of the marbles,</span>
+<span class="hljs-comment">#+ angles of impact, and elasticity of the pegs.</span>
+<span class="hljs-comment">#  To what extent does this affect the accuracy of the simulation?</span>
+<span class="hljs-comment">#  ----------------------------------------------------------------</span>
+
+PASSES=500            <span class="hljs-comment">#  Number of particle interactions / marbles.</span>
+ROWS=10               <span class="hljs-comment">#  Number of "collisions" (or horiz. peg rows).</span>
+RANGE=3               <span class="hljs-comment">#  0 - 2 output range from $RANDOM.</span>
+POS=0                 <span class="hljs-comment">#  Left/right position.</span>
+RANDOM=$$             <span class="hljs-comment">#  Seeds the random number generator from PID</span>
+                      <span class="hljs-comment">#+ of script.</span>
+
+<span class="hljs-built_in">declare</span> -a Slots      <span class="hljs-comment"># Array holding cumulative results of passes.</span>
+NUMSLOTS=21           <span class="hljs-comment"># Number of slots at bottom of board.</span>
+
+
+<span class="hljs-function"><span class="hljs-title">Initialize_Slots</span></span> () { <span class="hljs-comment"># Zero out all elements of the array.</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> $( seq <span class="hljs-variable">$NUMSLOTS</span> )
+<span class="hljs-keyword">do</span>
+  Slots[<span class="hljs-variable">$i</span>]=0
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span>                  <span class="hljs-comment"># Blank line at beginning of run.</span>
+  }
+
+
+<span class="hljs-function"><span class="hljs-title">Show_Slots</span></span> () {
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">" "</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> $( seq <span class="hljs-variable">$NUMSLOTS</span> )   <span class="hljs-comment"># Pretty-print array elements.</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">printf</span> <span class="hljs-string">"%3d"</span> <span class="hljs-variable">${Slots[$i]}</span>   <span class="hljs-comment"># Allot three spaces per result.</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-comment"># Row of slots:</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">" |__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|__|"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"                                ||"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-comment">#  Note that if the count within any particular slot exceeds 99,</span>
+     <span class="hljs-comment">#+ it messes up the display.</span>
+     <span class="hljs-comment">#  Running only(!) 500 passes usually avoids this.</span>
+  }
+
+
+<span class="hljs-function"><span class="hljs-title">Move</span></span> () {              <span class="hljs-comment"># Move one unit right / left, or stay put.</span>
+  Move=<span class="hljs-variable">$RANDOM</span>         <span class="hljs-comment"># How random is $RANDOM? Well, let's see ...</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"Move %= RANGE"</span>  <span class="hljs-comment"># Normalize into range of 0 - 2.</span>
+  <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$Move</span>"</span> <span class="hljs-keyword">in</span>
+    0 ) ;;                   <span class="hljs-comment"># Do nothing, i.e., stay in place.</span>
+    1 ) ((POS--));;          <span class="hljs-comment"># Left.</span>
+    2 ) ((POS++));;          <span class="hljs-comment"># Right.</span>
+    * ) <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Error "</span>;;   <span class="hljs-comment"># Anomaly! (Should never occur.)</span>
+  <span class="hljs-keyword">esac</span>
+  }
+
+
+<span class="hljs-function"><span class="hljs-title">Play</span></span> () {                    <span class="hljs-comment"># Single pass (inner loop).</span>
+i=0
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$i</span>"</span> -lt <span class="hljs-string">"<span class="hljs-variable">$ROWS</span>"</span> ]   <span class="hljs-comment"># One event per row.</span>
+<span class="hljs-keyword">do</span>
+  Move
+  ((i++));
+<span class="hljs-keyword">done</span>
+
+SHIFT=11                     <span class="hljs-comment"># Why 11, and not 10?</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"POS += <span class="hljs-variable">$SHIFT</span>"</span>          <span class="hljs-comment"># Shift "zero position" to center.</span>
+(( Slots[<span class="hljs-variable">$POS</span>]++ ))          <span class="hljs-comment"># DE<span class="hljs-doctag">BUG:</span> echo $POS</span>
+
+<span class="hljs-comment"># echo -n "$POS "</span>
+
+  }
+
+
+<span class="hljs-function"><span class="hljs-title">Run</span></span> () {                     <span class="hljs-comment"># Outer loop.</span>
+p=0
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$p</span>"</span> -lt <span class="hljs-string">"<span class="hljs-variable">$PASSES</span>"</span> ]
+<span class="hljs-keyword">do</span>
+  Play
+  (( p++ ))
+  POS=0                      <span class="hljs-comment"># Reset to zero. Why?</span>
+<span class="hljs-keyword">done</span>
+  }
+
+
+<span class="hljs-comment"># --------------</span>
+<span class="hljs-comment"># main ()</span>
+Initialize_Slots
+Run
+Show_Slots
+<span class="hljs-comment"># --------------</span>
+
+<span class="hljs-built_in">exit</span> $?
+
+<span class="hljs-comment">#  Exercises:</span>
+<span class="hljs-comment">#  ---------</span>
+<span class="hljs-comment">#  1) Show the results in a vertical bar graph, or as an alternative,</span>
+<span class="hljs-comment">#+    a scattergram.</span>
+<span class="hljs-comment">#  2) Alter the script to use /dev/urandom instead of $RANDOM.</span>
+<span class="hljs-comment">#     Will this make the results more random?</span>
+<span class="hljs-comment">#  3) Provide some sort of "animation" or graphic output</span>
+<span class="hljs-comment">#     for each marble played.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><em>Jipe</em> points out a set of techniques for generating random numbers within a range.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-comment">#  Generate random number between 6 and 30.</span>
+   rnumber=$((RANDOM%<span class="hljs-number">25</span>+<span class="hljs-number">6</span>))     
+
+<span class="hljs-comment">#  Generate random number in the same 6 - 30 range,</span>
+<span class="hljs-comment">#+ but the number must be evenly divisible by 3.</span>
+   rnumber=$(((RANDOM%<span class="hljs-number">30</span>/<span class="hljs-number">3</span>+<span class="hljs-number">1</span>)*<span class="hljs-number">3</span>))
+
+<span class="hljs-comment">#  Note that this will not work all the time.</span>
+<span class="hljs-comment">#  It fails if $RANDOM%30 returns 0.</span>
+
+<span class="hljs-comment">#  Frank Wang suggests the following alternative:</span>
+   rnumber=$(( RANDOM%<span class="hljs-number">27</span>/<span class="hljs-number">3</span>*<span class="hljs-number">3</span>+<span class="hljs-number">6</span> ))</pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><em>Bill Gradwohl</em> came up with an improved formula that works for positive numbers.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">rnumber=$(((RANDOM%(max-min+divisibleBy))/divisibleBy*divisibleBy+min))</pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>Here Bill presents a versatile function that returns a random number between two specified values.</p>
+    <div class="EXAMPLE">
+      <a name="RANDOMBETWEEN" id="RANDOMBETWEEN"></a>
+      <p><b>Example 9-14. Random between values</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># random-between.sh</span>
+<span class="hljs-comment"># Random number between two specified values. </span>
+<span class="hljs-comment"># Script by Bill Gradwohl, with minor modifications by the document author.</span>
+<span class="hljs-comment"># Corrections in lines 187 and 189 by Anthony Le Clezio.</span>
+<span class="hljs-comment"># Used with permission.</span>
+
+
+<span class="hljs-function"><span class="hljs-title">randomBetween</span></span>() {
+   <span class="hljs-comment">#  Generates a positive or negative random number</span>
+   <span class="hljs-comment">#+ between $min and $max</span>
+   <span class="hljs-comment">#+ and divisible by $divisibleBy.</span>
+   <span class="hljs-comment">#  Gives a "reasonably random" distribution of return values.</span>
+   <span class="hljs-comment">#</span>
+   <span class="hljs-comment">#  Bill Gradwohl - Oct 1, 2003</span>
+
+   <span class="hljs-function"><span class="hljs-title">syntax</span></span>() {
+   <span class="hljs-comment"># Function embedded within function.</span>
+      <span class="hljs-built_in">echo</span>
+      <span class="hljs-built_in">echo</span>    <span class="hljs-string">"Syntax: randomBetween [min] [max] [multiple]"</span>
+      <span class="hljs-built_in">echo</span>
+      <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Expects up to 3 passed parameters, "</span>
+      <span class="hljs-built_in">echo</span>    <span class="hljs-string">"but all are completely optional."</span>
+      <span class="hljs-built_in">echo</span>    <span class="hljs-string">"min is the minimum value"</span>
+      <span class="hljs-built_in">echo</span>    <span class="hljs-string">"max is the maximum value"</span>
+      <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"multiple specifies that the answer must be "</span>
+      <span class="hljs-built_in">echo</span>     <span class="hljs-string">"a multiple of this value."</span>
+      <span class="hljs-built_in">echo</span>    <span class="hljs-string">"    i.e. answer must be evenly divisible by this number."</span>
+      <span class="hljs-built_in">echo</span>    
+      <span class="hljs-built_in">echo</span>    <span class="hljs-string">"If any value is missing, defaults area supplied as: 0 32767 1"</span>
+      <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Successful completion returns 0, "</span>
+      <span class="hljs-built_in">echo</span>     <span class="hljs-string">"unsuccessful completion returns"</span>
+      <span class="hljs-built_in">echo</span>    <span class="hljs-string">"function syntax and 1."</span>
+      <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"The answer is returned in the global variable "</span>
+      <span class="hljs-built_in">echo</span>    <span class="hljs-string">"randomBetweenAnswer"</span>
+      <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Negative values for any passed parameter are "</span>
+      <span class="hljs-built_in">echo</span>    <span class="hljs-string">"handled correctly."</span>
+   }
+
+   <span class="hljs-built_in">local</span> min=<span class="hljs-variable">${1:-0}</span>
+   <span class="hljs-built_in">local</span> max=<span class="hljs-variable">${2:-32767}</span>
+   <span class="hljs-built_in">local</span> divisibleBy=<span class="hljs-variable">${3:-1}</span>
+   <span class="hljs-comment"># Default values assigned, in case parameters not passed to function.</span>
+
+   <span class="hljs-built_in">local</span> x
+   <span class="hljs-built_in">local</span> spread
+
+   <span class="hljs-comment"># Let's make sure the divisibleBy value is positive.</span>
+   [ <span class="hljs-variable">${divisibleBy}</span> -lt 0 ] &amp;&amp; divisibleBy=$((<span class="hljs-number">0</span>-divisibleBy))
+
+   <span class="hljs-comment"># Sanity check.</span>
+   <span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -gt 3 -o <span class="hljs-variable">${divisibleBy}</span> -eq 0 -o  <span class="hljs-variable">${min}</span> -eq <span class="hljs-variable">${max}</span> ]; <span class="hljs-keyword">then</span> 
+      syntax
+      <span class="hljs-built_in">return</span> 1
+   <span class="hljs-keyword">fi</span>
+
+   <span class="hljs-comment"># See if the min and max are reversed.</span>
+   <span class="hljs-keyword">if</span> [ <span class="hljs-variable">${min}</span> -gt <span class="hljs-variable">${max}</span> ]; <span class="hljs-keyword">then</span>
+      <span class="hljs-comment"># Swap them.</span>
+      x=<span class="hljs-variable">${min}</span>
+      min=<span class="hljs-variable">${max}</span>
+      max=<span class="hljs-variable">${x}</span>
+   <span class="hljs-keyword">fi</span>
+
+   <span class="hljs-comment">#  If min is itself not evenly divisible by $divisibleBy,</span>
+   <span class="hljs-comment">#+ then fix the min to be within range.</span>
+   <span class="hljs-keyword">if</span> [ $((min/divisibleBy*divisibleBy)) -ne <span class="hljs-variable">${min}</span> ]; <span class="hljs-keyword">then</span> 
+      <span class="hljs-keyword">if</span> [ <span class="hljs-variable">${min}</span> -lt 0 ]; <span class="hljs-keyword">then</span>
+         min=$((min/divisibleBy*divisibleBy))
+      <span class="hljs-keyword">else</span>
+         min=$((((min/divisibleBy)+<span class="hljs-number">1</span>)*divisibleBy))
+      <span class="hljs-keyword">fi</span>
+   <span class="hljs-keyword">fi</span>
+
+   <span class="hljs-comment">#  If max is itself not evenly divisible by $divisibleBy,</span>
+   <span class="hljs-comment">#+ then fix the max to be within range.</span>
+   <span class="hljs-keyword">if</span> [ $((max/divisibleBy*divisibleBy)) -ne <span class="hljs-variable">${max}</span> ]; <span class="hljs-keyword">then</span> 
+      <span class="hljs-keyword">if</span> [ <span class="hljs-variable">${max}</span> -lt 0 ]; <span class="hljs-keyword">then</span>
+         max=$((((max/divisibleBy)-<span class="hljs-number">1</span>)*divisibleBy))
+      <span class="hljs-keyword">else</span>
+         max=$((max/divisibleBy*divisibleBy))
+      <span class="hljs-keyword">fi</span>
+   <span class="hljs-keyword">fi</span>
+
+   <span class="hljs-comment">#  ---------------------------------------------------------------------</span>
+   <span class="hljs-comment">#  Now, to do the real work.</span>
+
+   <span class="hljs-comment">#  Note that to get a proper distribution for the end points,</span>
+   <span class="hljs-comment">#+ the range of random values has to be allowed to go between</span>
+   <span class="hljs-comment">#+ 0 and abs(max-min)+divisibleBy, not just abs(max-min)+1.</span>
+
+   <span class="hljs-comment">#  The slight increase will produce the proper distribution for the</span>
+   <span class="hljs-comment">#+ end points.</span>
+
+   <span class="hljs-comment">#  Changing the formula to use abs(max-min)+1 will still produce</span>
+   <span class="hljs-comment">#+ correct answers, but the randomness of those answers is faulty in</span>
+   <span class="hljs-comment">#+ that the number of times the end points ($min and $max) are returned</span>
+   <span class="hljs-comment">#+ is considerably lower than when the correct formula is used.</span>
+   <span class="hljs-comment">#  ---------------------------------------------------------------------</span>
+
+   spread=$((max-min))
+   <span class="hljs-comment">#  Omair Eshkenazi points out that this test is unnecessary,</span>
+   <span class="hljs-comment">#+ since max and min have already been switched around.</span>
+   [ <span class="hljs-variable">${spread}</span> -lt 0 ] &amp;&amp; spread=$((<span class="hljs-number">0</span>-spread))
+   <span class="hljs-built_in">let</span> spread+=divisibleBy
+   randomBetweenAnswer=$(((RANDOM%spread)/divisibleBy*divisibleBy+min))   
+
+   <span class="hljs-built_in">return</span> 0
+
+   <span class="hljs-comment">#  However, Paulo Marcel Coelho Aragao points out that</span>
+   <span class="hljs-comment">#+ when $max and $min are not divisible by $divisibleBy,</span>
+   <span class="hljs-comment">#+ the formula fails.</span>
+   <span class="hljs-comment">#</span>
+   <span class="hljs-comment">#  He suggests instead the following formula:</span>
+   <span class="hljs-comment">#    rnumber = $(((RANDOM%(max-min+1)+min)/divisibleBy*divisibleBy))</span>
+
+}
+
+<span class="hljs-comment"># Let's test the function.</span>
+min=-14
+max=20
+divisibleBy=3
+
+
+<span class="hljs-comment">#  Generate an array of expected answers and check to make sure we get</span>
+<span class="hljs-comment">#+ at least one of each answer if we loop long enough.</span>
+
+<span class="hljs-built_in">declare</span> -a answer
+minimum=<span class="hljs-variable">${min}</span>
+maximum=<span class="hljs-variable">${max}</span>
+   <span class="hljs-keyword">if</span> [ $((minimum/divisibleBy*divisibleBy)) -ne <span class="hljs-variable">${minimum}</span> ]; <span class="hljs-keyword">then</span> 
+      <span class="hljs-keyword">if</span> [ <span class="hljs-variable">${minimum}</span> -lt 0 ]; <span class="hljs-keyword">then</span>
+         minimum=$((minimum/divisibleBy*divisibleBy))
+      <span class="hljs-keyword">else</span>
+         minimum=$((((minimum/divisibleBy)+<span class="hljs-number">1</span>)*divisibleBy))
+      <span class="hljs-keyword">fi</span>
+   <span class="hljs-keyword">fi</span>
+
+
+   <span class="hljs-comment">#  If max is itself not evenly divisible by $divisibleBy,</span>
+   <span class="hljs-comment">#+ then fix the max to be within range.</span>
+
+   <span class="hljs-keyword">if</span> [ $((maximum/divisibleBy*divisibleBy)) -ne <span class="hljs-variable">${maximum}</span> ]; <span class="hljs-keyword">then</span> 
+      <span class="hljs-keyword">if</span> [ <span class="hljs-variable">${maximum}</span> -lt 0 ]; <span class="hljs-keyword">then</span>
+         maximum=$((((maximum/divisibleBy)-<span class="hljs-number">1</span>)*divisibleBy))
+      <span class="hljs-keyword">else</span>
+         maximum=$((maximum/divisibleBy*divisibleBy))
+      <span class="hljs-keyword">fi</span>
+   <span class="hljs-keyword">fi</span>
+
+
+<span class="hljs-comment">#  We need to generate only positive array subscripts,</span>
+<span class="hljs-comment">#+ so we need a displacement that that will guarantee</span>
+<span class="hljs-comment">#+ positive results.</span>
+
+disp=$((<span class="hljs-number">0</span>-minimum))
+<span class="hljs-keyword">for</span> ((i=<span class="hljs-variable">${minimum}</span>; i&lt;=<span class="hljs-variable">${maximum}</span>; i+=divisibleBy)); <span class="hljs-keyword">do</span>
+   answer[i+disp]=0
+<span class="hljs-keyword">done</span>
+
+
+<span class="hljs-comment"># Now loop a large number of times to see what we get.</span>
+loopIt=1000   <span class="hljs-comment">#  The script author suggests 100000,</span>
+              <span class="hljs-comment">#+ but that takes a good long while.</span>
+
+<span class="hljs-keyword">for</span> ((i=0; i&lt;<span class="hljs-variable">${loopIt}</span>; ++i)); <span class="hljs-keyword">do</span>
+
+   <span class="hljs-comment">#  Note that we are specifying min and max in reversed order here to</span>
+   <span class="hljs-comment">#+ make the function correct for this case.</span>
+
+   randomBetween <span class="hljs-variable">${max}</span> <span class="hljs-variable">${min}</span> <span class="hljs-variable">${divisibleBy}</span>
+
+   <span class="hljs-comment"># Report an error if an answer is unexpected.</span>
+   [ <span class="hljs-variable">${randomBetweenAnswer}</span> -lt <span class="hljs-variable">${min}</span> -o <span class="hljs-variable">${randomBetweenAnswer}</span> -gt <span class="hljs-variable">${max}</span> ] \
+   &amp;&amp; <span class="hljs-built_in">echo</span> MIN or MAX error - <span class="hljs-variable">${randomBetweenAnswer}</span>!
+   [ $((randomBetweenAnswer%<span class="hljs-variable">${divisibleBy}</span>)) -ne 0 ] \
+   &amp;&amp; <span class="hljs-built_in">echo</span> DIVISIBLE BY error - <span class="hljs-variable">${randomBetweenAnswer}</span>!
+
+   <span class="hljs-comment"># Store the answer away statistically.</span>
+   answer[randomBetweenAnswer+disp]=$((answer[randomBetweenAnswer+disp]+<span class="hljs-number">1</span>))
+<span class="hljs-keyword">done</span>
+
+
+
+<span class="hljs-comment"># Let's check the results</span>
+
+<span class="hljs-keyword">for</span> ((i=<span class="hljs-variable">${minimum}</span>; i&lt;=<span class="hljs-variable">${maximum}</span>; i+=divisibleBy)); <span class="hljs-keyword">do</span>
+   [ <span class="hljs-variable">${answer[i+disp]}</span> -eq 0 ] \
+   &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-string">"We never got an answer of <span class="hljs-variable">$i</span>."</span> \
+   || <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">${i}</span> occurred <span class="hljs-variable">${answer[i+disp]}</span> times."</span>
+<span class="hljs-keyword">done</span>
+
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Just how random is <tt class="VARNAME">$RANDOM</tt>? The best way to test this is to write a script that tracks the distribution of <span class="QUOTE">"random"</span> numbers generated by <tt class="VARNAME">$RANDOM</tt>. Let's roll a <tt class="VARNAME">$RANDOM</tt> die a few times . . .</p>
+    <div class="EXAMPLE">
+      <a name="RANDOMTEST" id="RANDOMTEST"></a>
+      <p><b>Example 9-15. Rolling a single die with RANDOM</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># How random is RANDOM?</span>
+
+RANDOM=$$       <span class="hljs-comment"># Reseed the random number generator using script process ID.</span>
+
+PIPS=6          <span class="hljs-comment"># A die has 6 pips.</span>
+MAXTHROWS=600   <span class="hljs-comment"># Increase this if you have nothing better to do with your time.</span>
+throw=0         <span class="hljs-comment"># Number of times the dice have been cast.</span>
+
+ones=0          <span class="hljs-comment">#  Must initialize counts to zero,</span>
+twos=0          <span class="hljs-comment">#+ since an uninitialized variable is null, NOT zero.</span>
+threes=0
+fours=0
+fives=0
+sixes=0
+
+<span class="hljs-function"><span class="hljs-title">print_result</span></span> ()
+{
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"ones =   <span class="hljs-variable">$ones</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"twos =   <span class="hljs-variable">$twos</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"threes = <span class="hljs-variable">$threes</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"fours =  <span class="hljs-variable">$fours</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"fives =  <span class="hljs-variable">$fives</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"sixes =  <span class="hljs-variable">$sixes</span>"</span>
+<span class="hljs-built_in">echo</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">update_count</span></span>()
+{
+<span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> <span class="hljs-keyword">in</span>
+  0) ((ones++));;   <span class="hljs-comment"># Since a die has no "zero", this corresponds to 1.</span>
+  1) ((twos++));;   <span class="hljs-comment"># And this to 2.</span>
+  2) ((threes++));; <span class="hljs-comment"># And so forth.</span>
+  3) ((fours++));;
+  4) ((fives++));;
+  5) ((sixes++));;
+<span class="hljs-keyword">esac</span>
+}
+
+<span class="hljs-built_in">echo</span>
+
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$throw</span>"</span> -lt <span class="hljs-string">"<span class="hljs-variable">$MAXTHROWS</span>"</span> ]
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"die1 = RANDOM % <span class="hljs-variable">$PIPS</span>"</span>
+  update_count <span class="hljs-variable">$die1</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"throw += 1"</span>
+<span class="hljs-keyword">done</span>  
+
+print_result
+
+<span class="hljs-built_in">exit</span> $?
+
+<span class="hljs-comment">#  The scores should distribute evenly, assuming RANDOM is random.</span>
+<span class="hljs-comment">#  With $MAXTHROWS at 600, all should cluster around 100,</span>
+<span class="hljs-comment">#+ plus-or-minus 20 or so.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  Keep in mind that RANDOM is a ***pseudorandom*** generator,</span>
+<span class="hljs-comment">#+ and not a spectacularly good one at that.</span>
+
+<span class="hljs-comment">#  Randomness is a deep and complex subject.</span>
+<span class="hljs-comment">#  Sufficiently long "random" sequences may exhibit</span>
+<span class="hljs-comment">#+ chaotic and other "non-random" behavior.</span>
+
+<span class="hljs-comment"># Exercise (easy):</span>
+<span class="hljs-comment"># ---------------</span>
+<span class="hljs-comment"># Rewrite this script to flip a coin 1000 times.</span>
+<span class="hljs-comment"># Choices are "HEADS" and "TAILS."</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>As we have seen in the last example, it is best to <i class="FIRSTTERM">reseed</i> the <tt class="PARAMETER"><i>RANDOM</i></tt> generator each time it is invoked. Using the same seed for <tt class="PARAMETER"><i>RANDOM</i></tt> repeats the same series of numbers. <a name="AEN5857" href="#FTN.AEN5857" id="AEN5857"><span class="footnote">[2]</span></a> (This mirrors the behavior of the <tt class="REPLACEABLE"><i>random()</i></tt> function in <i class="FIRSTTERM">C</i>.)</p>
+    <div class="EXAMPLE">
+      <a name="SEEDINGRANDOM" id="SEEDINGRANDOM"></a>
+      <p><b>Example 9-16. Reseeding RANDOM</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># seeding-random.sh: Seeding the RANDOM variable.</span>
+<span class="hljs-comment"># v 1.1, reldate 09 Feb 2013</span>
+
+MAXCOUNT=25       <span class="hljs-comment"># How many numbers to generate.</span>
+SEED=
+
+<span class="hljs-function"><span class="hljs-title">random_numbers</span></span> ()
+{
+<span class="hljs-built_in">local</span> count=0
+<span class="hljs-built_in">local</span> number
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$count</span>"</span> -lt <span class="hljs-string">"<span class="hljs-variable">$MAXCOUNT</span>"</span> ]
+<span class="hljs-keyword">do</span>
+  number=<span class="hljs-variable">$RANDOM</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$number</span> "</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"count++"</span>
+<span class="hljs-keyword">done</span>  
+}
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+SEED=1
+RANDOM=<span class="hljs-variable">$SEED</span>      <span class="hljs-comment"># Setting RANDOM seeds the random number generator.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Random seed = <span class="hljs-variable">$SEED</span>"</span>
+random_numbers
+
+
+RANDOM=<span class="hljs-variable">$SEED</span>      <span class="hljs-comment"># Same seed for RANDOM . . .</span>
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span> <span class="hljs-string">"Again, with same random seed ..."</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Random seed = <span class="hljs-variable">$SEED</span>"</span>
+random_numbers    <span class="hljs-comment"># . . . reproduces the exact same number series.</span>
+                  <span class="hljs-comment">#</span>
+                  <span class="hljs-comment"># When is it useful to duplicate a "random" series?</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+SEED=2
+RANDOM=<span class="hljs-variable">$SEED</span>      <span class="hljs-comment"># Trying again, but with a different seed . . .</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Random seed = <span class="hljs-variable">$SEED</span>"</span>
+random_numbers    <span class="hljs-comment"># . . . gives a different number series.</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># RANDOM=$$  seeds RANDOM from process id of script.</span>
+<span class="hljs-comment"># It is also possible to seed RANDOM from 'time' or 'date' commands.</span>
+
+<span class="hljs-comment"># Getting fancy...</span>
+SEED=$(head -1 /dev/urandom | od -N 1 | awk <span class="hljs-string">'{ print $2 }'</span>| sed s/^0*//)
+<span class="hljs-comment">#  Pseudo-random output fetched</span>
+<span class="hljs-comment">#+ from /dev/urandom (system pseudo-random device-file),</span>
+<span class="hljs-comment">#+ then converted to line of printable (octal) numbers by "od",</span>
+<span class="hljs-comment">#+ then "awk" retrieves just one number for SEED,</span>
+<span class="hljs-comment">#+ finally "sed" removes any leading zeros.</span>
+RANDOM=<span class="hljs-variable">$SEED</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Random seed = <span class="hljs-variable">$SEED</span>"</span>
+random_numbers
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="URANDOMREF" id="URANDOMREF"></a></p>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>The <tt class="FILENAME">/dev/urandom</tt> pseudo-device file provides a method of generating much more <span class="QUOTE">"random"</span> pseudorandom numbers than the <tt class="VARNAME">$RANDOM</tt> variable. <tt class="USERINPUT"><b>dd if=/dev/urandom of=targetfile bs=1 count=XX</b></tt> creates a file of well-scattered pseudorandom numbers. However, assigning these numbers to a variable in a script requires a workaround, such as filtering through <a href="extmisc.html#ODREF">od</a> (as in above example, <a href="textproc.html#RND">Example 16-14</a>, and <a href="contributed-scripts.html#INSERTIONSORT">Example A-36</a>), or even piping to <a href="filearchiv.html#MD5SUMREF">md5sum</a> (see <a href="colorizing.html#HORSERACE">Example 36-16</a>).</p>
+            <p><a name="AWKRANDOMREF" id="AWKRANDOMREF"></a></p>
+            <p>There are also other ways to generate pseudorandom numbers in a script. <b class="COMMAND">Awk</b> provides a convenient means of doing this.</p>
+            <div class="EXAMPLE">
+              <a name="RANDOM2" id="RANDOM2"></a>
+              <p><b>Example 9-17. Pseudorandom numbers, using <a href="awk.html#AWKREF">awk</a></b></p>
+              <table border="0" bgcolor="#E0E0E0" width="100%">
+                <tbody><tr>
+                  <td>
+                    <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment">#  random2.sh: Returns a pseudorandom number in the range 0 - 1,</span>
+<span class="hljs-comment">#+ to 6 decimal places. For example: 0.822725</span>
+<span class="hljs-comment">#  Uses the awk rand() function.</span>
+
+AWKSCRIPT=<span class="hljs-string">' { srand(); print rand() } '</span>
+<span class="hljs-comment">#           Command(s)/parameters passed to awk</span>
+<span class="hljs-comment"># Note that srand() reseeds awk's random number generator.</span>
+
+
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Random number between 0 and 1 = "</span>
+
+<span class="hljs-built_in">echo</span> | awk <span class="hljs-string">"<span class="hljs-variable">$AWKSCRIPT</span>"</span>
+<span class="hljs-comment"># What happens if you leave out the 'echo'?</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+
+<span class="hljs-comment"># Exercises:</span>
+<span class="hljs-comment"># ---------</span>
+
+<span class="hljs-comment"># 1) Using a loop construct, print out 10 different random numbers.</span>
+<span class="hljs-comment">#      (Hint: you must reseed the srand() function with a different seed</span>
+<span class="hljs-comment">#+     in each pass through the loop. What happens if you omit this?)</span>
+
+<span class="hljs-comment"># 2) Using an integer multiplier as a scaling factor, generate random numbers </span>
+<span class="hljs-comment">#+   in the range of 10 to 100.</span>
+
+<span class="hljs-comment"># 3) Same as exercise #2, above, but generate random integers this time.</span></pre>
+                  </td>
+                </tr>
+              </tbody></table>
+            </div>
+            <p>The <a href="timedate.html#DATEREF">date</a> command also lends itself to <a href="timedate.html#DATERANDREF">generating pseudorandom integer sequences</a>.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN5817" href="randomvar.html#AEN5817" id="FTN.AEN5817"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>True <span class="QUOTE">"randomness,"</span> insofar as it exists at all, can only be found in certain incompletely understood natural phenomena, such as radioactive decay. Computers only <i class="FIRSTTERM">simulate</i> randomness, and computer-generated sequences of <span class="QUOTE">"random"</span> numbers are therefore referred to as <i class="FIRSTTERM">pseudorandom</i>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN5857" href="randomvar.html#AEN5857" id="FTN.AEN5857"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>The <i class="FIRSTTERM">seed</i> of a computer-generated pseudorandom number series can be considered an identification label. For example, think of the pseudorandom series with a seed of <em>23</em> as <tt class="REPLACEABLE"><i>Series #23</i></tt>.</p>
+        <p>A property of a pseurandom number series is the length of the cycle before it starts repeating itself. A good pseurandom generator will produce series with very long cycles.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="declareref.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="manipulatingvars.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Typing variables: <b class="COMMAND">declare</b> or <b class="COMMAND">typeset</b></td>
+        <td width="34%" align="center" valign="top"><a href="variables2.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Manipulating Variables</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Other Comparison Operators</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Tests" href="tests.html">
+  <link rel="PREVIOUS" title="File test operators" href="fto.html">
+  <link rel="NEXT" title="Nested if/then Condition Tests" href="nestedifthen.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="fto.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 7. Tests</td>
+        <td width="10%" align="right" valign="bottom"><a href="nestedifthen.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="COMPARISON-OPS" id="COMPARISON-OPS"></a>7.3. Other Comparison Operators</h1>
+    <p>A <i class="FIRSTTERM">binary</i> comparison operator compares two variables or quantities. <em>Note that integer and string comparison use a different set of operators.</em></p>
+    <div class="VARIABLELIST">
+      <p><b><a name="ICOMPARISON1" id="ICOMPARISON1"></a>integer comparison</b></p>
+      <dl>
+        <dt><a name="EQUALREF" id="EQUALREF"></a><span class="TOKEN">-eq</span></dt>
+        <dd>
+          <p>is equal to</p>
+          <p><tt class="USERINPUT"><b>if [ "$a" -eq "$b" ]</b></tt></p>
+        </dd>
+        <dt><a name="NEQUALREF" id="NEQUALREF"></a><span class="TOKEN">-ne</span></dt>
+        <dd>
+          <p>is not equal to</p>
+          <p><tt class="USERINPUT"><b>if [ "$a" -ne "$b" ]</b></tt></p>
+        </dd>
+        <dt><a name="GT0REF" id="GT0REF"></a><span class="TOKEN">-gt</span></dt>
+        <dd>
+          <p>is greater than</p>
+          <p><tt class="USERINPUT"><b>if [ "$a" -gt "$b" ]</b></tt></p>
+        </dd>
+        <dt><a name="GE0REF" id="GE0REF"></a><span class="TOKEN">-ge</span></dt>
+        <dd>
+          <p>is greater than or equal to</p>
+          <p><tt class="USERINPUT"><b>if [ "$a" -ge "$b" ]</b></tt></p>
+        </dd>
+        <dt><a name="LT0REF" id="LT0REF"></a><span class="TOKEN">-lt</span></dt>
+        <dd>
+          <p>is less than</p>
+          <p><tt class="USERINPUT"><b>if [ "$a" -lt "$b" ]</b></tt></p>
+        </dd>
+        <dt><a name="LE0REF" id="LE0REF"></a><span class="TOKEN">-le</span></dt>
+        <dd>
+          <p>is less than or equal to</p>
+          <p><tt class="USERINPUT"><b>if [ "$a" -le "$b" ]</b></tt></p>
+        </dd>
+        <dt><a name="INTLT" id="INTLT"></a><span class="TOKEN">&lt;</span></dt>
+        <dd>
+          <p>is less than (within <a href="dblparens.html">double parentheses</a>)</p>
+          <p><tt class="USERINPUT"><b>(("$a" &lt; "$b"))</b></tt></p>
+        </dd>
+        <dt><a name="LTEQ" id="LTEQ"></a><span class="TOKEN">&lt;=</span></dt>
+        <dd>
+          <p>is less than or equal to (within double parentheses)</p>
+          <p><tt class="USERINPUT"><b>(("$a" &lt;= "$b"))</b></tt></p>
+        </dd>
+        <dt><a name="INTGT" id="INTGT"></a><span class="TOKEN">&gt;</span></dt>
+        <dd>
+          <p>is greater than (within double parentheses)</p>
+          <p><tt class="USERINPUT"><b>(("$a" &gt; "$b"))</b></tt></p>
+        </dd>
+        <dt><a name="GTEQ" id="GTEQ"></a><span class="TOKEN">&gt;=</span></dt>
+        <dd>
+          <p>is greater than or equal to (within double parentheses)</p>
+          <p><tt class="USERINPUT"><b>(("$a" &gt;= "$b"))</b></tt></p>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="SCOMPARISON1" id="SCOMPARISON1"></a>string comparison</b></p>
+      <dl>
+        <dt><span class="TOKEN">=</span></dt>
+        <dd>
+          <p><a name="EQUALSIGNREF" id="EQUALSIGNREF"></a></p>
+          <p>is equal to</p>
+          <p><tt class="USERINPUT"><b>if [ "$a" = "$b" ]</b></tt></p>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>Note the <a href="special-chars.html#WHITESPACEREF">whitespace</a> framing the <b class="COMMAND">=</b>.</p>
+                  <p><tt class="USERINPUT"><b>if [ "$a"="$b" ]</b></tt> is <em>not</em> equivalent to the above.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="SCOMPARISON2" id="SCOMPARISON2"></a><span class="TOKEN">==</span></dt>
+        <dd>
+          <p>is equal to</p>
+          <p><tt class="USERINPUT"><b>if [ "$a" == "$b" ]</b></tt></p>
+          <p>This is a synonym for <span class="TOKEN">=</span>.</p>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>The <span class="TOKEN">==</span> comparison operator behaves differently within a <a href="testconstructs.html#DBLBRACKETS">double-brackets</a> test than within single brackets.</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tbody><tr>
+                      <td>
+                        <pre class="PROGRAMLISTING hljs">[[ <span class="hljs-variable">$a</span> == z* ]]   <span class="hljs-comment"># True if $a starts with an "z" (pattern matching).</span>
+[[ <span class="hljs-variable">$a</span> == <span class="hljs-string">"z*"</span> ]] <span class="hljs-comment"># True if $a is equal to z* (literal matching).</span>
+
+[ <span class="hljs-variable">$a</span> == z* ]     <span class="hljs-comment"># File globbing and word splitting take place.</span>
+[ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> == <span class="hljs-string">"z*"</span> ] <span class="hljs-comment"># True if $a is equal to z* (literal matching).</span>
+
+<span class="hljs-comment"># Thanks, Stephane Chazelas</span></pre>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="NOTEQUAL" id="NOTEQUAL"></a><span class="TOKEN">!=</span></dt>
+        <dd>
+          <p>is not equal to</p>
+          <p><tt class="USERINPUT"><b>if [ "$a" != "$b" ]</b></tt></p>
+          <p>This operator uses pattern matching within a <a href="testconstructs.html#DBLBRACKETS">[[ ... ]]</a> construct.</p>
+        </dd>
+        <dt><a name="LTREF" id="LTREF"></a><span class="TOKEN">&lt;</span></dt>
+        <dd>
+          <p>is less than, in <a href="special-chars.html#ASCIIDEF">ASCII</a> alphabetical order</p>
+          <p><tt class="USERINPUT"><b>if [[ "$a" &lt; "$b" ]]</b></tt></p>
+          <p><tt class="USERINPUT"><b>if [ "$a" \&lt; "$b" ]</b></tt></p>
+          <p>Note that the <span class="QUOTE">"&lt;"</span> needs to be <a href="escapingsection.html#ESCP">escaped</a> within a <tt class="USERINPUT"><b>[ ]</b></tt> construct.</p>
+        </dd>
+        <dt><a name="GTREF" id="GTREF"></a><span class="TOKEN">&gt;</span></dt>
+        <dd>
+          <p>is greater than, in ASCII alphabetical order</p>
+          <p><tt class="USERINPUT"><b>if [[ "$a" &gt; "$b" ]]</b></tt></p>
+          <p><tt class="USERINPUT"><b>if [ "$a" \&gt; "$b" ]</b></tt></p>
+          <p>Note that the <span class="QUOTE">"&gt;"</span> needs to be escaped within a <tt class="USERINPUT"><b>[ ]</b></tt> construct.</p>
+          <p>See <a href="arrays.html#BUBBLE">Example 27-11</a> for an application of this comparison operator.</p>
+        </dd>
+        <dt><a name="STRINGNULL" id="STRINGNULL"></a><span class="TOKEN">-z</span></dt>
+        <dd>
+          <p>string is <i class="FIRSTTERM">null</i>, that is, has zero length</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"> String=<span class="hljs-string">''</span>   <span class="hljs-comment"># Zero-length ("null") string variable.</span>
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$String</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"\$String is null."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"\$String is NOT null."</span>
+<span class="hljs-keyword">fi</span>     <span class="hljs-comment"># $String is null.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="STRINGNOTNULL" id="STRINGNOTNULL"></a><span class="TOKEN">-n</span></dt>
+        <dd>
+          <p>string is not <i class="FIRSTTERM">null.</i></p>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>The <tt class="USERINPUT"><b>-n</b></tt> test requires that the string be quoted within the test brackets. Using an unquoted string with <i class="FIRSTTERM">! -z</i>, or even just the unquoted string alone within test brackets (see <a href="comparison-ops.html#STRTEST">Example 7-6</a>) normally works, however, this is an unsafe practice. <em>Always</em> quote a tested string. <a name="AEN3669" href="#FTN.AEN3669" id="AEN3669"><span class="footnote">[1]</span></a></p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div class="EXAMPLE">
+      <a name="EX13" id="EX13"></a>
+      <p><b>Example 7-5. Arithmetic and string comparisons</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+a=4
+b=5
+
+<span class="hljs-comment">#  Here "a" and "b" can be treated either as integers or strings.</span>
+<span class="hljs-comment">#  There is some blurring between the arithmetic and string comparisons,</span>
+<span class="hljs-comment">#+ since Bash variables are not strongly typed.</span>
+
+<span class="hljs-comment">#  Bash permits integer operations and comparisons on variables</span>
+<span class="hljs-comment">#+ whose value consists of all-integer characters.</span>
+<span class="hljs-comment">#  Caution advised, however.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> -ne <span class="hljs-string">"<span class="hljs-variable">$b</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$a</span> is not equal to <span class="hljs-variable">$b</span>"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"(arithmetic comparison)"</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> != <span class="hljs-string">"<span class="hljs-variable">$b</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$a</span> is not equal to <span class="hljs-variable">$b</span>."</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"(string comparison)"</span>
+  <span class="hljs-comment">#     "4"  != "5"</span>
+  <span class="hljs-comment"># ASCII 52 != ASCII 53</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment"># In this particular instance, both "-ne" and "!=" work.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="STRTEST" id="STRTEST"></a>
+      <p><b>Example 7-6. Testing whether a string is <i class="FIRSTTERM">null</i></b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment">#  str-test.sh: Testing null strings and unquoted strings,</span>
+<span class="hljs-comment">#+ but not strings and sealing wax, not to mention cabbages and kings . . .</span>
+
+<span class="hljs-comment"># Using   if [ ... ]</span>
+
+<span class="hljs-comment"># If a string has not been initialized, it has no defined value.</span>
+<span class="hljs-comment"># This state is called "null" (not the same as zero!).</span>
+
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-variable">$string1</span> ]    <span class="hljs-comment"># string1 has not been declared or initialized.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"String \"string1\" is not null."</span>
+<span class="hljs-keyword">else</span>  
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"String \"string1\" is null."</span>
+<span class="hljs-keyword">fi</span>                    <span class="hljs-comment"># Wrong result.</span>
+<span class="hljs-comment"># Shows $string1 as not null, although it was not initialized.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># Let's try it again.</span>
+
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">"<span class="hljs-variable">$string1</span>"</span> ]  <span class="hljs-comment"># This time, $string1 is quoted.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"String \"string1\" is not null."</span>
+<span class="hljs-keyword">else</span>  
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"String \"string1\" is null."</span>
+<span class="hljs-keyword">fi</span>                    <span class="hljs-comment"># Quote strings within test brackets!</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$string1</span> ]       <span class="hljs-comment"># This time, $string1 stands naked.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"String \"string1\" is not null."</span>
+<span class="hljs-keyword">else</span>  
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"String \"string1\" is null."</span>
+<span class="hljs-keyword">fi</span>                    <span class="hljs-comment"># This works fine.</span>
+<span class="hljs-comment"># The [ ... ] test operator alone detects whether the string is null.</span>
+<span class="hljs-comment"># However it is good practice to quote it (if [ "$string1" ]).</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># As Stephane Chazelas points out,</span>
+<span class="hljs-comment">#    if [ $string1 ]    has one argument, "]"</span>
+<span class="hljs-comment">#    if [ "$string1" ]  has two arguments, the empty "$string1" and "]" </span>
+
+
+<span class="hljs-built_in">echo</span>
+
+
+string1=initialized
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$string1</span> ]       <span class="hljs-comment"># Again, $string1 stands unquoted.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"String \"string1\" is not null."</span>
+<span class="hljs-keyword">else</span>  
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"String \"string1\" is null."</span>
+<span class="hljs-keyword">fi</span>                    <span class="hljs-comment"># Again, gives correct result.</span>
+<span class="hljs-comment"># Still, it is better to quote it ("$string1"), because . . .</span>
+
+
+string1=<span class="hljs-string">"a = b"</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$string1</span> ]       <span class="hljs-comment"># Again, $string1 stands unquoted.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"String \"string1\" is not null."</span>
+<span class="hljs-keyword">else</span>  
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"String \"string1\" is null."</span>
+<span class="hljs-keyword">fi</span>                    <span class="hljs-comment"># Not quoting "$string1" now gives wrong result!</span>
+
+<span class="hljs-built_in">exit</span> 0   <span class="hljs-comment"># Thank you, also, Florian Wisser, for the "heads-up".</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="EX14" id="EX14"></a>
+      <p><b>Example 7-7. <i class="FIRSTTERM">zmore</i></b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># zmore</span>
+
+<span class="hljs-comment"># View gzipped files with 'more' filter.</span>
+
+E_NOARGS=85
+E_NOTFOUND=86
+E_NOTGZIP=87
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -eq 0 ] <span class="hljs-comment"># same effect as:  if [ -z "$1" ]</span>
+<span class="hljs-comment"># $1 can exist, but be empty:  zmore "" arg2 arg3</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` filename"</span> &gt;&amp;2
+  <span class="hljs-comment"># Error message to stderr.</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOARGS</span>
+  <span class="hljs-comment"># Returns 85 as exit status of script (error code).</span>
+<span class="hljs-keyword">fi</span>  
+
+filename=<span class="hljs-variable">$1</span>
+
+<span class="hljs-keyword">if</span> [ ! -f <span class="hljs-string">"<span class="hljs-variable">$filename</span>"</span> ]   <span class="hljs-comment"># Quoting $filename allows for possible spaces.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"File <span class="hljs-variable">$filename</span> not found!"</span> &gt;&amp;2   <span class="hljs-comment"># Error message to stderr.</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOTFOUND</span>
+<span class="hljs-keyword">fi</span>  
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">${filename##*.}</span> != <span class="hljs-string">"gz"</span> ]
+<span class="hljs-comment"># Using bracket in variable substitution.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"File <span class="hljs-variable">$1</span> is not a gzipped file!"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOTGZIP</span>
+<span class="hljs-keyword">fi</span>  
+
+zcat <span class="hljs-variable">$1</span> | more
+
+<span class="hljs-comment"># Uses the 'more' filter.</span>
+<span class="hljs-comment"># May substitute 'less' if desired.</span>
+
+<span class="hljs-built_in">exit</span> $?   <span class="hljs-comment"># Script returns exit status of pipe.</span>
+<span class="hljs-comment">#  Actually "exit $?" is unnecessary, as the script will, in any case,</span>
+<span class="hljs-comment">#+ return the exit status of the last command executed.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="CCOMPARISON1" id="CCOMPARISON1"></a>compound comparison</b></p>
+      <dl>
+        <dt><a name="COMPOUNDAND" id="COMPOUNDAND"></a><span class="TOKEN">-a</span></dt>
+        <dd>
+          <p>logical and</p>
+          <p><tt class="REPLACEABLE"><i>exp1 -a exp2</i></tt> returns true if <em>both</em> exp1 and exp2 are true.</p>
+        </dd>
+        <dt><a name="COMPOUNDOR" id="COMPOUNDOR"></a><span class="TOKEN">-o</span></dt>
+        <dd>
+          <p>logical or</p>
+          <p><tt class="REPLACEABLE"><i>exp1 -o exp2</i></tt> returns true if either exp1 <em>or</em> exp2 is true.</p>
+        </dd>
+      </dl>
+    </div>
+    <p>These are similar to the Bash comparison operators <b class="COMMAND">&amp;&amp;</b> and <b class="COMMAND">||</b>, used within <a href="testconstructs.html#DBLBRACKETS">double brackets</a>.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">[[ condition1 &amp;&amp; condition2 ]]</pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>The <b class="COMMAND">-o</b> and <b class="COMMAND">-a</b> operators work with the <a href="testconstructs.html#TTESTREF">test</a> command or occur within single test brackets.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$expr1</span>"</span> -a <span class="hljs-string">"<span class="hljs-variable">$expr2</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Both expr1 and expr2 are true."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Either expr1 or expr2 is false."</span>
+<span class="hljs-keyword">fi</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="CAUTION">
+      <table class="CAUTION" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+          <td align="left" valign="top">
+            <p>But, as <em>rihad</em> points out:</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs">[ 1 -eq 1 ] &amp;&amp; [ -n <span class="hljs-string">"`echo true 1&gt;&amp;2`"</span> ]   <span class="hljs-comment"># true</span>
+[ 1 -eq 2 ] &amp;&amp; [ -n <span class="hljs-string">"`echo true 1&gt;&amp;2`"</span> ]   <span class="hljs-comment"># (no output)</span>
+<span class="hljs-comment"># ^^^^^^^ False condition. So far, everything as expected.</span>
+
+<span class="hljs-comment"># However ...</span>
+[ 1 -eq 2 -a -n <span class="hljs-string">"`echo true 1&gt;&amp;2`"</span> ]       <span class="hljs-comment"># true</span>
+<span class="hljs-comment"># ^^^^^^^ False condition. So, why "true" output?</span>
+
+<span class="hljs-comment"># Is it because both condition clauses within brackets evaluate?</span>
+[[ 1 -eq 2 &amp;&amp; -n <span class="hljs-string">"`echo true 1&gt;&amp;2`"</span> ]]     <span class="hljs-comment"># (no output)</span>
+<span class="hljs-comment"># No, that's not it.</span>
+
+<span class="hljs-comment"># Apparently &amp;&amp; and || "short-circuit" while -a and -o do not.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Refer to <a href="ops.html#ANDOR">Example 8-3</a>, <a href="arrays.html#TWODIM">Example 27-17</a>, and <a href="contributed-scripts.html#WHX">Example A-29</a> to see compound comparison operators in action.</p>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN3669" href="comparison-ops.html#AEN3669" id="FTN.AEN3669"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>As S.C. points out, in a compound test, even quoting the string variable might not suffice. <tt class="USERINPUT"><b>[ -n "$string" -o "$a" = "$b" ]</b></tt> may cause an error with some versions of Bash if <tt class="VARNAME">$string</tt> is empty. The safe way is to append an extra character to possibly empty variables, <tt class="USERINPUT"><b>[ "x$string" != x -o "x$a" = "x$b" ]</b></tt> (the <span class="QUOTE">"x's"</span> cancel out).</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="fto.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="nestedifthen.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">File test operators</td>
+        <td width="34%" align="center" valign="top"><a href="tests.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Nested <tt class="REPLACEABLE"><i>if/then</i></tt> Condition Tests</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>List Constructs</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="Aliases" href="aliases.html">
+  <link rel="NEXT" title="Arrays" href="arrays.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="aliases.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="arrays.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="LIST-CONS" id="LIST-CONS"></a>Chapter 26. List Constructs</h1>
+    <p><a name="LISTCONSREF" id="LISTCONSREF"></a></p>
+    <p>The <i class="FIRSTTERM">and list</i> and <i class="FIRSTTERM">or list</i> constructs provide a means of processing a number of commands consecutively. These can effectively replace complex nested <a href="testconstructs.html#TESTCONSTRUCTS1">if/then</a> or even <a href="testbranch.html#CASEESAC1">case</a> statements.</p>
+    <div class="VARIABLELIST">
+      <p><b><a name="LCONS1" id="LCONS1"></a>Chaining together commands</b></p>
+      <dl>
+        <dt>and list</dt>
+        <dd>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">command-1 &amp;&amp; command-2 &amp;&amp; command-3 &amp;&amp; ... command-n</pre>
+              </td>
+            </tr>
+          </tbody></table>Each command executes in turn, provided that the previous command has given a return value of <tt class="REPLACEABLE"><i>true</i></tt> (zero). At the first <tt class="REPLACEABLE"><i>false</i></tt> (non-zero) return, the command chain terminates (the first command returning <tt class="REPLACEABLE"><i>false</i></tt> is the last one to execute).
+          <p>An interesting use of a two-condition <i class="FIRSTTERM">and list</i> from an early version of YongYe's <a href="http://bash.deta.in/Tetris_Game.sh" target="_top">Tetris game script</a>:</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-function"><span class="hljs-title">equation</span></span>()
+
+{  <span class="hljs-comment"># core algorithm used for doubling and halving the coordinates</span>
+   [[ <span class="hljs-variable">${cdx}</span> ]] &amp;&amp; ((y=cy+(ccy-cdy)<span class="hljs-variable">${2}</span>2))
+   <span class="hljs-built_in">eval</span> <span class="hljs-variable">${1}</span>+=\"<span class="hljs-variable">${x}</span> <span class="hljs-variable">${y}</span> \"
+}</pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <div class="EXAMPLE">
+            <a name="EX64" id="EX64"></a>
+            <p><b>Example 26-1. Using an <i class="FIRSTTERM">and list</i> to test for command-line arguments</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># and list</span>
+
+<span class="hljs-keyword">if</span> [ ! -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ] &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-string">"Argument #1 = <span class="hljs-variable">$1</span>"</span> &amp;&amp; [ ! -z <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span> ] &amp;&amp; \
+<span class="hljs-comment">#                ^^                         ^^               ^^</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Argument #2 = <span class="hljs-variable">$2</span>"</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"At least 2 arguments passed to script."</span>
+  <span class="hljs-comment"># All the chained commands return true.</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Fewer than 2 arguments passed to script."</span>
+  <span class="hljs-comment"># At least one of the chained commands returns false.</span>
+<span class="hljs-keyword">fi</span>  
+<span class="hljs-comment"># Note that "if [ ! -z $1 ]" works, but its alleged equivalent,</span>
+<span class="hljs-comment">#   "if [ -n $1 ]" does not.</span>
+<span class="hljs-comment">#     However, quoting fixes this.</span>
+<span class="hljs-comment">#  if "[ -n "$1" ]" works.</span>
+<span class="hljs-comment">#           ^  ^    Careful!</span>
+<span class="hljs-comment"># It is always best to QUOTE the variables being tested.</span>
+
+
+<span class="hljs-comment"># This accomplishes the same thing, using "pure" if/then statements.</span>
+<span class="hljs-keyword">if</span> [ ! -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Argument #1 = <span class="hljs-variable">$1</span>"</span>
+<span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">if</span> [ ! -z <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Argument #2 = <span class="hljs-variable">$2</span>"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"At least 2 arguments passed to script."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Fewer than 2 arguments passed to script."</span>
+<span class="hljs-keyword">fi</span>
+<span class="hljs-comment"># It's longer and more ponderous than using an "and list".</span>
+
+
+<span class="hljs-built_in">exit</span> $?</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="EXAMPLE">
+            <a name="ANDLIST2" id="ANDLIST2"></a>
+            <p><b>Example 26-2. Another command-line arg test using an <i class="FIRSTTERM">and list</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+ARGS=1        <span class="hljs-comment"># Number of arguments expected.</span>
+E_BADARGS=85  <span class="hljs-comment"># Exit value if incorrect number of args passed.</span>
+
+<span class="hljs-built_in">test</span> <span class="hljs-variable">$#</span> -ne <span class="hljs-variable">$ARGS</span> &amp;&amp; \
+<span class="hljs-comment">#    ^^^^^^^^^^^^ condition #1</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` <span class="hljs-variable">$ARGS</span> argument(s)"</span> &amp;&amp; <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-comment">#                                             ^^</span>
+<span class="hljs-comment">#  If condition #1 tests true (wrong number of args passed to script),</span>
+<span class="hljs-comment">#+ then the rest of the line executes, and script terminates.</span>
+
+<span class="hljs-comment"># Line below executes only if the above test fails.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Correct number of arguments passed to this script."</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># To check exit value, do a "echo $?" after script termination.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="ANDDEFAULT" id="ANDDEFAULT"></a></p>
+          <p>Of course, an <i class="FIRSTTERM">and list</i> can also <i class="FIRSTTERM">set</i> variables to a default value.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">arg1=<span class="hljs-variable">$@</span> &amp;&amp; [ -z <span class="hljs-string">"<span class="hljs-variable">$arg1</span>"</span> ] &amp;&amp; arg1=DEFAULT
+                
+              <span class="hljs-comment"># Set $arg1 to command-line arguments, if any.</span>
+              <span class="hljs-comment"># But . . . set to DEFAULT if not specified on command-line.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="ORLISTREF" id="ORLISTREF"></a>or list</dt>
+        <dd>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">command-1 || command-2 || command-3 || ... command-n</pre>
+              </td>
+            </tr>
+          </tbody></table>Each command executes in turn for as long as the previous command returns <span class="RETURNVALUE">false</span>. At the first <span class="RETURNVALUE">true</span> return, the command chain terminates (the first command returning <span class="RETURNVALUE">true</span> is the last one to execute). This is obviously the inverse of the <span class="QUOTE">"and list"</span>.
+          <div class="EXAMPLE">
+            <a name="EX65" id="EX65"></a>
+            <p><b>Example 26-3. Using <i class="FIRSTTERM">or lists</i> in combination with an <i class="FIRSTTERM">and list</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment">#  delete.sh, a not-so-cunning file deletion utility.</span>
+<span class="hljs-comment">#  Usage: delete filename</span>
+
+E_BADARGS=85
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` filename"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>  <span class="hljs-comment"># No arg? Bail out.</span>
+<span class="hljs-keyword">else</span>  
+  file=<span class="hljs-variable">$1</span>          <span class="hljs-comment"># Set filename.</span>
+<span class="hljs-keyword">fi</span>  
+
+
+[ ! -f <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span> ] &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-string">"File \"<span class="hljs-variable">$file</span>\" not found. \
+Cowardly refusing to delete a nonexistent file."</span>
+<span class="hljs-comment"># AND LIST, to give error message if file not present.</span>
+<span class="hljs-comment"># Note echo message continuing on to a second line after an escape.</span>
+
+[ ! -f <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span> ] || (rm -f <span class="hljs-variable">$file</span>; <span class="hljs-built_in">echo</span> <span class="hljs-string">"File \"<span class="hljs-variable">$file</span>\" deleted."</span>)
+<span class="hljs-comment"># OR LIST, to delete file if present.</span>
+
+<span class="hljs-comment"># Note logic inversion above.</span>
+<span class="hljs-comment"># AND LIST executes on true, OR LIST on false.</span>
+
+<span class="hljs-built_in">exit</span> $?</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>If the first command in an <i class="FIRSTTERM">or list</i> returns <span class="RETURNVALUE">true</span>, it <tt class="REPLACEABLE"><i>will</i></tt> execute.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># ==&gt; The following snippets from the /etc/rc.d/init.d/single</span>
+<span class="hljs-comment">#+==&gt; script by Miquel van Smoorenburg</span>
+<span class="hljs-comment">#+==&gt; illustrate use of "and" and "or" lists.</span>
+<span class="hljs-comment"># ==&gt; "Arrowed" comments added by document author.</span>
+
+[ -x /usr/bin/clear ] &amp;&amp; /usr/bin/clear
+  <span class="hljs-comment"># ==&gt; If /usr/bin/clear exists, then invoke it.</span>
+  <span class="hljs-comment"># ==&gt; Checking for the existence of a command before calling it</span>
+  <span class="hljs-comment">#+==&gt; avoids error messages and other awkward consequences.</span>
+
+  <span class="hljs-comment"># ==&gt; . . .</span>
+
+<span class="hljs-comment"># If they want to run something in single user mode, might as well run it...</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> /etc/rc1.d/S[0-9][0-9]* ; <span class="hljs-keyword">do</span>
+        <span class="hljs-comment"># Check if the script is there.</span>
+        [ -x <span class="hljs-string">"<span class="hljs-variable">$i</span>"</span> ] || <span class="hljs-built_in">continue</span>
+  <span class="hljs-comment"># ==&gt; If corresponding file in $PWD *not* found,</span>
+  <span class="hljs-comment">#+==&gt; then "continue" by jumping to the top of the loop.</span>
+
+        <span class="hljs-comment"># Reject backup files and files generated by rpm.</span>
+        <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> <span class="hljs-keyword">in</span>
+                *.rpmsave|*.rpmorig|*.rpmnew|*~|*.orig)
+                        <span class="hljs-built_in">continue</span>;;
+        <span class="hljs-keyword">esac</span>
+        [ <span class="hljs-string">"<span class="hljs-variable">$i</span>"</span> = <span class="hljs-string">"/etc/rc1.d/S00single"</span> ] &amp;&amp; <span class="hljs-built_in">continue</span>
+  <span class="hljs-comment"># ==&gt; Set script name, but don't execute it yet.</span>
+        <span class="hljs-variable">$i</span> start
+<span class="hljs-keyword">done</span>
+
+  <span class="hljs-comment"># ==&gt; . . .</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="IMPORTANT">
+      <table class="IMPORTANT" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/important.gif" hspace="5" alt="Important"></td>
+          <td align="left" valign="top">
+            <p>The <a href="exit-status.html#EXITSTATUSREF">exit status</a> of an <tt class="USERINPUT"><b>and list</b></tt> or an <tt class="USERINPUT"><b>or list</b></tt> is the exit status of the last command executed.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Clever combinations of <i class="FIRSTTERM">and</i> and <i class="FIRSTTERM">or</i> lists are possible, but the logic may easily become convoluted and require close attention to <a href="opprecedence.html#OPPRECEDENCE1">operator precedence rules</a>, and possibly extensive debugging.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-literal">false</span> &amp;&amp; <span class="hljs-literal">true</span> || <span class="hljs-built_in">echo</span> <span class="hljs-literal">false</span>         <span class="hljs-comment"># false</span>
+
+<span class="hljs-comment"># Same result as</span>
+( <span class="hljs-literal">false</span> &amp;&amp; <span class="hljs-literal">true</span> ) || <span class="hljs-built_in">echo</span> <span class="hljs-literal">false</span>     <span class="hljs-comment"># false</span>
+<span class="hljs-comment"># But NOT</span>
+<span class="hljs-literal">false</span> &amp;&amp; ( <span class="hljs-literal">true</span> || <span class="hljs-built_in">echo</span> <span class="hljs-literal">false</span> )     <span class="hljs-comment"># (nothing echoed)</span>
+
+<span class="hljs-comment">#  Note left-to-right grouping and evaluation of statements.</span>
+
+<span class="hljs-comment">#  It's usually best to avoid such complexities.</span>
+
+<span class="hljs-comment">#  Thanks, S.C.</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>See <a href="contributed-scripts.html#DAYSBETWEEN">Example A-7</a> and <a href="fto.html#BROKENLINK">Example 7-4</a> for illustrations of using <tt class="USERINPUT"><b>and / or list</b></tt> constructs to test variables.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="aliases.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="arrays.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Aliases</td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Arrays</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

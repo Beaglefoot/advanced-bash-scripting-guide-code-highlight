@@ -1,0 +1,143 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>A Detailed Introduction to I/O and I/O Redirection</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="PREVIOUS" title="Exit Codes With Special Meanings" href="exitcodes.html">
+  <link rel="NEXT" title="Command-Line Options" href="command-line-options.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="APPENDIX" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="exitcodes.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="command-line-options.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="APPENDIX">
+    <h1><a name="IOREDIRINTRO" id="IOREDIRINTRO"></a>Appendix F. A Detailed Introduction to I/O and I/O Redirection</h1>
+    <p><em>written by Stephane Chazelas, and revised by the document author</em></p>
+    <p><a name="STDINOUTDEF" id="STDINOUTDEF"></a></p>
+    <p>A command expects the first three <a href="io-redirection.html#FDREF">file descriptors</a> to be available. The first, <i class="FIRSTTERM">fd 0</i> (standard input, <tt class="FILENAME">stdin</tt>), is for reading. The other two (<i class="FIRSTTERM">fd 1</i>, <tt class="FILENAME">stdout</tt> and <i class="FIRSTTERM">fd 2</i>, <tt class="FILENAME">stderr</tt>) are for writing.</p>
+    <p>There is a <tt class="FILENAME">stdin</tt>, <tt class="FILENAME">stdout</tt>, and a <tt class="FILENAME">stderr</tt> associated with each command. <tt class="USERINPUT"><b>ls 2&gt;&amp;1</b></tt> means temporarily connecting the <tt class="FILENAME">stderr</tt> of the <b class="COMMAND">ls</b> command to the same <span class="QUOTE">"resource"</span> as the shell's <tt class="FILENAME">stdout</tt>.</p>
+    <p>By convention, a command reads its input from fd 0 (<tt class="FILENAME">stdin</tt>), prints normal output to fd 1 (<tt class="FILENAME">stdout</tt>), and error ouput to fd 2 (<tt class="FILENAME">stderr</tt>). If one of those three fd's is not open, you may encounter problems:</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> cat /etc/passwd &gt;&amp;-</span>
+cat: standard output: Bad file descriptor
+      </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>For example, when <b class="COMMAND">xterm</b> runs, it first initializes itself. Before running the user's shell, <b class="COMMAND">xterm</b> opens the terminal device (/dev/pts/&lt;n&gt; or something similar) three times.</p>
+    <p>At this point, Bash inherits these three file descriptors, and each command (child process) run by Bash inherits them in turn, except when you redirect the command. <a href="io-redirection.html#IOREDIRREF">Redirection</a> means reassigning one of the file descriptors to another file (or a pipe, or anything permissible). File descriptors may be reassigned locally (for a command, a command group, a <a href="subshells.html#SUBSHELLSREF">subshell</a>, a <a href="redircb.html#REDIRREF">while or if or case or for loop</a>...), or globally, for the remainder of the shell (using <a href="internal.html#EXECREF">exec</a>).</p>
+    <p><tt class="USERINPUT"><b>ls &gt; /dev/null</b></tt> means running <b class="COMMAND">ls</b> with its fd 1 connected to <tt class="FILENAME">/dev/null</tt>.</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> lsof -a -p $$ -d0,1,2</span>
+COMMAND PID     USER   FD   TYPE DEVICE SIZE NODE NAME
+ bash    363 bozo        0u   CHR  136,1         3 /dev/pts/1
+ bash    363 bozo        1u   CHR  136,1         3 /dev/pts/1
+ bash    363 bozo        2u   CHR  136,1         3 /dev/pts/1
+<span class="hljs-meta">
+
+bash$</span><span class="bash"> <span class="hljs-built_in">exec</span> 2&gt; /dev/null</span>
+<span class="hljs-meta">bash$</span><span class="bash"> lsof -a -p $$ -d0,1,2</span>
+COMMAND PID     USER   FD   TYPE DEVICE SIZE NODE NAME
+ bash    371 bozo        0u   CHR  136,1         3 /dev/pts/1
+ bash    371 bozo        1u   CHR  136,1         3 /dev/pts/1
+ bash    371 bozo        2w   CHR    1,3       120 /dev/null
+<span class="hljs-meta">
+
+bash$</span><span class="bash"> bash -c <span class="hljs-string">'lsof -a -p $$ -d0,1,2'</span> | cat</span>
+COMMAND PID USER   FD   TYPE DEVICE SIZE NODE NAME
+ lsof    379 root    0u   CHR  136,1         3 /dev/pts/1
+ lsof    379 root    1w  FIFO    0,0      7118 pipe
+ lsof    379 root    2u   CHR  136,1         3 /dev/pts/1
+<span class="hljs-meta">
+
+bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-subst">$(bash -c 'lsof -a -p $$ -d0,1,2' 2&gt;&amp;1)</span>"</span></span>
+COMMAND PID USER   FD   TYPE DEVICE SIZE NODE NAME
+ lsof    426 root    0u   CHR  136,1         3 /dev/pts/1
+ lsof    426 root    1w  FIFO    0,0      7520 pipe
+ lsof    426 root    2w  FIFO    0,0      7520 pipe</pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>This works for different types of redirection.</p>
+    <p><tt class="USERINPUT"><b>Exercise:</b></tt> Analyze the following script.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#! /usr/bin/env bash</span>
+
+mkfifo /tmp/fifo1 /tmp/fifo2
+<span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> a; <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"FIFO1: <span class="hljs-variable">$a</span>"</span>; <span class="hljs-keyword">done</span> &lt; /tmp/fifo1 &amp; <span class="hljs-built_in">exec</span> 7&gt; /tmp/fifo1
+<span class="hljs-built_in">exec</span> 8&gt; &gt;(<span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> a; <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"FD8: <span class="hljs-variable">$a</span>, to fd7"</span>; <span class="hljs-keyword">done</span> &gt;&amp;7)
+
+<span class="hljs-built_in">exec</span> 3&gt;&amp;1
+(
+ (
+  (
+   <span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> a; <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"FIFO2: <span class="hljs-variable">$a</span>"</span>; <span class="hljs-keyword">done</span> &lt; /tmp/fifo2 | tee /dev/stderr \
+   | tee /dev/fd/4 | tee /dev/fd/5 | tee /dev/fd/6 &gt;&amp;7 &amp; <span class="hljs-built_in">exec</span> 3&gt; /tmp/fifo2
+
+   <span class="hljs-built_in">echo</span> 1st, to stdout
+   sleep 1
+   <span class="hljs-built_in">echo</span> 2nd, to stderr &gt;&amp;2
+   sleep 1
+   <span class="hljs-built_in">echo</span> 3rd, to fd 3 &gt;&amp;3
+   sleep 1
+   <span class="hljs-built_in">echo</span> 4th, to fd 4 &gt;&amp;4
+   sleep 1
+   <span class="hljs-built_in">echo</span> 5th, to fd 5 &gt;&amp;5
+   sleep 1
+   <span class="hljs-built_in">echo</span> 6th, through a pipe | sed <span class="hljs-string">'s/.*/PIPE: &amp;, to fd 5/'</span> &gt;&amp;5
+   sleep 1
+   <span class="hljs-built_in">echo</span> 7th, to fd 6 &gt;&amp;6
+   sleep 1
+   <span class="hljs-built_in">echo</span> 8th, to fd 7 &gt;&amp;7
+   sleep 1
+   <span class="hljs-built_in">echo</span> 9th, to fd 8 &gt;&amp;8
+
+  ) 4&gt;&amp;1 &gt;&amp;3 3&gt;&amp;- | <span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> a; <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"FD4: <span class="hljs-variable">$a</span>"</span>; <span class="hljs-keyword">done</span> 1&gt;&amp;3 5&gt;&amp;- 6&gt;&amp;-
+ ) 5&gt;&amp;1 &gt;&amp;3 | <span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> a; <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"FD5: <span class="hljs-variable">$a</span>"</span>; <span class="hljs-keyword">done</span> 1&gt;&amp;3 6&gt;&amp;-
+) 6&gt;&amp;1 &gt;&amp;3 | <span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> a; <span class="hljs-keyword">do</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"FD6: <span class="hljs-variable">$a</span>"</span>; <span class="hljs-keyword">done</span> 3&gt;&amp;-
+
+rm -f /tmp/fifo1 /tmp/fifo2
+
+
+<span class="hljs-comment"># For each command and subshell, figure out which fd points to what.</span>
+<span class="hljs-comment"># Good luck!</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+        </td>
+      </tr>
+    </tbody></table>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="exitcodes.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="command-line-options.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Exit Codes With Special Meanings</td>
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+        <td width="33%" align="right" valign="top">Command-Line Options</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

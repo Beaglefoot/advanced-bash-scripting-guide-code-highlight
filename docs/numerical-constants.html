@@ -1,0 +1,117 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Numerical Constants</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Operations and Related Topics" href="operations.html">
+  <link rel="PREVIOUS" title="Operators" href="ops.html">
+  <link rel="NEXT" title="The Double-Parentheses Construct" href="dblparens.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="ops.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 8. Operations and Related Topics</td>
+        <td width="10%" align="right" valign="bottom"><a href="dblparens.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="NUMERICAL-CONSTANTS" id="NUMERICAL-CONSTANTS"></a>8.2. Numerical Constants</h1>
+    <p><a name="NUMCONSTANTS" id="NUMCONSTANTS"></a>A shell script interprets a number as decimal (base 10), unless that number has a special prefix or notation. A number preceded by a <tt class="REPLACEABLE"><i>0</i></tt> is <tt class="REPLACEABLE"><i>octal</i></tt> (base 8). A number preceded by <tt class="REPLACEABLE"><i>0x</i></tt> is <tt class="REPLACEABLE"><i>hexadecimal</i></tt> (base 16). A number with an embedded <tt class="REPLACEABLE"><i>#</i></tt> evaluates as <tt class="REPLACEABLE"><i>BASE#NUMBER</i></tt> (with range and notational restrictions).</p>
+    <div class="EXAMPLE">
+      <a name="NUMBERS" id="NUMBERS"></a>
+      <p><b>Example 8-4. Representation of numerical constants</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># numbers.sh: Representation of numbers in different bases.</span>
+
+<span class="hljs-comment"># Decimal: the default</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"dec = 32"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"decimal number = <span class="hljs-variable">$dec</span>"</span>             <span class="hljs-comment"># 32</span>
+<span class="hljs-comment"># Nothing out of the ordinary here.</span>
+
+
+<span class="hljs-comment"># Octal: numbers preceded by '0' (zero)</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"oct = 032"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"octal number = <span class="hljs-variable">$oct</span>"</span>               <span class="hljs-comment"># 26</span>
+<span class="hljs-comment"># Expresses result in decimal.</span>
+<span class="hljs-comment"># --------- ------ -- -------</span>
+
+
+<span class="hljs-comment"># Hexadecimal: numbers preceded by '0x' or '0X'</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"hex = 0x32"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"hexadecimal number = <span class="hljs-variable">$hex</span>"</span>         <span class="hljs-comment"># 50</span>
+
+<span class="hljs-built_in">echo</span> $((<span class="hljs-number">0</span>x9abc))                         <span class="hljs-comment"># 39612</span>
+<span class="hljs-comment">#     ^^      ^^   double-parentheses arithmetic expansion/evaluation</span>
+<span class="hljs-comment"># Expresses result in decimal.</span>
+
+
+
+<span class="hljs-comment"># Other bases: BASE#NUMBER</span>
+<span class="hljs-comment"># BASE between 2 and 64.</span>
+<span class="hljs-comment"># NUMBER must use symbols within the BASE range, see below.</span>
+
+
+<span class="hljs-built_in">let</span> <span class="hljs-string">"bin = 2#111100111001101"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"binary number = <span class="hljs-variable">$bin</span>"</span>              <span class="hljs-comment"># 31181</span>
+
+<span class="hljs-built_in">let</span> <span class="hljs-string">"b32 = 32#77"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"base-32 number = <span class="hljs-variable">$b32</span>"</span>             <span class="hljs-comment"># 231</span>
+
+<span class="hljs-built_in">let</span> <span class="hljs-string">"b64 = 64#@_"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"base-64 number = <span class="hljs-variable">$b64</span>"</span>             <span class="hljs-comment"># 4031</span>
+<span class="hljs-comment"># This notation only works for a limited range (2 - 64) of ASCII characters.</span>
+<span class="hljs-comment"># 10 digits + 26 lowercase characters + 26 uppercase characters + @ + _</span>
+
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> $((<span class="hljs-number">36</span>#zz)) $((<span class="hljs-number">2#10101010</span>)) $((<span class="hljs-number">16</span>#AF16)) $((<span class="hljs-number">53#1a</span>A))
+                                         <span class="hljs-comment"># 1295 170 44822 3375</span>
+
+
+<span class="hljs-comment">#  Important note:</span>
+<span class="hljs-comment">#  --------------</span>
+<span class="hljs-comment">#  Using a digit out of range of the specified base notation</span>
+<span class="hljs-comment">#+ gives an error message.</span>
+
+<span class="hljs-built_in">let</span> <span class="hljs-string">"bad_oct = 081"</span>
+<span class="hljs-comment"># (Partial) error message output:</span>
+<span class="hljs-comment">#  bad_oct = 081: value too great for base (error token is "081")</span>
+<span class="hljs-comment">#              Octal numbers use only digits in the range 0 - 7.</span>
+
+<span class="hljs-built_in">exit</span> $?   <span class="hljs-comment"># Exit value = 1 (error)</span>
+
+<span class="hljs-comment"># Thanks, Rich Bartell and Stephane Chazelas, for clarification.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="ops.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="dblparens.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Operators</td>
+        <td width="34%" align="center" valign="top"><a href="operations.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">The Double-Parentheses Construct</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

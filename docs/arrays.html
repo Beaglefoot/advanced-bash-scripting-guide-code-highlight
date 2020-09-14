@@ -1,0 +1,1886 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Arrays</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="List Constructs" href="list-cons.html">
+  <link rel="NEXT" title="Indirect References" href="ivr.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="list-cons.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="ivr.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="ARRAYS" id="ARRAYS"></a>Chapter 27. Arrays</h1>
+    <p><a name="ARRAYREF" id="ARRAYREF"></a></p>
+    <p>Newer versions of Bash support one-dimensional arrays. <a name="BRACKARRAY" id="BRACKARRAY"></a> Array elements may be initialized with the <tt class="USERINPUT"><b>variable[xx]</b></tt> notation. Alternatively, a script may introduce the entire array by an explicit <tt class="USERINPUT"><b>declare -a variable</b></tt> statement. To dereference (retrieve the contents of) an array element, use <i class="FIRSTTERM">curly bracket</i> notation, that is, <tt class="USERINPUT"><b>${element[xx]}</b></tt>.</p>
+    <p><a name="ARRAYNOTATION" id="ARRAYNOTATION"></a></p>
+    <div class="EXAMPLE">
+      <a name="EX66" id="EX66"></a>
+      <p><b>Example 27-1. Simple array usage</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+
+area[11]=23
+area[13]=37
+area[51]=UFOs
+
+<span class="hljs-comment">#  Array members need not be consecutive or contiguous.</span>
+
+<span class="hljs-comment">#  Some members of the array can be left uninitialized.</span>
+<span class="hljs-comment">#  Gaps in the array are okay.</span>
+<span class="hljs-comment">#  In fact, arrays with sparse data ("sparse arrays")</span>
+<span class="hljs-comment">#+ are useful in spreadsheet-processing software.</span>
+
+
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"area[11] = "</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${area[11]}</span>    <span class="hljs-comment">#  {curly brackets} needed.</span>
+
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"area[13] = "</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${area[13]}</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Contents of area[51] are <span class="hljs-variable">${area[51]}</span>."</span>
+
+<span class="hljs-comment"># Contents of uninitialized array variable print blank (null variable).</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"area[43] = "</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${area[43]}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"(area[43] unassigned)"</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># Sum of two array variables assigned to third</span>
+area[5]=`expr <span class="hljs-variable">${area[11]}</span> + <span class="hljs-variable">${area[13]}</span>`
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"area[5] = area[11] + area[13]"</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"area[5] = "</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${area[5]}</span>
+
+area[6]=`expr <span class="hljs-variable">${area[11]}</span> + <span class="hljs-variable">${area[51]}</span>`
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"area[6] = area[11] + area[51]"</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"area[6] = "</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${area[6]}</span>
+<span class="hljs-comment"># This fails because adding an integer to a string is not permitted.</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># -----------------------------------------------------------------</span>
+<span class="hljs-comment"># Another array, "area2".</span>
+<span class="hljs-comment"># Another way of assigning array variables...</span>
+<span class="hljs-comment"># array_name=( XXX YYY ZZZ ... )</span>
+
+area2=( zero one two three four )
+
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"area2[0] = "</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${area2[0]}</span>
+<span class="hljs-comment"># Aha, zero-based indexing (first element of array is [0], not [1]).</span>
+
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"area2[1] = "</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${area2[1]}</span>    <span class="hljs-comment"># [1] is second element of array.</span>
+<span class="hljs-comment"># -----------------------------------------------------------------</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># -----------------------------------------------</span>
+<span class="hljs-comment"># Yet another array, "area3".</span>
+<span class="hljs-comment"># Yet another way of assigning array variables...</span>
+<span class="hljs-comment"># array_name=([xx]=XXX [yy]=YYY ...)</span>
+
+area3=([17]=seventeen [24]=twenty-four)
+
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"area3[17] = "</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${area3[17]}</span>
+
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"area3[24] = "</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${area3[24]}</span>
+<span class="hljs-comment"># -----------------------------------------------</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="ARRAYINIT0" id="ARRAYINIT0"></a></p>
+    <p>As we have seen, a convenient way of initializing an entire array is the <tt class="VARNAME">array=( element1 element2 ... elementN )</tt> notation.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">base64_charset=( {A..Z} {a..z} {0..9} + / = )
+               <span class="hljs-comment">#  Using extended brace expansion</span>
+               <span class="hljs-comment">#+ to initialize the elements of the array.                </span>
+               <span class="hljs-comment">#  Excerpted from vladz's "base64.sh" script</span>
+               <span class="hljs-comment">#+ in the "Contributed Scripts" appendix.</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="ARRAYOPSVARS" id="ARRAYOPSVARS"></a></p>
+    <table class="SIDEBAR" border="1" cellpadding="5">
+      <tbody><tr>
+        <td>
+          <div class="SIDEBAR">
+            <a name="AEN18812" id="AEN18812"></a>
+            <p>Bash permits array operations on variables, even if the variables are not explicitly declared as arrays.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs">string=abcABC123ABCabc
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${string[@]}</span>               <span class="hljs-comment"># abcABC123ABCabc</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${string[*]}</span>               <span class="hljs-comment"># abcABC123ABCabc </span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${string[0]}</span>               <span class="hljs-comment"># abcABC123ABCabc</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${string[1]}</span>               <span class="hljs-comment"># No output!</span>
+                                <span class="hljs-comment"># Why?</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${#string[@]}</span>              <span class="hljs-comment"># 1</span>
+                                <span class="hljs-comment"># One element in the array.</span>
+                                <span class="hljs-comment"># The string itself.</span>
+
+<span class="hljs-comment"># Thank you, Michael Zick, for pointing this out.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>Once again this demonstrates that <a href="untyped.html#BVUNTYPED">Bash variables are untyped</a>.
+          </div>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="EXAMPLE">
+      <a name="POEM" id="POEM"></a>
+      <p><b>Example 27-2. Formatting a poem</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># poem.sh: Pretty-prints one of the ABS Guide author's favorite poems.</span>
+
+<span class="hljs-comment"># Lines of the poem (single stanza).</span>
+Line[1]=<span class="hljs-string">"I do not know which to prefer,"</span>
+Line[2]=<span class="hljs-string">"The beauty of inflections"</span>
+Line[3]=<span class="hljs-string">"Or the beauty of innuendoes,"</span>
+Line[4]=<span class="hljs-string">"The blackbird whistling"</span>
+Line[5]=<span class="hljs-string">"Or just after."</span>
+<span class="hljs-comment"># Note that quoting permits embedding whitespace.</span>
+
+<span class="hljs-comment"># Attribution.</span>
+Attrib[1]=<span class="hljs-string">" Wallace Stevens"</span>
+Attrib[2]=<span class="hljs-string">"\"Thirteen Ways of Looking at a Blackbird\""</span>
+<span class="hljs-comment"># This poem is in the Public Domain (copyright expired).</span>
+
+<span class="hljs-built_in">echo</span>
+
+tput bold   <span class="hljs-comment"># Bold print.</span>
+
+<span class="hljs-keyword">for</span> index <span class="hljs-keyword">in</span> 1 2 3 4 5    <span class="hljs-comment"># Five lines.</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">printf</span> <span class="hljs-string">"     %s\n"</span> <span class="hljs-string">"<span class="hljs-variable">${Line[index]}</span>"</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-keyword">for</span> index <span class="hljs-keyword">in</span> 1 2          <span class="hljs-comment"># Two attribution lines.</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">printf</span> <span class="hljs-string">"          %s\n"</span> <span class="hljs-string">"<span class="hljs-variable">${Attrib[index]}</span>"</span>
+<span class="hljs-keyword">done</span>
+
+tput sgr0   <span class="hljs-comment"># Reset terminal.</span>
+            <span class="hljs-comment"># See 'tput' docs.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># Exercise:</span>
+<span class="hljs-comment"># --------</span>
+<span class="hljs-comment"># Modify this script to pretty-print a poem from a text data file.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="ARRAYSYNTAX" id="ARRAYSYNTAX"></a></p>
+    <p>Array variables have a syntax all their own, and even standard Bash commands and operators have special options adapted for array use.</p>
+    <div class="EXAMPLE">
+      <a name="ARRAYOPS" id="ARRAYOPS"></a>
+      <p><b>Example 27-3. Various array operations</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># array-ops.sh: More fun with arrays.</span>
+
+
+array=( zero one two three four five )
+<span class="hljs-comment"># Element 0   1   2    3     4    5</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${array[0]}</span>       <span class="hljs-comment">#  zero</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${array:0}</span>        <span class="hljs-comment">#  zero</span>
+                       <span class="hljs-comment">#  Parameter expansion of first element,</span>
+                       <span class="hljs-comment">#+ starting at position # 0 (1st character).</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${array:1}</span>        <span class="hljs-comment">#  ero</span>
+                       <span class="hljs-comment">#  Parameter expansion of first element,</span>
+                       <span class="hljs-comment">#+ starting at position # 1 (2nd character).</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"--------------"</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${#array[0]}</span>      <span class="hljs-comment">#  4</span>
+                       <span class="hljs-comment">#  Length of first element of array.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${#array}</span>         <span class="hljs-comment">#  4</span>
+                       <span class="hljs-comment">#  Length of first element of array.</span>
+                       <span class="hljs-comment">#  (Alternate notation)</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${#array[1]}</span>      <span class="hljs-comment">#  3</span>
+                       <span class="hljs-comment">#  Length of second element of array.</span>
+                       <span class="hljs-comment">#  Arrays in Bash have zero-based indexing.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${#array[*]}</span>      <span class="hljs-comment">#  6</span>
+                       <span class="hljs-comment">#  Number of elements in array.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${#array[@]}</span>      <span class="hljs-comment">#  6</span>
+                       <span class="hljs-comment">#  Number of elements in array.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"--------------"</span>
+
+array2=( [0]=<span class="hljs-string">"first element"</span> [1]=<span class="hljs-string">"second element"</span> [3]=<span class="hljs-string">"fourth element"</span> )
+<span class="hljs-comment">#            ^     ^       ^     ^      ^       ^     ^      ^       ^</span>
+<span class="hljs-comment"># Quoting permits embedding whitespace within individual array elements.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${array2[0]}</span>      <span class="hljs-comment"># first element</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${array2[1]}</span>      <span class="hljs-comment"># second element</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${array2[2]}</span>      <span class="hljs-comment">#</span>
+                       <span class="hljs-comment"># Skipped in initialization, and therefore null.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${array2[3]}</span>      <span class="hljs-comment"># fourth element</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${#array2[0]}</span>     <span class="hljs-comment"># 13    (length of first element)</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${#array2[*]}</span>     <span class="hljs-comment"># 3     (number of elements in array)</span>
+
+<span class="hljs-built_in">exit</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="ARRAYSTRINGOPS" id="ARRAYSTRINGOPS"></a></p>
+    <p>Many of the standard <a href="string-manipulation.html#STRINGMANIP">string operations</a> work on arrays.</p>
+    <div class="EXAMPLE">
+      <a name="ARRAYSTROPS" id="ARRAYSTROPS"></a>
+      <p><b>Example 27-4. String operations on arrays</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># array-strops.sh: String operations on arrays.</span>
+
+<span class="hljs-comment"># Script by Michael Zick.</span>
+<span class="hljs-comment"># Used in ABS Guide with permission.</span>
+<span class="hljs-comment"># Fixups: 05 May 08, 04 Aug 08.</span>
+
+<span class="hljs-comment">#  In general, any string operation using the ${name ... } notation</span>
+<span class="hljs-comment">#+ can be applied to all string elements in an array,</span>
+<span class="hljs-comment">#+ with the ${name[@] ... } or ${name[*] ...} notation.</span>
+
+
+arrayZ=( one two three four five five )
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># Trailing Substring Extraction</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${arrayZ[@]:0}</span>     <span class="hljs-comment"># one two three four five five</span>
+<span class="hljs-comment">#                ^        All elements.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${arrayZ[@]:1}</span>     <span class="hljs-comment"># two three four five five</span>
+<span class="hljs-comment">#                ^        All elements following element[0].</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${arrayZ[@]:1:2}</span>   <span class="hljs-comment"># two three</span>
+<span class="hljs-comment">#                  ^      Only the two elements after element[0].</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"---------"</span>
+
+
+<span class="hljs-comment"># Substring Removal</span>
+
+<span class="hljs-comment"># Removes shortest match from front of string(s).</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${arrayZ[@]#f*r}</span>   <span class="hljs-comment"># one two three five five</span>
+<span class="hljs-comment">#               ^       # Applied to all elements of the array.</span>
+                        <span class="hljs-comment"># Matches "four" and removes it.</span>
+
+<span class="hljs-comment"># Longest match from front of string(s)</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${arrayZ[@]##t*e}</span>  <span class="hljs-comment"># one two four five five</span>
+<span class="hljs-comment">#               ^^      # Applied to all elements of the array.</span>
+                        <span class="hljs-comment"># Matches "three" and removes it.</span>
+
+<span class="hljs-comment"># Shortest match from back of string(s)</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${arrayZ[@]%h*e}</span>   <span class="hljs-comment"># one two t four five five</span>
+<span class="hljs-comment">#               ^       # Applied to all elements of the array.</span>
+                        <span class="hljs-comment"># Matches "hree" and removes it.</span>
+
+<span class="hljs-comment"># Longest match from back of string(s)</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${arrayZ[@]%%t*e}</span>  <span class="hljs-comment"># one two four five five</span>
+<span class="hljs-comment">#               ^^      # Applied to all elements of the array.</span>
+                        <span class="hljs-comment"># Matches "three" and removes it.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"----------------------"</span>
+
+
+<span class="hljs-comment"># Substring Replacement</span>
+
+<span class="hljs-comment"># Replace first occurrence of substring with replacement.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${arrayZ[@]/fiv/XYZ}</span>   <span class="hljs-comment"># one two three four XYZe XYZe</span>
+<span class="hljs-comment">#               ^           # Applied to all elements of the array.</span>
+
+<span class="hljs-comment"># Replace all occurrences of substring.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${arrayZ[@]//iv/YY}</span>    <span class="hljs-comment"># one two three four fYYe fYYe</span>
+                            <span class="hljs-comment"># Applied to all elements of the array.</span>
+
+<span class="hljs-comment"># Delete all occurrences of substring.</span>
+<span class="hljs-comment"># Not specifing a replacement defaults to 'delete' ...</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${arrayZ[@]//fi/}</span>      <span class="hljs-comment"># one two three four ve ve</span>
+<span class="hljs-comment">#               ^^          # Applied to all elements of the array.</span>
+
+<span class="hljs-comment"># Replace front-end occurrences of substring.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${arrayZ[@]/#fi/XY}</span>    <span class="hljs-comment"># one two three four XYve XYve</span>
+<span class="hljs-comment">#                ^          # Applied to all elements of the array.</span>
+
+<span class="hljs-comment"># Replace back-end occurrences of substring.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${arrayZ[@]/%ve/ZZ}</span>    <span class="hljs-comment"># one two three four fiZZ fiZZ</span>
+<span class="hljs-comment">#                ^          # Applied to all elements of the array.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${arrayZ[@]/%o/XX}</span>     <span class="hljs-comment"># one twXX three four five five</span>
+<span class="hljs-comment">#                ^          # Why?</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"-----------------------------"</span>
+
+
+<span class="hljs-function"><span class="hljs-title">replacement</span></span>() {
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"!!!"</span>
+}
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${arrayZ[@]/%e/$(replacement)}</span>
+<span class="hljs-comment">#                ^  ^^^^^^^^^^^^^^</span>
+<span class="hljs-comment"># on!!! two thre!!! four fiv!!! fiv!!!</span>
+<span class="hljs-comment"># The stdout of replacement() is the replacement string.</span>
+<span class="hljs-comment"># Q.E.D: The replacement action is, in effect, an 'assignment.'</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"------------------------------------"</span>
+
+<span class="hljs-comment">#  Accessing the "for-each":</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${arrayZ[@]//*/$(replacement optional_arguments)}</span>
+<span class="hljs-comment">#                ^^ ^^^^^^^^^^^^^</span>
+<span class="hljs-comment"># !!! !!! !!! !!! !!! !!!</span>
+
+<span class="hljs-comment">#  Now, if Bash would only pass the matched string</span>
+<span class="hljs-comment">#+ to the function being called . . .</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment">#  Before reaching for a Big Hammer -- Perl, Python, or all the rest --</span>
+<span class="hljs-comment">#  recall:</span>
+<span class="hljs-comment">#    $( ... ) is command substitution.</span>
+<span class="hljs-comment">#    A function runs as a sub-process.</span>
+<span class="hljs-comment">#    A function writes its output (if echo-ed) to stdout.</span>
+<span class="hljs-comment">#    Assignment, in conjunction with "echo" and command substitution,</span>
+<span class="hljs-comment">#+   can read a function's stdout.</span>
+<span class="hljs-comment">#    The name[@] notation specifies (the equivalent of) a "for-each"</span>
+<span class="hljs-comment">#+   operation.</span>
+<span class="hljs-comment">#  Bash is more powerful than you think!</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a href="commandsub.html#COMMANDSUBREF">Command substitution</a> can construct the individual elements of an array.</p>
+    <div class="EXAMPLE">
+      <a name="SCRIPTARRAY" id="SCRIPTARRAY"></a>
+      <p><b>Example 27-5. Loading the contents of a script into an array</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># script-array.sh: Loads this script into an array.</span>
+<span class="hljs-comment"># Inspired by an e-mail from Chris Martin (thanks!).</span>
+
+script_contents=( $(cat <span class="hljs-string">"<span class="hljs-variable">$0</span>"</span>) )  <span class="hljs-comment">#  Stores contents of this script ($0)</span>
+                                 <span class="hljs-comment">#+ in an array.</span>
+
+<span class="hljs-keyword">for</span> element <span class="hljs-keyword">in</span> $(seq 0 $((<span class="hljs-variable">${#script_contents[@]}</span> - <span class="hljs-number">1</span>)))
+  <span class="hljs-keyword">do</span>                <span class="hljs-comment">#  ${#script_contents[@]}</span>
+                    <span class="hljs-comment">#+ gives number of elements in the array.</span>
+                    <span class="hljs-comment">#</span>
+                    <span class="hljs-comment">#  Question:</span>
+                    <span class="hljs-comment">#  Why is  seq 0  necessary?</span>
+                    <span class="hljs-comment">#  Try changing it to seq 1.</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">${script_contents[$element]}</span>"</span>
+                    <span class="hljs-comment"># List each field of this script on a single line.</span>
+<span class="hljs-comment"># echo -n "${script_contents[element]}" also works because of ${ ... }.</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">" -- "</span>    <span class="hljs-comment"># Use " -- " as a field separator.</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># Exercise:</span>
+<span class="hljs-comment"># --------</span>
+<span class="hljs-comment">#  Modify this script so it lists itself</span>
+<span class="hljs-comment">#+ in its original format,</span>
+<span class="hljs-comment">#+ complete with whitespace, line breaks, etc.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>In an array context, some Bash <a href="internal.html#BUILTINREF">builtins</a> have a slightly altered meaning. <a name="ARRAYUNSET" id="ARRAYUNSET"></a>For example, <a href="internal.html#UNSETREF">unset</a> deletes array elements, or even an entire array.</p>
+    <p><a name="ARRAYSPECIALPROPS" id="ARRAYSPECIALPROPS"></a></p>
+    <div class="EXAMPLE">
+      <a name="EX67" id="EX67"></a>
+      <p><b>Example 27-6. Some special properties of arrays</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-built_in">declare</span> -a colors
+<span class="hljs-comment">#  All subsequent commands in this script will treat</span>
+<span class="hljs-comment">#+ the variable "colors" as an array.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Enter your favorite colors (separated from each other by a space)."</span>
+
+<span class="hljs-built_in">read</span> -a colors    <span class="hljs-comment"># Enter at least 3 colors to demonstrate features below.</span>
+<span class="hljs-comment">#  Special option to 'read' command,</span>
+<span class="hljs-comment">#+ allowing assignment of elements in an array.</span>
+
+<span class="hljs-built_in">echo</span>
+
+element_count=<span class="hljs-variable">${#colors[@]}</span>
+<span class="hljs-comment"># Special syntax to extract number of elements in array.</span>
+<span class="hljs-comment">#     element_count=${#colors[*]} works also.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  The "@" variable allows word splitting within quotes</span>
+<span class="hljs-comment">#+ (extracts variables separated by whitespace).</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  This corresponds to the behavior of "$@" and "$*"</span>
+<span class="hljs-comment">#+ in positional parameters. </span>
+
+index=0
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$index</span>"</span> -lt <span class="hljs-string">"<span class="hljs-variable">$element_count</span>"</span> ]
+<span class="hljs-keyword">do</span>    <span class="hljs-comment"># List all the elements in the array.</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-variable">${colors[$index]}</span>
+  <span class="hljs-comment">#    ${colors[index]} also works because it's within ${ ... } brackets.</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"index = <span class="hljs-variable">$index</span> + 1"</span>
+  <span class="hljs-comment"># Or:</span>
+  <span class="hljs-comment">#    ((index++))</span>
+<span class="hljs-keyword">done</span>
+<span class="hljs-comment"># Each array element listed on a separate line.</span>
+<span class="hljs-comment"># If this is not desired, use  echo -n "${colors[$index]} "</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># Doing it with a "for" loop instead:</span>
+<span class="hljs-comment">#   for i in "${colors[@]}"</span>
+<span class="hljs-comment">#   do</span>
+<span class="hljs-comment">#     echo "$i"</span>
+<span class="hljs-comment">#   done</span>
+<span class="hljs-comment"># (Thanks, S.C.)</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># Again, list all the elements in the array, but using a more elegant method.</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-variable">${colors[@]}</span>          <span class="hljs-comment"># echo ${colors[*]} also works.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># The "unset" command deletes elements of an array, or entire array.</span>
+<span class="hljs-built_in">unset</span> colors[1]              <span class="hljs-comment"># Remove 2nd element of array.</span>
+                             <span class="hljs-comment"># Same effect as   colors[1]=</span>
+<span class="hljs-built_in">echo</span>  <span class="hljs-variable">${colors[@]}</span>           <span class="hljs-comment"># List array again, missing 2nd element.</span>
+
+<span class="hljs-built_in">unset</span> colors                 <span class="hljs-comment"># Delete entire array.</span>
+                             <span class="hljs-comment">#  unset colors[*] and</span>
+                             <span class="hljs-comment">#+ unset colors[@] also work.</span>
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Colors gone."</span>                       
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${colors[@]}</span>            <span class="hljs-comment"># List array again, now empty.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="ARRAYNUMELEMENTS" id="ARRAYNUMELEMENTS"></a></p>
+    <p>As seen in the previous example, either <b class="COMMAND">${array_name[@]}</b> or <b class="COMMAND">${array_name[*]}</b> refers to <em>all</em> the elements of the array. Similarly, to get a count of the number of elements in an array, use either <b class="COMMAND">${#array_name[@]}</b> or <b class="COMMAND">${#array_name[*]}</b>. <b class="COMMAND">${#array_name}</b> is the length (number of characters) of <b class="COMMAND">${array_name[0]}</b>, the first element of the array.</p>
+    <p><a name="EMPTYARRAY0" id="EMPTYARRAY0"></a></p>
+    <div class="EXAMPLE">
+      <a name="EMPTYARRAY" id="EMPTYARRAY"></a>
+      <p><b>Example 27-7. Of empty arrays and empty elements</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># empty-array.sh</span>
+
+<span class="hljs-comment">#  Thanks to Stephane Chazelas for the original example,</span>
+<span class="hljs-comment">#+ and to Michael Zick and Omair Eshkenazi, for extending it.</span>
+<span class="hljs-comment">#  And to Nathan Coulter for clarifications and corrections.</span>
+
+
+<span class="hljs-comment"># An empty array is not the same as an array with empty elements.</span>
+
+  array0=( first second third )
+  array1=( <span class="hljs-string">''</span> )   <span class="hljs-comment"># "array1" consists of one empty element.</span>
+  array2=( )      <span class="hljs-comment"># No elements . . . "array2" is empty.</span>
+  array3=(   )    <span class="hljs-comment"># What about this array?</span>
+
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-function"><span class="hljs-title">ListArray</span></span>()
+{
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Elements in array0:  <span class="hljs-variable">${array0[@]}</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Elements in array1:  <span class="hljs-variable">${array1[@]}</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Elements in array2:  <span class="hljs-variable">${array2[@]}</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Elements in array3:  <span class="hljs-variable">${array3[@]}</span>"</span>
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Length of first element in array0 = <span class="hljs-variable">${#array0}</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Length of first element in array1 = <span class="hljs-variable">${#array1}</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Length of first element in array2 = <span class="hljs-variable">${#array2}</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Length of first element in array3 = <span class="hljs-variable">${#array3}</span>"</span>
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Number of elements in array0 = <span class="hljs-variable">${#array0[*]}</span>"</span>  <span class="hljs-comment"># 3</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Number of elements in array1 = <span class="hljs-variable">${#array1[*]}</span>"</span>  <span class="hljs-comment"># 1  (Surprise!)</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Number of elements in array2 = <span class="hljs-variable">${#array2[*]}</span>"</span>  <span class="hljs-comment"># 0</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Number of elements in array3 = <span class="hljs-variable">${#array3[*]}</span>"</span>  <span class="hljs-comment"># 0</span>
+}
+
+<span class="hljs-comment"># ===================================================================</span>
+
+ListArray
+
+<span class="hljs-comment"># Try extending those arrays.</span>
+
+<span class="hljs-comment"># Adding an element to an array.</span>
+array0=( <span class="hljs-string">"<span class="hljs-variable">${array0[@]}</span>"</span> <span class="hljs-string">"new1"</span> )
+array1=( <span class="hljs-string">"<span class="hljs-variable">${array1[@]}</span>"</span> <span class="hljs-string">"new1"</span> )
+array2=( <span class="hljs-string">"<span class="hljs-variable">${array2[@]}</span>"</span> <span class="hljs-string">"new1"</span> )
+array3=( <span class="hljs-string">"<span class="hljs-variable">${array3[@]}</span>"</span> <span class="hljs-string">"new1"</span> )
+
+ListArray
+
+<span class="hljs-comment"># or</span>
+array0[<span class="hljs-variable">${#array0[*]}</span>]=<span class="hljs-string">"new2"</span>
+array1[<span class="hljs-variable">${#array1[*]}</span>]=<span class="hljs-string">"new2"</span>
+array2[<span class="hljs-variable">${#array2[*]}</span>]=<span class="hljs-string">"new2"</span>
+array3[<span class="hljs-variable">${#array3[*]}</span>]=<span class="hljs-string">"new2"</span>
+
+ListArray
+
+<span class="hljs-comment"># When extended as above, arrays are 'stacks' ...</span>
+<span class="hljs-comment"># Above is the 'push' ...</span>
+<span class="hljs-comment"># The stack 'height' is:</span>
+height=<span class="hljs-variable">${#array2[@]}</span>
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Stack height for array2 = <span class="hljs-variable">$height</span>"</span>
+
+<span class="hljs-comment"># The 'pop' is:</span>
+<span class="hljs-built_in">unset</span> array2[<span class="hljs-variable">${#array2[@]}</span>-1]   <span class="hljs-comment">#  Arrays are zero-based,</span>
+height=<span class="hljs-variable">${#array2[@]}</span>            <span class="hljs-comment">#+ which means first element has index 0.</span>
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"POP"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"New stack height for array2 = <span class="hljs-variable">$height</span>"</span>
+
+ListArray
+
+<span class="hljs-comment"># List only 2nd and 3rd elements of array0.</span>
+from=1              <span class="hljs-comment"># Zero-based numbering.</span>
+to=2
+array3=( <span class="hljs-variable">${array0[@]:1:2}</span> )
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Elements in array3:  <span class="hljs-variable">${array3[@]}</span>"</span>
+
+<span class="hljs-comment"># Works like a string (array of characters).</span>
+<span class="hljs-comment"># Try some other "string" forms.</span>
+
+<span class="hljs-comment"># Replacement:</span>
+array4=( <span class="hljs-variable">${array0[@]/second/2nd}</span> )
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Elements in array4:  <span class="hljs-variable">${array4[@]}</span>"</span>
+
+<span class="hljs-comment"># Replace all matching wildcarded string.</span>
+array5=( <span class="hljs-variable">${array0[@]//new?/old}</span> )
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Elements in array5:  <span class="hljs-variable">${array5[@]}</span>"</span>
+
+<span class="hljs-comment"># Just when you are getting the feel for this . . .</span>
+array6=( <span class="hljs-variable">${array0[@]#*new}</span> )
+<span class="hljs-built_in">echo</span> <span class="hljs-comment"># This one might surprise you.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Elements in array6:  <span class="hljs-variable">${array6[@]}</span>"</span>
+
+array7=( <span class="hljs-variable">${array0[@]#new1}</span> )
+<span class="hljs-built_in">echo</span> <span class="hljs-comment"># After array6 this should not be a surprise.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Elements in array7:  <span class="hljs-variable">${array7[@]}</span>"</span>
+
+<span class="hljs-comment"># Which looks a lot like . . .</span>
+array8=( <span class="hljs-variable">${array0[@]/new1/}</span> )
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Elements in array8:  <span class="hljs-variable">${array8[@]}</span>"</span>
+
+<span class="hljs-comment">#  So what can one say about this?</span>
+
+<span class="hljs-comment">#  The string operations are performed on</span>
+<span class="hljs-comment">#+ each of the elements in var[@] in succession.</span>
+<span class="hljs-comment">#  Therefore : Bash supports string vector operations.</span>
+<span class="hljs-comment">#  If the result is a zero length string,</span>
+<span class="hljs-comment">#+ that element disappears in the resulting assignment.</span>
+<span class="hljs-comment">#  However, if the expansion is in quotes, the null elements remain.</span>
+
+<span class="hljs-comment">#  Michael Zick:    Question, are those strings hard or soft quotes?</span>
+<span class="hljs-comment">#  Nathan Coulter:  There is no such thing as "soft quotes."</span>
+<span class="hljs-comment">#!    What's really happening is that</span>
+<span class="hljs-comment">#!+   the pattern matching happens after</span>
+<span class="hljs-comment">#!+   all the other expansions of [word]</span>
+<span class="hljs-comment">#!+   in cases like ${parameter#word}.</span>
+
+
+zap=<span class="hljs-string">'new*'</span>
+array9=( <span class="hljs-variable">${array0[@]/$zap/}</span> )
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Number of elements in array9:  <span class="hljs-variable">${#array9[@]}</span>"</span>
+array9=( <span class="hljs-string">"<span class="hljs-variable">${array0[@]/$zap/}</span>"</span> )
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Elements in array9:  <span class="hljs-variable">${array9[@]}</span>"</span>
+<span class="hljs-comment"># This time the null elements remain.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Number of elements in array9:  <span class="hljs-variable">${#array9[@]}</span>"</span>
+
+
+<span class="hljs-comment"># Just when you thought you were still in Kansas . . .</span>
+array10=( <span class="hljs-variable">${array0[@]#$zap}</span> )
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Elements in array10:  <span class="hljs-variable">${array10[@]}</span>"</span>
+<span class="hljs-comment"># But, the asterisk in zap won't be interpreted if quoted.</span>
+array10=( <span class="hljs-variable">${array0[@]#"$zap"}</span> )
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Elements in array10:  <span class="hljs-variable">${array10[@]}</span>"</span>
+<span class="hljs-comment"># Well, maybe we _are_ still in Kansas . . .</span>
+<span class="hljs-comment"># (Revisions to above code block by Nathan Coulter.)</span>
+
+
+<span class="hljs-comment">#  Compare array7 with array10.</span>
+<span class="hljs-comment">#  Compare array8 with array9.</span>
+
+<span class="hljs-comment">#  Reiterating: No such thing as soft quotes!</span>
+<span class="hljs-comment">#  Nathan Coulter explains:</span>
+<span class="hljs-comment">#  Pattern matching of 'word' in ${parameter#word} is done after</span>
+<span class="hljs-comment">#+ parameter expansion and *before* quote removal.</span>
+<span class="hljs-comment">#  In the normal case, pattern matching is done *after* quote removal.</span>
+ 
+<span class="hljs-built_in">exit</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>The relationship of <b class="COMMAND">${array_name[@]}</b> and <b class="COMMAND">${array_name[*]}</b> is analogous to that between <a href="internalvariables.html#APPREF">$@ and $*</a>. This powerful array notation has a number of uses.</p>
+    <p><a name="COPYARRAY0" id="COPYARRAY0"></a></p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># Copying an array.</span>
+array2=( <span class="hljs-string">"<span class="hljs-variable">${array1[@]}</span>"</span> )
+<span class="hljs-comment"># or</span>
+array2=<span class="hljs-string">"<span class="hljs-variable">${array1[@]}</span>"</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  However, this fails with "sparse" arrays,</span>
+<span class="hljs-comment">#+ arrays with holes (missing elements) in them,</span>
+<span class="hljs-comment">#+ as Jochen DeSmet points out.</span>
+<span class="hljs-comment"># ------------------------------------------</span>
+  array1[0]=0
+<span class="hljs-comment"># array1[1] not assigned</span>
+  array1[2]=2
+  array2=( <span class="hljs-string">"<span class="hljs-variable">${array1[@]}</span>"</span> )       <span class="hljs-comment"># Copy it?</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${array2[0]}</span>      <span class="hljs-comment"># 0</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${array2[2]}</span>      <span class="hljs-comment"># (null), should be 2</span>
+<span class="hljs-comment"># ------------------------------------------</span>
+
+
+
+<span class="hljs-comment"># Adding an element to an array.</span>
+array=( <span class="hljs-string">"<span class="hljs-variable">${array[@]}</span>"</span> <span class="hljs-string">"new element"</span> )
+<span class="hljs-comment"># or</span>
+array[<span class="hljs-variable">${#array[*]}</span>]=<span class="hljs-string">"new element"</span>
+
+<span class="hljs-comment"># Thanks, S.C.</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="ARRAYINITCS" id="ARRAYINITCS"></a></p>
+    <div class="TIP">
+      <table class="TIP" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/tip.gif" hspace="5" alt="Tip"></td>
+          <td align="left" valign="top">
+            <p>The <b class="COMMAND">array=( element1 element2 ... elementN )</b> initialization operation, with the help of <a href="commandsub.html#COMMANDSUBREF">command substitution</a>, makes it possible to load the contents of a text file into an array.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+filename=sample_file
+
+<span class="hljs-comment">#            cat sample_file</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#            1 a b c</span>
+<span class="hljs-comment">#            2 d e fg</span>
+
+
+<span class="hljs-built_in">declare</span> -a array1
+
+array1=( `cat <span class="hljs-string">"<span class="hljs-variable">$filename</span>"</span>`)                <span class="hljs-comment">#  Loads contents</span>
+<span class="hljs-comment">#         List file to stdout              #+ of $filename into array1.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  array1=( `cat "$filename" | tr '\n' ' '`)</span>
+<span class="hljs-comment">#                            change linefeeds in file to spaces. </span>
+<span class="hljs-comment">#  Not necessary because Bash does word splitting,</span>
+<span class="hljs-comment">#+ changing linefeeds to spaces.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${array1[@]}</span>            <span class="hljs-comment"># List the array.</span>
+<span class="hljs-comment">#                              1 a b c 2 d e fg</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  Each whitespace-separated "word" in the file</span>
+<span class="hljs-comment">#+ has been assigned to an element of the array.</span>
+
+element_count=<span class="hljs-variable">${#array1[*]}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$element_count</span>          <span class="hljs-comment"># 8</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Clever scripting makes it possible to add array operations.</p>
+    <p><a name="ARRAYASSIGN0" id="ARRAYASSIGN0"></a></p>
+    <div class="EXAMPLE">
+      <a name="ARRAYASSIGN" id="ARRAYASSIGN"></a>
+      <p><b>Example 27-8. Initializing arrays</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#! /bin/bash</span>
+<span class="hljs-comment"># array-assign.bash</span>
+
+<span class="hljs-comment">#  Array operations are Bash-specific,</span>
+<span class="hljs-comment">#+ hence the ".bash" in the script name.</span>
+
+<span class="hljs-comment"># Copyright (c) Michael S. Zick, 2003, All rights reserved.</span>
+<span class="hljs-comment"># License: Unrestricted reuse in any form, for any purpose.</span>
+<span class="hljs-comment"># Version: $ID$</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># Clarification and additional comments by William Park.</span>
+
+<span class="hljs-comment">#  Based on an example provided by Stephane Chazelas</span>
+<span class="hljs-comment">#+ which appeared in an earlier version of the</span>
+<span class="hljs-comment">#+ Advanced Bash Scripting Guide.</span>
+
+<span class="hljs-comment"># Output format of the 'times' command:</span>
+<span class="hljs-comment"># User CPU &lt;space&gt; System CPU</span>
+<span class="hljs-comment"># User CPU of dead children &lt;space&gt; System CPU of dead children</span>
+
+<span class="hljs-comment">#  Bash has two versions of assigning all elements of an array</span>
+<span class="hljs-comment">#+ to a new array variable.</span>
+<span class="hljs-comment">#  Both drop 'null reference' elements</span>
+<span class="hljs-comment">#+ in Bash versions 2.04 and later.</span>
+<span class="hljs-comment">#  An additional array assignment that maintains the relationship of</span>
+<span class="hljs-comment">#+ [subscript]=value for arrays may be added to newer versions.</span>
+
+<span class="hljs-comment">#  Constructs a large array using an internal command,</span>
+<span class="hljs-comment">#+ but anything creating an array of several thousand elements</span>
+<span class="hljs-comment">#+ will do just fine.</span>
+
+<span class="hljs-built_in">declare</span> -a bigOne=( /dev/* )  <span class="hljs-comment"># All the files in /dev . . .</span>
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'Conditions: Unquoted, default IFS, All-Elements-Of'</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Number of elements in array is <span class="hljs-variable">${#bigOne[@]}</span>"</span>
+
+<span class="hljs-comment"># set -vx</span>
+
+
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'- - testing: =( ${array[@]} ) - -'</span>
+<span class="hljs-built_in">times</span>
+<span class="hljs-built_in">declare</span> -a bigTwo=( <span class="hljs-variable">${bigOne[@]}</span> )
+<span class="hljs-comment"># Note parens:    ^              ^</span>
+<span class="hljs-built_in">times</span>
+
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'- - testing: =${array[@]} - -'</span>
+<span class="hljs-built_in">times</span>
+<span class="hljs-built_in">declare</span> -a bigThree=<span class="hljs-variable">${bigOne[@]}</span>
+<span class="hljs-comment"># No parentheses this time.</span>
+<span class="hljs-built_in">times</span>
+
+<span class="hljs-comment">#  Comparing the numbers shows that the second form, pointed out</span>
+<span class="hljs-comment">#+ by Stephane Chazelas, is faster.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  As William Park explains:</span>
+<span class="hljs-comment">#+ The bigTwo array assigned element by element (because of parentheses),</span>
+<span class="hljs-comment">#+ whereas bigThree assigned as a single string.</span>
+<span class="hljs-comment">#  So, in essence, you have:</span>
+<span class="hljs-comment">#                   bigTwo=( [0]="..." [1]="..." [2]="..." ... )</span>
+<span class="hljs-comment">#                   bigThree=( [0]="... ... ..." )</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  Verify this by:  echo ${bigTwo[0]}</span>
+<span class="hljs-comment">#                   echo ${bigThree[0]}</span>
+
+
+<span class="hljs-comment">#  I will continue to use the first form in my example descriptions</span>
+<span class="hljs-comment">#+ because I think it is a better illustration of what is happening.</span>
+
+<span class="hljs-comment">#  The reusable portions of my examples will actual contain</span>
+<span class="hljs-comment">#+ the second form where appropriate because of the speedup.</span>
+
+<span class="hljs-comment"># MSZ: Sorry about that earlier oversight folks.</span>
+
+
+<span class="hljs-comment">#  Note:</span>
+<span class="hljs-comment">#  ----</span>
+<span class="hljs-comment">#  The "declare -a" statements in lines 32 and 44</span>
+<span class="hljs-comment">#+ are not strictly necessary, since it is implicit</span>
+<span class="hljs-comment">#+ in the  Array=( ... )  assignment form.</span>
+<span class="hljs-comment">#  However, eliminating these declarations slows down</span>
+<span class="hljs-comment">#+ the execution of the following sections of the script.</span>
+<span class="hljs-comment">#  Try it, and see.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>Adding a superfluous <b class="COMMAND">declare -a</b> statement to an array declaration may speed up execution of subsequent operations on the array.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="ARRAYAPPEND0" id="ARRAYAPPEND0"></a></p>
+    <div class="EXAMPLE">
+      <a name="COPYARRAY" id="COPYARRAY"></a>
+      <p><b>Example 27-9. Copying and concatenating arrays</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#! /bin/bash</span>
+<span class="hljs-comment"># CopyArray.sh</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># This script written by Michael Zick.</span>
+<span class="hljs-comment"># Used here with permission.</span>
+
+<span class="hljs-comment">#  How-To "Pass by Name &amp; Return by Name"</span>
+<span class="hljs-comment">#+ or "Building your own assignment statement".</span>
+
+
+<span class="hljs-function"><span class="hljs-title">CpArray_Mac</span></span>() {
+
+<span class="hljs-comment"># Assignment Command Statement Builder</span>
+
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">'eval '</span>
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span>                    <span class="hljs-comment"># Destination name</span>
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">'=( ${'</span>
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>                    <span class="hljs-comment"># Source name</span>
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">'[@]} )'</span>
+
+<span class="hljs-comment"># That could all be a single command.</span>
+<span class="hljs-comment"># Matter of style only.</span>
+}
+
+<span class="hljs-built_in">declare</span> -f CopyArray                <span class="hljs-comment"># Function "Pointer"</span>
+CopyArray=CpArray_Mac               <span class="hljs-comment"># Statement Builder</span>
+
+<span class="hljs-function"><span class="hljs-title">Hype</span></span>()
+{
+
+<span class="hljs-comment"># Hype the array named $1.</span>
+<span class="hljs-comment"># (Splice it together with array containing "Really Rocks".)</span>
+<span class="hljs-comment"># Return in array named $2.</span>
+
+    <span class="hljs-built_in">local</span> -a TMP
+    <span class="hljs-built_in">local</span> -a hype=( Really Rocks )
+
+    $(<span class="hljs-variable">$CopyArray</span> <span class="hljs-variable">$1</span> TMP)
+    TMP=( <span class="hljs-variable">${TMP[@]}</span> <span class="hljs-variable">${hype[@]}</span> )
+    $(<span class="hljs-variable">$CopyArray</span> TMP <span class="hljs-variable">$2</span>)
+}
+
+<span class="hljs-built_in">declare</span> -a before=( Advanced Bash Scripting )
+<span class="hljs-built_in">declare</span> -a after
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Array Before = <span class="hljs-variable">${before[@]}</span>"</span>
+
+Hype before after
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Array After = <span class="hljs-variable">${after[@]}</span>"</span>
+
+<span class="hljs-comment"># Too much hype?</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"What <span class="hljs-variable">${after[@]:3:2}</span>?"</span>
+
+<span class="hljs-built_in">declare</span> -a modest=( <span class="hljs-variable">${after[@]:2:1}</span> <span class="hljs-variable">${after[@]:3:2}</span> )
+<span class="hljs-comment">#                    ---- substring extraction ----</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Array Modest = <span class="hljs-variable">${modest[@]}</span>"</span>
+
+<span class="hljs-comment"># What happened to 'before' ?</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Array Before = <span class="hljs-variable">${before[@]}</span>"</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="ARRAYAPPEND" id="ARRAYAPPEND"></a>
+      <p><b>Example 27-10. More on concatenating arrays</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#! /bin/bash</span>
+<span class="hljs-comment"># array-append.bash</span>
+
+<span class="hljs-comment"># Copyright (c) Michael S. Zick, 2003, All rights reserved.</span>
+<span class="hljs-comment"># License: Unrestricted reuse in any form, for any purpose.</span>
+<span class="hljs-comment"># Version: $ID$</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># Slightly modified in formatting by M.C.</span>
+
+
+<span class="hljs-comment"># Array operations are Bash-specific.</span>
+<span class="hljs-comment"># Legacy UNIX /bin/sh lacks equivalents.</span>
+
+
+<span class="hljs-comment">#  Pipe the output of this script to 'more'</span>
+<span class="hljs-comment">#+ so it doesn't scroll off the terminal.</span>
+<span class="hljs-comment">#  Or, redirect output to a file.</span>
+
+
+<span class="hljs-built_in">declare</span> -a array1=( zero1 one1 two1 )
+<span class="hljs-comment"># Subscript packed.</span>
+<span class="hljs-built_in">declare</span> -a array2=( [0]=zero2 [2]=two2 [3]=three2 )
+<span class="hljs-comment"># Subscript sparse -- [1] is not defined.</span>
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'- Confirm that the array is really subscript sparse. -'</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Number of elements: 4"</span>        <span class="hljs-comment"># Hard-coded for illustration.</span>
+<span class="hljs-keyword">for</span> (( i = 0 ; i &lt; 4 ; i++ ))
+<span class="hljs-keyword">do</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Element [<span class="hljs-variable">$i</span>]: <span class="hljs-variable">${array2[$i]}</span>"</span>
+<span class="hljs-keyword">done</span>
+<span class="hljs-comment"># See also the more general code example in basics-reviewed.bash.</span>
+
+
+<span class="hljs-built_in">declare</span> -a dest
+
+<span class="hljs-comment"># Combine (append) two arrays into a third array.</span>
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'Conditions: Unquoted, default IFS, All-Elements-Of operator'</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'- Undefined elements not present, subscripts not maintained. -'</span>
+<span class="hljs-comment"># # The undefined elements do not exist; they are not being dropped.</span>
+
+dest=( <span class="hljs-variable">${array1[@]}</span> <span class="hljs-variable">${array2[@]}</span> )
+<span class="hljs-comment"># dest=${array1[@]}${array2[@]}     # Strange results, possibly a bug.</span>
+
+<span class="hljs-comment"># Now, list the result.</span>
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'- - Testing Array Append - -'</span>
+cnt=<span class="hljs-variable">${#dest[@]}</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Number of elements: <span class="hljs-variable">$cnt</span>"</span>
+<span class="hljs-keyword">for</span> (( i = 0 ; i &lt; cnt ; i++ ))
+<span class="hljs-keyword">do</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Element [<span class="hljs-variable">$i</span>]: <span class="hljs-variable">${dest[$i]}</span>"</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment"># Assign an array to a single array element (twice).</span>
+dest[0]=<span class="hljs-variable">${array1[@]}</span>
+dest[1]=<span class="hljs-variable">${array2[@]}</span>
+
+<span class="hljs-comment"># List the result.</span>
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'- - Testing modified array - -'</span>
+cnt=<span class="hljs-variable">${#dest[@]}</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Number of elements: <span class="hljs-variable">$cnt</span>"</span>
+<span class="hljs-keyword">for</span> (( i = 0 ; i &lt; cnt ; i++ ))
+<span class="hljs-keyword">do</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Element [<span class="hljs-variable">$i</span>]: <span class="hljs-variable">${dest[$i]}</span>"</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment"># Examine the modified second element.</span>
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'- - Reassign and list second element - -'</span>
+
+<span class="hljs-built_in">declare</span> -a subArray=<span class="hljs-variable">${dest[1]}</span>
+cnt=<span class="hljs-variable">${#subArray[@]}</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Number of elements: <span class="hljs-variable">$cnt</span>"</span>
+<span class="hljs-keyword">for</span> (( i = 0 ; i &lt; cnt ; i++ ))
+<span class="hljs-keyword">do</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Element [<span class="hljs-variable">$i</span>]: <span class="hljs-variable">${subArray[$i]}</span>"</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment">#  The assignment of an entire array to a single element</span>
+<span class="hljs-comment">#+ of another array using the '=${ ... }' array assignment</span>
+<span class="hljs-comment">#+ has converted the array being assigned into a string,</span>
+<span class="hljs-comment">#+ with the elements separated by a space (the first character of IFS).</span>
+
+<span class="hljs-comment"># If the original elements didn't contain whitespace . . .</span>
+<span class="hljs-comment"># If the original array isn't subscript sparse . . .</span>
+<span class="hljs-comment"># Then we could get the original array structure back again.</span>
+
+<span class="hljs-comment"># Restore from the modified second element.</span>
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'- - Listing restored element - -'</span>
+
+<span class="hljs-built_in">declare</span> -a subArray=( <span class="hljs-variable">${dest[1]}</span> )
+cnt=<span class="hljs-variable">${#subArray[@]}</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Number of elements: <span class="hljs-variable">$cnt</span>"</span>
+<span class="hljs-keyword">for</span> (( i = 0 ; i &lt; cnt ; i++ ))
+<span class="hljs-keyword">do</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Element [<span class="hljs-variable">$i</span>]: <span class="hljs-variable">${subArray[$i]}</span>"</span>
+<span class="hljs-keyword">done</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'- - Do not depend on this behavior. - -'</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'- - This behavior is subject to change - -'</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'- - in versions of Bash newer than version 2.05b - -'</span>
+
+<span class="hljs-comment"># MSZ: Sorry about any earlier confusion folks.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>--</p>
+    <p>Arrays permit deploying old familiar algorithms as shell scripts. Whether this is necessarily a good idea is left for the reader to decide.</p>
+    <p><a name="BUBBLESORT" id="BUBBLESORT"></a></p>
+    <div class="EXAMPLE">
+      <a name="BUBBLE" id="BUBBLE"></a>
+      <p><b>Example 27-11. The Bubble Sort</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># bubble.sh: Bubble sort, of sorts.</span>
+
+<span class="hljs-comment"># Recall the algorithm for a bubble sort. In this particular version...</span>
+
+<span class="hljs-comment">#  With each successive pass through the array to be sorted,</span>
+<span class="hljs-comment">#+ compare two adjacent elements, and swap them if out of order.</span>
+<span class="hljs-comment">#  At the end of the first pass, the "heaviest" element has sunk to bottom.</span>
+<span class="hljs-comment">#  At the end of the second pass, the next "heaviest" one has sunk next to bottom.</span>
+<span class="hljs-comment">#  And so forth.</span>
+<span class="hljs-comment">#  This means that each successive pass needs to traverse less of the array.</span>
+<span class="hljs-comment">#  You will therefore notice a speeding up in the printing of the later passes.</span>
+
+
+<span class="hljs-function"><span class="hljs-title">exchange</span></span>()
+{
+  <span class="hljs-comment"># Swaps two members of the array.</span>
+  <span class="hljs-built_in">local</span> temp=<span class="hljs-variable">${Countries[$1]}</span> <span class="hljs-comment">#  Temporary storage</span>
+                              <span class="hljs-comment">#+ for element getting swapped out.</span>
+  Countries[<span class="hljs-variable">$1</span>]=<span class="hljs-variable">${Countries[$2]}</span>
+  Countries[<span class="hljs-variable">$2</span>]=<span class="hljs-variable">$temp</span>
+  
+  <span class="hljs-built_in">return</span>
+}  
+
+<span class="hljs-built_in">declare</span> -a Countries  <span class="hljs-comment">#  Declare array,</span>
+                      <span class="hljs-comment">#+ optional here since it's initialized below.</span>
+
+<span class="hljs-comment">#  Is it permissable to split an array variable over multiple lines</span>
+<span class="hljs-comment">#+ using an escape (\)?</span>
+<span class="hljs-comment">#  Yes.</span>
+
+Countries=(Netherlands Ukraine Zaire Turkey Russia Yemen Syria \
+Brazil Argentina Nicaragua Japan Mexico Venezuela Greece England \
+Israel Peru Canada Oman Denmark Wales France Kenya \
+Xanadu Qatar Liechtenstein Hungary)
+
+<span class="hljs-comment"># "Xanadu" is the mythical place where, according to Coleridge,</span>
+<span class="hljs-comment">#+ Kubla Khan did a pleasure dome decree.</span>
+
+
+clear                      <span class="hljs-comment"># Clear the screen to start with. </span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"0: <span class="hljs-variable">${Countries[*]}</span>"</span>  <span class="hljs-comment"># List entire array at pass 0.</span>
+
+number_of_elements=<span class="hljs-variable">${#Countries[@]}</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"comparisons = <span class="hljs-variable">$number_of_elements</span> - 1"</span>
+
+count=1 <span class="hljs-comment"># Pass number.</span>
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$comparisons</span>"</span> -gt 0 ]          <span class="hljs-comment"># Beginning of outer loop</span>
+<span class="hljs-keyword">do</span>
+
+  index=0  <span class="hljs-comment"># Reset index to start of array after each pass.</span>
+
+  <span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$index</span>"</span> -lt <span class="hljs-string">"<span class="hljs-variable">$comparisons</span>"</span> ] <span class="hljs-comment"># Beginning of inner loop</span>
+  <span class="hljs-keyword">do</span>
+    <span class="hljs-keyword">if</span> [ <span class="hljs-variable">${Countries[$index]}</span> \&gt; <span class="hljs-variable">${Countries[`expr $index + 1`]}</span> ]
+    <span class="hljs-comment">#  If out of order...</span>
+    <span class="hljs-comment">#  Recalling that \&gt; is ASCII comparison operator</span>
+    <span class="hljs-comment">#+ within single brackets.</span>
+
+    <span class="hljs-comment">#  if [[ ${Countries[$index]} &gt; ${Countries[`expr $index + 1`]} ]]</span>
+    <span class="hljs-comment">#+ also works.</span>
+    <span class="hljs-keyword">then</span>
+      exchange <span class="hljs-variable">$index</span> `expr <span class="hljs-variable">$index</span> + 1`  <span class="hljs-comment"># Swap.</span>
+    <span class="hljs-keyword">fi</span>  
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"index += 1"</span>  <span class="hljs-comment"># Or,   index+=1   on Bash, ver. 3.1 or newer.</span>
+  <span class="hljs-keyword">done</span> <span class="hljs-comment"># End of inner loop</span>
+
+<span class="hljs-comment"># ----------------------------------------------------------------------</span>
+<span class="hljs-comment"># Paulo Marcel Coelho Aragao suggests for-loops as a simpler altenative.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># for (( last = $number_of_elements - 1 ; last &gt; 0 ; last-- ))</span>
+<span class="hljs-comment">##                     Fix by C.Y. Hunt          ^   (Thanks!)</span>
+<span class="hljs-comment"># do</span>
+<span class="hljs-comment">#     for (( i = 0 ; i &lt; last ; i++ ))</span>
+<span class="hljs-comment">#     do</span>
+<span class="hljs-comment">#         [[ "${Countries[$i]}" &gt; "${Countries[$((i+1))]}" ]] \</span>
+<span class="hljs-comment">#             &amp;&amp; exchange $i $((i+1))</span>
+<span class="hljs-comment">#     done</span>
+<span class="hljs-comment"># done</span>
+<span class="hljs-comment"># ----------------------------------------------------------------------</span>
+  
+
+<span class="hljs-built_in">let</span> <span class="hljs-string">"comparisons -= 1"</span> <span class="hljs-comment">#  Since "heaviest" element bubbles to bottom,</span>
+                       <span class="hljs-comment">#+ we need do one less comparison each pass.</span>
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$count</span>: <span class="hljs-variable">${Countries[@]}</span>"</span>  <span class="hljs-comment"># Print resultant array at end of each pass.</span>
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"count += 1"</span>                <span class="hljs-comment"># Increment pass count.</span>
+
+<span class="hljs-keyword">done</span>                            <span class="hljs-comment"># End of outer loop</span>
+                                <span class="hljs-comment"># All done.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>--</p>
+    <p><a name="ARRAYNEST" id="ARRAYNEST"></a></p>
+    <p>Is it possible to nest arrays within arrays?</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># "Nested" array.</span>
+
+<span class="hljs-comment">#  Michael Zick provided this example,</span>
+<span class="hljs-comment">#+ with corrections and clarifications by William Park.</span>
+
+AnArray=( $(ls --inode --ignore-backups --almost-all \
+        --directory --full-time --color=none --time=status \
+        --sort=time -l <span class="hljs-variable">${PWD}</span> ) )  <span class="hljs-comment"># Commands and options.</span>
+
+<span class="hljs-comment"># Spaces are significant . . . and don't quote anything in the above.</span>
+
+SubArray=( <span class="hljs-variable">${AnArray[@]:11:1}</span>  <span class="hljs-variable">${AnArray[@]:6:5}</span> )
+<span class="hljs-comment">#  This array has six elements:</span>
+<span class="hljs-comment">#+     SubArray=( [0]=${AnArray[11]} [1]=${AnArray[6]} [2]=${AnArray[7]}</span>
+<span class="hljs-comment">#      [3]=${AnArray[8]} [4]=${AnArray[9]} [5]=${AnArray[10]} )</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  Arrays in Bash are (circularly) linked lists</span>
+<span class="hljs-comment">#+ of type string (char *).</span>
+<span class="hljs-comment">#  So, this isn't actually a nested array,</span>
+<span class="hljs-comment">#+ but it's functionally similar.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Current directory and date of last status change:"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">${SubArray[@]}</span>"</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>--</p>
+    <p>Embedded arrays in combination with <a href="bashver2.html#VARREFNEW">indirect references</a> create some fascinating possibilities</p>
+    <p><a name="ARRAYINDIR" id="ARRAYINDIR"></a></p>
+    <div class="EXAMPLE">
+      <a name="EMBARR" id="EMBARR"></a>
+      <p><b>Example 27-12. Embedded arrays and indirect references</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># embedded-arrays.sh</span>
+<span class="hljs-comment"># Embedded arrays and indirect references.</span>
+
+<span class="hljs-comment"># This script by Dennis Leeuw.</span>
+<span class="hljs-comment"># Used with permission.</span>
+<span class="hljs-comment"># Modified by document author.</span>
+
+
+ARRAY1=(
+        VAR1_1=value11
+        VAR1_2=value12
+        VAR1_3=value13
+)
+
+ARRAY2=(
+        VARIABLE=<span class="hljs-string">"test"</span>
+        STRING=<span class="hljs-string">"VAR1=value1 VAR2=value2 VAR3=value3"</span>
+        ARRAY21=<span class="hljs-variable">${ARRAY1[*]}</span>
+)       <span class="hljs-comment"># Embed ARRAY1 within this second array.</span>
+
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">print</span></span> () {
+        OLD_IFS=<span class="hljs-string">"<span class="hljs-variable">$IFS</span>"</span>
+        IFS=$<span class="hljs-string">'\n'</span>       <span class="hljs-comment">#  To print each array element</span>
+                        <span class="hljs-comment">#+ on a separate line.</span>
+        TEST1=<span class="hljs-string">"ARRAY2[*]"</span>
+        <span class="hljs-built_in">local</span> <span class="hljs-variable">${!TEST1}</span> <span class="hljs-comment"># See what happens if you delete this line.</span>
+        <span class="hljs-comment">#  Indirect reference.</span>
+        <span class="hljs-comment">#  This makes the components of $TEST1</span>
+        <span class="hljs-comment">#+ accessible to this function.</span>
+
+
+        <span class="hljs-comment">#  Let's see what we've got so far.</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"\$TEST1 = <span class="hljs-variable">$TEST1</span>"</span>       <span class="hljs-comment">#  Just the name of the variable.</span>
+        <span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"{\$TEST1} = <span class="hljs-variable">${!TEST1}</span>"</span>  <span class="hljs-comment">#  Contents of the variable.</span>
+                                      <span class="hljs-comment">#  That's what an indirect</span>
+                                      <span class="hljs-comment">#+ reference does.</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"-------------------------------------------"</span>; <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">echo</span>
+
+
+        <span class="hljs-comment"># Print variable</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"Variable VARIABLE: <span class="hljs-variable">$VARIABLE</span>"</span>
+        
+        <span class="hljs-comment"># Print a string element</span>
+        IFS=<span class="hljs-string">"<span class="hljs-variable">$OLD_IFS</span>"</span>
+        TEST2=<span class="hljs-string">"STRING[*]"</span>
+        <span class="hljs-built_in">local</span> <span class="hljs-variable">${!TEST2}</span>      <span class="hljs-comment"># Indirect reference (as above).</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"String element VAR2: <span class="hljs-variable">$VAR2</span> from STRING"</span>
+
+        <span class="hljs-comment"># Print an array element</span>
+        TEST2=<span class="hljs-string">"ARRAY21[*]"</span>
+        <span class="hljs-built_in">local</span> <span class="hljs-variable">${!TEST2}</span>      <span class="hljs-comment"># Indirect reference (as above).</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"Array element VAR1_1: <span class="hljs-variable">$VAR1_1</span> from ARRAY21"</span>
+}
+
+<span class="hljs-built_in">print</span>
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment">#   As the author of the script notes,</span>
+<span class="hljs-comment">#+ "you can easily expand it to create named-hashes in bash."</span>
+<span class="hljs-comment">#   (Difficult) exercise for the reader: implement this.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>--</p>
+    <p><a name="PRIMES0" id="PRIMES0"></a></p>
+    <p>Arrays enable implementing a shell script version of the <i class="FIRSTTERM">Sieve of Eratosthenes</i>. Of course, a resource-intensive application of this nature should really be written in a compiled language, such as C. It runs excruciatingly slowly as a script.</p>
+    <div class="EXAMPLE">
+      <a name="EX68" id="EX68"></a>
+      <p><b>Example 27-13. The Sieve of Eratosthenes</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># sieve.sh (ex68.sh)</span>
+
+<span class="hljs-comment"># Sieve of Eratosthenes</span>
+<span class="hljs-comment"># Ancient algorithm for finding prime numbers.</span>
+
+<span class="hljs-comment">#  This runs a couple of orders of magnitude slower</span>
+<span class="hljs-comment">#+ than the equivalent program written in C.</span>
+
+LOWER_LIMIT=1       <span class="hljs-comment"># Starting with 1.</span>
+UPPER_LIMIT=1000    <span class="hljs-comment"># Up to 1000.</span>
+<span class="hljs-comment"># (You may set this higher . . . if you have time on your hands.)</span>
+
+PRIME=1
+NON_PRIME=0
+
+<span class="hljs-built_in">let</span> SPLIT=UPPER_LIMIT/2
+<span class="hljs-comment"># Optimization:</span>
+<span class="hljs-comment"># Need to test numbers only halfway to upper limit. Why?</span>
+
+
+<span class="hljs-built_in">declare</span> -a Primes
+<span class="hljs-comment"># Primes[] is an array.</span>
+
+
+<span class="hljs-function"><span class="hljs-title">initialize</span></span> ()
+{
+<span class="hljs-comment"># Initialize the array.</span>
+
+i=<span class="hljs-variable">$LOWER_LIMIT</span>
+until [ <span class="hljs-string">"<span class="hljs-variable">$i</span>"</span> -gt <span class="hljs-string">"<span class="hljs-variable">$UPPER_LIMIT</span>"</span> ]
+<span class="hljs-keyword">do</span>
+  Primes[i]=<span class="hljs-variable">$PRIME</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"i += 1"</span>
+<span class="hljs-keyword">done</span>
+<span class="hljs-comment">#  Assume all array members guilty (prime)</span>
+<span class="hljs-comment">#+ until proven innocent.</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">print_primes</span></span> ()
+{
+<span class="hljs-comment"># Print out the members of the Primes[] array tagged as prime.</span>
+
+i=<span class="hljs-variable">$LOWER_LIMIT</span>
+
+until [ <span class="hljs-string">"<span class="hljs-variable">$i</span>"</span> -gt <span class="hljs-string">"<span class="hljs-variable">$UPPER_LIMIT</span>"</span> ]
+<span class="hljs-keyword">do</span>
+
+  <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">${Primes[i]}</span>"</span> -eq <span class="hljs-string">"<span class="hljs-variable">$PRIME</span>"</span> ]
+  <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">printf</span> <span class="hljs-string">"%8d"</span> <span class="hljs-variable">$i</span>
+    <span class="hljs-comment"># 8 spaces per number gives nice, even columns.</span>
+  <span class="hljs-keyword">fi</span>
+  
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"i += 1"</span>
+  
+<span class="hljs-keyword">done</span>
+
+}
+
+sift () <span class="hljs-comment"># Sift out the non-primes.</span>
+{
+
+<span class="hljs-built_in">let</span> i=<span class="hljs-variable">$LOWER_LIMIT</span>+1
+<span class="hljs-comment"># Let's start with 2.</span>
+
+until [ <span class="hljs-string">"<span class="hljs-variable">$i</span>"</span> -gt <span class="hljs-string">"<span class="hljs-variable">$UPPER_LIMIT</span>"</span> ]
+<span class="hljs-keyword">do</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">${Primes[i]}</span>"</span> -eq <span class="hljs-string">"<span class="hljs-variable">$PRIME</span>"</span> ]
+<span class="hljs-comment"># Don't bother sieving numbers already sieved (tagged as non-prime).</span>
+<span class="hljs-keyword">then</span>
+
+  t=<span class="hljs-variable">$i</span>
+
+  <span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$t</span>"</span> -le <span class="hljs-string">"<span class="hljs-variable">$UPPER_LIMIT</span>"</span> ]
+  <span class="hljs-keyword">do</span>
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"t += <span class="hljs-variable">$i</span> "</span>
+    Primes[t]=<span class="hljs-variable">$NON_PRIME</span>
+    <span class="hljs-comment"># Tag as non-prime all multiples.</span>
+  <span class="hljs-keyword">done</span>
+
+<span class="hljs-keyword">fi</span>  
+
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"i += 1"</span>
+<span class="hljs-keyword">done</span>  
+
+
+}
+
+
+<span class="hljs-comment"># ==============================================</span>
+<span class="hljs-comment"># main ()</span>
+<span class="hljs-comment"># Invoke the functions sequentially.</span>
+initialize
+sift
+print_primes
+<span class="hljs-comment"># This is what they call structured programming.</span>
+<span class="hljs-comment"># ==============================================</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+
+
+<span class="hljs-comment"># -------------------------------------------------------- #</span>
+<span class="hljs-comment"># Code below line will not execute, because of 'exit.'</span>
+
+<span class="hljs-comment">#  This improved version of the Sieve, by Stephane Chazelas,</span>
+<span class="hljs-comment">#+ executes somewhat faster.</span>
+
+<span class="hljs-comment"># Must invoke with command-line argument (limit of primes).</span>
+
+UPPER_LIMIT=<span class="hljs-variable">$1</span>                  <span class="hljs-comment"># From command-line.</span>
+<span class="hljs-built_in">let</span> SPLIT=UPPER_LIMIT/2         <span class="hljs-comment"># Halfway to max number.</span>
+
+Primes=( <span class="hljs-string">''</span> $(seq <span class="hljs-variable">$UPPER_LIMIT</span>) )
+
+i=1
+until (( ( i += 1 ) &gt; SPLIT ))  <span class="hljs-comment"># Need check only halfway.</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-keyword">if</span> [[ -n <span class="hljs-variable">${Primes[i]}</span> ]]
+  <span class="hljs-keyword">then</span>
+    t=<span class="hljs-variable">$i</span>
+    until (( ( t += i ) &gt; UPPER_LIMIT ))
+    <span class="hljs-keyword">do</span>
+      Primes[t]=
+    <span class="hljs-keyword">done</span>
+  <span class="hljs-keyword">fi</span>  
+<span class="hljs-keyword">done</span>  
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${Primes[*]}</span>
+
+<span class="hljs-built_in">exit</span> $?</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="EX68A" id="EX68A"></a>
+      <p><b>Example 27-14. The Sieve of Eratosthenes, Optimized</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Optimized Sieve of Eratosthenes</span>
+<span class="hljs-comment"># Script by Jared Martin, with very minor changes by ABS Guide author.</span>
+<span class="hljs-comment"># Used in ABS Guide with permission (thanks!).</span>
+
+<span class="hljs-comment"># Based on script in Advanced Bash Scripting Guide.</span>
+<span class="hljs-comment"># http://tldp.org/LDP/abs/html/arrays.html#PRIMES0 (ex68.sh).</span>
+
+<span class="hljs-comment"># http://www.cs.hmc.edu/~oneill/papers/Sieve-JFP.pdf (reference)</span>
+<span class="hljs-comment"># Check results against http://primes.utm.edu/lists/small/1000.txt</span>
+
+<span class="hljs-comment"># Necessary but not sufficient would be, e.g.,</span>
+<span class="hljs-comment">#     (($(sieve 7919 | wc -w) == 1000)) &amp;&amp; echo "7919 is the 1000th prime"</span>
+
+UPPER_LIMIT=<span class="hljs-variable">${1:?"Need an upper limit of primes to search."}</span>
+
+Primes=( <span class="hljs-string">''</span> $(seq <span class="hljs-variable">${UPPER_LIMIT}</span>) )
+
+<span class="hljs-built_in">typeset</span> -i i t
+Primes[i=1]=<span class="hljs-string">''</span> <span class="hljs-comment"># 1 is not a prime.</span>
+until (( ( i += 1 ) &gt; (<span class="hljs-variable">${UPPER_LIMIT}</span>/i) ))  <span class="hljs-comment"># Need check only ith-way.</span>
+  <span class="hljs-keyword">do</span>                                         <span class="hljs-comment"># Why?</span>
+    <span class="hljs-keyword">if</span> ((<span class="hljs-variable">${Primes[t=i*(i-1), i]}</span>))
+    <span class="hljs-comment"># Obscure, but instructive, use of arithmetic expansion in subscript.</span>
+    <span class="hljs-keyword">then</span>
+      until (( ( t += i ) &gt; <span class="hljs-variable">${UPPER_LIMIT}</span> ))
+        <span class="hljs-keyword">do</span> Primes[t]=; <span class="hljs-keyword">done</span>
+    <span class="hljs-keyword">fi</span>
+  <span class="hljs-keyword">done</span>
+
+<span class="hljs-comment"># echo ${Primes[*]}</span>
+<span class="hljs-built_in">echo</span>   <span class="hljs-comment"># Change to original script for pretty-printing (80-col. display).</span>
+<span class="hljs-built_in">printf</span> <span class="hljs-string">"%8d"</span> <span class="hljs-variable">${Primes[*]}</span>
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> $?</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Compare these array-based prime number generators with alternatives that do not use arrays, <a href="contributed-scripts.html#PRIMES">Example A-15</a>, and <a href="mathc.html#PRIMES2">Example 16-46</a>.</p>
+    <p>--</p>
+    <p>Arrays lend themselves, to some extent, to emulating data structures for which Bash has no native support.</p>
+    <p><a name="STACKEX0" id="STACKEX0"></a></p>
+    <div class="EXAMPLE">
+      <a name="STACKEX" id="STACKEX"></a>
+      <p><b>Example 27-15. Emulating a push-down stack</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># stack.sh: push-down stack simulation</span>
+
+<span class="hljs-comment">#  Similar to the CPU stack, a push-down stack stores data items</span>
+<span class="hljs-comment">#+ sequentially, but releases them in reverse order, last-in first-out.</span>
+
+
+BP=100            <span class="hljs-comment">#  Base Pointer of stack array.</span>
+                  <span class="hljs-comment">#  Begin at element 100.</span>
+
+SP=<span class="hljs-variable">$BP</span>            <span class="hljs-comment">#  Stack Pointer.</span>
+                  <span class="hljs-comment">#  Initialize it to "base" (bottom) of stack.</span>
+
+Data=             <span class="hljs-comment">#  Contents of stack location.  </span>
+                  <span class="hljs-comment">#  Must use global variable,</span>
+                  <span class="hljs-comment">#+ because of limitation on function return range.</span>
+
+
+                  <span class="hljs-comment"># 100     Base pointer       &lt;-- Base Pointer</span>
+                  <span class="hljs-comment">#  99     First data item</span>
+                  <span class="hljs-comment">#  98     Second data item</span>
+                  <span class="hljs-comment"># ...     More data</span>
+                  <span class="hljs-comment">#         Last data item     &lt;-- Stack pointer</span>
+
+
+<span class="hljs-built_in">declare</span> -a stack
+
+
+push()            <span class="hljs-comment"># Push item on stack.</span>
+{
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]    <span class="hljs-comment"># Nothing to push?</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">return</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">let</span> <span class="hljs-string">"SP -= 1"</span>     <span class="hljs-comment"># Bump stack pointer.</span>
+stack[<span class="hljs-variable">$SP</span>]=<span class="hljs-variable">$1</span>
+
+<span class="hljs-built_in">return</span>
+}
+
+pop()                    <span class="hljs-comment"># Pop item off stack.</span>
+{
+Data=                    <span class="hljs-comment"># Empty out data item.</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$SP</span>"</span> -eq <span class="hljs-string">"<span class="hljs-variable">$BP</span>"</span> ]   <span class="hljs-comment"># Stack empty?</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">return</span>
+<span class="hljs-keyword">fi</span>                       <span class="hljs-comment">#  This also keeps SP from getting past 100,</span>
+                         <span class="hljs-comment">#+ i.e., prevents a runaway stack.</span>
+
+Data=<span class="hljs-variable">${stack[$SP]}</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"SP += 1"</span>            <span class="hljs-comment"># Bump stack pointer.</span>
+<span class="hljs-built_in">return</span>
+}
+
+status_report()          <span class="hljs-comment"># Find out what's happening.</span>
+{
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"-------------------------------------"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"REPORT"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Stack Pointer = <span class="hljs-variable">$SP</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Just popped \""</span><span class="hljs-variable">$Data</span><span class="hljs-string">"\" off the stack."</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"-------------------------------------"</span>
+<span class="hljs-built_in">echo</span>
+}
+
+
+<span class="hljs-comment"># =======================================================</span>
+<span class="hljs-comment"># Now, for some fun.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># See if you can pop anything off empty stack.</span>
+pop
+status_report
+
+<span class="hljs-built_in">echo</span>
+
+push garbage
+pop
+status_report     <span class="hljs-comment"># Garbage in, garbage out.      </span>
+
+value1=23;        push <span class="hljs-variable">$value1</span>
+value2=skidoo;    push <span class="hljs-variable">$value2</span>
+value3=LAST;      push <span class="hljs-variable">$value3</span>
+
+pop               <span class="hljs-comment"># LAST</span>
+status_report
+pop               <span class="hljs-comment"># skidoo</span>
+status_report
+pop               <span class="hljs-comment"># 23</span>
+status_report     <span class="hljs-comment"># Last-in, first-out!</span>
+
+<span class="hljs-comment">#  Notice how the stack pointer decrements with each push,</span>
+<span class="hljs-comment">#+ and increments with each pop.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># =======================================================</span>
+
+
+<span class="hljs-comment"># Exercises:</span>
+<span class="hljs-comment"># ---------</span>
+
+<span class="hljs-comment"># 1)  Modify the "push()" function to permit pushing</span>
+<span class="hljs-comment">#   + multiple element on the stack with a single function call.</span>
+
+<span class="hljs-comment"># 2)  Modify the "pop()" function to permit popping</span>
+<span class="hljs-comment">#   + multiple element from the stack with a single function call.</span>
+
+<span class="hljs-comment"># 3)  Add error checking to the critical functions.</span>
+<span class="hljs-comment">#     That is, return an error code, depending on</span>
+<span class="hljs-comment">#   + successful or unsuccessful completion of the operation,</span>
+<span class="hljs-comment">#   + and take appropriate action.</span>
+
+<span class="hljs-comment"># 4)  Using this script as a starting point,</span>
+<span class="hljs-comment">#   + write a stack-based 4-function calculator.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>--</p>
+    <p>Fancy manipulation of array <span class="QUOTE">"subscripts"</span> may require intermediate variables. For projects involving this, again consider using a more powerful programming language, such as Perl or C.</p>
+    <div class="EXAMPLE">
+      <a name="QFUNCTION" id="QFUNCTION"></a>
+      <p><b>Example 27-16. Complex array application: <em>Exploring a weird mathematical series</em></b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment"># Douglas Hofstadter's notorious "Q-series":</span>
+
+<span class="hljs-comment"># Q(1) = Q(2) = 1</span>
+<span class="hljs-comment"># Q(n) = Q(n - Q(n-1)) + Q(n - Q(n-2)), for n&gt;2</span>
+
+<span class="hljs-comment">#  This is a "chaotic" integer series with strange</span>
+<span class="hljs-comment">#+ and unpredictable behavior.</span>
+<span class="hljs-comment">#  The first 20 terms of the series are:</span>
+<span class="hljs-comment">#  1 1 2 3 3 4 5 5 6 6 6 8 8 8 10 9 10 11 11 12 </span>
+
+<span class="hljs-comment">#  See Hofstadter's book, _Goedel, Escher, Bach: An Eternal Golden Braid_,</span>
+<span class="hljs-comment">#+ p. 137, ff.</span>
+
+
+LIMIT=100     <span class="hljs-comment"># Number of terms to calculate.</span>
+LINEWIDTH=20  <span class="hljs-comment"># Number of terms printed per line.</span>
+
+Q[1]=1        <span class="hljs-comment"># First two terms of series are 1.</span>
+Q[2]=1
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Q-series [<span class="hljs-variable">$LIMIT</span> terms]:"</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">${Q[1]}</span> "</span>             <span class="hljs-comment"># Output first two terms.</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">${Q[2]}</span> "</span>
+
+<span class="hljs-keyword">for</span> ((n=3; n &lt;= <span class="hljs-variable">$LIMIT</span>; n++))  <span class="hljs-comment"># C-like loop expression.</span>
+<span class="hljs-keyword">do</span>   <span class="hljs-comment"># Q[n] = Q[n - Q[n-1]] + Q[n - Q[n-2]]  for n&gt;2</span>
+<span class="hljs-comment">#    Need to break the expression into intermediate terms,</span>
+<span class="hljs-comment">#+   since Bash doesn't handle complex array arithmetic very well.</span>
+
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"n1 = <span class="hljs-variable">$n</span> - 1"</span>        <span class="hljs-comment"># n-1</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"n2 = <span class="hljs-variable">$n</span> - 2"</span>        <span class="hljs-comment"># n-2</span>
+  
+  t0=`expr <span class="hljs-variable">$n</span> - <span class="hljs-variable">${Q[n1]}</span>`  <span class="hljs-comment"># n - Q[n-1]</span>
+  t1=`expr <span class="hljs-variable">$n</span> - <span class="hljs-variable">${Q[n2]}</span>`  <span class="hljs-comment"># n - Q[n-2]</span>
+  
+  T0=<span class="hljs-variable">${Q[t0]}</span>              <span class="hljs-comment"># Q[n - Q[n-1]]</span>
+  T1=<span class="hljs-variable">${Q[t1]}</span>              <span class="hljs-comment"># Q[n - Q[n-2]]</span>
+
+Q[n]=`expr <span class="hljs-variable">$T0</span> + <span class="hljs-variable">$T1</span>`      <span class="hljs-comment"># Q[n - Q[n-1]] + Q[n - Q[n-2]]</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">${Q[n]}</span> "</span>
+
+<span class="hljs-keyword">if</span> [ `expr <span class="hljs-variable">$n</span> % <span class="hljs-variable">$LINEWIDTH</span>` -eq 0 ]    <span class="hljs-comment"># Format output.</span>
+<span class="hljs-keyword">then</span>   <span class="hljs-comment">#      ^ modulo</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-comment"># Break lines into neat chunks.</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment">#  This is an iterative implementation of the Q-series.</span>
+<span class="hljs-comment">#  The more intuitive recursive implementation is left as an exercise.</span>
+<span class="hljs-comment">#  Warning: calculating this series recursively takes a VERY long time</span>
+<span class="hljs-comment">#+ via a script. C/C++ would be orders of magnitude faster.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>--</p>
+    <p><a name="ARRAYMULTIDIM" id="ARRAYMULTIDIM"></a></p>
+    <p>Bash supports only one-dimensional arrays, though a little trickery permits simulating multi-dimensional ones.</p>
+    <div class="EXAMPLE">
+      <a name="TWODIM" id="TWODIM"></a>
+      <p><b>Example 27-17. Simulating a two-dimensional array, then tilting it</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># twodim.sh: Simulating a two-dimensional array.</span>
+
+<span class="hljs-comment"># A one-dimensional array consists of a single row.</span>
+<span class="hljs-comment"># A two-dimensional array stores rows sequentially.</span>
+
+Rows=5
+Columns=5
+<span class="hljs-comment"># 5 X 5 Array.</span>
+
+<span class="hljs-built_in">declare</span> -a alpha     <span class="hljs-comment"># char alpha [Rows] [Columns];</span>
+                     <span class="hljs-comment"># Unnecessary declaration. Why?</span>
+
+<span class="hljs-function"><span class="hljs-title">load_alpha</span></span> ()
+{
+<span class="hljs-built_in">local</span> rc=0
+<span class="hljs-built_in">local</span> index
+
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> A B C D E F G H I J K L M N O P Q R S T U V W X Y
+<span class="hljs-keyword">do</span>     <span class="hljs-comment"># Use different symbols if you like.</span>
+  <span class="hljs-built_in">local</span> row=`expr <span class="hljs-variable">$rc</span> / <span class="hljs-variable">$Columns</span>`
+  <span class="hljs-built_in">local</span> column=`expr <span class="hljs-variable">$rc</span> % <span class="hljs-variable">$Rows</span>`
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"index = <span class="hljs-variable">$row</span> * <span class="hljs-variable">$Rows</span> + <span class="hljs-variable">$column</span>"</span>
+  alpha[<span class="hljs-variable">$index</span>]=<span class="hljs-variable">$i</span>
+<span class="hljs-comment"># alpha[$row][$column]</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"rc += 1"</span>
+<span class="hljs-keyword">done</span>  
+
+<span class="hljs-comment">#  Simpler would be</span>
+<span class="hljs-comment">#+   declare -a alpha=( A B C D E F G H I J K L M N O P Q R S T U V W X Y )</span>
+<span class="hljs-comment">#+ but this somehow lacks the "flavor" of a two-dimensional array.</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">print_alpha</span></span> ()
+{
+<span class="hljs-built_in">local</span> row=0
+<span class="hljs-built_in">local</span> index
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$row</span>"</span> -lt <span class="hljs-string">"<span class="hljs-variable">$Rows</span>"</span> ]   <span class="hljs-comment">#  Print out in "row major" order:</span>
+<span class="hljs-keyword">do</span>                             <span class="hljs-comment">#+ columns vary,</span>
+                               <span class="hljs-comment">#+ while row (outer loop) remains the same.</span>
+  <span class="hljs-built_in">local</span> column=0
+
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"       "</span>            <span class="hljs-comment">#  Lines up "square" array with rotated one.</span>
+  
+  <span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$column</span>"</span> -lt <span class="hljs-string">"<span class="hljs-variable">$Columns</span>"</span> ]
+  <span class="hljs-keyword">do</span>
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"index = <span class="hljs-variable">$row</span> * <span class="hljs-variable">$Rows</span> + <span class="hljs-variable">$column</span>"</span>
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">${alpha[index]}</span> "</span>  <span class="hljs-comment"># alpha[$row][$column]</span>
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"column += 1"</span>
+  <span class="hljs-keyword">done</span>
+
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"row += 1"</span>
+  <span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">done</span>  
+
+<span class="hljs-comment"># The simpler equivalent is</span>
+<span class="hljs-comment">#     echo ${alpha[*]} | xargs -n $Columns</span>
+
+<span class="hljs-built_in">echo</span>
+}
+
+filter ()     <span class="hljs-comment"># Filter out negative array indices.</span>
+{
+
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"  "</span>  <span class="hljs-comment"># Provides the tilt.</span>
+              <span class="hljs-comment"># Explain how.</span>
+
+<span class="hljs-keyword">if</span> [[ <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> -ge 0 &amp;&amp;  <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> -lt <span class="hljs-string">"<span class="hljs-variable">$Rows</span>"</span> &amp;&amp; <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span> -ge 0 &amp;&amp; <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span> -lt <span class="hljs-string">"<span class="hljs-variable">$Columns</span>"</span> ]]
+<span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"index = <span class="hljs-variable">$1</span> * <span class="hljs-variable">$Rows</span> + <span class="hljs-variable">$2</span>"</span>
+    <span class="hljs-comment"># Now, print it rotated.</span>
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">" <span class="hljs-variable">${alpha[index]}</span>"</span>
+    <span class="hljs-comment">#           alpha[$row][$column]</span>
+<span class="hljs-keyword">fi</span>    
+
+}
+  
+
+
+
+rotate ()  <span class="hljs-comment">#  Rotate the array 45 degrees --</span>
+{          <span class="hljs-comment">#+ "balance" it on its lower lefthand corner.</span>
+<span class="hljs-built_in">local</span> row
+<span class="hljs-built_in">local</span> column
+
+<span class="hljs-keyword">for</span> (( row = Rows; row &gt; -Rows; row-- ))
+  <span class="hljs-keyword">do</span>       <span class="hljs-comment"># Step through the array backwards. Why?</span>
+
+  <span class="hljs-keyword">for</span> (( column = 0; column &lt; Columns; column++ ))
+  <span class="hljs-keyword">do</span>
+
+    <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$row</span>"</span> -ge 0 ]
+    <span class="hljs-keyword">then</span>
+      <span class="hljs-built_in">let</span> <span class="hljs-string">"t1 = <span class="hljs-variable">$column</span> - <span class="hljs-variable">$row</span>"</span>
+      <span class="hljs-built_in">let</span> <span class="hljs-string">"t2 = <span class="hljs-variable">$column</span>"</span>
+    <span class="hljs-keyword">else</span>
+      <span class="hljs-built_in">let</span> <span class="hljs-string">"t1 = <span class="hljs-variable">$column</span>"</span>
+      <span class="hljs-built_in">let</span> <span class="hljs-string">"t2 = <span class="hljs-variable">$column</span> + <span class="hljs-variable">$row</span>"</span>
+    <span class="hljs-keyword">fi</span>  
+
+    filter <span class="hljs-variable">$t1</span> <span class="hljs-variable">$t2</span>   <span class="hljs-comment"># Filter out negative array indices.</span>
+                     <span class="hljs-comment"># What happens if you don't do this?</span>
+  <span class="hljs-keyword">done</span>
+
+  <span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">done</span> 
+
+<span class="hljs-comment">#  Array rotation inspired by examples (pp. 143-146) in</span>
+<span class="hljs-comment">#+ "Advanced C Programming on the IBM PC," by Herbert Mayer</span>
+<span class="hljs-comment">#+ (see bibliography).</span>
+<span class="hljs-comment">#  This just goes to show that much of what can be done in C</span>
+<span class="hljs-comment">#+ can also be done in shell scripting.</span>
+
+}
+
+
+<span class="hljs-comment">#--------------- Now, let the show begin. ------------#</span>
+load_alpha     <span class="hljs-comment"># Load the array.</span>
+print_alpha    <span class="hljs-comment"># Print it out.  </span>
+rotate         <span class="hljs-comment"># Rotate it 45 degrees counterclockwise.</span>
+<span class="hljs-comment">#-----------------------------------------------------#</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># This is a rather contrived, not to mention inelegant simulation.</span>
+
+<span class="hljs-comment"># Exercises:</span>
+<span class="hljs-comment"># ---------</span>
+<span class="hljs-comment"># 1)  Rewrite the array loading and printing functions</span>
+<span class="hljs-comment">#     in a more intuitive and less kludgy fashion.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># 2)  Figure out how the array rotation functions work.</span>
+<span class="hljs-comment">#     Hint: think about the implications of backwards-indexing an array.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># 3)  Rewrite this script to handle a non-square array,</span>
+<span class="hljs-comment">#     such as a 6 X 4 one.</span>
+<span class="hljs-comment">#     Try to minimize "distortion" when the array is rotated.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>A two-dimensional array is essentially equivalent to a one-dimensional one, but with additional addressing modes for referencing and manipulating the individual elements by <i class="FIRSTTERM">row</i> and <i class="FIRSTTERM">column</i> position.</p>
+    <p>For an even more elaborate example of simulating a two-dimensional array, see <a href="contributed-scripts.html#LIFESLOW">Example A-10</a>.</p>
+    <p>--</p>
+    <p>For more interesting scripts using arrays, see:</p>
+    <ul>
+      <li>
+        <p><a href="commandsub.html#AGRAM2">Example 12-3</a></p>
+      </li>
+      <li>
+        <p><a href="mathc.html#PRIMES2">Example 16-46</a></p>
+      </li>
+      <li>
+        <p><a href="contributed-scripts.html#HASHEX2">Example A-22</a></p>
+      </li>
+      <li>
+        <p><a href="contributed-scripts.html#HOMEWORK">Example A-44</a></p>
+      </li>
+      <li>
+        <p><a href="contributed-scripts.html#QKY">Example A-41</a></p>
+      </li>
+      <li>
+        <p><a href="contributed-scripts.html#NIM">Example A-42</a></p>
+      </li>
+    </ul>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="list-cons.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="ivr.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">List Constructs</td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Indirect References</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

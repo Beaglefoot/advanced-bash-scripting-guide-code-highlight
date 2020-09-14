@@ -1,0 +1,430 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Local Variables</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Functions" href="functions.html">
+  <link rel="PREVIOUS" title="Complex Functions and Function Complexities" href="complexfunct.html">
+  <link rel="NEXT" title="Recursion Without Local Variables" href="recurnolocvar.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="complexfunct.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 24. Functions</td>
+        <td width="10%" align="right" valign="bottom"><a href="recurnolocvar.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="LOCALVAR" id="LOCALVAR"></a>24.2. Local Variables</h1>
+    <div class="VARIABLELIST">
+      <p><b><a name="LOCALREF1" id="LOCALREF1"></a>What makes a variable <i class="FIRSTTERM">local</i>?</b></p>
+      <dl>
+        <dt>local variables</dt>
+        <dd>
+          <p>A variable declared as <i class="FIRSTTERM">local</i> is one that is visible only within the <a href="special-chars.html#CODEBLOCKREF">block of code</a> in which it appears. It has local <a href="subshells.html#SCOPEREF">scope</a>. In a function, a <i class="FIRSTTERM">local variable</i> has meaning only within that function block. <a name="AEN18568" href="#FTN.AEN18568" id="AEN18568"><span class="footnote">[1]</span></a></p>
+          <div class="EXAMPLE">
+            <a name="EX62" id="EX62"></a>
+            <p><b>Example 24-12. Local variable visibility</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># ex62.sh: Global and local variables inside a function.</span>
+
+<span class="hljs-function"><span class="hljs-title">func</span></span> ()
+{
+  <span class="hljs-built_in">local</span> loc_var=23       <span class="hljs-comment"># Declared as local variable.</span>
+  <span class="hljs-built_in">echo</span>                   <span class="hljs-comment"># Uses the 'local' builtin.</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"\"loc_var\" in function = <span class="hljs-variable">$loc_var</span>"</span>
+  global_var=999         <span class="hljs-comment"># Not declared as local.</span>
+                         <span class="hljs-comment"># Therefore, defaults to global. </span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"\"global_var\" in function = <span class="hljs-variable">$global_var</span>"</span>
+}  
+
+func
+
+<span class="hljs-comment"># Now, to see if local variable "loc_var" exists outside the function.</span>
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"\"loc_var\" outside function = <span class="hljs-variable">$loc_var</span>"</span>
+                                      <span class="hljs-comment"># $loc_var outside function = </span>
+                                      <span class="hljs-comment"># No, $loc_var not visible globally.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"\"global_var\" outside function = <span class="hljs-variable">$global_var</span>"</span>
+                                      <span class="hljs-comment"># $global_var outside function = 999</span>
+                                      <span class="hljs-comment"># $global_var is visible globally.</span>
+<span class="hljs-built_in">echo</span>                                  
+
+<span class="hljs-built_in">exit</span> 0
+<span class="hljs-comment">#  In contrast to C, a Bash variable declared inside a function</span>
+<span class="hljs-comment">#+ is local ONLY if declared as such.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>Before a function is called, <em>all</em> variables declared within the function are invisible outside the body of the function, not just those explicitly declared as <i class="FIRSTTERM">local</i>.</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tbody><tr>
+                      <td>
+                        <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-function"><span class="hljs-title">func</span></span> ()
+{
+global_var=37    <span class="hljs-comment">#  Visible only within the function block</span>
+                 <span class="hljs-comment">#+ before the function has been called. </span>
+}                <span class="hljs-comment">#  END OF FUNCTION</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"global_var = <span class="hljs-variable">$global_var</span>"</span>  <span class="hljs-comment"># global_var =</span>
+                                 <span class="hljs-comment">#  Function "func" has not yet been called,</span>
+                                 <span class="hljs-comment">#+ so $global_var is not visible here.</span>
+
+func
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"global_var = <span class="hljs-variable">$global_var</span>"</span>  <span class="hljs-comment"># global_var = 37</span>
+                                 <span class="hljs-comment"># Has been set by function call.</span></pre>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p><a name="EXITVALANOMALY01" id="EXITVALANOMALY01"></a></p>
+                  <p>As Evgeniy Ivanov points out, when declaring and setting a local variable in a single command, apparently the order of operations is to <em>first set the variable, and only afterwards restrict it to local scope</em>. This is reflected in the <a href="exit-status.html#EXITSTATUSREF">return value</a>.</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tbody><tr>
+                      <td>
+                        <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"==OUTSIDE Function (global)=="</span>
+t=$(<span class="hljs-built_in">exit</span> 1)
+<span class="hljs-built_in">echo</span> $?      <span class="hljs-comment"># 1</span>
+             <span class="hljs-comment"># As expected.</span>
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-function"><span class="hljs-title">function0</span></span> ()
+{
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"==INSIDE Function=="</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Global"</span>
+t0=$(<span class="hljs-built_in">exit</span> 1)
+<span class="hljs-built_in">echo</span> $?      <span class="hljs-comment"># 1</span>
+             <span class="hljs-comment"># As expected.</span>
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Local declared &amp; assigned in same command."</span>
+<span class="hljs-built_in">local</span> t1=$(<span class="hljs-built_in">exit</span> 1)
+<span class="hljs-built_in">echo</span> $?      <span class="hljs-comment"># 0</span>
+             <span class="hljs-comment"># Unexpected!</span>
+<span class="hljs-comment">#  Apparently, the variable assignment takes place before</span>
+<span class="hljs-comment">#+ the local declaration.</span>
+<span class="hljs-comment">#+ The return value is for the latter.</span>
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Local declared, then assigned (separate commands)."</span>
+<span class="hljs-built_in">local</span> t2
+t2=$(<span class="hljs-built_in">exit</span> 1)
+<span class="hljs-built_in">echo</span> $?      <span class="hljs-comment"># 1</span>
+             <span class="hljs-comment"># As expected.</span>
+
+}
+
+function0</pre>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div class="SECT2">
+      <h2 class="SECT2"><a name="LOCVARRECUR" id="LOCVARRECUR"></a>24.2.1. Local variables and recursion.</h2>
+      <p><a name="RECURSIONREF0" id="RECURSIONREF0"></a></p>
+      <table class="SIDEBAR" border="1" cellpadding="5">
+        <tbody><tr>
+          <td>
+            <div class="SIDEBAR">
+              <a name="AEN18598" id="AEN18598"></a>
+              <p><a name="RECURSIONREF" id="RECURSIONREF"></a></p>
+              <p><i class="FIRSTTERM">Recursion</i> is an interesting and sometimes useful form of <i class="FIRSTTERM">self-reference</i>. <a href="biblio.html#MAYERREF">Herbert Mayer</a> defines it as <span class="QUOTE">". . . expressing an algorithm by using a simpler version of that same algorithm . . ."</span></p>
+              <p>Consider a definition defined in terms of itself, <a name="AEN18607" href="#FTN.AEN18607" id="AEN18607"><span class="footnote">[2]</span></a> an expression implicit in its own expression, <a name="AEN18610" href="#FTN.AEN18610" id="AEN18610"><span class="footnote">[3]</span></a> <em>a snake swallowing its own tail</em>, <a name="AEN18614" href="#FTN.AEN18614" id="AEN18614"><span class="footnote">[4]</span></a> or . . . a function that calls itself. <a name="AEN18617" href="#FTN.AEN18617" id="AEN18617"><span class="footnote">[5]</span></a></p>
+              <p><a name="RECURSIONDEMO0" id="RECURSIONDEMO0"></a></p>
+              <div class="EXAMPLE">
+                <a name="RECURSIONDEMO" id="RECURSIONDEMO"></a>
+                <p><b>Example 24-13. Demonstration of a simple recursive function</b></p>
+                <table border="0" bgcolor="#E0E0E0" width="100%">
+                  <tbody><tr>
+                    <td>
+                      <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># recursion-demo.sh</span>
+<span class="hljs-comment"># Demonstration of recursion.</span>
+
+RECURSIONS=9   <span class="hljs-comment"># How many times to recurse.</span>
+r_count=0      <span class="hljs-comment"># Must be global. Why?</span>
+
+<span class="hljs-function"><span class="hljs-title">recurse</span></span> ()
+{
+  var=<span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>
+
+  <span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$var</span>"</span> -ge 0 ]
+  <span class="hljs-keyword">do</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Recursion count = "</span><span class="hljs-variable">$r_count</span><span class="hljs-string">"  +-+  \$var = "</span><span class="hljs-variable">$var</span><span class="hljs-string">""</span>
+    (( var-- )); (( r_count++ ))
+    recurse <span class="hljs-string">"<span class="hljs-variable">$var</span>"</span>  <span class="hljs-comment">#  Function calls itself (recurses)</span>
+  <span class="hljs-keyword">done</span>              <span class="hljs-comment">#+ until what condition is met?</span>
+}
+
+recurse <span class="hljs-variable">$RECURSIONS</span>
+
+<span class="hljs-built_in">exit</span> $?</pre>
+                    </td>
+                  </tr>
+                </tbody></table>
+              </div>
+              <p><a name="RECURSIONDEMO02" id="RECURSIONDEMO02"></a></p>
+              <div class="EXAMPLE">
+                <a name="RECURSIONDEMO2" id="RECURSIONDEMO2"></a>
+                <p><b>Example 24-14. Another simple demonstration</b></p>
+                <table border="0" bgcolor="#E0E0E0" width="100%">
+                  <tbody><tr>
+                    <td>
+                      <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># recursion-def.sh</span>
+<span class="hljs-comment"># A script that defines "recursion" in a rather graphic way.</span>
+
+RECURSIONS=10
+r_count=0
+sp=<span class="hljs-string">" "</span>
+
+<span class="hljs-function"><span class="hljs-title">define_recursion</span></span> ()
+{
+  ((r_count++))
+  sp=<span class="hljs-string">"<span class="hljs-variable">$sp</span>"</span><span class="hljs-string">" "</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$sp</span>"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"\"The act of recurring ... \""</span>   <span class="hljs-comment"># Per 1913 Webster's dictionary.</span>
+
+  <span class="hljs-keyword">while</span> [ <span class="hljs-variable">$r_count</span> -le <span class="hljs-variable">$RECURSIONS</span> ]
+  <span class="hljs-keyword">do</span>
+    define_recursion
+  <span class="hljs-keyword">done</span>
+}
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Recursion: "</span>
+define_recursion
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> $?</pre>
+                    </td>
+                  </tr>
+                </tbody></table>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody></table>
+      <p>Local variables are a useful tool for writing recursive code, but this practice generally involves a great deal of computational overhead and is definitely <em>not</em> recommended in a shell script. <a name="AEN18632" href="#FTN.AEN18632" id="AEN18632"><span class="footnote">[6]</span></a></p>
+      <p><a name="FACTORIALREF" id="FACTORIALREF"></a></p>
+      <div class="EXAMPLE">
+        <a name="EX63" id="EX63"></a>
+        <p><b>Example 24-15. Recursion, using a local variable</b></p>
+        <table border="0" bgcolor="#E0E0E0" width="100%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment">#               factorial</span>
+<span class="hljs-comment">#               ---------</span>
+
+
+<span class="hljs-comment"># Does bash permit recursion?</span>
+<span class="hljs-comment"># Well, yes, but...</span>
+<span class="hljs-comment"># It's so slow that you gotta have rocks in your head to try it.</span>
+
+
+MAX_ARG=5
+E_WRONG_ARGS=85
+E_RANGE_ERR=86
+
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` number"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_WRONG_ARGS</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> -gt <span class="hljs-variable">$MAX_ARG</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Out of range (<span class="hljs-variable">$MAX_ARG</span> is maximum)."</span>
+  <span class="hljs-comment">#  Let's get real now.</span>
+  <span class="hljs-comment">#  If you want greater range than this,</span>
+  <span class="hljs-comment">#+ rewrite it in a Real Programming Language.</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_RANGE_ERR</span>
+<span class="hljs-keyword">fi</span>  
+
+<span class="hljs-function"><span class="hljs-title">fact</span></span> ()
+{
+  <span class="hljs-built_in">local</span> number=<span class="hljs-variable">$1</span>
+  <span class="hljs-comment">#  Variable "number" must be declared as local,</span>
+  <span class="hljs-comment">#+ otherwise this doesn't work.</span>
+  <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$number</span>"</span> -eq 0 ]
+  <span class="hljs-keyword">then</span>
+    factorial=1    <span class="hljs-comment"># Factorial of 0 = 1.</span>
+  <span class="hljs-keyword">else</span>
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"decrnum = number - 1"</span>
+    fact <span class="hljs-variable">$decrnum</span>  <span class="hljs-comment"># Recursive function call (the function calls itself).</span>
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"factorial = <span class="hljs-variable">$number</span> * $?"</span>
+  <span class="hljs-keyword">fi</span>
+
+  <span class="hljs-built_in">return</span> <span class="hljs-variable">$factorial</span>
+}
+
+fact <span class="hljs-variable">$1</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Factorial of <span class="hljs-variable">$1</span> is $?."</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </div>
+      <p>Also see <a href="contributed-scripts.html#PRIMES">Example A-15</a> for an example of recursion in a script. Be aware that recursion is resource-intensive and executes slowly, and is therefore generally not appropriate in a script.</p>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN18568" href="localvar.html#AEN18568" id="FTN.AEN18568"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>However, as Thomas Braunberger points out, a local variable declared in a function <em>is also visible to functions called by the parent function.</em></p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-function"><span class="hljs-title">function1</span></span> ()
+{
+  <span class="hljs-built_in">local</span> func1var=20
+
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Within function1, \$func1var = <span class="hljs-variable">$func1var</span>."</span>
+
+  function2
+}
+
+<span class="hljs-function"><span class="hljs-title">function2</span></span> ()
+{
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Within function2, \$func1var = <span class="hljs-variable">$func1var</span>."</span>
+}
+
+function1
+
+<span class="hljs-built_in">exit</span> 0
+
+
+<span class="hljs-comment"># Output of the script:</span>
+
+<span class="hljs-comment"># Within function1, $func1var = 20.</span>
+<span class="hljs-comment"># Within function2, $func1var = 20.</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+        <p>This is documented in the Bash manual:</p>
+        <p><span class="QUOTE">"Local can only be used within a function; it makes the variable name have a visible scope restricted to that function <em>and its children</em>."</span> [emphasis added] <em>The ABS Guide author considers this behavior to be a bug.</em></p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN18607" href="localvar.html#AEN18607" id="FTN.AEN18607"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Otherwise known as <i class="FIRSTTERM">redundancy</i>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN18610" href="localvar.html#AEN18610" id="FTN.AEN18610"><span class="footnote">[3]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Otherwise known as <i class="FIRSTTERM">tautology</i>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN18614" href="localvar.html#AEN18614" id="FTN.AEN18614"><span class="footnote">[4]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Otherwise known as a <i class="FIRSTTERM">metaphor</i>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN18617" href="localvar.html#AEN18617" id="FTN.AEN18617"><span class="footnote">[5]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Otherwise known as a <i class="FIRSTTERM">recursive function</i>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN18632" href="localvar.html#AEN18632" id="FTN.AEN18632"><span class="footnote">[6]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Too many levels of recursion may crash a script with a segfault.</p>
+        <table border="0" bgcolor="#E0E0E0" width="100%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment">#  Warning: Running this script could possibly lock up your system!</span>
+<span class="hljs-comment">#  If you're lucky, it will segfault before using up all available memory.</span>
+
+<span class="hljs-function"><span class="hljs-title">recursive_function</span></span> ()              
+{
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>     <span class="hljs-comment"># Makes the function do something, and hastens the segfault.</span>
+(( <span class="hljs-variable">$1</span> &lt; <span class="hljs-variable">$2</span> )) &amp;&amp; recursive_function $(( <span class="hljs-variable">$1</span> + <span class="hljs-number">1</span> )) <span class="hljs-variable">$2</span>;
+<span class="hljs-comment">#  As long as 1st parameter is less than 2nd,</span>
+<span class="hljs-comment">#+ increment 1st and recurse.</span>
+}
+
+recursive_function 1 50000  <span class="hljs-comment"># Recurse 50,000 levels!</span>
+<span class="hljs-comment">#  Most likely segfaults (depending on stack size, set by ulimit -m).</span>
+
+<span class="hljs-comment">#  Recursion this deep might cause even a C program to segfault,</span>
+<span class="hljs-comment">#+ by using up all the memory allotted to the stack.</span>
+
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"This will probably not print."</span>
+<span class="hljs-built_in">exit</span> 0  <span class="hljs-comment"># This script will not exit normally.</span>
+
+<span class="hljs-comment">#  Thanks, Stephane Chazelas.</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="complexfunct.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="recurnolocvar.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Complex Functions and Function Complexities</td>
+        <td width="34%" align="center" valign="top"><a href="functions.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Recursion Without Local Variables</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

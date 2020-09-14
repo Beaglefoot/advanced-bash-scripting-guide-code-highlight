@@ -1,0 +1,126 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Applications</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="I/O Redirection" href="io-redirection.html">
+  <link rel="PREVIOUS" title="Redirecting Code Blocks" href="redircb.html">
+  <link rel="NEXT" title="Subshells" href="subshells.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="redircb.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 20. I/O Redirection</td>
+        <td width="10%" align="right" valign="bottom"><a href="subshells.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="REDIRAPPS" id="REDIRAPPS"></a>20.3. Applications</h1>
+    <p>Clever use of I/O redirection permits parsing and stitching together snippets of command output (see <a href="internal.html#READREDIR">Example 15-7</a>). This permits generating report and log files.</p>
+    <div class="EXAMPLE">
+      <a name="LOGEVENTS" id="LOGEVENTS"></a>
+      <p><b>Example 20-12. Logging events</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># logevents.sh</span>
+<span class="hljs-comment"># Author: Stephane Chazelas.</span>
+<span class="hljs-comment"># Used in ABS Guide with permission.</span>
+
+<span class="hljs-comment"># Event logging to a file.</span>
+<span class="hljs-comment"># Must be run as root (for write access in /var/log).</span>
+
+ROOT_UID=0     <span class="hljs-comment"># Only users with $UID 0 have root privileges.</span>
+E_NOTROOT=67   <span class="hljs-comment"># Non-root exit error.</span>
+
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$UID</span>"</span> -ne <span class="hljs-string">"<span class="hljs-variable">$ROOT_UID</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Must be root to run this script."</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOTROOT</span>
+<span class="hljs-keyword">fi</span>  
+
+
+FD_DEBUG1=3
+FD_DEBUG2=4
+FD_DEBUG3=5
+
+<span class="hljs-comment"># === Uncomment one of the two lines below to activate script. ===</span>
+<span class="hljs-comment"># LOG_EVENTS=1</span>
+<span class="hljs-comment"># LOG_VARS=1</span>
+
+
+<span class="hljs-built_in">log</span>()  <span class="hljs-comment"># Writes time and date to log file.</span>
+{
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-subst">$(date)</span>  $*"</span> &gt;&amp;7     <span class="hljs-comment"># This *appends* the date to the file.</span>
+<span class="hljs-comment">#     ^^^^^^^  command substitution</span>
+                           <span class="hljs-comment"># See below.</span>
+}
+
+
+
+<span class="hljs-keyword">case</span> <span class="hljs-variable">$LOG_LEVEL</span> <span class="hljs-keyword">in</span>
+ 1) <span class="hljs-built_in">exec</span> 3&gt;&amp;2         4&gt; /dev/null 5&gt; /dev/null;;
+ 2) <span class="hljs-built_in">exec</span> 3&gt;&amp;2         4&gt;&amp;2         5&gt; /dev/null;;
+ 3) <span class="hljs-built_in">exec</span> 3&gt;&amp;2         4&gt;&amp;2         5&gt;&amp;2;;
+ *) <span class="hljs-built_in">exec</span> 3&gt; /dev/null 4&gt; /dev/null 5&gt; /dev/null;;
+<span class="hljs-keyword">esac</span>
+
+FD_LOGVARS=6
+<span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$LOG_VARS</span> ]]
+<span class="hljs-keyword">then</span> <span class="hljs-built_in">exec</span> 6&gt;&gt; /var/<span class="hljs-built_in">log</span>/vars.log
+<span class="hljs-keyword">else</span> <span class="hljs-built_in">exec</span> 6&gt; /dev/null                     <span class="hljs-comment"># Bury output.</span>
+<span class="hljs-keyword">fi</span>
+
+FD_LOGEVENTS=7
+<span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$LOG_EVENTS</span> ]]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-comment"># exec 7 &gt;(exec gawk '{print strftime(), $0}' &gt;&gt; /var/log/event.log)</span>
+  <span class="hljs-comment"># Above line fails in versions of Bash more recent than 2.04. Why?</span>
+  <span class="hljs-built_in">exec</span> 7&gt;&gt; /var/<span class="hljs-built_in">log</span>/event.log              <span class="hljs-comment"># Append to "event.log".</span>
+  <span class="hljs-built_in">log</span>                                      <span class="hljs-comment"># Write time and date.</span>
+<span class="hljs-keyword">else</span> <span class="hljs-built_in">exec</span> 7&gt; /dev/null                     <span class="hljs-comment"># Bury output.</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"DEBUG3: beginning"</span> &gt;&amp;<span class="hljs-variable">${FD_DEBUG3}</span>
+
+ls -l &gt;&amp;5 2&gt;&amp;4                             <span class="hljs-comment"># command1 &gt;&amp;5 2&gt;&amp;4</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Done"</span>                                <span class="hljs-comment"># command2 </span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"sending mail"</span> &gt;&amp;<span class="hljs-variable">${FD_LOGEVENTS}</span>
+<span class="hljs-comment"># Writes "sending mail" to file descriptor #7.</span>
+
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="redircb.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="subshells.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Redirecting Code Blocks</td>
+        <td width="34%" align="center" valign="top"><a href="io-redirection.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Subshells</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

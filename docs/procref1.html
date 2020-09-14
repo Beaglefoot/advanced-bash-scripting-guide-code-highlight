@@ -1,0 +1,427 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>/proc</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="/dev and /proc" href="devproc.html">
+  <link rel="PREVIOUS" title="/dev" href="devref1.html">
+  <link rel="NEXT" title="Network Programming" href="networkprogramming.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="devref1.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 29. <tt class="FILENAME">/dev</tt> and <tt class="FILENAME">/proc</tt></td>
+        <td width="10%" align="right" valign="bottom"><a href="networkprogramming.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="PROCREF1" id="PROCREF1"></a>29.2. <tt class="FILENAME">/proc</tt></h1>
+    <p><a name="PROCREF2" id="PROCREF2"></a></p>
+    <p>The <tt class="FILENAME">/proc</tt> directory is actually a pseudo-filesystem. The files in <tt class="FILENAME">/proc</tt> mirror currently running system and kernel <a href="special-chars.html#PROCESSREF">processes</a> and contain information and statistics about them.</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> cat /proc/devices</span>
+Character devices:
+   1 mem
+   2 pty
+   3 ttyp
+   4 ttyS
+   5 cua
+   7 vcs
+  10 misc
+  14 sound
+  29 fb
+  36 netlink
+ 128 ptm
+ 136 pts
+ 162 raw
+ 254 pcmcia
+
+ Block devices:
+   1 ramdisk
+   2 fd
+   3 ide0
+   9 md
+<span class="hljs-meta">
+
+
+bash$</span><span class="bash"> cat /proc/interrupts</span>
+           CPU0       
+   0:      84505          XT-PIC  timer
+   1:       3375          XT-PIC  keyboard
+   2:          0          XT-PIC  cascade
+   5:          1          XT-PIC  soundblaster
+   8:          1          XT-PIC  rtc
+  12:       4231          XT-PIC  PS/2 Mouse
+  14:     109373          XT-PIC  ide0
+ NMI:          0 
+ ERR:          0
+<span class="hljs-meta">
+
+bash$</span><span class="bash"> cat /proc/partitions</span>
+major minor  #blocks  name     rio rmerge rsect ruse wio wmerge wsect wuse running use aveq
+
+    3     0    3007872 hda 4472 22260 114520 94240 3551 18703 50384 549710 0 111550 644030
+    3     1      52416 hda1 27 395 844 960 4 2 14 180 0 800 1140
+    3     2          1 hda2 0 0 0 0 0 0 0 0 0 0 0
+    3     4     165280 hda4 10 0 20 210 0 0 0 0 0 210 210
+    ...
+<span class="hljs-meta">
+
+
+bash$</span><span class="bash"> cat /proc/loadavg</span>
+0.13 0.42 0.27 2/44 1119
+<span class="hljs-meta">
+
+
+bash$</span><span class="bash"> cat /proc/apm</span>
+1.16 1.2 0x03 0x01 0xff 0x80 -1% -1 ?
+<span class="hljs-meta">
+
+
+bash$</span><span class="bash"> cat /proc/acpi/battery/BAT0/info</span>
+present:                 yes
+ design capacity:         43200 mWh
+ last full capacity:      36640 mWh
+ battery technology:      rechargeable
+ design voltage:          10800 mV
+ design capacity warning: 1832 mWh
+ design capacity low:     200 mWh
+ capacity granularity 1:  1 mWh
+ capacity granularity 2:  1 mWh
+ model number:            IBM-02K6897
+ serial number:            1133
+ battery type:            LION
+ OEM info:                Panasonic
+ 
+ 
+<span class="hljs-meta"> 
+bash$</span><span class="bash"> fgrep Mem /proc/meminfo</span>
+MemTotal:       515216 kB
+ MemFree:        266248 kB
+         </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>Shell scripts may extract data from certain of the files in <tt class="FILENAME">/proc</tt>. <a name="AEN19180" href="#FTN.AEN19180" id="AEN19180"><span class="footnote">[1]</span></a></p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">FS=iso                       <span class="hljs-comment"># ISO filesystem support in kernel?</span>
+
+grep <span class="hljs-variable">$FS</span> /proc/filesystems   <span class="hljs-comment"># iso9660</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">kernel_version=$( awk <span class="hljs-string">'{ print $3 }'</span> /proc/version )</pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">CPU=$( awk <span class="hljs-string">'/model name/ {print $5}'</span> &lt; /proc/cpuinfo )
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$CPU</span>"</span> = <span class="hljs-string">"Pentium(R)"</span> ]
+<span class="hljs-keyword">then</span>
+  run_some_commands
+  ...
+<span class="hljs-keyword">else</span>
+  run_other_commands
+  ...
+<span class="hljs-keyword">fi</span>
+
+
+
+cpu_speed=$( fgrep <span class="hljs-string">"cpu MHz"</span> /proc/cpuinfo | awk <span class="hljs-string">'{print $4}'</span> )
+<span class="hljs-comment">#  Current operating speed (in MHz) of the cpu on your machine.</span>
+<span class="hljs-comment">#  On a laptop this may vary, depending on use of battery</span>
+<span class="hljs-comment">#+ or AC power.</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># get-commandline.sh</span>
+<span class="hljs-comment"># Get the command-line parameters of a process.</span>
+
+OPTION=cmdline
+
+<span class="hljs-comment"># Identify PID.</span>
+pid=$( <span class="hljs-built_in">echo</span> $(pidof <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>) | awk <span class="hljs-string">'{ print $1 }'</span> )
+<span class="hljs-comment"># Get only first            ^^^^^^^^^^^^^^^^^^ of multiple instances.</span>
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Process ID of (first instance of) "</span><span class="hljs-variable">$1</span><span class="hljs-string">" = <span class="hljs-variable">$pid</span>"</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Command-line arguments: "</span>
+cat /proc/<span class="hljs-string">"<span class="hljs-variable">$pid</span>"</span>/<span class="hljs-string">"<span class="hljs-variable">$OPTION</span>"</span> | xargs -0 <span class="hljs-built_in">echo</span>
+<span class="hljs-comment">#   Formats output:        ^^^^^^^^^^^^^^^</span>
+<span class="hljs-comment">#   (Thanks, Han Holl, for the fixup!)</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+
+<span class="hljs-comment"># For example:</span>
+<span class="hljs-comment"># sh get-commandline.sh xterm</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>+</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">devfile=<span class="hljs-string">"/proc/bus/usb/devices"</span>
+text=<span class="hljs-string">"Spd"</span>
+USB1=<span class="hljs-string">"Spd=12"</span>
+USB2=<span class="hljs-string">"Spd=480"</span>
+
+
+bus_speed=$(fgrep -m 1 <span class="hljs-string">"<span class="hljs-variable">$text</span>"</span> <span class="hljs-variable">$devfile</span> | awk <span class="hljs-string">'{print $9}'</span>)
+<span class="hljs-comment">#                 ^^^^ Stop after first match.</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$bus_speed</span>"</span> = <span class="hljs-string">"<span class="hljs-variable">$USB1</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"USB 1.1 port found."</span>
+  <span class="hljs-comment"># Do something appropriate for USB 1.1.</span>
+<span class="hljs-keyword">fi</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="NOTE">
+      <table class="NOTE no-border" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>It is even possible to control certain peripherals with commands sent to the <tt class="FILENAME">/proc</tt> directory.</p>
+            <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+              <tbody><tr>
+                <td>
+                  <pre class="SCREEN hljs">         root# echo on &gt; /proc/acpi/ibm/light
+          </pre>
+                </td>
+              </tr>
+            </tbody></table>This turns on the <em>Thinklight</em> in certain models of IBM/Lenovo Thinkpads. (May not work on all Linux distros.)
+            <p>Of course, caution is advised when writing to <tt class="FILENAME">/proc</tt>.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="PROCRUNNING" id="PROCRUNNING"></a></p>
+    <p>The <tt class="FILENAME">/proc</tt> directory contains subdirectories with unusual numerical names. Every one of these names maps to the <a href="internalvariables.html#PPIDREF">process ID</a> of a currently running process. Within each of these subdirectories, there are a number of files that hold useful information about the corresponding process. The <tt class="FILENAME">stat</tt> and <tt class="FILENAME">status</tt> files keep running statistics on the process, the <tt class="FILENAME">cmdline</tt> file holds the command-line arguments the process was invoked with, and the <tt class="FILENAME">exe</tt> file is a symbolic link to the complete path name of the invoking process. There are a few more such files, but these seem to be the most interesting from a scripting standpoint.</p>
+    <div class="EXAMPLE">
+      <a name="PIDID" id="PIDID"></a>
+      <p><b>Example 29-3. Finding the process associated with a PID</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># pid-identifier.sh:</span>
+<span class="hljs-comment"># Gives complete path name to process associated with pid.</span>
+
+ARGNO=1  <span class="hljs-comment"># Number of arguments the script expects.</span>
+E_WRONGARGS=65
+E_BADPID=66
+E_NOSUCHPROCESS=67
+E_NOPERMISSION=68
+PROCFILE=exe
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -ne <span class="hljs-variable">$ARGNO</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` PID-number"</span> &gt;&amp;2  <span class="hljs-comment"># Error message &gt;stderr.</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_WRONGARGS</span>
+<span class="hljs-keyword">fi</span>  
+
+pidno=$( ps ax | grep <span class="hljs-variable">$1</span> | awk <span class="hljs-string">'{ print $1 }'</span> | grep <span class="hljs-variable">$1</span> )
+<span class="hljs-comment"># Checks for pid in "ps" listing, field #1.</span>
+<span class="hljs-comment"># Then makes sure it is the actual process, not the process invoked by this script.</span>
+<span class="hljs-comment"># The last "grep $1" filters out this possibility.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#    pidno=$( ps ax | awk '{ print $1 }' | grep $1 )</span>
+<span class="hljs-comment">#    also works, as Teemu Huovila, points out.</span>
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$pidno</span>"</span> ]  <span class="hljs-comment">#  If, after all the filtering, the result is a zero-length string,</span>
+<span class="hljs-keyword">then</span>                <span class="hljs-comment">#+ no running process corresponds to the pid given.</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"No such process running."</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOSUCHPROCESS</span>
+<span class="hljs-keyword">fi</span>  
+
+<span class="hljs-comment"># Alternatively:</span>
+<span class="hljs-comment">#   if ! ps $1 &gt; /dev/null 2&gt;&amp;1</span>
+<span class="hljs-comment">#   then                # no running process corresponds to the pid given.</span>
+<span class="hljs-comment">#     echo "No such process running."</span>
+<span class="hljs-comment">#     exit $E_NOSUCHPROCESS</span>
+<span class="hljs-comment">#    fi</span>
+
+<span class="hljs-comment"># To simplify the entire process, use "pidof".</span>
+
+
+<span class="hljs-keyword">if</span> [ ! -r <span class="hljs-string">"/proc/<span class="hljs-variable">$1</span>/<span class="hljs-variable">$PROCFILE</span>"</span> ]  <span class="hljs-comment"># Check for read permission.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Process <span class="hljs-variable">$1</span> running, but..."</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Can't get read permission on /proc/<span class="hljs-variable">$1</span>/<span class="hljs-variable">$PROCFILE</span>."</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOPERMISSION</span>  <span class="hljs-comment"># Ordinary user can't access some files in /proc.</span>
+<span class="hljs-keyword">fi</span>  
+
+<span class="hljs-comment"># The last two tests may be replaced by:</span>
+<span class="hljs-comment">#    if ! kill -0 $1 &gt; /dev/null 2&gt;&amp;1 # '0' is not a signal, but</span>
+                                      <span class="hljs-comment"># this will test whether it is possible</span>
+                                      <span class="hljs-comment"># to send a signal to the process.</span>
+<span class="hljs-comment">#    then echo "PID doesn't exist or you're not its owner" &gt;&amp;2</span>
+<span class="hljs-comment">#    exit $E_BADPID</span>
+<span class="hljs-comment">#    fi</span>
+
+
+
+exe_file=$( ls -l /proc/<span class="hljs-variable">$1</span> | grep <span class="hljs-string">"exe"</span> | awk <span class="hljs-string">'{ print $11 }'</span> )
+<span class="hljs-comment"># Or       exe_file=$( ls -l /proc/$1/exe | awk '{print $11}' )</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  /proc/pid-number/exe is a symbolic link</span>
+<span class="hljs-comment">#+ to the complete path name of the invoking process.</span>
+
+<span class="hljs-keyword">if</span> [ -e <span class="hljs-string">"<span class="hljs-variable">$exe_file</span>"</span> ]  <span class="hljs-comment">#  If /proc/pid-number/exe exists,</span>
+<span class="hljs-keyword">then</span>                   <span class="hljs-comment">#+ then the corresponding process exists.</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Process #<span class="hljs-variable">$1</span> invoked by <span class="hljs-variable">$exe_file</span>."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"No such process running."</span>
+<span class="hljs-keyword">fi</span>  
+
+
+<span class="hljs-comment">#  This elaborate script can *almost* be replaced by</span>
+<span class="hljs-comment">#       ps ax | grep $1 | awk '{ print $5 }'</span>
+<span class="hljs-comment">#  However, this will not work...</span>
+<span class="hljs-comment">#+ because the fifth field of 'ps' is argv[0] of the process,</span>
+<span class="hljs-comment">#+ not the executable file path.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># However, either of the following would work.</span>
+<span class="hljs-comment">#       find /proc/$1/exe -printf '%l\n'</span>
+<span class="hljs-comment">#       lsof -aFn -p $1 -d txt | sed -ne 's/^n//p'</span>
+
+<span class="hljs-comment"># Additional commentary by Stephane Chazelas.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="CONSTAT" id="CONSTAT"></a>
+      <p><b>Example 29-4. On-line connect status</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># connect-stat.sh</span>
+<span class="hljs-comment">#  Note that this script may need modification</span>
+<span class="hljs-comment">#+ to work with a wireless connection.</span>
+
+PROCNAME=pppd        <span class="hljs-comment"># ppp daemon</span>
+PROCFILENAME=status  <span class="hljs-comment"># Where to look.</span>
+NOTCONNECTED=85
+INTERVAL=2           <span class="hljs-comment"># Update every 2 seconds.</span>
+
+pidno=$( ps ax | grep -v <span class="hljs-string">"ps ax"</span> | grep -v grep | grep <span class="hljs-variable">$PROCNAME</span> |
+awk <span class="hljs-string">'{ print $1 }'</span> )
+
+<span class="hljs-comment"># Finding the process number of 'pppd', the 'ppp daemon'.</span>
+<span class="hljs-comment"># Have to filter out the process lines generated by the search itself.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  However, as Oleg Philon points out,</span>
+<span class="hljs-comment">#+ this could have been considerably simplified by using "pidof".</span>
+<span class="hljs-comment">#  pidno=$( pidof $PROCNAME )</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  Moral of the story:</span>
+<span class="hljs-comment">#+ When a command sequence gets too complex, look for a shortcut.</span>
+
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$pidno</span>"</span> ]   <span class="hljs-comment"># If no pid, then process is not running.</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Not connected."</span>
+<span class="hljs-comment"># exit $NOTCONNECTED</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Connected."</span>; <span class="hljs-built_in">echo</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-literal">true</span> ]       <span class="hljs-comment"># Endless loop, script can be improved here.</span>
+<span class="hljs-keyword">do</span>
+
+  <span class="hljs-keyword">if</span> [ ! -e <span class="hljs-string">"/proc/<span class="hljs-variable">$pidno</span>/<span class="hljs-variable">$PROCFILENAME</span>"</span> ]
+  <span class="hljs-comment"># While process running, then "status" file exists.</span>
+  <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Disconnected."</span>
+<span class="hljs-comment">#   exit $NOTCONNECTED</span>
+  <span class="hljs-keyword">fi</span>
+
+netstat -s | grep <span class="hljs-string">"packets received"</span>  <span class="hljs-comment"># Get some connect statistics.</span>
+netstat -s | grep <span class="hljs-string">"packets delivered"</span>
+
+
+  sleep <span class="hljs-variable">$INTERVAL</span>
+  <span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># As it stands, this script must be terminated with a Control-C.</span>
+
+<span class="hljs-comment">#    Exercises:</span>
+<span class="hljs-comment">#    ---------</span>
+<span class="hljs-comment">#    Improve the script so it exits on a "q" keystroke.</span>
+<span class="hljs-comment">#    Make the script more user-friendly in other ways.</span>
+<span class="hljs-comment">#    Fix the script to work with wireless/DSL connections.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="PROCWARNING" id="PROCWARNING"></a></p>
+    <div class="WARNING">
+      <table class="WARNING" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/warning.gif" hspace="5" alt="Warning"></td>
+          <td align="left" valign="top">
+            <p>In general, it is dangerous to <em>write</em> to the files in <tt class="FILENAME">/proc</tt>, as this can corrupt the filesystem or crash the machine.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN19180" href="procref1.html#AEN19180" id="FTN.AEN19180"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Certain system commands, such as <a href="system.html#PROCINFOREF">procinfo</a>, <a href="system.html#FREEREF">free</a>, <a href="system.html#VMSTATREF">vmstat</a>, <a href="system.html#LSDEVREF">lsdev</a>, and <a href="system.html#UPTIMEREF">uptime</a> do this as well.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="devref1.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="networkprogramming.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top"><tt class="FILENAME">/dev</tt></td>
+        <td width="34%" align="center" valign="top"><a href="devproc.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Network Programming</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

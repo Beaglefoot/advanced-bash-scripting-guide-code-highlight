@@ -1,0 +1,554 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Command Substitution</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Beyond the Basics" href="part3.html">
+  <link rel="PREVIOUS" title="Testing and Branching" href="testbranch.html">
+  <link rel="NEXT" title="Arithmetic Expansion" href="arithexp.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="testbranch.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="arithexp.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="COMMANDSUB" id="COMMANDSUB"></a>Chapter 12. Command Substitution</h1>
+    <p><a name="COMMANDSUBREF" id="COMMANDSUBREF"></a><b class="COMMAND">Command substitution</b> reassigns the output of a command <a name="AEN7205" href="#FTN.AEN7205" id="AEN7205"><span class="footnote">[1]</span></a> or even multiple commands; it literally plugs the command output into another context. <a name="AEN7211" href="#FTN.AEN7211" id="AEN7211"><span class="footnote">[2]</span></a></p>
+    <p><a name="BACKQUOTESREF" id="BACKQUOTESREF"></a>The classic form of command substitution uses <i class="FIRSTTERM">backquotes</i> (`...`). Commands within backquotes (backticks) generate command-line text.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">script_name=`basename <span class="hljs-variable">$0</span>`
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"The name of this script is <span class="hljs-variable">$script_name</span>."</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="FORMALPARA">
+      <p><b>The output of commands can be used as arguments to another command, to set a variable, and even for generating the argument list in a <a href="loops1.html#FORLOOPREF1">for</a> loop.</b></p>
+    </div>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">rm `cat filename`   <span class="hljs-comment"># "filename" contains a list of files to delete.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># S. C. points out that "arg list too long" error might result.</span>
+<span class="hljs-comment"># Better is              xargs rm -- &lt; filename </span>
+<span class="hljs-comment"># ( -- covers those cases where "filename" begins with a "-" )</span>
+
+textfile_listing=`ls *.txt`
+<span class="hljs-comment"># Variable contains names of all *.txt files in current working directory.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$textfile_listing</span>
+
+textfile_listing2=$(ls *.txt)   <span class="hljs-comment"># The alternative form of command substitution.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$textfile_listing2</span>
+<span class="hljs-comment"># Same result.</span>
+
+<span class="hljs-comment"># A possible problem with putting a list of files into a single string</span>
+<span class="hljs-comment"># is that a newline may creep in.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># A safer way to assign a list of files to a parameter is with an array.</span>
+<span class="hljs-comment">#      shopt -s nullglob    # If no match, filename expands to nothing.</span>
+<span class="hljs-comment">#      textfile_listing=( *.txt )</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># Thanks, S.C.</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p><a name="CSSUBSH" id="CSSUBSH"></a>Command substitution invokes a <a href="subshells.html#SUBSHELLSREF">subshell</a>.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="CAUTION">
+      <table class="CAUTION" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+          <td align="left" valign="top">
+            <p><a name="CSWS" id="CSWS"></a>Command substitution may result in <a href="quotingvar.html#WSPLITREF">word splitting</a>.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs">COMMAND `<span class="hljs-built_in">echo</span> a b`     <span class="hljs-comment"># 2 args: a and b</span>
+
+COMMAND <span class="hljs-string">"`echo a b`"</span>   <span class="hljs-comment"># 1 arg: "a b"</span>
+
+COMMAND `<span class="hljs-built_in">echo</span>`         <span class="hljs-comment"># no arg</span>
+
+COMMAND <span class="hljs-string">"`echo`"</span>       <span class="hljs-comment"># one empty arg</span>
+
+
+<span class="hljs-comment"># Thanks, S.C.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+            <p><a name="CSTRNL" id="CSTRNL"></a></p>
+            <p>Even when there is no word splitting, command substitution can remove trailing newlines.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># cd "`pwd`"  # This should always work.</span>
+<span class="hljs-comment"># However...</span>
+
+mkdir <span class="hljs-string">'dir with trailing newline
+'</span>
+
+<span class="hljs-built_in">cd</span> <span class="hljs-string">'dir with trailing newline
+'</span>
+
+<span class="hljs-built_in">cd</span> <span class="hljs-string">"`pwd`"</span>  <span class="hljs-comment"># Error message:</span>
+<span class="hljs-comment"># bash: cd: /tmp/file with trailing newline: No such file or directory</span>
+
+<span class="hljs-built_in">cd</span> <span class="hljs-string">"<span class="hljs-variable">$PWD</span>"</span>   <span class="hljs-comment"># Works fine.</span>
+
+
+
+
+
+old_tty_setting=$(stty -g)   <span class="hljs-comment"># Save old terminal setting.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Hit a key "</span>
+stty -icanon -<span class="hljs-built_in">echo</span>           <span class="hljs-comment"># Disable "canonical" mode for terminal.</span>
+                             <span class="hljs-comment"># Also, disable *local* echo.</span>
+key=$(dd bs=1 count=1 2&gt; /dev/null)   <span class="hljs-comment"># Using 'dd' to get a keypress.</span>
+stty <span class="hljs-string">"<span class="hljs-variable">$old_tty_setting</span>"</span>      <span class="hljs-comment"># Restore old setting. </span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"You hit <span class="hljs-variable">${#key}</span> key."</span>  <span class="hljs-comment"># ${#variable} = number of characters in $variable</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># Hit any key except RETURN, and the output is "You hit 1 key."</span>
+<span class="hljs-comment"># Hit RETURN, and it's "You hit 0 key."</span>
+<span class="hljs-comment"># The newline gets eaten in the command substitution.</span>
+
+<span class="hljs-comment">#Code snippet by Stephane Chazelas.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="CAUTION">
+      <table class="CAUTION" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+          <td align="left" valign="top">
+            <p>Using <b class="COMMAND">echo</b> to output an <i class="FIRSTTERM">unquoted</i> variable set with command substitution removes trailing newlines characters from the output of the reassigned command(s). This can cause unpleasant surprises.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs">dir_listing=`ls -l`
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$dir_listing</span>     <span class="hljs-comment"># unquoted</span>
+
+<span class="hljs-comment"># Expecting a nicely ordered directory listing.</span>
+
+<span class="hljs-comment"># However, what you get is:</span>
+<span class="hljs-comment"># total 3 -rw-rw-r-- 1 bozo bozo 30 May 13 17:15 1.txt -rw-rw-r-- 1 bozo</span>
+<span class="hljs-comment"># bozo 51 May 15 20:57 t2.sh -rwxr-xr-x 1 bozo bozo 217 Mar 5 21:13 wi.sh</span>
+
+<span class="hljs-comment"># The newlines disappeared.</span>
+
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$dir_listing</span>"</span>   <span class="hljs-comment"># quoted</span>
+<span class="hljs-comment"># -rw-rw-r--    1 bozo       30 May 13 17:15 1.txt</span>
+<span class="hljs-comment"># -rw-rw-r--    1 bozo       51 May 15 20:57 t2.sh</span>
+<span class="hljs-comment"># -rwxr-xr-x    1 bozo      217 Mar  5 21:13 wi.sh</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Command substitution even permits setting a variable to the contents of a file, using either <a href="io-redirection.html#IOREDIRREF">redirection</a> or the <a href="basic.html#CATREF">cat</a> command.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">variable1=`&lt;file1`      <span class="hljs-comment">#  Set "variable1" to contents of "file1".</span>
+variable2=`cat file2`   <span class="hljs-comment">#  Set "variable2" to contents of "file2".</span>
+                        <span class="hljs-comment">#  This, however, forks a new process,</span>
+                        <span class="hljs-comment">#+ so the line of code executes slower than the above version.</span>
+
+<span class="hljs-comment">#  Note that the variables may contain embedded whitespace,</span>
+<span class="hljs-comment">#+ or even (horrors), control characters.</span>
+
+<span class="hljs-comment">#  It is not necessary to explicitly assign a variable.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"` &lt;<span class="hljs-variable">$0</span>`"</span>           <span class="hljs-comment"># Echoes the script itself to stdout.</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-comment">#  Excerpts from system file, /etc/rc.d/rc.sysinit</span>
+<span class="hljs-comment">#+ (on a Red Hat Linux installation)</span>
+
+
+<span class="hljs-keyword">if</span> [ -f /fsckoptions ]; <span class="hljs-keyword">then</span>
+        fsckoptions=`cat /fsckoptions`
+...
+<span class="hljs-keyword">fi</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-keyword">if</span> [ -e <span class="hljs-string">"/proc/ide/<span class="hljs-variable">${disk[$device]}</span>/media"</span> ] ; <span class="hljs-keyword">then</span>
+             hdmedia=`cat /proc/ide/<span class="hljs-variable">${disk[$device]}</span>/media`
+...
+<span class="hljs-keyword">fi</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-keyword">if</span> [ ! -n <span class="hljs-string">"`uname -r | grep -- "</span>-<span class="hljs-string">"`"</span> ]; <span class="hljs-keyword">then</span>
+       ktag=<span class="hljs-string">"`cat /proc/version`"</span>
+...
+<span class="hljs-keyword">fi</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$usb</span> = <span class="hljs-string">"1"</span> ]; <span class="hljs-keyword">then</span>
+    sleep 5
+    mouseoutput=`cat /proc/bus/usb/devices 2&gt;/dev/null|grep -E <span class="hljs-string">"^I.*Cls=03.*Prot=02"</span>`
+    kbdoutput=`cat /proc/bus/usb/devices 2&gt;/dev/null|grep -E <span class="hljs-string">"^I.*Cls=03.*Prot=01"</span>`
+...
+<span class="hljs-keyword">fi</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="CAUTION">
+      <table class="CAUTION" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+          <td align="left" valign="top">
+            <p>Do not set a variable to the contents of a <em>long</em> text file unless you have a very good reason for doing so. Do not set a variable to the contents of a <i class="FIRSTTERM">binary</i> file, even as a joke.</p>
+            <div class="EXAMPLE">
+              <a name="STUPSCR" id="STUPSCR"></a>
+              <p><b>Example 12-1. Stupid script tricks</b></p>
+              <table border="0" bgcolor="#E0E0E0" width="100%">
+                <tbody><tr>
+                  <td>
+                    <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># stupid-script-tricks.sh: Don't try this at home, folks.</span>
+<span class="hljs-comment"># From "Stupid Script Tricks," Volume I.</span>
+
+<span class="hljs-built_in">exit</span> 99  <span class="hljs-comment">### Comment out this line if you dare.</span>
+
+dangerous_variable=`cat /boot/vmlinuz`   <span class="hljs-comment"># The compressed Linux kernel itself.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"string-length of \$dangerous_variable = <span class="hljs-variable">${#dangerous_variable}</span>"</span>
+<span class="hljs-comment"># string-length of $dangerous_variable = 794151</span>
+<span class="hljs-comment"># (Newer kernels are bigger.)</span>
+<span class="hljs-comment"># Does not give same count as 'wc -c /boot/vmlinuz'.</span>
+
+<span class="hljs-comment"># echo "$dangerous_variable"</span>
+<span class="hljs-comment"># Don't try this! It would hang the script.</span>
+
+
+<span class="hljs-comment">#  The document author is aware of no useful applications for</span>
+<span class="hljs-comment">#+ setting a variable to the contents of a binary file.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                  </td>
+                </tr>
+              </tbody></table>
+            </div>
+            <p>Notice that a <i class="FIRSTTERM">buffer overrun</i> does not occur. This is one instance where an interpreted language, such as Bash, provides more protection from programmer mistakes than a compiled language.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="CSVL" id="CSVL"></a></p>
+    <p>Command substitution permits setting a variable to the output of a <a href="loops1.html#FORLOOPREF1">loop</a>. The key to this is grabbing the output of an <a href="internal.html#ECHOREF">echo</a> command within the loop.</p>
+    <div class="EXAMPLE">
+      <a name="CSUBLOOP" id="CSUBLOOP"></a>
+      <p><b>Example 12-2. Generating a variable from a loop</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># csubloop.sh: Setting a variable to the output of a loop.</span>
+
+variable1=`<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> 1 2 3 4 5
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$i</span>"</span>                 <span class="hljs-comment">#  The 'echo' command is critical</span>
+<span class="hljs-keyword">done</span>`                          <span class="hljs-comment">#+ to command substitution here.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"variable1 = <span class="hljs-variable">$variable1</span>"</span>  <span class="hljs-comment"># variable1 = 12345</span>
+
+
+i=0
+variable2=`<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$i</span>"</span> -lt 10 ]
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$i</span>"</span>                 <span class="hljs-comment"># Again, the necessary 'echo'.</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"i += 1"</span>                 <span class="hljs-comment"># Increment.</span>
+<span class="hljs-keyword">done</span>`
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"variable2 = <span class="hljs-variable">$variable2</span>"</span>  <span class="hljs-comment"># variable2 = 0123456789</span>
+
+<span class="hljs-comment">#  Demonstrates that it's possible to embed a loop</span>
+<span class="hljs-comment">#+ inside a variable declaration.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="CSTOOLSET" id="CSTOOLSET"></a></p>
+    <table class="SIDEBAR no-border" border="1" cellpadding="5">
+      <tbody><tr>
+        <td>
+          <div class="SIDEBAR">
+            <a name="AEN7273" id="AEN7273"></a>
+            <p>Command substitution makes it possible to extend the toolset available to Bash. It is simply a matter of writing a program or script that outputs to <tt class="FILENAME">stdout</tt> (like a well-behaved UNIX tool should) and assigning that output to a variable.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-comment">#include &lt;stdio.h&gt;</span>
+
+/*  <span class="hljs-string">"Hello, world."</span> C program  */               
+
+int <span class="hljs-function"><span class="hljs-title">main</span></span>()
+{
+  <span class="hljs-built_in">printf</span>( <span class="hljs-string">"Hello, world.\n"</span> );
+  <span class="hljs-built_in">return</span> (0);
+}</pre>
+                </td>
+              </tr>
+            </tbody></table>
+            <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+              <tbody><tr>
+                <td>
+                  <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> gcc -o hello hello.c</span>
+              </pre>
+                </td>
+              </tr>
+            </tbody></table>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># hello.sh              </span>
+
+greeting=`./hello`
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$greeting</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+            <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+              <tbody><tr>
+                <td>
+                  <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> sh hello.sh</span>
+Hello, world.
+                </pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="NOTE">
+      <table class="NOTE no-border" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p><a name="CSPARENS" id="CSPARENS"></a>The <b class="COMMAND">$(...)</b> form has superseded backticks for command substitution.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs">output=$(sed -n /<span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>/p <span class="hljs-variable">$file</span>)   <span class="hljs-comment"># From "grp.sh"       example.</span>
+              
+<span class="hljs-comment"># Setting a variable to the contents of a text file.</span>
+File_contents1=$(cat <span class="hljs-variable">$file1</span>)      
+File_contents2=$(&lt;<span class="hljs-variable">$file2</span>)        <span class="hljs-comment"># Bash permits this also.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+            <p>The <b class="COMMAND">$(...)</b> form of command substitution treats a double backslash in a different way than <b class="COMMAND">`...`</b>.</p>
+            <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+              <tbody><tr>
+                <td>
+                  <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> `<span class="hljs-built_in">echo</span> \\`</span>
+<span class="hljs-meta">
+
+bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> $(<span class="hljs-built_in">echo</span> \\)</span>
+\
+              </pre>
+                </td>
+              </tr>
+            </tbody></table>
+            <p><a name="CSNEST" id="CSNEST"></a></p>
+            <p>The <b class="COMMAND">$(...)</b> form of command substitution permits nesting. <a name="AEN7308" href="#FTN.AEN7308" id="AEN7308"><span class="footnote">[3]</span></a></p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs">word_count=$( wc -w $(<span class="hljs-built_in">echo</span> * | awk <span class="hljs-string">'{print $8}'</span>) )</pre>
+                </td>
+              </tr>
+            </tbody></table>
+            <p>Or, for something a bit more elaborate . . .</p>
+            <div class="EXAMPLE">
+              <a name="AGRAM2" id="AGRAM2"></a>
+              <p><b>Example 12-3. Finding anagrams</b></p>
+              <table border="0" bgcolor="#E0E0E0" width="100%">
+                <tbody><tr>
+                  <td>
+                    <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># agram2.sh</span>
+<span class="hljs-comment"># Example of nested command substitution.</span>
+
+<span class="hljs-comment">#  Uses "anagram" utility</span>
+<span class="hljs-comment">#+ that is part of the author's "yawl" word list package.</span>
+<span class="hljs-comment">#  http://ibiblio.org/pub/Linux/libs/yawl-0.3.2.tar.gz</span>
+<span class="hljs-comment">#  http://bash.deta.in/yawl-0.3.2.tar.gz</span>
+
+E_NOARGS=86
+E_BADARG=87
+MINLEN=7
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage <span class="hljs-variable">$0</span> LETTERSET"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOARGS</span>         <span class="hljs-comment"># Script needs a command-line argument.</span>
+<span class="hljs-keyword">elif</span> [ <span class="hljs-variable">${#1}</span> -lt <span class="hljs-variable">$MINLEN</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Argument must have at least <span class="hljs-variable">$MINLEN</span> letters."</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARG</span>
+<span class="hljs-keyword">fi</span>
+
+
+
+FILTER=<span class="hljs-string">'.......'</span>         <span class="hljs-comment"># Must have at least 7 letters.</span>
+<span class="hljs-comment">#       1234567</span>
+Anagrams=( $(<span class="hljs-built_in">echo</span> $(anagram <span class="hljs-variable">$1</span> | grep <span class="hljs-variable">$FILTER</span>) ) )
+<span class="hljs-comment">#          $(     $(  nested command sub.    ) )</span>
+<span class="hljs-comment">#        (              array assignment         )</span>
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">${#Anagrams[*]}</span>  7+ letter anagrams found"</span>
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${Anagrams[0]}</span>      <span class="hljs-comment"># First anagram.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${Anagrams[1]}</span>      <span class="hljs-comment"># Second anagram.</span>
+                         <span class="hljs-comment"># Etc.</span>
+
+<span class="hljs-comment"># echo "${Anagrams[*]}"  # To list all the anagrams in a single line . . .</span>
+
+<span class="hljs-comment">#  Look ahead to the Arrays chapter for enlightenment on</span>
+<span class="hljs-comment">#+ what's going on here.</span>
+
+<span class="hljs-comment"># See also the agram.sh script for an exercise in anagram finding.</span>
+
+<span class="hljs-built_in">exit</span> $?</pre>
+                  </td>
+                </tr>
+              </tbody></table>
+            </div>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Examples of command substitution in shell scripts:</p>
+    <ol type="1">
+      <li>
+        <p><a href="loops1.html#BINGREP">Example 11-8</a></p>
+      </li>
+      <li>
+        <p><a href="testbranch.html#CASECMD">Example 11-27</a></p>
+      </li>
+      <li>
+        <p><a href="randomvar.html#SEEDINGRANDOM">Example 9-16</a></p>
+      </li>
+      <li>
+        <p><a href="moreadv.html#EX57">Example 16-3</a></p>
+      </li>
+      <li>
+        <p><a href="textproc.html#LOWERCASE">Example 16-22</a></p>
+      </li>
+      <li>
+        <p><a href="textproc.html#GRP">Example 16-17</a></p>
+      </li>
+      <li>
+        <p><a href="extmisc.html#EX53">Example 16-54</a></p>
+      </li>
+      <li>
+        <p><a href="loops1.html#EX24">Example 11-14</a></p>
+      </li>
+      <li>
+        <p><a href="loops1.html#SYMLINKS">Example 11-11</a></p>
+      </li>
+      <li>
+        <p><a href="filearchiv.html#STRIPC">Example 16-32</a></p>
+      </li>
+      <li>
+        <p><a href="redircb.html#REDIR4">Example 20-8</a></p>
+      </li>
+      <li>
+        <p><a href="contributed-scripts.html#TREE">Example A-16</a></p>
+      </li>
+      <li>
+        <p><a href="procref1.html#PIDID">Example 29-3</a></p>
+      </li>
+      <li>
+        <p><a href="mathc.html#MONTHLYPMT">Example 16-47</a></p>
+      </li>
+      <li>
+        <p><a href="mathc.html#BASE">Example 16-48</a></p>
+      </li>
+      <li>
+        <p><a href="mathc.html#ALTBC">Example 16-49</a></p>
+      </li>
+    </ol>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN7205" href="commandsub.html#AEN7205" id="FTN.AEN7205"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>For purposes of <i class="FIRSTTERM">command substitution</i>, a <b class="COMMAND">command</b> may be an external system command, an internal scripting <a href="internal.html#BUILTINREF">builtin</a>, or even <a href="assortedtips.html#RVT">a script function</a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN7211" href="commandsub.html#AEN7211" id="FTN.AEN7211"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>In a more technically correct sense, <i class="FIRSTTERM">command substitution</i> extracts the <tt class="FILENAME">stdout</tt> of a command, then assigns it to a variable using the <span class="TOKEN">=</span> operator.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN7308" href="commandsub.html#AEN7308" id="FTN.AEN7308"><span class="footnote">[3]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>In fact, nesting with backticks is also possible, but only by escaping the inner backticks, as John Default points out.</p>
+        <table border="0" bgcolor="#E0E0E0" width="100%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs">word_count=` wc -w \`<span class="hljs-built_in">echo</span> * | awk <span class="hljs-string">'{print $8}'</span>\` `</pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="testbranch.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="arithexp.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Testing and Branching</td>
+        <td width="34%" align="center" valign="top"><a href="part3.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Arithmetic Expansion</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

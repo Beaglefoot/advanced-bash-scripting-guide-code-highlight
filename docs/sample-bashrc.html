@@ -1,0 +1,1041 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Sample .bashrc and .bash_profile Files</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="PREVIOUS" title="History Commands" href="histcommands.html">
+  <link rel="NEXT" title="Converting DOS Batch Files to Shell Scripts" href="dosbatch.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="APPENDIX" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="histcommands.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="dosbatch.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="APPENDIX">
+    <h1><a name="SAMPLE-BASHRC" id="SAMPLE-BASHRC"></a>Appendix M. Sample <tt class="FILENAME">.bashrc</tt> and <tt class="FILENAME">.bash_profile</tt> Files</h1>
+    <p>The <tt class="FILENAME">~/.bashrc</tt> file determines the behavior of interactive shells. A good look at this file can lead to a better understanding of Bash.</p>
+    <p><a href="mailto:emmanuel.rouat@wanadoo.fr" target="_top">Emmanuel Rouat</a> contributed the following very elaborate <tt class="FILENAME">.bashrc</tt> file, written for a Linux system. He welcomes reader feedback on it.</p>
+    <p>Study the file carefully, and feel free to reuse code snippets and functions from it in your own <tt class="FILENAME">.bashrc</tt> file or even in your scripts.</p>
+    <div class="EXAMPLE">
+      <a name="BASHRC" id="BASHRC"></a>
+      <p><b>Example M-1. Sample <tt class="FILENAME">.bashrc</tt> file</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># =============================================================== #</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># PERSONAL $HOME/.bashrc FILE for bash-3.0 (or later)</span>
+<span class="hljs-comment"># By Emmanuel Rouat [no-email]</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># Last modified: Tue Nov 20 22:04:47 CET 2012</span>
+
+<span class="hljs-comment">#  This file is normally read by interactive shells only.</span>
+<span class="hljs-comment">#+ Here is the place to define your aliases, functions and</span>
+<span class="hljs-comment">#+ other interactive features like your prompt.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  The majority of the code here assumes you are on a GNU</span>
+<span class="hljs-comment">#+ system (most likely a Linux box) and is often based on code</span>
+<span class="hljs-comment">#+ found on Usenet or Internet.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  See for instance:</span>
+<span class="hljs-comment">#  http://tldp.org/LDP/abs/html/index.html</span>
+<span class="hljs-comment">#  http://www.caliban.org/bash</span>
+<span class="hljs-comment">#  http://www.shelldorado.com/scripts/categories.html</span>
+<span class="hljs-comment">#  http://www.dotfiles.org</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  The choice of colors was done for a shell with a dark background</span>
+<span class="hljs-comment">#+ (white on black), and this is usually also suited for pure text-mode</span>
+<span class="hljs-comment">#+ consoles (no X server available). If you use a white background,</span>
+<span class="hljs-comment">#+ you'll have to do some other choices for readability.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  This bashrc file is a bit overcrowded.</span>
+<span class="hljs-comment">#  Remember, it is just just an example.</span>
+<span class="hljs-comment">#  Tailor it to your needs.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># =============================================================== #</span>
+
+<span class="hljs-comment"># --&gt; Comments added by HOWTO author.</span>
+
+<span class="hljs-comment"># If not running interactively, don't do anything</span>
+[ -z <span class="hljs-string">"<span class="hljs-variable">$PS1</span>"</span> ] &amp;&amp; <span class="hljs-built_in">return</span>
+
+
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+<span class="hljs-comment"># Source global definitions (if any)</span>
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+
+
+<span class="hljs-keyword">if</span> [ -f /etc/bashrc ]; <span class="hljs-keyword">then</span>
+      . /etc/bashrc   <span class="hljs-comment"># --&gt; Read /etc/bashrc, if present.</span>
+<span class="hljs-keyword">fi</span>
+
+
+<span class="hljs-comment">#--------------------------------------------------------------</span>
+<span class="hljs-comment">#  Automatic setting of $DISPLAY (if not set already).</span>
+<span class="hljs-comment">#  This works for me - your mileage may vary. . . .</span>
+<span class="hljs-comment">#  The problem is that different types of terminals give</span>
+<span class="hljs-comment">#+ different answers to 'who am i' (rxvt in particular can be</span>
+<span class="hljs-comment">#+ troublesome) - however this code seems to work in a majority</span>
+<span class="hljs-comment">#+ of cases.</span>
+<span class="hljs-comment">#--------------------------------------------------------------</span>
+
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">get_xserver</span></span> ()
+{
+    <span class="hljs-keyword">case</span> <span class="hljs-variable">$TERM</span> <span class="hljs-keyword">in</span>
+        xterm )
+            XSERVER=$(who am i | awk <span class="hljs-string">'{print $NF}'</span> | tr -d <span class="hljs-string">')'</span><span class="hljs-string">'('</span> )
+            <span class="hljs-comment"># Ane-Pieter Wieringa suggests the following alternative:</span>
+            <span class="hljs-comment">#  I_AM=$(who am i)</span>
+            <span class="hljs-comment">#  SERVER=${I_AM#*(}</span>
+            <span class="hljs-comment">#  SERVER=${SERVER%*)}</span>
+            XSERVER=<span class="hljs-variable">${XSERVER%%:*}</span>
+            ;;
+            aterm | rxvt)
+            <span class="hljs-comment"># Find some code that works here. ...</span>
+            ;;
+    <span class="hljs-keyword">esac</span>
+}
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-variable">${DISPLAY:=""}</span> ]; <span class="hljs-keyword">then</span>
+    get_xserver
+    <span class="hljs-keyword">if</span> [[ -z <span class="hljs-variable">${XSERVER}</span>  || <span class="hljs-variable">${XSERVER}</span> == $(hostname) ||
+       <span class="hljs-variable">${XSERVER}</span> == <span class="hljs-string">"unix"</span> ]]; <span class="hljs-keyword">then</span>
+          DISPLAY=<span class="hljs-string">":0.0"</span>          <span class="hljs-comment"># Display on local host.</span>
+    <span class="hljs-keyword">else</span>
+       DISPLAY=<span class="hljs-variable">${XSERVER}</span>:0.0     <span class="hljs-comment"># Display on remote host.</span>
+    <span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">export</span> DISPLAY
+
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+<span class="hljs-comment"># Some settings</span>
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+
+<span class="hljs-comment">#set -o nounset     # These  two options are useful for debugging.</span>
+<span class="hljs-comment">#set -o xtrace</span>
+<span class="hljs-built_in">alias</span> debug=<span class="hljs-string">"set -o nounset; set -o xtrace"</span>
+
+<span class="hljs-built_in">ulimit</span> -S -c 0      <span class="hljs-comment"># Don't want coredumps.</span>
+<span class="hljs-built_in">set</span> -o notify
+<span class="hljs-built_in">set</span> -o noclobber
+<span class="hljs-built_in">set</span> -o ignoreeof
+
+
+<span class="hljs-comment"># Enable options:</span>
+<span class="hljs-built_in">shopt</span> -s cdspell
+<span class="hljs-built_in">shopt</span> -s cdable_vars
+<span class="hljs-built_in">shopt</span> -s checkhash
+<span class="hljs-built_in">shopt</span> -s checkwinsize
+<span class="hljs-built_in">shopt</span> -s sourcepath
+<span class="hljs-built_in">shopt</span> -s no_empty_cmd_completion
+<span class="hljs-built_in">shopt</span> -s cmdhist
+<span class="hljs-built_in">shopt</span> -s histappend histreedit histverify
+<span class="hljs-built_in">shopt</span> -s extglob       <span class="hljs-comment"># Necessary for programmable completion.</span>
+
+<span class="hljs-comment"># Disable options:</span>
+<span class="hljs-built_in">shopt</span> -u mailwarn
+<span class="hljs-built_in">unset</span> MAILCHECK        <span class="hljs-comment"># Don't want my shell to warn me of incoming mail.</span>
+
+
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+<span class="hljs-comment"># Greeting, motd etc. ...</span>
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+
+<span class="hljs-comment"># Color definitions (taken from Color Bash Prompt HowTo).</span>
+<span class="hljs-comment"># Some colors might look different of some terminals.</span>
+<span class="hljs-comment"># For example, I see 'Bold Red' as 'orange' on my screen,</span>
+<span class="hljs-comment"># hence the 'Green' 'BRed' 'Red' sequence I often use in my prompt.</span>
+
+
+<span class="hljs-comment"># Normal Colors</span>
+Black=<span class="hljs-string">'\e[0;30m'</span>        <span class="hljs-comment"># Black</span>
+Red=<span class="hljs-string">'\e[0;31m'</span>          <span class="hljs-comment"># Red</span>
+Green=<span class="hljs-string">'\e[0;32m'</span>        <span class="hljs-comment"># Green</span>
+Yellow=<span class="hljs-string">'\e[0;33m'</span>       <span class="hljs-comment"># Yellow</span>
+Blue=<span class="hljs-string">'\e[0;34m'</span>         <span class="hljs-comment"># Blue</span>
+Purple=<span class="hljs-string">'\e[0;35m'</span>       <span class="hljs-comment"># Purple</span>
+Cyan=<span class="hljs-string">'\e[0;36m'</span>         <span class="hljs-comment"># Cyan</span>
+White=<span class="hljs-string">'\e[0;37m'</span>        <span class="hljs-comment"># White</span>
+
+<span class="hljs-comment"># Bold</span>
+BBlack=<span class="hljs-string">'\e[1;30m'</span>       <span class="hljs-comment"># Black</span>
+BRed=<span class="hljs-string">'\e[1;31m'</span>         <span class="hljs-comment"># Red</span>
+BGreen=<span class="hljs-string">'\e[1;32m'</span>       <span class="hljs-comment"># Green</span>
+BYellow=<span class="hljs-string">'\e[1;33m'</span>      <span class="hljs-comment"># Yellow</span>
+BBlue=<span class="hljs-string">'\e[1;34m'</span>        <span class="hljs-comment"># Blue</span>
+BPurple=<span class="hljs-string">'\e[1;35m'</span>      <span class="hljs-comment"># Purple</span>
+BCyan=<span class="hljs-string">'\e[1;36m'</span>        <span class="hljs-comment"># Cyan</span>
+BWhite=<span class="hljs-string">'\e[1;37m'</span>       <span class="hljs-comment"># White</span>
+
+<span class="hljs-comment"># Background</span>
+On_Black=<span class="hljs-string">'\e[40m'</span>       <span class="hljs-comment"># Black</span>
+On_Red=<span class="hljs-string">'\e[41m'</span>         <span class="hljs-comment"># Red</span>
+On_Green=<span class="hljs-string">'\e[42m'</span>       <span class="hljs-comment"># Green</span>
+On_Yellow=<span class="hljs-string">'\e[43m'</span>      <span class="hljs-comment"># Yellow</span>
+On_Blue=<span class="hljs-string">'\e[44m'</span>        <span class="hljs-comment"># Blue</span>
+On_Purple=<span class="hljs-string">'\e[45m'</span>      <span class="hljs-comment"># Purple</span>
+On_Cyan=<span class="hljs-string">'\e[46m'</span>        <span class="hljs-comment"># Cyan</span>
+On_White=<span class="hljs-string">'\e[47m'</span>       <span class="hljs-comment"># White</span>
+
+NC=<span class="hljs-string">"\e[m"</span>               <span class="hljs-comment"># Color Reset</span>
+
+
+ALERT=<span class="hljs-variable">${BWhite}</span><span class="hljs-variable">${On_Red}</span> <span class="hljs-comment"># Bold White on red background</span>
+
+
+
+<span class="hljs-built_in">echo</span> -e <span class="hljs-string">"<span class="hljs-variable">${BCyan}</span>This is BASH <span class="hljs-variable">${BRed}</span><span class="hljs-variable">${BASH_VERSION%.*}</span><span class="hljs-variable">${BCyan}</span>\
+- DISPLAY on <span class="hljs-variable">${BRed}</span><span class="hljs-variable">$DISPLAY</span><span class="hljs-variable">${NC}</span>\n"</span>
+date
+<span class="hljs-keyword">if</span> [ -x /usr/games/fortune ]; <span class="hljs-keyword">then</span>
+    /usr/games/fortune -s     <span class="hljs-comment"># Makes our day a bit more fun.... :-)</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">function</span> _exit()              <span class="hljs-comment"># Function to run upon exit of shell.</span>
+{
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"<span class="hljs-variable">${BRed}</span>Hasta la vista, baby<span class="hljs-variable">${NC}</span>"</span>
+}
+<span class="hljs-built_in">trap</span> _exit EXIT
+
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+<span class="hljs-comment"># Shell Prompt - for many examples, see:</span>
+<span class="hljs-comment">#       http://www.debian-administration.org/articles/205</span>
+<span class="hljs-comment">#       http://www.askapache.com/linux/bash-power-prompt.html</span>
+<span class="hljs-comment">#       http://tldp.org/HOWTO/Bash-Prompt-HOWTO</span>
+<span class="hljs-comment">#       https://github.com/nojhan/liquidprompt</span>
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+<span class="hljs-comment"># Current Format: [TIME USER@HOST PWD] &gt;</span>
+<span class="hljs-comment"># TIME:</span>
+<span class="hljs-comment">#    Green     == machine load is low</span>
+<span class="hljs-comment">#    Orange    == machine load is medium</span>
+<span class="hljs-comment">#    Red       == machine load is high</span>
+<span class="hljs-comment">#    ALERT     == machine load is very high</span>
+<span class="hljs-comment"># USER:</span>
+<span class="hljs-comment">#    Cyan      == normal user</span>
+<span class="hljs-comment">#    Orange    == SU to user</span>
+<span class="hljs-comment">#    Red       == root</span>
+<span class="hljs-comment"># HOST:</span>
+<span class="hljs-comment">#    Cyan      == local session</span>
+<span class="hljs-comment">#    Green     == secured remote connection (via ssh)</span>
+<span class="hljs-comment">#    Red       == unsecured remote connection</span>
+<span class="hljs-comment"># PWD:</span>
+<span class="hljs-comment">#    Green     == more than 10% free disk space</span>
+<span class="hljs-comment">#    Orange    == less than 10% free disk space</span>
+<span class="hljs-comment">#    ALERT     == less than 5% free disk space</span>
+<span class="hljs-comment">#    Red       == current user does not have write privileges</span>
+<span class="hljs-comment">#    Cyan      == current filesystem is size zero (like /proc)</span>
+<span class="hljs-comment"># &gt;:</span>
+<span class="hljs-comment">#    White     == no background or suspended jobs in this shell</span>
+<span class="hljs-comment">#    Cyan      == at least one background job in this shell</span>
+<span class="hljs-comment">#    Orange    == at least one suspended job in this shell</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#    Command is added to the history file each time you hit enter,</span>
+<span class="hljs-comment">#    so it's available to all shells (using 'history -a').</span>
+
+
+<span class="hljs-comment"># Test connection type:</span>
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">"<span class="hljs-variable">${SSH_CONNECTION}</span>"</span> ]; <span class="hljs-keyword">then</span>
+    CNX=<span class="hljs-variable">${Green}</span>        <span class="hljs-comment"># Connected on remote machine, via ssh (good).</span>
+<span class="hljs-keyword">elif</span> [[ <span class="hljs-string">"<span class="hljs-variable">${DISPLAY%%:0*}</span>"</span> != <span class="hljs-string">""</span> ]]; <span class="hljs-keyword">then</span>
+    CNX=<span class="hljs-variable">${ALERT}</span>        <span class="hljs-comment"># Connected on remote machine, not via ssh (bad).</span>
+<span class="hljs-keyword">else</span>
+    CNX=<span class="hljs-variable">${BCyan}</span>        <span class="hljs-comment"># Connected on local machine.</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment"># Test user type:</span>
+<span class="hljs-keyword">if</span> [[ <span class="hljs-variable">${USER}</span> == <span class="hljs-string">"root"</span> ]]; <span class="hljs-keyword">then</span>
+    SU=<span class="hljs-variable">${Red}</span>           <span class="hljs-comment"># User is root.</span>
+<span class="hljs-keyword">elif</span> [[ <span class="hljs-variable">${USER}</span> != $(logname) ]]; <span class="hljs-keyword">then</span>
+    SU=<span class="hljs-variable">${BRed}</span>          <span class="hljs-comment"># User is not login user.</span>
+<span class="hljs-keyword">else</span>
+    SU=<span class="hljs-variable">${BCyan}</span>         <span class="hljs-comment"># User is normal (well ... most of us are).</span>
+<span class="hljs-keyword">fi</span>
+
+
+
+NCPU=$(grep -c <span class="hljs-string">'processor'</span> /proc/cpuinfo)    <span class="hljs-comment"># Number of CPUs</span>
+SLOAD=$(( <span class="hljs-number">100</span>*<span class="hljs-variable">${NCPU}</span> ))        <span class="hljs-comment"># Small load</span>
+MLOAD=$(( <span class="hljs-number">200</span>*<span class="hljs-variable">${NCPU}</span> ))        <span class="hljs-comment"># Medium load</span>
+XLOAD=$(( <span class="hljs-number">400</span>*<span class="hljs-variable">${NCPU}</span> ))        <span class="hljs-comment"># Xlarge load</span>
+
+<span class="hljs-comment"># Returns system load as percentage, i.e., '40' rather than '0.40)'.</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">load</span></span>()
+{
+    <span class="hljs-built_in">local</span> SYSLOAD=$(cut -d <span class="hljs-string">" "</span> -f1 /proc/loadavg | tr -d <span class="hljs-string">'.'</span>)
+    <span class="hljs-comment"># System load of the current host.</span>
+    <span class="hljs-built_in">echo</span> $((<span class="hljs-number">10</span>#<span class="hljs-variable">$SYSLOAD</span>))       <span class="hljs-comment"># Convert to decimal.</span>
+}
+
+<span class="hljs-comment"># Returns a color indicating system load.</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">load_color</span></span>()
+{
+    <span class="hljs-built_in">local</span> SYSLOAD=$(load)
+    <span class="hljs-keyword">if</span> [ <span class="hljs-variable">${SYSLOAD}</span> -gt <span class="hljs-variable">${XLOAD}</span> ]; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span> -en <span class="hljs-variable">${ALERT}</span>
+    <span class="hljs-keyword">elif</span> [ <span class="hljs-variable">${SYSLOAD}</span> -gt <span class="hljs-variable">${MLOAD}</span> ]; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span> -en <span class="hljs-variable">${Red}</span>
+    <span class="hljs-keyword">elif</span> [ <span class="hljs-variable">${SYSLOAD}</span> -gt <span class="hljs-variable">${SLOAD}</span> ]; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span> -en <span class="hljs-variable">${BRed}</span>
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">echo</span> -en <span class="hljs-variable">${Green}</span>
+    <span class="hljs-keyword">fi</span>
+}
+
+<span class="hljs-comment"># Returns a color according to free disk space in $PWD.</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">disk_color</span></span>()
+{
+    <span class="hljs-keyword">if</span> [ ! -w <span class="hljs-string">"<span class="hljs-variable">${PWD}</span>"</span> ] ; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span> -en <span class="hljs-variable">${Red}</span>
+        <span class="hljs-comment"># No 'write' privilege in the current directory.</span>
+    <span class="hljs-keyword">elif</span> [ -s <span class="hljs-string">"<span class="hljs-variable">${PWD}</span>"</span> ] ; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">local</span> used=$(<span class="hljs-built_in">command</span> df -P <span class="hljs-string">"<span class="hljs-variable">$PWD</span>"</span> |
+                   awk <span class="hljs-string">'END {print $5} {sub(/%/,"")}'</span>)
+        <span class="hljs-keyword">if</span> [ <span class="hljs-variable">${used}</span> -gt 95 ]; <span class="hljs-keyword">then</span>
+            <span class="hljs-built_in">echo</span> -en <span class="hljs-variable">${ALERT}</span>           <span class="hljs-comment"># Disk almost full (&gt;95%).</span>
+        <span class="hljs-keyword">elif</span> [ <span class="hljs-variable">${used}</span> -gt 90 ]; <span class="hljs-keyword">then</span>
+            <span class="hljs-built_in">echo</span> -en <span class="hljs-variable">${BRed}</span>            <span class="hljs-comment"># Free disk space almost gone.</span>
+        <span class="hljs-keyword">else</span>
+            <span class="hljs-built_in">echo</span> -en <span class="hljs-variable">${Green}</span>           <span class="hljs-comment"># Free disk space is ok.</span>
+        <span class="hljs-keyword">fi</span>
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">echo</span> -en <span class="hljs-variable">${Cyan}</span>
+        <span class="hljs-comment"># Current directory is size '0' (like /proc, /sys etc).</span>
+    <span class="hljs-keyword">fi</span>
+}
+
+<span class="hljs-comment"># Returns a color according to running/suspended jobs.</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">job_color</span></span>()
+{
+    <span class="hljs-keyword">if</span> [ $(<span class="hljs-built_in">jobs</span> -s | wc -l) -gt <span class="hljs-string">"0"</span> ]; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span> -en <span class="hljs-variable">${BRed}</span>
+    <span class="hljs-keyword">elif</span> [ $(<span class="hljs-built_in">jobs</span> -r | wc -l) -gt <span class="hljs-string">"0"</span> ] ; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span> -en <span class="hljs-variable">${BCyan}</span>
+    <span class="hljs-keyword">fi</span>
+}
+
+<span class="hljs-comment"># Adds some text in the terminal frame (if applicable).</span>
+
+
+<span class="hljs-comment"># Now we construct the prompt.</span>
+PROMPT_COMMAND=<span class="hljs-string">"history -a"</span>
+<span class="hljs-keyword">case</span> <span class="hljs-variable">${TERM}</span> <span class="hljs-keyword">in</span>
+  *term | rxvt | linux)
+        PS1=<span class="hljs-string">"\[\$(load_color)\][\A\[<span class="hljs-variable">${NC}</span>\] "</span>
+        <span class="hljs-comment"># Time of day (with load info):</span>
+        PS1=<span class="hljs-string">"\[\$(load_color)\][\A\[<span class="hljs-variable">${NC}</span>\] "</span>
+        <span class="hljs-comment"># User@Host (with connection type info):</span>
+        PS1=<span class="hljs-variable">${PS1}</span><span class="hljs-string">"\[<span class="hljs-variable">${SU}</span>\]\u\[<span class="hljs-variable">${NC}</span>\]@\[<span class="hljs-variable">${CNX}</span>\]\h\[<span class="hljs-variable">${NC}</span>\] "</span>
+        <span class="hljs-comment"># PWD (with 'disk space' info):</span>
+        PS1=<span class="hljs-variable">${PS1}</span><span class="hljs-string">"\[\$(disk_color)\]\W]\[<span class="hljs-variable">${NC}</span>\] "</span>
+        <span class="hljs-comment"># Prompt (with 'job' info):</span>
+        PS1=<span class="hljs-variable">${PS1}</span><span class="hljs-string">"\[\$(job_color)\]&gt;\[<span class="hljs-variable">${NC}</span>\] "</span>
+        <span class="hljs-comment"># Set title of current xterm:</span>
+        PS1=<span class="hljs-variable">${PS1}</span><span class="hljs-string">"\[\e]0;[\u@\h] \w\a\]"</span>
+        ;;
+    *)
+        PS1=<span class="hljs-string">"(\A \u@\h \W) &gt; "</span> <span class="hljs-comment"># --&gt; PS1="(\A \u@\h \w) &gt; "</span>
+                               <span class="hljs-comment"># --&gt; Shows full pathname of current dir.</span>
+        ;;
+<span class="hljs-keyword">esac</span>
+
+
+
+<span class="hljs-built_in">export</span> TIMEFORMAT=$<span class="hljs-string">'\nreal %3R\tuser %3U\tsys %3S\tpcpu %P\n'</span>
+<span class="hljs-built_in">export</span> HISTIGNORE=<span class="hljs-string">"&amp;:bg:fg:ll:h"</span>
+<span class="hljs-built_in">export</span> HISTTIMEFORMAT=<span class="hljs-string">"<span class="hljs-subst">$(echo -e ${BCyan})</span>[%d/%m %H:%M:%S]<span class="hljs-subst">$(echo -e ${NC})</span> "</span>
+<span class="hljs-built_in">export</span> HISTCONTROL=ignoredups
+<span class="hljs-built_in">export</span> HOSTFILE=<span class="hljs-variable">$HOME</span>/.hosts    <span class="hljs-comment"># Put a list of remote hosts in ~/.hosts</span>
+
+
+<span class="hljs-comment">#============================================================</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  ALIASES AND FUNCTIONS</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  Arguably, some functions defined here are quite big.</span>
+<span class="hljs-comment">#  If you want to make this file smaller, these functions can</span>
+<span class="hljs-comment">#+ be converted into scripts and removed from here.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#============================================================</span>
+
+<span class="hljs-comment">#-------------------</span>
+<span class="hljs-comment"># Personnal Aliases</span>
+<span class="hljs-comment">#-------------------</span>
+
+<span class="hljs-built_in">alias</span> rm=<span class="hljs-string">'rm -i'</span>
+<span class="hljs-built_in">alias</span> cp=<span class="hljs-string">'cp -i'</span>
+<span class="hljs-built_in">alias</span> mv=<span class="hljs-string">'mv -i'</span>
+<span class="hljs-comment"># -&gt; Prevents accidentally clobbering files.</span>
+<span class="hljs-built_in">alias</span> mkdir=<span class="hljs-string">'mkdir -p'</span>
+
+<span class="hljs-built_in">alias</span> h=<span class="hljs-string">'history'</span>
+<span class="hljs-built_in">alias</span> j=<span class="hljs-string">'jobs -l'</span>
+<span class="hljs-built_in">alias</span> <span class="hljs-built_in">which</span>=<span class="hljs-string">'type -a'</span>
+<span class="hljs-built_in">alias</span> ..=<span class="hljs-string">'cd ..'</span>
+
+<span class="hljs-comment"># Pretty-print of some PATH variables:</span>
+<span class="hljs-built_in">alias</span> path=<span class="hljs-string">'echo -e ${PATH//:/\\n}'</span>
+<span class="hljs-built_in">alias</span> libpath=<span class="hljs-string">'echo -e ${LD_LIBRARY_PATH//:/\\n}'</span>
+
+
+<span class="hljs-built_in">alias</span> du=<span class="hljs-string">'du -kh'</span>    <span class="hljs-comment"># Makes a more readable output.</span>
+<span class="hljs-built_in">alias</span> df=<span class="hljs-string">'df -kTh'</span>
+
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+<span class="hljs-comment"># The 'ls' family (this assumes you use a recent GNU ls).</span>
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+<span class="hljs-comment"># Add colors for filetype and  human-readable sizes by default on 'ls':</span>
+<span class="hljs-built_in">alias</span> ls=<span class="hljs-string">'ls -h --color'</span>
+<span class="hljs-built_in">alias</span> lx=<span class="hljs-string">'ls -lXB'</span>         <span class="hljs-comment">#  Sort by extension.</span>
+<span class="hljs-built_in">alias</span> lk=<span class="hljs-string">'ls -lSr'</span>         <span class="hljs-comment">#  Sort by size, biggest last.</span>
+<span class="hljs-built_in">alias</span> lt=<span class="hljs-string">'ls -ltr'</span>         <span class="hljs-comment">#  Sort by date, most recent last.</span>
+<span class="hljs-built_in">alias</span> lc=<span class="hljs-string">'ls -ltcr'</span>        <span class="hljs-comment">#  Sort by/show change time,most recent last.</span>
+<span class="hljs-built_in">alias</span> lu=<span class="hljs-string">'ls -ltur'</span>        <span class="hljs-comment">#  Sort by/show access time,most recent last.</span>
+
+<span class="hljs-comment"># The ubiquitous 'll': directories first, with alphanumeric sorting:</span>
+<span class="hljs-built_in">alias</span> ll=<span class="hljs-string">"ls -lv --group-directories-first"</span>
+<span class="hljs-built_in">alias</span> lm=<span class="hljs-string">'ll |more'</span>        <span class="hljs-comment">#  Pipe through 'more'</span>
+<span class="hljs-built_in">alias</span> lr=<span class="hljs-string">'ll -R'</span>           <span class="hljs-comment">#  Recursive ls.</span>
+<span class="hljs-built_in">alias</span> la=<span class="hljs-string">'ll -A'</span>           <span class="hljs-comment">#  Show hidden files.</span>
+<span class="hljs-built_in">alias</span> tree=<span class="hljs-string">'tree -Csuh'</span>    <span class="hljs-comment">#  Nice alternative to 'recursive ls' ...</span>
+
+
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+<span class="hljs-comment"># Tailoring 'less'</span>
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+
+<span class="hljs-built_in">alias</span> more=<span class="hljs-string">'less'</span>
+<span class="hljs-built_in">export</span> PAGER=less
+<span class="hljs-built_in">export</span> LESSCHARSET=<span class="hljs-string">'latin1'</span>
+<span class="hljs-built_in">export</span> LESSOPEN=<span class="hljs-string">'|/usr/bin/lesspipe.sh %s 2&gt;&amp;-'</span>
+                <span class="hljs-comment"># Use this if lesspipe.sh exists.</span>
+<span class="hljs-built_in">export</span> LESS=<span class="hljs-string">'-i -N -w  -z-4 -g -e -M -X -F -R -P%t?f%f \
+:stdin .?pb%pb\%:?lbLine %lb:?bbByte %bb:-...'</span>
+
+<span class="hljs-comment"># LESS man page colors (makes Man pages more readable).</span>
+<span class="hljs-built_in">export</span> LESS_TERMCAP_mb=$<span class="hljs-string">'\E[01;31m'</span>
+<span class="hljs-built_in">export</span> LESS_TERMCAP_md=$<span class="hljs-string">'\E[01;31m'</span>
+<span class="hljs-built_in">export</span> LESS_TERMCAP_me=$<span class="hljs-string">'\E[0m'</span>
+<span class="hljs-built_in">export</span> LESS_TERMCAP_se=$<span class="hljs-string">'\E[0m'</span>
+<span class="hljs-built_in">export</span> LESS_TERMCAP_so=$<span class="hljs-string">'\E[01;44;33m'</span>
+<span class="hljs-built_in">export</span> LESS_TERMCAP_ue=$<span class="hljs-string">'\E[0m'</span>
+<span class="hljs-built_in">export</span> LESS_TERMCAP_us=$<span class="hljs-string">'\E[01;32m'</span>
+
+
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+<span class="hljs-comment"># Spelling typos - highly personnal and keyboard-dependent :-)</span>
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+
+<span class="hljs-built_in">alias</span> xs=<span class="hljs-string">'cd'</span>
+<span class="hljs-built_in">alias</span> vf=<span class="hljs-string">'cd'</span>
+<span class="hljs-built_in">alias</span> moer=<span class="hljs-string">'more'</span>
+<span class="hljs-built_in">alias</span> moew=<span class="hljs-string">'more'</span>
+<span class="hljs-built_in">alias</span> kk=<span class="hljs-string">'ll'</span>
+
+
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+<span class="hljs-comment"># A few fun ones</span>
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+
+<span class="hljs-comment"># Adds some text in the terminal frame (if applicable).</span>
+
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">xtitle</span></span>()
+{
+    <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$TERM</span>"</span> <span class="hljs-keyword">in</span>
+    *term* | rxvt)
+        <span class="hljs-built_in">echo</span> -en  <span class="hljs-string">"\e]0;$*\a"</span> ;;
+    *)  ;;
+    <span class="hljs-keyword">esac</span>
+}
+
+
+<span class="hljs-comment"># Aliases that use xtitle</span>
+<span class="hljs-built_in">alias</span> top=<span class="hljs-string">'xtitle Processes on $HOST &amp;&amp; top'</span>
+<span class="hljs-built_in">alias</span> make=<span class="hljs-string">'xtitle Making $(basename $PWD) ; make'</span>
+
+<span class="hljs-comment"># .. and functions</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">man</span></span>()
+{
+    <span class="hljs-keyword">for</span> i ; <span class="hljs-keyword">do</span>
+        xtitle The $(basename <span class="hljs-variable">$1</span>|tr -d .[:digit:]) manual
+        <span class="hljs-built_in">command</span> man -a <span class="hljs-string">"<span class="hljs-variable">$i</span>"</span>
+    <span class="hljs-keyword">done</span>
+}
+
+
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+<span class="hljs-comment"># Make the following commands run in background automatically:</span>
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+
+<span class="hljs-keyword">function</span> te()  <span class="hljs-comment"># wrapper around xemacs/gnuserv</span>
+{
+    <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-subst">$(gnuclient -batch -eval t 2&gt;&amp;-)</span>"</span> == <span class="hljs-string">"t"</span> ]; <span class="hljs-keyword">then</span>
+       gnuclient -q <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span>;
+    <span class="hljs-keyword">else</span>
+       ( xemacs <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span> &amp;);
+    <span class="hljs-keyword">fi</span>
+}
+
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">soffice</span></span>() { <span class="hljs-built_in">command</span> soffice <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span> &amp; }
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">firefox</span></span>() { <span class="hljs-built_in">command</span> firefox <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span> &amp; }
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">xpdf</span></span>() { <span class="hljs-built_in">command</span> xpdf <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span> &amp; }
+
+
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+<span class="hljs-comment"># File &amp; strings related functions:</span>
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+
+
+<span class="hljs-comment"># Find a file with a pattern in name:</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">ff</span></span>() { find . -<span class="hljs-built_in">type</span> f -iname <span class="hljs-string">'*'</span><span class="hljs-string">"$*"</span><span class="hljs-string">'*'</span> -ls ; }
+
+<span class="hljs-comment"># Find a file with pattern $1 in name and Execute $2 on it:</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">fe</span></span>() { find . -<span class="hljs-built_in">type</span> f -iname <span class="hljs-string">'*'</span><span class="hljs-string">"<span class="hljs-variable">${1:-}</span>"</span><span class="hljs-string">'*'</span> \
+-<span class="hljs-built_in">exec</span> <span class="hljs-variable">${2:-file}</span> {} \;  ; }
+
+<span class="hljs-comment">#  Find a pattern in a set of files and highlight them:</span>
+<span class="hljs-comment">#+ (needs a recent version of egrep).</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">fstr</span></span>()
+{
+    OPTIND=1
+    <span class="hljs-built_in">local</span> mycase=<span class="hljs-string">""</span>
+    <span class="hljs-built_in">local</span> usage=<span class="hljs-string">"fstr: find string in files.
+Usage: fstr [-i] \"pattern\" [\"filename pattern\"] "</span>
+    <span class="hljs-keyword">while</span> <span class="hljs-built_in">getopts</span> :it opt
+    <span class="hljs-keyword">do</span>
+        <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$opt</span>"</span> <span class="hljs-keyword">in</span>
+           i) mycase=<span class="hljs-string">"-i "</span> ;;
+           *) <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$usage</span>"</span>; <span class="hljs-built_in">return</span> ;;
+        <span class="hljs-keyword">esac</span>
+    <span class="hljs-keyword">done</span>
+    <span class="hljs-built_in">shift</span> $(( <span class="hljs-variable">$OPTIND</span> - <span class="hljs-number">1</span> ))
+    <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$#</span>"</span> -lt 1 ]; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$usage</span>"</span>
+        <span class="hljs-built_in">return</span>;
+    <span class="hljs-keyword">fi</span>
+    find . -<span class="hljs-built_in">type</span> f -name <span class="hljs-string">"<span class="hljs-variable">${2:-*}</span>"</span> -print0 | \
+xargs -0 egrep --color=always -sn <span class="hljs-variable">${case}</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> 2&gt;&amp;- | more
+
+}
+
+
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">swap</span></span>()
+{ <span class="hljs-comment"># Swap 2 filenames around, if they exist (from Uzi's bashrc).</span>
+    <span class="hljs-built_in">local</span> TMPFILE=tmp.$$
+
+    [ <span class="hljs-variable">$#</span> -ne 2 ] &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-string">"swap: 2 arguments needed"</span> &amp;&amp; <span class="hljs-built_in">return</span> 1
+    [ ! -e <span class="hljs-variable">$1</span> ] &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-string">"swap: <span class="hljs-variable">$1</span> does not exist"</span> &amp;&amp; <span class="hljs-built_in">return</span> 1
+    [ ! -e <span class="hljs-variable">$2</span> ] &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-string">"swap: <span class="hljs-variable">$2</span> does not exist"</span> &amp;&amp; <span class="hljs-built_in">return</span> 1
+
+    mv <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> <span class="hljs-variable">$TMPFILE</span>
+    mv <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>
+    mv <span class="hljs-variable">$TMPFILE</span> <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span>
+}
+
+<span class="hljs-keyword">function</span> extract()      <span class="hljs-comment"># Handy Extract Program</span>
+{
+    <span class="hljs-keyword">if</span> [ -f <span class="hljs-variable">$1</span> ] ; <span class="hljs-keyword">then</span>
+        <span class="hljs-keyword">case</span> <span class="hljs-variable">$1</span> <span class="hljs-keyword">in</span>
+            *.tar.bz2)   tar xvjf <span class="hljs-variable">$1</span>     ;;
+            *.tar.gz)    tar xvzf <span class="hljs-variable">$1</span>     ;;
+            *.bz2)       bunzip2 <span class="hljs-variable">$1</span>      ;;
+            *.rar)       unrar x <span class="hljs-variable">$1</span>      ;;
+            *.gz)        gunzip <span class="hljs-variable">$1</span>       ;;
+            *.tar)       tar xvf <span class="hljs-variable">$1</span>      ;;
+            *.tbz2)      tar xvjf <span class="hljs-variable">$1</span>     ;;
+            *.tgz)       tar xvzf <span class="hljs-variable">$1</span>     ;;
+            *.zip)       unzip <span class="hljs-variable">$1</span>        ;;
+            *.Z)         uncompress <span class="hljs-variable">$1</span>   ;;
+            *.7z)        7z x <span class="hljs-variable">$1</span>         ;;
+            *)           <span class="hljs-built_in">echo</span> <span class="hljs-string">"'<span class="hljs-variable">$1</span>' cannot be extracted via &gt;extract&lt;"</span> ;;
+        <span class="hljs-keyword">esac</span>
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"'<span class="hljs-variable">$1</span>' is not a valid file!"</span>
+    <span class="hljs-keyword">fi</span>
+}
+
+
+<span class="hljs-comment"># Creates an archive (*.tar.gz) from given directory.</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">maketar</span></span>() { tar cvzf <span class="hljs-string">"<span class="hljs-variable">${1%%/}</span>.tar.gz"</span>  <span class="hljs-string">"<span class="hljs-variable">${1%%/}</span>/"</span>; }
+
+<span class="hljs-comment"># Create a ZIP archive of a file or folder.</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">makezip</span></span>() { zip -r <span class="hljs-string">"<span class="hljs-variable">${1%%/}</span>.zip"</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ; }
+
+<span class="hljs-comment"># Make your directories and files access rights sane.</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">sanitize</span></span>() { chmod -R u=rwX,g=rX,o= <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span> ;}
+
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+<span class="hljs-comment"># Process/system related functions:</span>
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+
+
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">my_ps</span></span>() { ps <span class="hljs-variable">$@</span> -u <span class="hljs-variable">$USER</span> -o pid,%cpu,%mem,bsdtime,<span class="hljs-built_in">command</span> ; }
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">pp</span></span>() { my_ps f | awk <span class="hljs-string">'!/awk/ &amp;&amp; $0~var'</span> var=<span class="hljs-variable">${1:-".*"}</span> ; }
+
+
+<span class="hljs-keyword">function</span> killps()   <span class="hljs-comment"># kill by process name</span>
+{
+    <span class="hljs-built_in">local</span> pid pname sig=<span class="hljs-string">"-TERM"</span>   <span class="hljs-comment"># default signal</span>
+    <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$#</span>"</span> -lt 1 ] || [ <span class="hljs-string">"<span class="hljs-variable">$#</span>"</span> -gt 2 ]; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: killps [-SIGNAL] pattern"</span>
+        <span class="hljs-built_in">return</span>;
+    <span class="hljs-keyword">fi</span>
+    <span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> = 2 ]; <span class="hljs-keyword">then</span> sig=<span class="hljs-variable">$1</span> ; <span class="hljs-keyword">fi</span>
+    <span class="hljs-keyword">for</span> pid <span class="hljs-keyword">in</span> $(my_ps| awk <span class="hljs-string">'!/awk/ &amp;&amp; $0~pat { print $1 }'</span> pat=<span class="hljs-variable">${!#}</span> )
+    <span class="hljs-keyword">do</span>
+        pname=$(my_ps | awk <span class="hljs-string">'$1~var { print $5 }'</span> var=<span class="hljs-variable">$pid</span> )
+        <span class="hljs-keyword">if</span> ask <span class="hljs-string">"Kill process <span class="hljs-variable">$pid</span> &lt;<span class="hljs-variable">$pname</span>&gt; with signal <span class="hljs-variable">$sig</span>?"</span>
+            <span class="hljs-keyword">then</span> <span class="hljs-built_in">kill</span> <span class="hljs-variable">$sig</span> <span class="hljs-variable">$pid</span>
+        <span class="hljs-keyword">fi</span>
+    <span class="hljs-keyword">done</span>
+}
+
+<span class="hljs-keyword">function</span> mydf()         <span class="hljs-comment"># Pretty-print of 'df' output.</span>
+{                       <span class="hljs-comment"># Inspired by 'dfc' utility.</span>
+    <span class="hljs-keyword">for</span> fs ; <span class="hljs-keyword">do</span>
+
+        <span class="hljs-keyword">if</span> [ ! -d <span class="hljs-variable">$fs</span> ]
+        <span class="hljs-keyword">then</span>
+          <span class="hljs-built_in">echo</span> -e <span class="hljs-variable">$fs</span><span class="hljs-string">" :No such file or directory"</span> ; <span class="hljs-built_in">continue</span>
+        <span class="hljs-keyword">fi</span>
+
+        <span class="hljs-built_in">local</span> info=( $(<span class="hljs-built_in">command</span> df -P <span class="hljs-variable">$fs</span> | awk <span class="hljs-string">'END{ print $2,$3,$5 }'</span>) )
+        <span class="hljs-built_in">local</span> free=( $(<span class="hljs-built_in">command</span> df -Pkh <span class="hljs-variable">$fs</span> | awk <span class="hljs-string">'END{ print $4 }'</span>) )
+        <span class="hljs-built_in">local</span> nbstars=$(( <span class="hljs-number">20</span> * <span class="hljs-variable">${info[1]}</span> / <span class="hljs-variable">${info[0]}</span> ))
+        <span class="hljs-built_in">local</span> out=<span class="hljs-string">"["</span>
+        <span class="hljs-keyword">for</span> ((j=0;j&lt;20;j++)); <span class="hljs-keyword">do</span>
+            <span class="hljs-keyword">if</span> [ <span class="hljs-variable">${j}</span> -lt <span class="hljs-variable">${nbstars}</span> ]; <span class="hljs-keyword">then</span>
+               out=<span class="hljs-variable">$out</span><span class="hljs-string">"*"</span>
+            <span class="hljs-keyword">else</span>
+               out=<span class="hljs-variable">$out</span><span class="hljs-string">"-"</span>
+            <span class="hljs-keyword">fi</span>
+        <span class="hljs-keyword">done</span>
+        out=<span class="hljs-variable">${info[2]}</span><span class="hljs-string">" "</span><span class="hljs-variable">$out</span><span class="hljs-string">"] ("</span><span class="hljs-variable">$free</span><span class="hljs-string">" free on "</span><span class="hljs-variable">$fs</span><span class="hljs-string">")"</span>
+        <span class="hljs-built_in">echo</span> -e <span class="hljs-variable">$out</span>
+    <span class="hljs-keyword">done</span>
+}
+
+
+<span class="hljs-keyword">function</span> my_ip() <span class="hljs-comment"># Get IP adress on ethernet.</span>
+{
+    MY_IP=$(/sbin/ifconfig eth0 | awk <span class="hljs-string">'/inet/ { print $2 } '</span> |
+      sed -e s/addr://)
+    <span class="hljs-built_in">echo</span> <span class="hljs-variable">${MY_IP:-"Not connected"}</span>
+}
+
+<span class="hljs-keyword">function</span> ii()   <span class="hljs-comment"># Get current host related info.</span>
+{
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\nYou are logged on <span class="hljs-variable">${BRed}</span><span class="hljs-variable">$HOST</span>"</span>
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\n<span class="hljs-variable">${BRed}</span>Additionnal information:<span class="hljs-variable">$NC</span> "</span> ; uname -a
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\n<span class="hljs-variable">${BRed}</span>Users logged on:<span class="hljs-variable">$NC</span> "</span> ; w -hs |
+             cut -d <span class="hljs-string">" "</span> -f1 | sort | uniq
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\n<span class="hljs-variable">${BRed}</span>Current date :<span class="hljs-variable">$NC</span> "</span> ; date
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\n<span class="hljs-variable">${BRed}</span>Machine stats :<span class="hljs-variable">$NC</span> "</span> ; uptime
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\n<span class="hljs-variable">${BRed}</span>Memory stats :<span class="hljs-variable">$NC</span> "</span> ; free
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\n<span class="hljs-variable">${BRed}</span>Diskspace :<span class="hljs-variable">$NC</span> "</span> ; mydf / <span class="hljs-variable">$HOME</span>
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\n<span class="hljs-variable">${BRed}</span>Local IP Address :<span class="hljs-variable">$NC</span>"</span> ; my_ip
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\n<span class="hljs-variable">${BRed}</span>Open connections :<span class="hljs-variable">$NC</span> "</span>; netstat -pan --inet;
+    <span class="hljs-built_in">echo</span>
+}
+
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+<span class="hljs-comment"># Misc utilities:</span>
+<span class="hljs-comment">#-------------------------------------------------------------</span>
+
+<span class="hljs-keyword">function</span> repeat()       <span class="hljs-comment"># Repeat n times command.</span>
+{
+    <span class="hljs-built_in">local</span> i max
+    max=<span class="hljs-variable">$1</span>; <span class="hljs-built_in">shift</span>;
+    <span class="hljs-keyword">for</span> ((i=1; i &lt;= max ; i++)); <span class="hljs-keyword">do</span>  <span class="hljs-comment"># --&gt; C-like syntax</span>
+        <span class="hljs-built_in">eval</span> <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span>;
+    <span class="hljs-keyword">done</span>
+}
+
+
+<span class="hljs-keyword">function</span> ask()          <span class="hljs-comment"># See 'killps' for example of use.</span>
+{
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span> <span class="hljs-string">'[y/n] '</span> ; <span class="hljs-built_in">read</span> ans
+    <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$ans</span>"</span> <span class="hljs-keyword">in</span>
+        y*|Y*) <span class="hljs-built_in">return</span> 0 ;;
+        *) <span class="hljs-built_in">return</span> 1 ;;
+    <span class="hljs-keyword">esac</span>
+}
+
+<span class="hljs-keyword">function</span> corename()   <span class="hljs-comment"># Get name of app that created a corefile.</span>
+{
+    <span class="hljs-keyword">for</span> file ; <span class="hljs-keyword">do</span>
+        <span class="hljs-built_in">echo</span> -n <span class="hljs-variable">$file</span> : ; gdb --core=<span class="hljs-variable">$file</span> --batch | head -1
+    <span class="hljs-keyword">done</span>
+}
+
+
+
+<span class="hljs-comment">#=========================================================================</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  PROGRAMMABLE COMPLETION SECTION</span>
+<span class="hljs-comment">#  Most are taken from the bash 2.05 documentation and from Ian McDonald's</span>
+<span class="hljs-comment"># 'Bash completion' package (http://www.caliban.org/bash/#completion)</span>
+<span class="hljs-comment">#  You will in fact need bash more recent then 3.0 for some features.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  Note that most linux distributions now provide many completions</span>
+<span class="hljs-comment"># 'out of the box' - however, you might need to make your own one day,</span>
+<span class="hljs-comment">#  so I kept those here as examples.</span>
+<span class="hljs-comment">#=========================================================================</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">${BASH_VERSION%.*}</span>"</span> \&lt; <span class="hljs-string">"3.0"</span> ]; <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"You will need to upgrade to version 3.0 for full \
+          programmable completion features"</span>
+    <span class="hljs-built_in">return</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">shopt</span> -s extglob        <span class="hljs-comment"># Necessary.</span>
+
+complete -A hostname   rsh rcp telnet rlogin ftp ping disk
+complete -A <span class="hljs-built_in">export</span>     printenv
+complete -A variable   <span class="hljs-built_in">export</span> <span class="hljs-built_in">local</span> <span class="hljs-built_in">readonly</span> <span class="hljs-built_in">unset</span>
+complete -A enabled    <span class="hljs-built_in">builtin</span>
+complete -A <span class="hljs-built_in">alias</span>      <span class="hljs-built_in">alias</span> <span class="hljs-built_in">unalias</span>
+complete -A <span class="hljs-keyword">function</span>   <span class="hljs-keyword">function</span>
+complete -A user       su mail finger
+
+complete -A helptopic  <span class="hljs-built_in">help</span>     <span class="hljs-comment"># Currently same as builtins.</span>
+complete -A <span class="hljs-built_in">shopt</span>      <span class="hljs-built_in">shopt</span>
+complete -A stopped -P <span class="hljs-string">'%'</span> <span class="hljs-built_in">bg</span>
+complete -A job -P <span class="hljs-string">'%'</span>     <span class="hljs-built_in">fg</span> <span class="hljs-built_in">jobs</span> <span class="hljs-built_in">disown</span>
+
+complete -A directory  mkdir rmdir
+complete -A directory   -o default <span class="hljs-built_in">cd</span>
+
+<span class="hljs-comment"># Compression</span>
+complete -f -o default -X <span class="hljs-string">'*.+(zip|ZIP)'</span>  zip
+complete -f -o default -X <span class="hljs-string">'!*.+(zip|ZIP)'</span> unzip
+complete -f -o default -X <span class="hljs-string">'*.+(z|Z)'</span>      compress
+complete -f -o default -X <span class="hljs-string">'!*.+(z|Z)'</span>     uncompress
+complete -f -o default -X <span class="hljs-string">'*.+(gz|GZ)'</span>    gzip
+complete -f -o default -X <span class="hljs-string">'!*.+(gz|GZ)'</span>   gunzip
+complete -f -o default -X <span class="hljs-string">'*.+(bz2|BZ2)'</span>  bzip2
+complete -f -o default -X <span class="hljs-string">'!*.+(bz2|BZ2)'</span> bunzip2
+complete -f -o default -X <span class="hljs-string">'!*.+(zip|ZIP|z|Z|gz|GZ|bz2|BZ2)'</span> extract
+
+
+<span class="hljs-comment"># Documents - Postscript,pdf,dvi.....</span>
+complete -f -o default -X <span class="hljs-string">'!*.+(ps|PS)'</span>  gs ghostview ps2pdf ps2ascii
+complete -f -o default -X \
+<span class="hljs-string">'!*.+(dvi|DVI)'</span> dvips dvipdf xdvi dviselect dvitype
+complete -f -o default -X <span class="hljs-string">'!*.+(pdf|PDF)'</span> acroread pdf2ps
+complete -f -o default -X <span class="hljs-string">'!*.@(@(?(e)ps|?(E)PS|pdf|PDF)?\
+(.gz|.GZ|.bz2|.BZ2|.Z))'</span> gv ggv
+complete -f -o default -X <span class="hljs-string">'!*.texi*'</span> makeinfo texi2dvi texi2html texi2pdf
+complete -f -o default -X <span class="hljs-string">'!*.tex'</span> tex latex slitex
+complete -f -o default -X <span class="hljs-string">'!*.lyx'</span> lyx
+complete -f -o default -X <span class="hljs-string">'!*.+(htm*|HTM*)'</span> lynx html2ps
+complete -f -o default -X \
+<span class="hljs-string">'!*.+(doc|DOC|xls|XLS|ppt|PPT|sx?|SX?|csv|CSV|od?|OD?|ott|OTT)'</span> soffice
+
+<span class="hljs-comment"># Multimedia</span>
+complete -f -o default -X \
+<span class="hljs-string">'!*.+(gif|GIF|jp*g|JP*G|bmp|BMP|xpm|XPM|png|PNG)'</span> xv gimp ee gqview
+complete -f -o default -X <span class="hljs-string">'!*.+(mp3|MP3)'</span> mpg123 mpg321
+complete -f -o default -X <span class="hljs-string">'!*.+(ogg|OGG)'</span> ogg123
+complete -f -o default -X \
+<span class="hljs-string">'!*.@(mp[23]|MP[23]|ogg|OGG|wav|WAV|pls|\
+m3u|xm|mod|s[3t]m|it|mtm|ult|flac)'</span> xmms
+complete -f -o default -X <span class="hljs-string">'!*.@(mp?(e)g|MP?(E)G|wma|avi|AVI|\
+asf|vob|VOB|bin|dat|vcd|ps|pes|fli|viv|rm|ram|yuv|mov|MOV|qt|\
+QT|wmv|mp3|MP3|ogg|OGG|ogm|OGM|mp4|MP4|wav|WAV|asx|ASX)'</span> xine
+
+
+
+complete -f -o default -X <span class="hljs-string">'!*.pl'</span>  perl perl5
+
+
+<span class="hljs-comment">#  This is a 'universal' completion function - it works when commands have</span>
+<span class="hljs-comment">#+ a so-called 'long options' mode , ie: 'ls --all' instead of 'ls -a'</span>
+<span class="hljs-comment">#  Needs the '-o' option of grep</span>
+<span class="hljs-comment">#+ (try the commented-out version if not available).</span>
+
+<span class="hljs-comment">#  First, remove '=' from completion word separators</span>
+<span class="hljs-comment">#+ (this will allow completions like 'ls --color=auto' to work correctly).</span>
+
+COMP_WORDBREAKS=<span class="hljs-variable">${COMP_WORDBREAKS/=/}</span>
+
+
+<span class="hljs-function"><span class="hljs-title">_get_longopts</span></span>()
+{
+  <span class="hljs-comment">#$1 --help | sed  -e '/--/!d' -e 's/.*--\([^[:space:].,]*\).*/--\1/'| \</span>
+  <span class="hljs-comment">#grep ^"$2" |sort -u ;</span>
+    <span class="hljs-variable">$1</span> --<span class="hljs-built_in">help</span> | grep -o -e <span class="hljs-string">"--[^[:space:].,]*"</span> | grep -e <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span> |sort -u
+}
+
+<span class="hljs-function"><span class="hljs-title">_longopts</span></span>()
+{
+    <span class="hljs-built_in">local</span> cur
+    cur=<span class="hljs-variable">${COMP_WORDS[COMP_CWORD]}</span>
+
+    <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">${cur:-*}</span>"</span> <span class="hljs-keyword">in</span>
+       -*)      ;;
+        *)      <span class="hljs-built_in">return</span> ;;
+    <span class="hljs-keyword">esac</span>
+
+    <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> <span class="hljs-keyword">in</span>
+       \~*)     <span class="hljs-built_in">eval</span> cmd=<span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ;;
+         *)     cmd=<span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ;;
+    <span class="hljs-keyword">esac</span>
+    COMPREPLY=( $(_get_longopts <span class="hljs-variable">${1}</span> <span class="hljs-variable">${cur}</span> ) )
+}
+complete  -o default -F _longopts configure bash
+complete  -o default -F _longopts wget id info a2ps ls recode
+
+<span class="hljs-function"><span class="hljs-title">_tar</span></span>()
+{
+    <span class="hljs-built_in">local</span> cur ext regex tar untar
+
+    COMPREPLY=()
+    cur=<span class="hljs-variable">${COMP_WORDS[COMP_CWORD]}</span>
+
+    <span class="hljs-comment"># If we want an option, return the possible long options.</span>
+    <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$cur</span>"</span> <span class="hljs-keyword">in</span>
+        -*)     COMPREPLY=( $(_get_longopts <span class="hljs-variable">$1</span> <span class="hljs-variable">$cur</span> ) ); <span class="hljs-built_in">return</span> 0;;
+    <span class="hljs-keyword">esac</span>
+
+    <span class="hljs-keyword">if</span> [ <span class="hljs-variable">$COMP_CWORD</span> -eq 1 ]; <span class="hljs-keyword">then</span>
+        COMPREPLY=( $( compgen -W <span class="hljs-string">'c t x u r d A'</span> -- <span class="hljs-variable">$cur</span> ) )
+        <span class="hljs-built_in">return</span> 0
+    <span class="hljs-keyword">fi</span>
+
+    <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">${COMP_WORDS[1]}</span>"</span> <span class="hljs-keyword">in</span>
+        ?(-)c*f)
+            COMPREPLY=( $( compgen -f <span class="hljs-variable">$cur</span> ) )
+            <span class="hljs-built_in">return</span> 0
+            ;;
+        +([^Izjy])f)
+            ext=<span class="hljs-string">'tar'</span>
+            regex=<span class="hljs-variable">$ext</span>
+            ;;
+        *z*f)
+            ext=<span class="hljs-string">'tar.gz'</span>
+            regex=<span class="hljs-string">'t\(ar\.\)\(gz\|Z\)'</span>
+            ;;
+        *[Ijy]*f)
+            ext=<span class="hljs-string">'t?(ar.)bz?(2)'</span>
+            regex=<span class="hljs-string">'t\(ar\.\)bz2\?'</span>
+            ;;
+        *)
+            COMPREPLY=( $( compgen -f <span class="hljs-variable">$cur</span> ) )
+            <span class="hljs-built_in">return</span> 0
+            ;;
+
+    <span class="hljs-keyword">esac</span>
+
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-string">"<span class="hljs-variable">$COMP_LINE</span>"</span> == tar*.<span class="hljs-variable">$ext</span><span class="hljs-string">' '</span>* ]]; <span class="hljs-keyword">then</span>
+        <span class="hljs-comment"># Complete on files in tar file.</span>
+        <span class="hljs-comment">#</span>
+        <span class="hljs-comment"># Get name of tar file from command line.</span>
+        tar=$( <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$COMP_LINE</span>"</span> | \
+                        sed -e <span class="hljs-string">'s|^.* \([^ ]*'</span><span class="hljs-variable">$regex</span><span class="hljs-string">'\) .*$|\1|'</span> )
+        <span class="hljs-comment"># Devise how to untar and list it.</span>
+        untar=t<span class="hljs-variable">${COMP_WORDS[1]//[^Izjyf]/}</span>
+
+        COMPREPLY=( $( compgen -W <span class="hljs-string">"<span class="hljs-subst">$( echo $( tar $untar $tar \
+                                2&gt;/dev/null )</span> )"</span> -- <span class="hljs-string">"<span class="hljs-variable">$cur</span>"</span> ) )
+        <span class="hljs-built_in">return</span> 0
+
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-comment"># File completion on relevant files.</span>
+        COMPREPLY=( $( compgen -G <span class="hljs-variable">$cur</span>\*.<span class="hljs-variable">$ext</span> ) )
+
+    <span class="hljs-keyword">fi</span>
+
+    <span class="hljs-built_in">return</span> 0
+
+}
+
+complete -F _tar -o default tar
+
+<span class="hljs-function"><span class="hljs-title">_make</span></span>()
+{
+    <span class="hljs-built_in">local</span> mdef makef makef_dir=<span class="hljs-string">"."</span> makef_inc gcmd cur prev i;
+    COMPREPLY=();
+    cur=<span class="hljs-variable">${COMP_WORDS[COMP_CWORD]}</span>;
+    prev=<span class="hljs-variable">${COMP_WORDS[COMP_CWORD-1]}</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$prev</span>"</span> <span class="hljs-keyword">in</span>
+        -*f)
+            COMPREPLY=($(compgen -f <span class="hljs-variable">$cur</span> ));
+            <span class="hljs-built_in">return</span> 0
+            ;;
+    <span class="hljs-keyword">esac</span>;
+    <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$cur</span>"</span> <span class="hljs-keyword">in</span>
+        -*)
+            COMPREPLY=($(_get_longopts <span class="hljs-variable">$1</span> <span class="hljs-variable">$cur</span> ));
+            <span class="hljs-built_in">return</span> 0
+            ;;
+    <span class="hljs-keyword">esac</span>;
+
+    <span class="hljs-comment"># ... make reads</span>
+    <span class="hljs-comment">#          GNUmakefile,</span>
+    <span class="hljs-comment">#     then makefile</span>
+    <span class="hljs-comment">#     then Makefile ...</span>
+    <span class="hljs-keyword">if</span> [ -f <span class="hljs-variable">${makef_dir}</span>/GNUmakefile ]; <span class="hljs-keyword">then</span>
+        makef=<span class="hljs-variable">${makef_dir}</span>/GNUmakefile
+    <span class="hljs-keyword">elif</span> [ -f <span class="hljs-variable">${makef_dir}</span>/makefile ]; <span class="hljs-keyword">then</span>
+        makef=<span class="hljs-variable">${makef_dir}</span>/makefile
+    <span class="hljs-keyword">elif</span> [ -f <span class="hljs-variable">${makef_dir}</span>/Makefile ]; <span class="hljs-keyword">then</span>
+        makef=<span class="hljs-variable">${makef_dir}</span>/Makefile
+    <span class="hljs-keyword">else</span>
+       makef=<span class="hljs-variable">${makef_dir}</span>/*.mk         <span class="hljs-comment"># Local convention.</span>
+    <span class="hljs-keyword">fi</span>
+
+
+    <span class="hljs-comment">#  Before we scan for targets, see if a Makefile name was</span>
+    <span class="hljs-comment">#+ specified with -f.</span>
+    <span class="hljs-keyword">for</span> (( i=0; i &lt; <span class="hljs-variable">${#COMP_WORDS[@]}</span>; i++ )); <span class="hljs-keyword">do</span>
+        <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">${COMP_WORDS[i]}</span> == -f ]]; <span class="hljs-keyword">then</span>
+            <span class="hljs-comment"># eval for tilde expansion</span>
+            <span class="hljs-built_in">eval</span> makef=<span class="hljs-variable">${COMP_WORDS[i+1]}</span>
+            <span class="hljs-built_in">break</span>
+        <span class="hljs-keyword">fi</span>
+    <span class="hljs-keyword">done</span>
+    [ ! -f <span class="hljs-variable">$makef</span> ] &amp;&amp; <span class="hljs-built_in">return</span> 0
+
+    <span class="hljs-comment"># Deal with included Makefiles.</span>
+    makef_inc=$( grep -E <span class="hljs-string">'^-?include'</span> <span class="hljs-variable">$makef</span> |
+                 sed -e <span class="hljs-string">"s,^.* ,"</span><span class="hljs-variable">$makef_dir</span><span class="hljs-string">"/,"</span> )
+    <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> <span class="hljs-variable">$makef_inc</span>; <span class="hljs-keyword">do</span>
+        [ -f <span class="hljs-variable">$file</span> ] &amp;&amp; makef=<span class="hljs-string">"<span class="hljs-variable">$makef</span> <span class="hljs-variable">$file</span>"</span>
+    <span class="hljs-keyword">done</span>
+
+
+    <span class="hljs-comment">#  If we have a partial word to complete, restrict completions</span>
+    <span class="hljs-comment">#+ to matches of that word.</span>
+    <span class="hljs-keyword">if</span> [ -n <span class="hljs-string">"<span class="hljs-variable">$cur</span>"</span> ]; <span class="hljs-keyword">then</span> gcmd=<span class="hljs-string">'grep "^$cur"'</span> ; <span class="hljs-keyword">else</span> gcmd=cat ; <span class="hljs-keyword">fi</span>
+
+    COMPREPLY=( $( awk -F<span class="hljs-string">':'</span> <span class="hljs-string">'/^[a-zA-Z0-9][^$#\/\t=]*:([^=]|$)/ \
+                               {split($1,A,/ /);for(i in A)print A[i]}'</span> \
+                                <span class="hljs-variable">$makef</span> 2&gt;/dev/null | <span class="hljs-built_in">eval</span> <span class="hljs-variable">$gcmd</span>  ))
+
+}
+
+complete -F _make -X <span class="hljs-string">'+($*|*.[cho])'</span> make gmake pmake
+
+
+
+
+<span class="hljs-function"><span class="hljs-title">_killall</span></span>()
+{
+    <span class="hljs-built_in">local</span> cur prev
+    COMPREPLY=()
+    cur=<span class="hljs-variable">${COMP_WORDS[COMP_CWORD]}</span>
+
+    <span class="hljs-comment">#  Get a list of processes</span>
+    <span class="hljs-comment">#+ (the first sed evaluation</span>
+    <span class="hljs-comment">#+ takes care of swapped out processes, the second</span>
+    <span class="hljs-comment">#+ takes care of getting the basename of the process).</span>
+    COMPREPLY=( $( ps -u <span class="hljs-variable">$USER</span> -o comm  | \
+        sed -e <span class="hljs-string">'1,1d'</span> -e <span class="hljs-string">'s#[]\[]##g'</span> -e <span class="hljs-string">'s#^.*/##'</span>| \
+        awk <span class="hljs-string">'{if ($0 ~ /^'</span><span class="hljs-variable">$cur</span><span class="hljs-string">'/) print $0}'</span> ))
+
+    <span class="hljs-built_in">return</span> 0
+}
+
+complete -F _killall killall killps
+
+
+
+<span class="hljs-comment"># Local Variables:</span>
+<span class="hljs-comment"># mode:shell-script</span>
+<span class="hljs-comment"># sh-shell:bash</span>
+<span class="hljs-comment"># End:</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>And, here is a snippet from Andrzej Szelachowski's instructive <tt class="FILENAME">.bash_profile</tt> file.</p>
+    <div class="EXAMPLE">
+      <a name="BASHPROF" id="BASHPROF"></a>
+      <p><b>Example M-2. <tt class="FILENAME">.bash_profile</tt> file</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># From Andrzej Szelachowski's ~/.bash_profile:</span>
+
+
+<span class="hljs-comment">#  Note that a variable may require special treatment</span>
+<span class="hljs-comment">#+ if it will be exported.</span>
+
+DARKGRAY=<span class="hljs-string">'\e[1;30m'</span>
+LIGHTRED=<span class="hljs-string">'\e[1;31m'</span>
+GREEN=<span class="hljs-string">'\e[32m'</span>
+YELLOW=<span class="hljs-string">'\e[1;33m'</span>
+LIGHTBLUE=<span class="hljs-string">'\e[1;34m'</span>
+NC=<span class="hljs-string">'\e[m'</span>
+
+PCT=<span class="hljs-string">"\`if [[ \$EUID -eq 0 ]]; then T='<span class="hljs-variable">$LIGHTRED</span>' ; else T='<span class="hljs-variable">$LIGHTBLUE</span>'; fi; 
+echo \$T \`"</span>
+
+<span class="hljs-comment">#  For "literal" command substitution to be assigned to a variable,</span>
+<span class="hljs-comment">#+ use escapes and double quotes:</span>
+<span class="hljs-comment">#+       PCT="\` ... \`" . . .</span>
+<span class="hljs-comment">#  Otherwise, the value of PCT variable is assigned only once,</span>
+<span class="hljs-comment">#+ when the variable is exported/read from .bash_profile,</span>
+<span class="hljs-comment">#+ and it will not change afterwards even if the user ID changes.</span>
+
+
+PS1=<span class="hljs-string">"\n<span class="hljs-variable">$GREEN</span>[\w] \n<span class="hljs-variable">$DARKGRAY</span>(<span class="hljs-variable">$PCT</span>\t<span class="hljs-variable">$DARKGRAY</span>)-(<span class="hljs-variable">$PCT</span>\u<span class="hljs-variable">$DARKGRAY</span>)-(<span class="hljs-variable">$PCT</span>\!
+<span class="hljs-variable">$DARKGRAY</span>)<span class="hljs-variable">$YELLOW</span>-&gt; <span class="hljs-variable">$NC</span>"</span>
+
+<span class="hljs-comment">#  Escape a variables whose value changes:</span>
+<span class="hljs-comment">#        if [[ \$EUID -eq 0 ]],</span>
+<span class="hljs-comment">#  Otherwise the value of the EUID variable will be assigned only once,</span>
+<span class="hljs-comment">#+ as above.</span>
+
+<span class="hljs-comment">#  When a variable is assigned, it should be called escaped:</span>
+<span class="hljs-comment">#+       echo \$T,</span>
+<span class="hljs-comment">#  Otherwise the value of the T variable is taken from the moment the PCT </span>
+<span class="hljs-comment">#+ variable is exported/read from .bash_profile.</span>
+<span class="hljs-comment">#  So, in this example it would be null.</span>
+
+<span class="hljs-comment">#  When a variable's value contains a semicolon it should be strong quoted:</span>
+<span class="hljs-comment">#        T='$LIGHTRED',</span>
+<span class="hljs-comment">#  Otherwise, the semicolon will be interpreted as a command separator.</span>
+
+
+<span class="hljs-comment">#  Variables PCT and PS1 can be merged into a new PS1 variable:</span>
+
+PS1=<span class="hljs-string">"\`if [[ \$EUID -eq 0 ]]; then PCT='<span class="hljs-variable">$LIGHTRED</span>';
+else PCT='<span class="hljs-variable">$LIGHTBLUE</span>'; fi; 
+echo '\n<span class="hljs-variable">$GREEN</span>[\w] \n<span class="hljs-variable">$DARKGRAY</span>('\$PCT'\t<span class="hljs-variable">$DARKGRAY</span>)-\
+('\$PCT'\u<span class="hljs-variable">$DARKGRAY</span>)-('\$PCT'\!<span class="hljs-variable">$DARKGRAY</span>)<span class="hljs-variable">$YELLOW</span>-&gt; <span class="hljs-variable">$NC</span>'\`"</span>
+
+<span class="hljs-comment"># The trick is to use strong quoting for parts of old PS1 variable.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="histcommands.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="dosbatch.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">History Commands</td>
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+        <td width="33%" align="right" valign="top">Converting DOS Batch Files to Shell Scripts</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

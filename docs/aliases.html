@@ -1,0 +1,185 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Aliases</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="Recursion Without Local Variables" href="recurnolocvar.html">
+  <link rel="NEXT" title="List Constructs" href="list-cons.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="recurnolocvar.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="list-cons.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="ALIASES" id="ALIASES"></a>Chapter 25. Aliases</h1>
+    <p><a name="ALIASREF" id="ALIASREF"></a></p>
+    <p>A Bash <i class="FIRSTTERM">alias</i> is essentially nothing more than a keyboard shortcut, an abbreviation, a means of avoiding typing a long command sequence. If, for example, we include <b class="COMMAND">alias lm="ls -l | more"</b> in the <a href="sample-bashrc.html"><tt class="FILENAME">~/.bashrc</tt> file</a>, then each <tt class="USERINPUT"><b>lm</b></tt> <a name="AEN18669" href="#FTN.AEN18669" id="AEN18669"><span class="footnote">[1]</span></a> typed at the command-line will automatically be replaced by a <b class="COMMAND">ls -l | more</b>. This can save a great deal of typing at the command-line and avoid having to remember complex combinations of commands and options. Setting <b class="COMMAND">alias rm="rm -i"</b> (interactive mode delete) may save a good deal of grief, since it can prevent inadvertently deleting important files.</p>
+    <p>In a script, aliases have very limited usefulness. It would be nice if aliases could assume some of the functionality of the <b class="COMMAND">C</b> preprocessor, such as macro expansion, but unfortunately Bash does not expand arguments within the alias body. <a name="AEN18676" href="#FTN.AEN18676" id="AEN18676"><span class="footnote">[2]</span></a> Moreover, a script fails to expand an alias itself within <span class="QUOTE">"compound constructs,"</span> such as <a href="tests.html#IFTHEN">if/then</a> statements, loops, and functions. An added limitation is that an alias will not expand recursively. Almost invariably, whatever we would like an alias to do could be accomplished much more effectively with a <a href="functions.html#FUNCTIONREF">function</a>.</p>
+    <div class="EXAMPLE">
+      <a name="AL" id="AL"></a>
+      <p><b>Example 25-1. Aliases within a script</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># alias.sh</span>
+
+<span class="hljs-built_in">shopt</span> -s expand_aliases
+<span class="hljs-comment"># Must set this option, else script will not expand aliases.</span>
+
+
+<span class="hljs-comment"># First, some fun.</span>
+<span class="hljs-built_in">alias</span> Jesse_James=<span class="hljs-string">'echo "\"Alias Jesse James\" was a 1959 comedy starring Bob Hope."'</span>
+Jesse_James
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>;
+
+<span class="hljs-built_in">alias</span> ll=<span class="hljs-string">"ls -l"</span>
+<span class="hljs-comment"># May use either single (') or double (") quotes to define an alias.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Trying aliased \"ll\":"</span>
+ll /usr/X11R6/bin/mk*   <span class="hljs-comment">#* Alias works.</span>
+
+<span class="hljs-built_in">echo</span>
+
+directory=/usr/X11R6/bin/
+prefix=mk*  <span class="hljs-comment"># See if wild card causes problems.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Variables \"directory\" + \"prefix\" = <span class="hljs-variable">$directory</span><span class="hljs-variable">$prefix</span>"</span>
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">alias</span> lll=<span class="hljs-string">"ls -l <span class="hljs-variable">$directory</span><span class="hljs-variable">$prefix</span>"</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Trying aliased \"lll\":"</span>
+lll         <span class="hljs-comment"># Long listing of all files in /usr/X11R6/bin stating with mk.</span>
+<span class="hljs-comment"># An alias can handle concatenated variables -- including wild card -- o.k.</span>
+
+
+
+
+TRUE=1
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">if</span> [ TRUE ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">alias</span> rr=<span class="hljs-string">"ls -l"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Trying aliased \"rr\" within if/then statement:"</span>
+  rr /usr/X11R6/bin/mk*   <span class="hljs-comment">#* Error message results!</span>
+  <span class="hljs-comment"># Aliases not expanded within compound statements.</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"However, previously expanded alias still recognized:"</span>
+  ll /usr/X11R6/bin/mk*
+<span class="hljs-keyword">fi</span>  
+
+<span class="hljs-built_in">echo</span>
+
+count=0
+<span class="hljs-keyword">while</span> [ <span class="hljs-variable">$count</span> -lt 3 ]
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">alias</span> rrr=<span class="hljs-string">"ls -l"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Trying aliased \"rrr\" within \"while\" loop:"</span>
+  rrr /usr/X11R6/bin/mk*   <span class="hljs-comment">#* Alias will not expand here either.</span>
+                           <span class="hljs-comment">#  alias.sh: line 57: rrr: command not found</span>
+  <span class="hljs-built_in">let</span> count+=1
+<span class="hljs-keyword">done</span> 
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">alias</span> xyz=<span class="hljs-string">'cat $0'</span>   <span class="hljs-comment"># Script lists itself.</span>
+                     <span class="hljs-comment"># Note strong quotes.</span>
+xyz
+<span class="hljs-comment">#  This seems to work,</span>
+<span class="hljs-comment">#+ although the Bash documentation suggests that it shouldn't.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  However, as Steve Jacobson points out,</span>
+<span class="hljs-comment">#+ the "$0" parameter expands immediately upon declaration of the alias.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="UNALIASREF" id="UNALIASREF"></a></p>
+    <p>The <b class="COMMAND">unalias</b> command removes a previously set <i class="FIRSTTERM">alias</i>.</p>
+    <div class="EXAMPLE">
+      <a name="UNAL" id="UNAL"></a>
+      <p><b>Example 25-2. <i class="FIRSTTERM">unalias</i>: Setting and unsetting an alias</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># unalias.sh</span>
+
+<span class="hljs-built_in">shopt</span> -s expand_aliases  <span class="hljs-comment"># Enables alias expansion.</span>
+
+<span class="hljs-built_in">alias</span> llm=<span class="hljs-string">'ls -al | more'</span>
+llm
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">unalias</span> llm              <span class="hljs-comment"># Unset alias.</span>
+llm
+<span class="hljs-comment"># Error message results, since 'llm' no longer recognized.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> ./unalias.sh</span>
+total 6
+drwxrwxr-x    2 bozo     bozo         3072 Feb  6 14:04 .
+drwxr-xr-x   40 bozo     bozo         2048 Feb  6 14:04 ..
+-rwxr-xr-x    1 bozo     bozo          199 Feb  6 14:04 unalias.sh
+
+./unalias.sh: llm: command not found</pre>
+        </td>
+      </tr>
+    </tbody></table>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN18669" href="aliases.html#AEN18669" id="FTN.AEN18669"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>... as the first word of a command string. Obviously, an alias is only meaningful at the <em>beginning</em> of a command.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN18676" href="aliases.html#AEN18676" id="FTN.AEN18676"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>However, aliases do seem to expand positional parameters.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="recurnolocvar.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="list-cons.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Recursion Without Local Variables</td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">List Constructs</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

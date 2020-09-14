@@ -1,0 +1,597 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Operators</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Operations and Related Topics" href="operations.html">
+  <link rel="PREVIOUS" title="Operations and Related Topics" href="operations.html">
+  <link rel="NEXT" title="Numerical Constants" href="numerical-constants.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="operations.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 8. Operations and Related Topics</td>
+        <td width="10%" align="right" valign="bottom"><a href="numerical-constants.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="OPS" id="OPS"></a>8.1. Operators</h1>
+    <div class="VARIABLELIST">
+      <p><b><a name="ASNOP1" id="ASNOP1"></a>assignment</b></p>
+      <dl>
+        <dt><tt class="REPLACEABLE"><i>variable assignment</i></tt></dt>
+        <dd>
+          <p>Initializing or changing the value of a variable</p>
+        </dd>
+        <dt>=</dt>
+        <dd>
+          <p>All-purpose assignment operator, which works for both arithmetic and string assignments.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">var=27
+category=minerals  <span class="hljs-comment"># No spaces allowed after the "=".</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>Do not confuse the <span class="QUOTE">"="</span> assignment operator with the <a href="comparison-ops.html#EQUALSIGNREF">= test operator</a>.</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tbody><tr>
+                      <td>
+                        <pre class="PROGRAMLISTING hljs"><span class="hljs-comment">#   =  as a test operator</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$string1</span>"</span> = <span class="hljs-string">"<span class="hljs-variable">$string2</span>"</span> ]
+<span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">command</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment">#  if [ "X$string1" = "X$string2" ] is safer,</span>
+<span class="hljs-comment">#+ to prevent an error message should one of the variables be empty.</span>
+<span class="hljs-comment">#  (The prepended "X" characters cancel out.)</span></pre>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="AROPS1" id="AROPS1"></a>arithmetic operators</b></p>
+      <dl>
+        <dt><span class="TOKEN">+</span></dt>
+        <dd>
+          <p>plus</p>
+        </dd>
+        <dt><span class="TOKEN">-</span></dt>
+        <dd>
+          <p>minus</p>
+        </dd>
+        <dt><span class="TOKEN">*</span></dt>
+        <dd>
+          <p>multiplication</p>
+        </dd>
+        <dt><span class="TOKEN">/</span></dt>
+        <dd>
+          <p>division</p>
+        </dd>
+        <dt><a name="EXPONENTIATIONREF" id="EXPONENTIATIONREF"></a><span class="TOKEN">**</span></dt>
+        <dd>
+          <p>exponentiation</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># Bash, version 2.02, introduced the "**" exponentiation operator.</span>
+
+<span class="hljs-built_in">let</span> <span class="hljs-string">"z=5**3"</span>    <span class="hljs-comment"># 5 * 5 * 5</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"z = <span class="hljs-variable">$z</span>"</span>   <span class="hljs-comment"># z = 125</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="MODULOREF" id="MODULOREF"></a><span class="TOKEN">%</span></dt>
+        <dd>
+          <p>modulo, or mod (returns the <i class="FIRSTTERM">remainder</i> of an integer division operation)</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> expr 5 % 3</span>
+2
+              </pre>
+              </td>
+            </tr>
+          </tbody></table><em>5/3 = 1, with remainder 2</em>
+          <p>This operator finds use in, among other things, generating numbers within a specific range (see <a href="randomvar.html#EX21">Example 9-11</a> and <a href="randomvar.html#RANDOMTEST">Example 9-15</a>) and formatting program output (see <a href="arrays.html#QFUNCTION">Example 27-16</a> and <a href="contributed-scripts.html#COLLATZ">Example A-6</a>). It can even be used to generate prime numbers, (see <a href="contributed-scripts.html#PRIMES">Example A-15</a>). Modulo turns up surprisingly often in numerical recipes.</p>
+          <div class="EXAMPLE">
+            <a name="GCD" id="GCD"></a>
+            <p><b>Example 8-1. Greatest common divisor</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># gcd.sh: greatest common divisor</span>
+<span class="hljs-comment">#         Uses Euclid's algorithm</span>
+
+<span class="hljs-comment">#  The "greatest common divisor" (gcd) of two integers</span>
+<span class="hljs-comment">#+ is the largest integer that will divide both, leaving no remainder.</span>
+
+<span class="hljs-comment">#  Euclid's algorithm uses successive division.</span>
+<span class="hljs-comment">#    In each pass,</span>
+<span class="hljs-comment">#+      dividend &lt;---  divisor</span>
+<span class="hljs-comment">#+      divisor  &lt;---  remainder</span>
+<span class="hljs-comment">#+   until remainder = 0.</span>
+<span class="hljs-comment">#    The gcd = dividend, on the final pass.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  For an excellent discussion of Euclid's algorithm, see</span>
+<span class="hljs-comment">#+ Jim Loy's site, http://www.jimloy.com/number/euclids.htm.</span>
+
+
+<span class="hljs-comment"># ------------------------------------------------------</span>
+<span class="hljs-comment"># Argument check</span>
+ARGS=2
+E_BADARGS=85
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -ne <span class="hljs-string">"<span class="hljs-variable">$ARGS</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` first-number second-number"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>
+<span class="hljs-comment"># ------------------------------------------------------</span>
+
+
+<span class="hljs-function"><span class="hljs-title">gcd</span></span> ()
+{
+
+  dividend=<span class="hljs-variable">$1</span>             <span class="hljs-comment">#  Arbitrary assignment.</span>
+  divisor=<span class="hljs-variable">$2</span>              <span class="hljs-comment">#! It doesn't matter which of the two is larger.</span>
+                          <span class="hljs-comment">#  Why not?</span>
+
+  remainder=1             <span class="hljs-comment">#  If an uninitialized variable is used inside</span>
+                          <span class="hljs-comment">#+ test brackets, an error message results.</span>
+
+  until [ <span class="hljs-string">"<span class="hljs-variable">$remainder</span>"</span> -eq 0 ]
+  <span class="hljs-keyword">do</span>    <span class="hljs-comment">#  ^^^^^^^^^^  Must be previously initialized!</span>
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"remainder = <span class="hljs-variable">$dividend</span> % <span class="hljs-variable">$divisor</span>"</span>
+    dividend=<span class="hljs-variable">$divisor</span>     <span class="hljs-comment"># Now repeat with 2 smallest numbers.</span>
+    divisor=<span class="hljs-variable">$remainder</span>
+  <span class="hljs-keyword">done</span>                    <span class="hljs-comment"># Euclid's algorithm</span>
+
+}                         <span class="hljs-comment"># Last $dividend is the gcd.</span>
+
+
+gcd <span class="hljs-variable">$1</span> <span class="hljs-variable">$2</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span> <span class="hljs-string">"GCD of <span class="hljs-variable">$1</span> and <span class="hljs-variable">$2</span> = <span class="hljs-variable">$dividend</span>"</span>; <span class="hljs-built_in">echo</span>
+
+
+<span class="hljs-comment"># Exercises :</span>
+<span class="hljs-comment"># ---------</span>
+<span class="hljs-comment"># 1) Check command-line arguments to make sure they are integers,</span>
+<span class="hljs-comment">#+   and exit the script with an appropriate error message if not.</span>
+<span class="hljs-comment"># 2) Rewrite the gcd () function to use local variables.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="ARITHOPSCOMB" id="ARITHOPSCOMB"></a><span class="TOKEN">+=</span></dt>
+        <dd>
+          <p><i class="FIRSTTERM">plus-equal</i> (increment variable by a constant) <a name="AEN3907" href="#FTN.AEN3907" id="AEN3907"><span class="footnote">[1]</span></a></p>
+          <p><tt class="USERINPUT"><b>let "var += 5"</b></tt> results in <tt class="PARAMETER"><i>var</i></tt> being incremented by <tt class="LITERAL">5</tt>.</p>
+        </dd>
+        <dt><span class="TOKEN">-=</span></dt>
+        <dd>
+          <p><i class="FIRSTTERM">minus-equal</i> (decrement variable by a constant)</p>
+        </dd>
+        <dt><span class="TOKEN">*=</span></dt>
+        <dd>
+          <p><i class="FIRSTTERM">times-equal</i> (multiply variable by a constant)</p>
+          <p><tt class="USERINPUT"><b>let "var *= 4"</b></tt> results in <tt class="PARAMETER"><i>var</i></tt> being multiplied by <tt class="LITERAL">4</tt>.</p>
+        </dd>
+        <dt><span class="TOKEN">/=</span></dt>
+        <dd>
+          <p><i class="FIRSTTERM">slash-equal</i> (divide variable by a constant)</p>
+        </dd>
+        <dt><span class="TOKEN">%=</span></dt>
+        <dd>
+          <p><i class="FIRSTTERM">mod-equal</i> (<i class="FIRSTTERM">remainder</i> of dividing variable by a constant)</p>
+          <p><em>Arithmetic operators often occur in an <a href="moreadv.html#EXPRREF">expr</a> or <a href="internal.html#LETREF">let</a> expression.</em></p>
+          <div class="EXAMPLE">
+            <a name="ARITHOPS" id="ARITHOPS"></a>
+            <p><b>Example 8-2. Using Arithmetic Operations</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Counting to 11 in 10 different ways.</span>
+
+n=1; <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$n</span> "</span>
+
+<span class="hljs-built_in">let</span> <span class="hljs-string">"n = <span class="hljs-variable">$n</span> + 1"</span>   <span class="hljs-comment"># let "n = n + 1"  also works.</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$n</span> "</span>
+
+
+: $((n = <span class="hljs-variable">$n</span> + <span class="hljs-number">1</span>))
+<span class="hljs-comment">#  ":" necessary because otherwise Bash attempts</span>
+<span class="hljs-comment">#+ to interpret "$((n = $n + 1))" as a command.</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$n</span> "</span>
+
+(( n = n + 1 ))
+<span class="hljs-comment">#  A simpler alternative to the method above.</span>
+<span class="hljs-comment">#  Thanks, David Lombard, for pointing this out.</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$n</span> "</span>
+
+n=$((<span class="hljs-variable">$n</span> + <span class="hljs-number">1</span>))
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$n</span> "</span>
+
+: $[ n = <span class="hljs-variable">$n</span> + 1 ]
+<span class="hljs-comment">#  ":" necessary because otherwise Bash attempts</span>
+<span class="hljs-comment">#+ to interpret "$[ n = $n + 1 ]" as a command.</span>
+<span class="hljs-comment">#  Works even if "n" was initialized as a string.</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$n</span> "</span>
+
+n=$[ <span class="hljs-variable">$n</span> + 1 ]
+<span class="hljs-comment">#  Works even if "n" was initialized as a string.</span>
+<span class="hljs-comment">#* Avoid this type of construct, since it is obsolete and nonportable.</span>
+<span class="hljs-comment">#  Thanks, Stephane Chazelas.</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$n</span> "</span>
+
+<span class="hljs-comment"># Now for C-style increment operators.</span>
+<span class="hljs-comment"># Thanks, Frank Wang, for pointing this out.</span>
+
+<span class="hljs-built_in">let</span> <span class="hljs-string">"n++"</span>          <span class="hljs-comment"># let "++n"  also works.</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$n</span> "</span>
+
+(( n++ ))          <span class="hljs-comment"># (( ++n ))  also works.</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$n</span> "</span>
+
+: $(( n++ ))       <span class="hljs-comment"># : $(( ++n )) also works.</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$n</span> "</span>
+
+: $[ n++ ]         <span class="hljs-comment"># : $[ ++n ] also works</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$n</span> "</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <p><a name="INTVARREF" id="INTVARREF"></a></p>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>Integer variables in older versions of Bash were signed <i class="FIRSTTERM">long</i> (32-bit) integers, in the range of -2147483648 to 2147483647. An operation that took a variable outside these limits gave an erroneous result.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-built_in">echo</span> <span class="hljs-variable">$BASH_VERSION</span>   <span class="hljs-comment"># 1.14</span>
+
+a=2147483646
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>        <span class="hljs-comment"># a = 2147483646</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"a+=1"</span>           <span class="hljs-comment"># Increment "a".</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>        <span class="hljs-comment"># a = 2147483647</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"a+=1"</span>           <span class="hljs-comment"># increment "a" again, past the limit.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>        <span class="hljs-comment"># a = -2147483648</span>
+                     <span class="hljs-comment">#      ERROR: out of range,</span>
+                     <span class="hljs-comment"># +    and the leftmost bit, the sign bit,</span>
+                     <span class="hljs-comment"># +    has been set, making the result negative.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+            <p>As of version &gt;= 2.05b, Bash supports 64-bit integers.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="CAUTION">
+      <table class="CAUTION" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+          <td align="left" valign="top">
+            <p><a name="NOFLOATINGPOINT" id="NOFLOATINGPOINT"></a></p>
+            <p>Bash does not understand floating point arithmetic. It treats numbers containing a decimal point as strings.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs">a=1.5
+
+<span class="hljs-built_in">let</span> <span class="hljs-string">"b = <span class="hljs-variable">$a</span> + 1.3"</span>  <span class="hljs-comment"># Error.</span>
+<span class="hljs-comment"># t2.sh: let: b = 1.5 + 1.3: syntax error in expression</span>
+<span class="hljs-comment">#                            (error token is ".5 + 1.3")</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"b = <span class="hljs-variable">$b</span>"</span>       <span class="hljs-comment"># b=1</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+            <p>Use <a href="mathc.html#BCREF">bc</a> in scripts that that need floating point calculations or math library functions.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="FORMALPARA">
+      <p><b>bitwise operators.</b> The bitwise operators seldom make an appearance in shell scripts. Their chief use seems to be manipulating and testing values read from ports or <a href="devref1.html#SOCKETREF">sockets</a>. <span class="QUOTE">"Bit flipping"</span> is more relevant to compiled languages, such as C and C++, which provide direct access to system hardware. However, see <em>vladz's</em> ingenious use of bitwise operators in his <i class="FIRSTTERM">base64.sh</i> (<a href="contributed-scripts.html#BASE64">Example A-54</a>) script.</p>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="BITWSOPS1" id="BITWSOPS1"></a>bitwise operators</b></p>
+      <dl>
+        <dt><span class="TOKEN">&lt;&lt;</span></dt>
+        <dd>
+          <p>bitwise left shift (multiplies by <tt class="LITERAL">2</tt> for each shift position)</p>
+        </dd>
+        <dt><span class="TOKEN">&lt;&lt;=</span></dt>
+        <dd>
+          <p><i class="FIRSTTERM">left-shift-equal</i></p>
+          <p><tt class="USERINPUT"><b>let "var &lt;&lt;= 2"</b></tt> results in <tt class="PARAMETER"><i>var</i></tt> left-shifted <tt class="LITERAL">2</tt> bits (multiplied by <tt class="LITERAL">4</tt>)</p>
+        </dd>
+        <dt><span class="TOKEN">&gt;&gt;</span></dt>
+        <dd>
+          <p>bitwise right shift (divides by <tt class="LITERAL">2</tt> for each shift position)</p>
+        </dd>
+        <dt><span class="TOKEN">&gt;&gt;=</span></dt>
+        <dd>
+          <p><i class="FIRSTTERM">right-shift-equal</i> (inverse of <span class="TOKEN">&lt;&lt;=</span>)</p>
+        </dd>
+        <dt><span class="TOKEN">&amp;</span></dt>
+        <dd>
+          <p>bitwise AND</p>
+        </dd>
+        <dt><span class="TOKEN">&amp;=</span></dt>
+        <dd>
+          <p>bitwise <i class="FIRSTTERM">AND-equal</i></p>
+        </dd>
+        <dt><span class="TOKEN">|</span></dt>
+        <dd>
+          <p>bitwise OR</p>
+        </dd>
+        <dt><span class="TOKEN">|=</span></dt>
+        <dd>
+          <p>bitwise <i class="FIRSTTERM">OR-equal</i></p>
+        </dd>
+        <dt><span class="TOKEN">~</span></dt>
+        <dd>
+          <p>bitwise NOT</p>
+        </dd>
+        <dt><span class="TOKEN">^</span></dt>
+        <dd>
+          <p>bitwise XOR</p>
+        </dd>
+        <dt><span class="TOKEN">^=</span></dt>
+        <dd>
+          <p>bitwise <i class="FIRSTTERM">XOR-equal</i></p>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="LOGOPS1" id="LOGOPS1"></a>logical (boolean) operators</b></p>
+      <dl>
+        <dt><span class="TOKEN">!</span></dt>
+        <dd>
+          <p>NOT</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">if</span> [ ! -f <span class="hljs-variable">$FILENAME</span> ]
+<span class="hljs-keyword">then</span>
+  ...</pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><span class="TOKEN">&amp;&amp;</span></dt>
+        <dd>
+          <p>AND</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">if</span> [ <span class="hljs-variable">$condition1</span> ] &amp;&amp; [ <span class="hljs-variable">$condition2</span> ]
+<span class="hljs-comment">#  Same as:  if [ $condition1 -a $condition2 ]</span>
+<span class="hljs-comment">#  Returns true if both condition1 and condition2 hold true...</span>
+
+<span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$condition1</span> &amp;&amp; <span class="hljs-variable">$condition2</span> ]]    <span class="hljs-comment"># Also works.</span>
+<span class="hljs-comment">#  Note that &amp;&amp; operator not permitted inside brackets</span>
+<span class="hljs-comment">#+ of [ ... ] construct.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p><span class="TOKEN">&amp;&amp;</span> may also be used, depending on context, in an <a href="list-cons.html#LISTCONSREF">and list</a> to concatenate commands.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="ORREF" id="ORREF"></a><span class="TOKEN">||</span></dt>
+        <dd>
+          <p>OR</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">if</span> [ <span class="hljs-variable">$condition1</span> ] || [ <span class="hljs-variable">$condition2</span> ]
+<span class="hljs-comment"># Same as:  if [ $condition1 -o $condition2 ]</span>
+<span class="hljs-comment"># Returns true if either condition1 or condition2 holds true...</span>
+
+<span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$condition1</span> || <span class="hljs-variable">$condition2</span> ]]    <span class="hljs-comment"># Also works.</span>
+<span class="hljs-comment">#  Note that || operator not permitted inside brackets</span>
+<span class="hljs-comment">#+ of a [ ... ] construct.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>Bash tests the <a href="exit-status.html#EXITSTATUSREF">exit status</a> of each statement linked with a logical operator.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="EXAMPLE">
+            <a name="ANDOR" id="ANDOR"></a>
+            <p><b>Example 8-3. Compound Condition Tests Using &amp;&amp; and ||</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+a=24
+b=47
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> -eq 24 ] &amp;&amp; [ <span class="hljs-string">"<span class="hljs-variable">$b</span>"</span> -eq 47 ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Test #1 succeeds."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Test #1 fails."</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment"># ERROR:   if [ "$a" -eq 24 &amp;&amp; "$b" -eq 47 ]</span>
+<span class="hljs-comment">#+         attempts to execute  ' [ "$a" -eq 24 '</span>
+<span class="hljs-comment">#+         and fails to finding matching ']'.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  Note:  if [[ $a -eq 24 &amp;&amp; $b -eq 24 ]]  works.</span>
+<span class="hljs-comment">#  The double-bracket if-test is more flexible</span>
+<span class="hljs-comment">#+ than the single-bracket version.       </span>
+<span class="hljs-comment">#    (The "&amp;&amp;" has a different meaning in line 17 than in line 6.)</span>
+<span class="hljs-comment">#    Thanks, Stephane Chazelas, for pointing this out.</span>
+
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> -eq 98 ] || [ <span class="hljs-string">"<span class="hljs-variable">$b</span>"</span> -eq 47 ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Test #2 succeeds."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Test #2 fails."</span>
+<span class="hljs-keyword">fi</span>
+
+
+<span class="hljs-comment">#  The -a and -o options provide</span>
+<span class="hljs-comment">#+ an alternative compound condition test.</span>
+<span class="hljs-comment">#  Thanks to Patrick Callahan for pointing this out.</span>
+
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> -eq 24 -a <span class="hljs-string">"<span class="hljs-variable">$b</span>"</span> -eq 47 ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Test #3 succeeds."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Test #3 fails."</span>
+<span class="hljs-keyword">fi</span>
+
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> -eq 98 -o <span class="hljs-string">"<span class="hljs-variable">$b</span>"</span> -eq 47 ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Test #4 succeeds."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Test #4 fails."</span>
+<span class="hljs-keyword">fi</span>
+
+
+a=rhino
+b=crocodile
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> = rhino ] &amp;&amp; [ <span class="hljs-string">"<span class="hljs-variable">$b</span>"</span> = crocodile ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Test #5 succeeds."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Test #5 fails."</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>The <span class="TOKEN">&amp;&amp;</span> and <span class="TOKEN">||</span> operators also find use in an arithmetic context.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> $(( <span class="hljs-number">1</span> &amp;&amp; <span class="hljs-number">2</span> )) $((<span class="hljs-number">3</span> &amp;&amp; <span class="hljs-number">0</span>)) $((<span class="hljs-number">4</span> || <span class="hljs-number">0</span>)) $((<span class="hljs-number">0</span> || <span class="hljs-number">0</span>))</span>
+1 0 1 0
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="MISCOP1" id="MISCOP1"></a>miscellaneous operators</b></p>
+      <dl>
+        <dt><a name="COMMAOP" id="COMMAOP"></a><span class="TOKEN">,</span></dt>
+        <dd>
+          <p>Comma operator</p>
+          <p>The <b class="COMMAND">comma operator</b> chains together two or more arithmetic operations. All the operations are evaluated (with possible <i class="FIRSTTERM">side effects</i>. <a name="AEN4242" href="#FTN.AEN4242" id="AEN4242"><span class="footnote">[2]</span></a></p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-built_in">let</span> <span class="hljs-string">"t1 = ((5 + 3, 7 - 1, 15 - 4))"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"t1 = <span class="hljs-variable">$t1</span>"</span>           ^^^^^^  <span class="hljs-comment"># t1 = 11</span>
+<span class="hljs-comment"># Here t1 is set to the result of the last operation. Why?</span>
+
+<span class="hljs-built_in">let</span> <span class="hljs-string">"t2 = ((a = 9, 15 / 3))"</span>      <span class="hljs-comment"># Set "a" and calculate "t2".</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"t2 = <span class="hljs-variable">$t2</span>    a = <span class="hljs-variable">$a</span>"</span>         <span class="hljs-comment"># t2 = 5    a = 9</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>The comma operator finds use mainly in <a href="loops1.html#FORLOOPREF1">for loops</a>. See <a href="loops1.html#FORLOOPC">Example 11-13</a>.</p>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN3907" href="ops.html#AEN3907" id="FTN.AEN3907"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>In a different context, <b class="COMMAND">+=</b> can serve as a <i class="FIRSTTERM">string concatenation</i> operator. This can be useful for <a href="bashver3.html#PATHAPPEND">modifying <i class="FIRSTTERM">environmental variables</i></a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN4242" href="ops.html#AEN4242" id="FTN.AEN4242"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><i class="FIRSTTERM">Side effects</i> are, of course, unintended -- and usually undesirable -- consequences.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="operations.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="numerical-constants.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Operations and Related Topics</td>
+        <td width="34%" align="center" valign="top"><a href="operations.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Numerical Constants</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

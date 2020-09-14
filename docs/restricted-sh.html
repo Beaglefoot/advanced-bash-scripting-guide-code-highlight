@@ -1,0 +1,139 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Restricted Shells</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="Subshells" href="subshells.html">
+  <link rel="NEXT" title="Process Substitution" href="process-sub.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="subshells.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="process-sub.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="RESTRICTED-SH" id="RESTRICTED-SH"></a>Chapter 22. Restricted Shells</h1>
+    <p><a name="RESTRICTEDSHREF" id="RESTRICTEDSHREF"></a></p>
+    <div class="VARIABLELIST">
+      <p><b><a name="DISABLEDCOMMREF" id="DISABLEDCOMMREF"></a>Disabled commands in restricted shells</b></p>
+      <dl>
+        <dd>
+          <div class="FORMALPARA">
+            <p><b>.</b> Running a script or portion of a script in <i class="FIRSTTERM">restricted mode</i> disables certain commands that would otherwise be available. This is a security measure intended to limit the privileges of the script user and to minimize possible damage from running the script.</p>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <p>The following commands and actions are disabled:</p>
+    <ul>
+      <li>
+        <p>Using <tt class="REPLACEABLE"><i>cd</i></tt> to change the working directory.</p>
+      </li>
+      <li>
+        <p>Changing the values of the <tt class="REPLACEABLE"><i>$PATH</i></tt>, <tt class="REPLACEABLE"><i>$SHELL</i></tt>, <tt class="REPLACEABLE"><i>$BASH_ENV</i></tt>, or <tt class="REPLACEABLE"><i>$ENV</i></tt> <a href="othertypesv.html#ENVREF">environmental variables</a>.</p>
+      </li>
+      <li>
+        <p>Reading or changing the <tt class="REPLACEABLE"><i>$SHELLOPTS</i></tt>, shell environmental options.</p>
+      </li>
+      <li>
+        <p>Output redirection.</p>
+      </li>
+      <li>
+        <p>Invoking commands containing one or more <span class="TOKEN">/</span>'s.</p>
+      </li>
+      <li>
+        <p>Invoking <a href="internal.html#EXECREF">exec</a> to substitute a different process for the shell.</p>
+      </li>
+      <li>
+        <p>Various other commands that would enable monkeying with or attempting to subvert the script for an unintended purpose.</p>
+      </li>
+      <li>
+        <p>Getting out of restricted mode within the script.</p>
+      </li>
+    </ul>
+    <div class="EXAMPLE">
+      <a name="RESTRICTED" id="RESTRICTED"></a>
+      <p><b>Example 22-1. Running a script in restricted mode</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment">#  Starting the script with "#!/bin/bash -r"</span>
+<span class="hljs-comment">#+ runs entire script in restricted mode.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Changing directory."</span>
+<span class="hljs-built_in">cd</span> /usr/<span class="hljs-built_in">local</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Now in `pwd`"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Coming back home."</span>
+<span class="hljs-built_in">cd</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Now in `pwd`"</span>
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># Everything up to here in normal, unrestricted mode.</span>
+
+<span class="hljs-built_in">set</span> -r
+<span class="hljs-comment"># set --restricted    has same effect.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"==&gt; Now in restricted mode. &lt;=="</span>
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Attempting directory change in restricted mode."</span>
+<span class="hljs-built_in">cd</span> ..
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Still in `pwd`"</span>
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"\$SHELL = <span class="hljs-variable">$SHELL</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Attempting to change shell in restricted mode."</span>
+SHELL=<span class="hljs-string">"/bin/ash"</span>
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"\$SHELL= <span class="hljs-variable">$SHELL</span>"</span>
+
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Attempting to redirect output in restricted mode."</span>
+ls -l /usr/bin &gt; bin.files
+ls -l bin.files    <span class="hljs-comment"># Try to list attempted file creation effort.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="subshells.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="process-sub.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Subshells</td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Process Substitution</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

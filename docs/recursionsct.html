@@ -1,0 +1,220 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Recursion: a script calling itself</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Miscellany" href="miscellany.html">
+  <link rel="PREVIOUS" title="Tests and Comparisons: Alternatives" href="testsandcomparisons.html">
+  <link rel="NEXT" title="Colorizing Scripts" href="colorizing.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="testsandcomparisons.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 36. Miscellany</td>
+        <td width="10%" align="right" valign="bottom"><a href="colorizing.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="RECURSIONSCT" id="RECURSIONSCT"></a>36.4. Recursion: a script calling itself</h1>
+    <p><a name="SCRIPTRECURSION" id="SCRIPTRECURSION"></a></p>
+    <p>Can a script <a href="localvar.html#RECURSIONREF">recursively</a> call itself? Indeed.</p>
+    <div class="EXAMPLE">
+      <a name="RECURSE" id="RECURSE"></a>
+      <p><b>Example 36-10. A (useless) script that recursively calls itself</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># recurse.sh</span>
+
+<span class="hljs-comment">#  Can a script recursively call itself?</span>
+<span class="hljs-comment">#  Yes, but is this of any practical use?</span>
+<span class="hljs-comment">#  (See the following.)</span>
+
+RANGE=10
+MAXVAL=9
+
+i=<span class="hljs-variable">$RANDOM</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"i %= <span class="hljs-variable">$RANGE</span>"</span>  <span class="hljs-comment"># Generate a random number between 0 and $RANGE - 1.</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$i</span>"</span> -lt <span class="hljs-string">"<span class="hljs-variable">$MAXVAL</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"i = <span class="hljs-variable">$i</span>"</span>
+  ./<span class="hljs-variable">$0</span>             <span class="hljs-comment">#  Script recursively spawns a new instance of itself.</span>
+<span class="hljs-keyword">fi</span>                 <span class="hljs-comment">#  Each child script does the same, until</span>
+                   <span class="hljs-comment">#+ a generated $i equals $MAXVAL.</span>
+
+<span class="hljs-comment">#  Using a "while" loop instead of an "if/then" test causes problems.</span>
+<span class="hljs-comment">#  Explain why.</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># Note:</span>
+<span class="hljs-comment"># ----</span>
+<span class="hljs-comment"># This script must have execute permission for it to work properly.</span>
+<span class="hljs-comment"># This is the case even if it is invoked by an "sh" command.</span>
+<span class="hljs-comment"># Explain why.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="PBOOK" id="PBOOK"></a>
+      <p><b>Example 36-11. A (useful) script that recursively calls itself</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># pb.sh: phone book</span>
+
+<span class="hljs-comment"># Written by Rick Boivie, and used with permission.</span>
+<span class="hljs-comment"># Modifications by ABS Guide author.</span>
+
+MINARGS=1     <span class="hljs-comment">#  Script needs at least one argument.</span>
+DATAFILE=./phonebook
+              <span class="hljs-comment">#  A data file in current working directory</span>
+              <span class="hljs-comment">#+ named "phonebook" must exist.</span>
+PROGNAME=<span class="hljs-variable">$0</span>
+E_NOARGS=70   <span class="hljs-comment">#  No arguments error.</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -lt <span class="hljs-variable">$MINARGS</span> ]; <span class="hljs-keyword">then</span>
+      <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: "</span><span class="hljs-variable">$PROGNAME</span><span class="hljs-string">" data-to-look-up"</span>
+      <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOARGS</span>
+<span class="hljs-keyword">fi</span>      
+
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -eq <span class="hljs-variable">$MINARGS</span> ]; <span class="hljs-keyword">then</span>
+      grep <span class="hljs-variable">$1</span> <span class="hljs-string">"<span class="hljs-variable">$DATAFILE</span>"</span>
+      <span class="hljs-comment"># 'grep' prints an error message if $DATAFILE not present.</span>
+<span class="hljs-keyword">else</span>
+      ( <span class="hljs-built_in">shift</span>; <span class="hljs-string">"<span class="hljs-variable">$PROGNAME</span>"</span> $* ) | grep <span class="hljs-variable">$1</span>
+      <span class="hljs-comment"># Script recursively calls itself.</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">exit</span> 0        <span class="hljs-comment">#  Script exits here.</span>
+              <span class="hljs-comment">#  Therefore, it's o.k. to put</span>
+              <span class="hljs-comment">#+ non-hashmarked comments and data after this point.</span>
+
+<span class="hljs-comment"># ------------------------------------------------------------------------</span>
+Sample <span class="hljs-string">"phonebook"</span> datafile:
+
+John Doe        1555 Main St., Baltimore, MD 21228          (410) 222-3333
+Mary Moe        9899 Jones Blvd., Warren, NH 03787          (603) 898-3232
+Richard Roe     856 E. 7th St., New York, NY 10009          (212) 333-4567
+Sam Roe         956 E. 8th St., New York, NY 10009          (212) 444-5678
+Zoe Zenobia     4481 N. Baker St., San Francisco, SF 94338  (415) 501-1631
+<span class="hljs-comment"># ------------------------------------------------------------------------</span>
+
+<span class="hljs-variable">$bash</span> pb.sh Roe
+Richard Roe     856 E. 7th St., New York, NY 10009          (212) 333-4567
+Sam Roe         956 E. 8th St., New York, NY 10009          (212) 444-5678
+
+<span class="hljs-variable">$bash</span> pb.sh Roe Sam
+Sam Roe         956 E. 8th St., New York, NY 10009          (212) 444-5678
+
+<span class="hljs-comment">#  When more than one argument is passed to this script,</span>
+<span class="hljs-comment">#+ it prints *only* the line(s) containing all the arguments.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="USRMNT" id="USRMNT"></a>
+      <p><b>Example 36-12. Another (useful) script that recursively calls itself</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># usrmnt.sh, written by Anthony Richardson</span>
+<span class="hljs-comment"># Used in ABS Guide with permission.</span>
+
+<span class="hljs-comment"># usage:       usrmnt.sh</span>
+<span class="hljs-comment"># description: mount device, invoking user must be listed in the</span>
+<span class="hljs-comment">#              MNTUSERS group in the /etc/sudoers file.</span>
+
+<span class="hljs-comment"># ----------------------------------------------------------</span>
+<span class="hljs-comment">#  This is a usermount script that reruns itself using sudo.</span>
+<span class="hljs-comment">#  A user with the proper permissions only has to type</span>
+
+<span class="hljs-comment">#   usermount /dev/fd0 /mnt/floppy</span>
+
+<span class="hljs-comment"># instead of</span>
+
+<span class="hljs-comment">#   sudo usermount /dev/fd0 /mnt/floppy</span>
+
+<span class="hljs-comment">#  I use this same technique for all of my</span>
+<span class="hljs-comment">#+ sudo scripts, because I find it convenient.</span>
+<span class="hljs-comment"># ----------------------------------------------------------</span>
+
+<span class="hljs-comment">#  If SUDO_COMMAND variable is not set we are not being run through</span>
+<span class="hljs-comment">#+ sudo, so rerun ourselves. Pass the user's real and group id . . .</span>
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$SUDO_COMMAND</span>"</span> ]
+<span class="hljs-keyword">then</span>
+   mntusr=$(id -u) grpusr=$(id -g) sudo <span class="hljs-variable">$0</span> $*
+   <span class="hljs-built_in">exit</span> 0
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment"># We will only get here if we are being run by sudo.</span>
+/bin/mount $* -o uid=<span class="hljs-variable">$mntusr</span>,gid=<span class="hljs-variable">$grpusr</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># Additional notes (from the author of this script): </span>
+<span class="hljs-comment"># -------------------------------------------------</span>
+
+<span class="hljs-comment"># 1) Linux allows the "users" option in the /etc/fstab</span>
+<span class="hljs-comment">#    file so that any user can mount removable media.</span>
+<span class="hljs-comment">#    But, on a server, I like to allow only a few</span>
+<span class="hljs-comment">#    individuals access to removable media.</span>
+<span class="hljs-comment">#    I find using sudo gives me more control.</span>
+
+<span class="hljs-comment"># 2) I also find sudo to be more convenient than</span>
+<span class="hljs-comment">#    accomplishing this task through groups.</span>
+
+<span class="hljs-comment"># 3) This method gives anyone with proper permissions</span>
+<span class="hljs-comment">#    root access to the mount command, so be careful</span>
+<span class="hljs-comment">#    about who you allow access.</span>
+<span class="hljs-comment">#    You can get finer control over which access can be mounted</span>
+<span class="hljs-comment">#    by using this same technique in separate mntfloppy, mntcdrom,</span>
+<span class="hljs-comment">#    and mntsamba scripts.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="CAUTION">
+      <table class="CAUTION" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+          <td align="left" valign="top">
+            <p>Too many levels of recursion can exhaust the script's stack space, causing a segfault.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="testsandcomparisons.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="colorizing.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Tests and Comparisons: Alternatives</td>
+        <td width="34%" align="center" valign="top"><a href="miscellany.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top"><span class="QUOTE">"Colorizing"</span> Scripts</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

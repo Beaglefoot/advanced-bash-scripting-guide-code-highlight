@@ -1,0 +1,919 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Colorizing Scripts</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Miscellany" href="miscellany.html">
+  <link rel="PREVIOUS" title="Recursion: a script calling itself" href="recursionsct.html">
+  <link rel="NEXT" title="Optimizations" href="optimizations.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="recursionsct.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 36. Miscellany</td>
+        <td width="10%" align="right" valign="bottom"><a href="optimizations.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="COLORIZING" id="COLORIZING"></a>36.5. <span class="QUOTE">"Colorizing"</span> Scripts</h1>
+    <p><a name="COLORIZINGREF" id="COLORIZINGREF"></a></p>
+    <p>The ANSI <a name="AEN20259" href="#FTN.AEN20259" id="AEN20259"><span class="footnote">[1]</span></a> escape sequences set screen attributes, such as bold text, and color of foreground and background. <a href="dosbatch.html#DOSBATCH1">DOS batch files</a> commonly used ANSI escape codes for <em>color</em> output, and so can Bash scripts.</p>
+    <div class="EXAMPLE">
+      <a name="EX30A" id="EX30A"></a>
+      <p><b>Example 36-13. A <span class="QUOTE">"colorized"</span> address database</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># ex30a.sh: "Colorized" version of ex30.sh.</span>
+<span class="hljs-comment">#            Crude address database</span>
+
+
+clear                                   <span class="hljs-comment"># Clear the screen.</span>
+
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"          "</span>
+<span class="hljs-built_in">echo</span> -e <span class="hljs-string">'\E[37;44m'</span><span class="hljs-string">"\033[1mContact List\033[0m"</span>
+                                        <span class="hljs-comment"># White on blue background</span>
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\033[1mChoose one of the following persons:\033[0m"</span>
+                                        <span class="hljs-comment"># Bold</span>
+tput sgr0                               <span class="hljs-comment"># Reset attributes.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"(Enter only the first letter of name.)"</span>
+<span class="hljs-built_in">echo</span>
+<span class="hljs-built_in">echo</span> -en <span class="hljs-string">'\E[47;34m'</span><span class="hljs-string">"\033[1mE\033[0m"</span>   <span class="hljs-comment"># Blue</span>
+tput sgr0                               <span class="hljs-comment"># Reset colors to "normal."</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"vans, Roland"</span>                     <span class="hljs-comment"># "[E]vans, Roland"</span>
+<span class="hljs-built_in">echo</span> -en <span class="hljs-string">'\E[47;35m'</span><span class="hljs-string">"\033[1mJ\033[0m"</span>   <span class="hljs-comment"># Magenta</span>
+tput sgr0
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"ambalaya, Mildred"</span>
+<span class="hljs-built_in">echo</span> -en <span class="hljs-string">'\E[47;32m'</span><span class="hljs-string">"\033[1mS\033[0m"</span>   <span class="hljs-comment"># Green</span>
+tput sgr0
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"mith, Julie"</span>
+<span class="hljs-built_in">echo</span> -en <span class="hljs-string">'\E[47;31m'</span><span class="hljs-string">"\033[1mZ\033[0m"</span>   <span class="hljs-comment"># Red</span>
+tput sgr0
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"ane, Morris"</span>
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">read</span> person
+
+<span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$person</span>"</span> <span class="hljs-keyword">in</span>
+<span class="hljs-comment"># Note variable is quoted.</span>
+
+  <span class="hljs-string">"E"</span> | <span class="hljs-string">"e"</span> )
+  <span class="hljs-comment"># Accept upper or lowercase input.</span>
+  <span class="hljs-built_in">echo</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Roland Evans"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"4321 Flash Dr."</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Hardscrabble, CO 80753"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"(303) 734-9874"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"(303) 734-9892 fax"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"revans@zzy.net"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Business partner &amp; old friend"</span>
+  ;;
+
+  <span class="hljs-string">"J"</span> | <span class="hljs-string">"j"</span> )
+  <span class="hljs-built_in">echo</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Mildred Jambalaya"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"249 E. 7th St., Apt. 19"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"New York, NY 10009"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"(212) 533-2814"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"(212) 533-9972 fax"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"milliej@loisaida.com"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Girlfriend"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Birthday: Feb. 11"</span>
+  ;;
+
+<span class="hljs-comment"># Add info for Smith &amp; Zane later.</span>
+
+          * )
+   <span class="hljs-comment"># Default option.      </span>
+   <span class="hljs-comment"># Empty input (hitting RETURN) fits here, too.</span>
+   <span class="hljs-built_in">echo</span>
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"Not yet in database."</span>
+  ;;
+
+<span class="hljs-keyword">esac</span>
+
+tput sgr0                               <span class="hljs-comment"># Reset colors to "normal."</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="DRAW-BOX" id="DRAW-BOX"></a>
+      <p><b>Example 36-14. Drawing a box</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Draw-box.sh: Drawing a box using ASCII characters.</span>
+
+<span class="hljs-comment"># Script by Stefano Palmeri, with minor editing by document author.</span>
+<span class="hljs-comment"># Minor edits suggested by Jim Angstadt.</span>
+<span class="hljs-comment"># Used in the ABS Guide with permission.</span>
+
+
+<span class="hljs-comment">######################################################################</span>
+<span class="hljs-comment">###  draw_box function doc  ###</span>
+
+<span class="hljs-comment">#  The "draw_box" function lets the user</span>
+<span class="hljs-comment">#+ draw a box in a terminal.       </span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  Usage: draw_box ROW COLUMN HEIGHT WIDTH [COLOR] </span>
+<span class="hljs-comment">#  ROW and COLUMN represent the position        </span>
+<span class="hljs-comment">#+ of the upper left angle of the box you're going to draw.</span>
+<span class="hljs-comment">#  ROW and COLUMN must be greater than 0</span>
+<span class="hljs-comment">#+ and less than current terminal dimension.</span>
+<span class="hljs-comment">#  HEIGHT is the number of rows of the box, and must be &gt; 0. </span>
+<span class="hljs-comment">#  HEIGHT + ROW must be &lt;= than current terminal height. </span>
+<span class="hljs-comment">#  WIDTH is the number of columns of the box and must be &gt; 0.</span>
+<span class="hljs-comment">#  WIDTH + COLUMN must be &lt;= than current terminal width.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># E.g.: If your terminal dimension is 20x80,</span>
+<span class="hljs-comment">#  draw_box 2 3 10 45 is good</span>
+<span class="hljs-comment">#  draw_box 2 3 19 45 has bad HEIGHT value (19+2 &gt; 20)</span>
+<span class="hljs-comment">#  draw_box 2 3 18 78 has bad WIDTH value (78+3 &gt; 80)</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  COLOR is the color of the box frame.</span>
+<span class="hljs-comment">#  This is the 5th argument and is optional.</span>
+<span class="hljs-comment">#  0=black 1=red 2=green 3=tan 4=blue 5=purple 6=cyan 7=white.</span>
+<span class="hljs-comment">#  If you pass the function bad arguments,</span>
+<span class="hljs-comment">#+ it will just exit with code 65,</span>
+<span class="hljs-comment">#+ and no messages will be printed on stderr.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  Clear the terminal before you start to draw a box.</span>
+<span class="hljs-comment">#  The clear command is not contained within the function.</span>
+<span class="hljs-comment">#  This allows the user to draw multiple boxes, even overlapping ones.</span>
+
+<span class="hljs-comment">###  end of draw_box function doc  ### </span>
+<span class="hljs-comment">######################################################################</span>
+
+<span class="hljs-function"><span class="hljs-title">draw_box</span></span>(){
+
+<span class="hljs-comment">#=============#</span>
+HORZ=<span class="hljs-string">"-"</span>
+VERT=<span class="hljs-string">"|"</span>
+CORNER_CHAR=<span class="hljs-string">"+"</span>
+
+MINARGS=4
+E_BADARGS=65
+<span class="hljs-comment">#=============#</span>
+
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -lt <span class="hljs-string">"<span class="hljs-variable">$MINARGS</span>"</span> ]; <span class="hljs-keyword">then</span>          <span class="hljs-comment"># If args are less than 4, exit.</span>
+    <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment"># Looking for non digit chars in arguments.</span>
+<span class="hljs-comment"># Probably it could be done better (exercise for the reader?).</span>
+<span class="hljs-keyword">if</span> <span class="hljs-built_in">echo</span> <span class="hljs-variable">$@</span> | tr -d [:blank:] | tr -d [:digit:] | grep . &amp;&gt; /dev/null; <span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>
+
+BOX_HEIGHT=`expr <span class="hljs-variable">$3</span> - 1`   <span class="hljs-comment">#  -1 correction needed because angle char "+"</span>
+BOX_WIDTH=`expr <span class="hljs-variable">$4</span> - 1`    <span class="hljs-comment">#+ is a part of both box height and width.</span>
+T_ROWS=`tput lines`        <span class="hljs-comment">#  Define current terminal dimension </span>
+T_COLS=`tput cols`         <span class="hljs-comment">#+ in rows and columns.</span>
+         
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$1</span> -lt 1 ] || [ <span class="hljs-variable">$1</span> -gt <span class="hljs-variable">$T_ROWS</span> ]; <span class="hljs-keyword">then</span>    <span class="hljs-comment">#  Start checking if arguments</span>
+   <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>                             <span class="hljs-comment">#+ are correct.</span>
+<span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$2</span> -lt 1 ] || [ <span class="hljs-variable">$2</span> -gt <span class="hljs-variable">$T_COLS</span> ]; <span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">if</span> [ `expr <span class="hljs-variable">$1</span> + <span class="hljs-variable">$BOX_HEIGHT</span> + 1` -gt <span class="hljs-variable">$T_ROWS</span> ]; <span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">if</span> [ `expr <span class="hljs-variable">$2</span> + <span class="hljs-variable">$BOX_WIDTH</span> + 1` -gt <span class="hljs-variable">$T_COLS</span> ]; <span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$3</span> -lt 1 ] || [ <span class="hljs-variable">$4</span> -lt 1 ]; <span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>                                 <span class="hljs-comment"># End checking arguments.</span>
+
+<span class="hljs-function"><span class="hljs-title">plot_char</span></span>(){                       <span class="hljs-comment"># Function within a function.</span>
+   <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\E[<span class="hljs-variable">${1}</span>;<span class="hljs-variable">${2}</span>H"</span><span class="hljs-variable">$3</span>
+}
+
+<span class="hljs-built_in">echo</span> -ne <span class="hljs-string">"\E[3<span class="hljs-variable">${5}</span>m"</span>               <span class="hljs-comment"># Set box frame color, if defined.</span>
+
+<span class="hljs-comment"># start drawing the box</span>
+
+count=1                                         <span class="hljs-comment">#  Draw vertical lines using</span>
+<span class="hljs-keyword">for</span> (( r=<span class="hljs-variable">$1</span>; count&lt;=<span class="hljs-variable">$BOX_HEIGHT</span>; r++)); <span class="hljs-keyword">do</span>      <span class="hljs-comment">#+ plot_char function.</span>
+  plot_char <span class="hljs-variable">$r</span> <span class="hljs-variable">$2</span> <span class="hljs-variable">$VERT</span>
+  <span class="hljs-built_in">let</span> count=count+1
+<span class="hljs-keyword">done</span> 
+
+count=1
+c=`expr <span class="hljs-variable">$2</span> + <span class="hljs-variable">$BOX_WIDTH</span>`
+<span class="hljs-keyword">for</span> (( r=<span class="hljs-variable">$1</span>; count&lt;=<span class="hljs-variable">$BOX_HEIGHT</span>; r++)); <span class="hljs-keyword">do</span>
+  plot_char <span class="hljs-variable">$r</span> <span class="hljs-variable">$c</span> <span class="hljs-variable">$VERT</span>
+  <span class="hljs-built_in">let</span> count=count+1
+<span class="hljs-keyword">done</span> 
+
+count=1                                        <span class="hljs-comment">#  Draw horizontal lines using</span>
+<span class="hljs-keyword">for</span> (( c=<span class="hljs-variable">$2</span>; count&lt;=<span class="hljs-variable">$BOX_WIDTH</span>; c++)); <span class="hljs-keyword">do</span>      <span class="hljs-comment">#+ plot_char function.</span>
+  plot_char <span class="hljs-variable">$1</span> <span class="hljs-variable">$c</span> <span class="hljs-variable">$HORZ</span>
+  <span class="hljs-built_in">let</span> count=count+1
+<span class="hljs-keyword">done</span> 
+
+count=1
+r=`expr <span class="hljs-variable">$1</span> + <span class="hljs-variable">$BOX_HEIGHT</span>`
+<span class="hljs-keyword">for</span> (( c=<span class="hljs-variable">$2</span>; count&lt;=<span class="hljs-variable">$BOX_WIDTH</span>; c++)); <span class="hljs-keyword">do</span>
+  plot_char <span class="hljs-variable">$r</span> <span class="hljs-variable">$c</span> <span class="hljs-variable">$HORZ</span>
+  <span class="hljs-built_in">let</span> count=count+1
+<span class="hljs-keyword">done</span> 
+
+plot_char <span class="hljs-variable">$1</span> <span class="hljs-variable">$2</span> <span class="hljs-variable">$CORNER_CHAR</span>                   <span class="hljs-comment"># Draw box angles.</span>
+plot_char <span class="hljs-variable">$1</span> `expr <span class="hljs-variable">$2</span> + <span class="hljs-variable">$BOX_WIDTH</span>` <span class="hljs-variable">$CORNER_CHAR</span>
+plot_char `expr <span class="hljs-variable">$1</span> + <span class="hljs-variable">$BOX_HEIGHT</span>` <span class="hljs-variable">$2</span> <span class="hljs-variable">$CORNER_CHAR</span>
+plot_char `expr <span class="hljs-variable">$1</span> + <span class="hljs-variable">$BOX_HEIGHT</span>` `expr <span class="hljs-variable">$2</span> + <span class="hljs-variable">$BOX_WIDTH</span>` <span class="hljs-variable">$CORNER_CHAR</span>
+
+<span class="hljs-built_in">echo</span> -ne <span class="hljs-string">"\E[0m"</span>             <span class="hljs-comment">#  Restore old colors.</span>
+
+P_ROWS=`expr <span class="hljs-variable">$T_ROWS</span> - 1`    <span class="hljs-comment">#  Put the prompt at bottom of the terminal.</span>
+
+<span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\E[<span class="hljs-variable">${P_ROWS}</span>;1H"</span>
+}      
+
+
+<span class="hljs-comment"># Now, let's try drawing a box.</span>
+clear                       <span class="hljs-comment"># Clear the terminal.</span>
+R=2      <span class="hljs-comment"># Row</span>
+C=3      <span class="hljs-comment"># Column</span>
+H=10     <span class="hljs-comment"># Height</span>
+W=45     <span class="hljs-comment"># Width </span>
+col=1    <span class="hljs-comment"># Color (red)</span>
+draw_box <span class="hljs-variable">$R</span> <span class="hljs-variable">$C</span> <span class="hljs-variable">$H</span> <span class="hljs-variable">$W</span> <span class="hljs-variable">$col</span>   <span class="hljs-comment"># Draw the box.</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># Exercise:</span>
+<span class="hljs-comment"># --------</span>
+<span class="hljs-comment"># Add the option of printing text within the drawn box.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>The simplest, and perhaps most useful ANSI escape sequence is bold text, <b class="COMMAND">\033[1m ... \033[0m</b>. The <span class="TOKEN">\033</span> represents an <a href="escapingsection.html#ESCP">escape</a>, the <span class="QUOTE">"[1"</span> turns on the bold attribute, while the <span class="QUOTE">"[0"</span> switches it off. The <span class="QUOTE">"m"</span> terminates each term of the escape sequence.</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\033[1mThis is bold text.\033[0m"</span></span>
+              </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>A similar escape sequence switches on the underline attribute (on an <i class="FIRSTTERM">rxvt</i> and an <i class="FIRSTTERM">aterm</i>).</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\033[4mThis is underlined text.\033[0m"</span></span>
+              </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>With an <b class="COMMAND">echo</b>, the <tt class="OPTION">-e</tt> option enables the escape sequences.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Other escape sequences change the text and/or background color.</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> -e <span class="hljs-string">'\E[34;47mThis prints in blue.'</span>; tput sgr0</span>
+<span class="hljs-meta">
+
+bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> -e <span class="hljs-string">'\E[33;44m'</span><span class="hljs-string">"yellow text on blue background"</span>; tput sgr0</span>
+<span class="hljs-meta">
+
+bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> -e <span class="hljs-string">'\E[1;33;44m'</span><span class="hljs-string">"BOLD yellow text on blue background"</span>; tput sgr0</span>
+              </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>It's usually advisable to set the <i class="FIRSTTERM">bold</i> attribute for light-colored foreground text.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>The <b class="COMMAND">tput sgr0</b> restores the terminal settings to normal. Omitting this lets all subsequent output from that particular terminal remain blue.</p>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>Since <b class="COMMAND">tput sgr0</b> fails to restore terminal settings under certain circumstances, <b class="COMMAND">echo -ne \E[0m</b> may be a better choice.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="COLORIZTEMPL" id="COLORIZTEMPL"></a></p>
+    <table class="SIDEBAR" border="1" cellpadding="5">
+      <tbody><tr>
+        <td>
+          <div class="SIDEBAR">
+            <a name="AEN20311" id="AEN20311"></a>
+            <p>Use the following template for writing colored text on a colored background.</p>
+            <p><tt class="USERINPUT"><b>echo -e '\E[COLOR1;COLOR2mSome text goes here.'</b></tt></p>
+            <p>The <span class="QUOTE">"\E["</span> begins the escape sequence. The semicolon-separated numbers <span class="QUOTE">"COLOR1"</span> and <span class="QUOTE">"COLOR2"</span> specify a foreground and a background color, according to the table below. (The order of the numbers does not matter, since the foreground and background numbers fall in non-overlapping ranges.) The <span class="QUOTE">"m"</span> terminates the escape sequence, and the text begins immediately after that.</p>
+            <p>Note also that <a href="varsubn.html#SNGLQUO">single quotes</a> enclose the remainder of the command sequence following the <b class="COMMAND">echo -e</b>.</p>
+          </div>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>The numbers in the following table work for an <i class="FIRSTTERM">rxvt</i> terminal. Results may vary for other terminal emulators.</p>
+    <p><a name="COLORIZTABLE" id="COLORIZTABLE"></a></p>
+    <div class="TABLE">
+      <a name="AEN20327" id="AEN20327"></a>
+      <p><b>Table 36-1. Numbers representing colors in Escape Sequences</b></p>
+      <table border="1" class="CALSTABLE">
+        <thead>
+          <tr>
+            <th align="left" valign="top">Color</th>
+            <th align="left" valign="top">Foreground</th>
+            <th align="left" valign="top">Background</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">black</tt></td>
+            <td align="left" valign="top">30</td>
+            <td align="left" valign="top">40</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">red</tt></td>
+            <td align="left" valign="top">31</td>
+            <td align="left" valign="top">41</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">green</tt></td>
+            <td align="left" valign="top">32</td>
+            <td align="left" valign="top">42</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">yellow</tt></td>
+            <td align="left" valign="top">33</td>
+            <td align="left" valign="top">43</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">blue</tt></td>
+            <td align="left" valign="top">34</td>
+            <td align="left" valign="top">44</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">magenta</tt></td>
+            <td align="left" valign="top">35</td>
+            <td align="left" valign="top">45</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">cyan</tt></td>
+            <td align="left" valign="top">36</td>
+            <td align="left" valign="top">46</td>
+          </tr>
+          <tr>
+            <td align="left" valign="top"><tt class="OPTION">white</tt></td>
+            <td align="left" valign="top">37</td>
+            <td align="left" valign="top">47</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="COLORECHO" id="COLORECHO"></a>
+      <p><b>Example 36-15. Echoing colored text</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># color-echo.sh: Echoing text messages in color.</span>
+
+<span class="hljs-comment"># Modify this script for your own purposes.</span>
+<span class="hljs-comment"># It's easier than hand-coding color.</span>
+
+black=<span class="hljs-string">'\E[30;47m'</span>
+red=<span class="hljs-string">'\E[31;47m'</span>
+green=<span class="hljs-string">'\E[32;47m'</span>
+yellow=<span class="hljs-string">'\E[33;47m'</span>
+blue=<span class="hljs-string">'\E[34;47m'</span>
+magenta=<span class="hljs-string">'\E[35;47m'</span>
+cyan=<span class="hljs-string">'\E[36;47m'</span>
+white=<span class="hljs-string">'\E[37;47m'</span>
+
+
+<span class="hljs-built_in">alias</span> Reset=<span class="hljs-string">"tput sgr0"</span>      <span class="hljs-comment">#  Reset text attributes to normal</span>
+                             <span class="hljs-comment">#+ without clearing screen.</span>
+
+
+cecho ()                     <span class="hljs-comment"># Color-echo.</span>
+                             <span class="hljs-comment"># Argument $1 = message</span>
+                             <span class="hljs-comment"># Argument $2 = color</span>
+{
+<span class="hljs-built_in">local</span> default_msg=<span class="hljs-string">"No message passed."</span>
+                             <span class="hljs-comment"># Doesn't really need to be a local variable.</span>
+
+message=<span class="hljs-variable">${1:-<span class="hljs-variable">$default_msg</span>}</span>   <span class="hljs-comment"># Defaults to default message.</span>
+color=<span class="hljs-variable">${2:-<span class="hljs-variable">$black</span>}</span>           <span class="hljs-comment"># Defaults to black, if not specified.</span>
+
+  <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"<span class="hljs-variable">$color</span>"</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$message</span>"</span>
+  Reset                      <span class="hljs-comment"># Reset to normal.</span>
+
+  <span class="hljs-built_in">return</span>
+}  
+
+
+<span class="hljs-comment"># Now, let's try it out.</span>
+<span class="hljs-comment"># ----------------------------------------------------</span>
+cecho <span class="hljs-string">"Feeling blue..."</span> <span class="hljs-variable">$blue</span>
+cecho <span class="hljs-string">"Magenta looks more like purple."</span> <span class="hljs-variable">$magenta</span>
+cecho <span class="hljs-string">"Green with envy."</span> <span class="hljs-variable">$green</span>
+cecho <span class="hljs-string">"Seeing red?"</span> <span class="hljs-variable">$red</span>
+cecho <span class="hljs-string">"Cyan, more familiarly known as aqua."</span> <span class="hljs-variable">$cyan</span>
+cecho <span class="hljs-string">"No color passed (defaults to black)."</span>
+       <span class="hljs-comment"># Missing $color argument.</span>
+cecho <span class="hljs-string">"\"Empty\" color passed (defaults to black)."</span> <span class="hljs-string">""</span>
+       <span class="hljs-comment"># Empty $color argument.</span>
+cecho
+       <span class="hljs-comment"># Missing $message and $color arguments.</span>
+cecho <span class="hljs-string">""</span> <span class="hljs-string">""</span>
+       <span class="hljs-comment"># Empty $message and $color arguments.</span>
+<span class="hljs-comment"># ----------------------------------------------------</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># Exercises:</span>
+<span class="hljs-comment"># ---------</span>
+<span class="hljs-comment"># 1) Add the "bold" attribute to the 'cecho ()' function.</span>
+<span class="hljs-comment"># 2) Add options for colored backgrounds.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="HORSERACEREF" id="HORSERACEREF"></a></p>
+    <div class="EXAMPLE">
+      <a name="HORSERACE" id="HORSERACE"></a>
+      <p><b>Example 36-16. A <span class="QUOTE">"horserace"</span> game</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># horserace.sh: Very simple horserace simulation.</span>
+<span class="hljs-comment"># Author: Stefano Palmeri</span>
+<span class="hljs-comment"># Used with permission.</span>
+
+<span class="hljs-comment">################################################################</span>
+<span class="hljs-comment">#  Goals of the script:</span>
+<span class="hljs-comment">#  playing with escape sequences and terminal colors.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  Exercise:</span>
+<span class="hljs-comment">#  Edit the script to make it run less randomly,</span>
+<span class="hljs-comment">#+ set up a fake betting shop . . .     </span>
+<span class="hljs-comment">#  Um . . . um . . . it's starting to remind me of a movie . . .</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  The script gives each horse a random handicap.</span>
+<span class="hljs-comment">#  The odds are calculated upon horse handicap</span>
+<span class="hljs-comment">#+ and are expressed in European(?) style.</span>
+<span class="hljs-comment">#  E.g., odds=3.75 means that if you bet $1 and win,</span>
+<span class="hljs-comment">#+ you receive $3.75.</span>
+<span class="hljs-comment"># </span>
+<span class="hljs-comment">#  The script has been tested with a GNU/Linux OS,</span>
+<span class="hljs-comment">#+ using xterm and rxvt, and konsole.</span>
+<span class="hljs-comment">#  On a machine with an AMD 900 MHz processor,</span>
+<span class="hljs-comment">#+ the average race time is 75 seconds.    </span>
+<span class="hljs-comment">#  On faster computers the race time would be lower.</span>
+<span class="hljs-comment">#  So, if you want more suspense, reset the USLEEP_ARG variable.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  Script by Stefano Palmeri.</span>
+<span class="hljs-comment">################################################################</span>
+
+E_RUNERR=65
+
+<span class="hljs-comment"># Check if md5sum and bc are installed. </span>
+<span class="hljs-keyword">if</span> ! <span class="hljs-built_in">which</span> bc &amp;&gt; /dev/null; <span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">echo</span> bc is not installed.  
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"Can\'t run . . . "</span>
+   <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_RUNERR</span>
+<span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">if</span> ! <span class="hljs-built_in">which</span> md5sum &amp;&gt; /dev/null; <span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">echo</span> md5sum is not installed.  
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"Can\'t run . . . "</span>
+   <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_RUNERR</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment">#  Set the following variable to slow down script execution.</span>
+<span class="hljs-comment">#  It will be passed as the argument for usleep (man usleep)  </span>
+<span class="hljs-comment">#+ and is expressed in microseconds (500000 = half a second).</span>
+USLEEP_ARG=0  
+
+<span class="hljs-comment">#  Clean up the temp directory, restore terminal cursor and </span>
+<span class="hljs-comment">#+ terminal colors -- if script interrupted by Ctl-C.</span>
+<span class="hljs-built_in">trap</span> <span class="hljs-string">'echo -en "\E[?25h"; echo -en "\E[0m"; stty echo;\
+tput cup 20 0; rm -fr  $HORSE_RACE_TMP_DIR'</span>  TERM EXIT
+<span class="hljs-comment">#  See the chapter on debugging for an explanation of 'trap.'</span>
+
+<span class="hljs-comment"># Set a unique (paranoid) name for the temp directory the script needs.</span>
+HORSE_RACE_TMP_DIR=<span class="hljs-variable">$HOME</span>/.horserace-`date +%s`-`head -c10 /dev/urandom \
+| md5sum | head -c30`
+
+<span class="hljs-comment"># Create the temp directory and move right in.</span>
+mkdir <span class="hljs-variable">$HORSE_RACE_TMP_DIR</span>
+<span class="hljs-built_in">cd</span> <span class="hljs-variable">$HORSE_RACE_TMP_DIR</span>
+
+
+<span class="hljs-comment">#  This function moves the cursor to line $1 column $2 and then prints $3.</span>
+<span class="hljs-comment">#  E.g.: "move_and_echo 5 10 linux" is equivalent to</span>
+<span class="hljs-comment">#+ "tput cup 4 9; echo linux", but with one command instead of two.</span>
+<span class="hljs-comment">#  Note: "tput cup" defines 0 0 the upper left angle of the terminal,</span>
+<span class="hljs-comment">#+ echo defines 1 1 the upper left angle of the terminal.</span>
+<span class="hljs-function"><span class="hljs-title">move_and_echo</span></span>() {
+          <span class="hljs-built_in">echo</span> -ne <span class="hljs-string">"\E[<span class="hljs-variable">${1}</span>;<span class="hljs-variable">${2}</span>H"</span><span class="hljs-string">"<span class="hljs-variable">$3</span>"</span> 
+}
+
+<span class="hljs-comment"># Function to generate a pseudo-random number between 1 and 9. </span>
+<span class="hljs-function"><span class="hljs-title">random_1_9</span></span> ()
+{
+    head -c10 /dev/urandom | md5sum | tr -d [a-z] | tr -d 0 | cut -c1 
+}
+
+<span class="hljs-comment">#  Two functions that simulate "movement," when drawing the horses. </span>
+<span class="hljs-function"><span class="hljs-title">draw_horse_one</span></span>() {
+               <span class="hljs-built_in">echo</span> -n <span class="hljs-string">" "</span>//<span class="hljs-variable">$MOVE_HORSE</span>//
+}
+<span class="hljs-function"><span class="hljs-title">draw_horse_two</span></span>(){
+              <span class="hljs-built_in">echo</span> -n <span class="hljs-string">" "</span>\\\\<span class="hljs-variable">$MOVE_HORSE</span>\\\\ 
+}   
+
+
+<span class="hljs-comment"># Define current terminal dimension.</span>
+N_COLS=`tput cols`
+N_LINES=`tput lines`
+
+<span class="hljs-comment"># Need at least a 20-LINES X 80-COLUMNS terminal. Check it.</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$N_COLS</span> -lt 80 ] || [ <span class="hljs-variable">$N_LINES</span> -lt 20 ]; <span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"`basename <span class="hljs-variable">$0</span>` needs a 80-cols X 20-lines terminal."</span>
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"Your terminal is <span class="hljs-variable">${N_COLS}</span>-cols X <span class="hljs-variable">${N_LINES}</span>-lines."</span>
+   <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_RUNERR</span>
+<span class="hljs-keyword">fi</span>
+
+
+<span class="hljs-comment"># Start drawing the race field.</span>
+
+<span class="hljs-comment"># Need a string of 80 chars. See below.</span>
+BLANK80=`seq -s <span class="hljs-string">""</span> 100 | head -c80`
+
+clear
+
+<span class="hljs-comment"># Set foreground and background colors to white.</span>
+<span class="hljs-built_in">echo</span> -ne <span class="hljs-string">'\E[37;47m'</span>
+
+<span class="hljs-comment"># Move the cursor on the upper left angle of the terminal.</span>
+tput cup 0 0 
+
+<span class="hljs-comment"># Draw six white lines.</span>
+<span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> `seq 5`; <span class="hljs-keyword">do</span>
+      <span class="hljs-built_in">echo</span> <span class="hljs-variable">$BLANK80</span>   <span class="hljs-comment"># Use the 80 chars string to colorize the terminal.</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment"># Sets foreground color to black. </span>
+<span class="hljs-built_in">echo</span> -ne <span class="hljs-string">'\E[30m'</span>
+
+move_and_echo 3 1 <span class="hljs-string">"START  1"</span>            
+move_and_echo 3 75 FINISH
+move_and_echo 1 5 <span class="hljs-string">"|"</span>
+move_and_echo 1 80 <span class="hljs-string">"|"</span>
+move_and_echo 2 5 <span class="hljs-string">"|"</span>
+move_and_echo 2 80 <span class="hljs-string">"|"</span>
+move_and_echo 4 5 <span class="hljs-string">"|  2"</span>
+move_and_echo 4 80 <span class="hljs-string">"|"</span>
+move_and_echo 5 5 <span class="hljs-string">"V  3"</span>
+move_and_echo 5 80 <span class="hljs-string">"V"</span>
+
+<span class="hljs-comment"># Set foreground color to red. </span>
+<span class="hljs-built_in">echo</span> -ne <span class="hljs-string">'\E[31m'</span>
+
+<span class="hljs-comment"># Some ASCII art.</span>
+move_and_echo 1 8 <span class="hljs-string">"..@@@..@@@@@...@@@@@.@...@..@@@@..."</span>
+move_and_echo 2 8 <span class="hljs-string">".@...@...@.......@...@...@.@......."</span>
+move_and_echo 3 8 <span class="hljs-string">".@@@@@...@.......@...@@@@@.@@@@...."</span>
+move_and_echo 4 8 <span class="hljs-string">".@...@...@.......@...@...@.@......."</span>
+move_and_echo 5 8 <span class="hljs-string">".@...@...@.......@...@...@..@@@@..."</span>
+move_and_echo 1 43 <span class="hljs-string">"@@@@...@@@...@@@@..@@@@..@@@@."</span>
+move_and_echo 2 43 <span class="hljs-string">"@...@.@...@.@.....@.....@....."</span>
+move_and_echo 3 43 <span class="hljs-string">"@@@@..@@@@@.@.....@@@@...@@@.."</span>
+move_and_echo 4 43 <span class="hljs-string">"@..@..@...@.@.....@.........@."</span>
+move_and_echo 5 43 <span class="hljs-string">"@...@.@...@..@@@@..@@@@.@@@@.."</span>
+
+
+<span class="hljs-comment"># Set foreground and background colors to green.</span>
+<span class="hljs-built_in">echo</span> -ne <span class="hljs-string">'\E[32;42m'</span>
+
+<span class="hljs-comment"># Draw  eleven green lines.</span>
+tput cup 5 0
+<span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> `seq 11`; <span class="hljs-keyword">do</span>
+      <span class="hljs-built_in">echo</span> <span class="hljs-variable">$BLANK80</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment"># Set foreground color to black. </span>
+<span class="hljs-built_in">echo</span> -ne <span class="hljs-string">'\E[30m'</span>
+tput cup 5 0
+
+<span class="hljs-comment"># Draw the fences. </span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"++++++++++++++++++++++++++++++++++++++\
+++++++++++++++++++++++++++++++++++++++++++"</span>
+
+tput cup 15 0
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"++++++++++++++++++++++++++++++++++++++\
+++++++++++++++++++++++++++++++++++++++++++"</span>
+
+<span class="hljs-comment"># Set foreground and background colors to white.</span>
+<span class="hljs-built_in">echo</span> -ne <span class="hljs-string">'\E[37;47m'</span>
+
+<span class="hljs-comment"># Draw three white lines.</span>
+<span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> `seq 3`; <span class="hljs-keyword">do</span>
+      <span class="hljs-built_in">echo</span> <span class="hljs-variable">$BLANK80</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment"># Set foreground color to black.</span>
+<span class="hljs-built_in">echo</span> -ne <span class="hljs-string">'\E[30m'</span>
+
+<span class="hljs-comment"># Create 9 files to stores handicaps.</span>
+<span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> `seq 10 7 68`; <span class="hljs-keyword">do</span>
+      touch <span class="hljs-variable">$n</span>
+<span class="hljs-keyword">done</span>  
+
+<span class="hljs-comment"># Set the first type of "horse" the script will draw.</span>
+HORSE_TYPE=2
+
+<span class="hljs-comment">#  Create position-file and odds-file for every "horse".</span>
+<span class="hljs-comment">#+ In these files, store the current position of the horse,</span>
+<span class="hljs-comment">#+ the type and the odds.</span>
+<span class="hljs-keyword">for</span> HN <span class="hljs-keyword">in</span> `seq 9`; <span class="hljs-keyword">do</span>
+      touch horse_<span class="hljs-variable">${HN}</span>_position
+      touch odds_<span class="hljs-variable">${HN}</span>
+      <span class="hljs-built_in">echo</span> \-1 &gt; horse_<span class="hljs-variable">${HN}</span>_position
+      <span class="hljs-built_in">echo</span> <span class="hljs-variable">$HORSE_TYPE</span> &gt;&gt;  horse_<span class="hljs-variable">${HN}</span>_position
+      <span class="hljs-comment"># Define a random handicap for horse.</span>
+       HANDICAP=`random_1_9`
+      <span class="hljs-comment"># Check if the random_1_9 function returned a good value.</span>
+      <span class="hljs-keyword">while</span> ! <span class="hljs-built_in">echo</span> <span class="hljs-variable">$HANDICAP</span> | grep [1-9] &amp;&gt; /dev/null; <span class="hljs-keyword">do</span>
+                HANDICAP=`random_1_9`
+      <span class="hljs-keyword">done</span>
+      <span class="hljs-comment"># Define last handicap position for horse. </span>
+      LHP=`expr <span class="hljs-variable">$HANDICAP</span> \* 7 + 3`
+      <span class="hljs-keyword">for</span> FILE <span class="hljs-keyword">in</span> `seq 10 7 <span class="hljs-variable">$LHP</span>`; <span class="hljs-keyword">do</span>
+            <span class="hljs-built_in">echo</span> <span class="hljs-variable">$HN</span> &gt;&gt; <span class="hljs-variable">$FILE</span>
+      <span class="hljs-keyword">done</span>   
+     
+      <span class="hljs-comment"># Calculate odds.</span>
+      <span class="hljs-keyword">case</span> <span class="hljs-variable">$HANDICAP</span> <span class="hljs-keyword">in</span> 
+              1) ODDS=`<span class="hljs-built_in">echo</span> <span class="hljs-variable">$HANDICAP</span> \* 0.25 + 1.25 | bc`
+                                 <span class="hljs-built_in">echo</span> <span class="hljs-variable">$ODDS</span> &gt; odds_<span class="hljs-variable">${HN}</span>
+              ;;
+              2 | 3) ODDS=`<span class="hljs-built_in">echo</span> <span class="hljs-variable">$HANDICAP</span> \* 0.40 + 1.25 | bc`
+                                       <span class="hljs-built_in">echo</span> <span class="hljs-variable">$ODDS</span> &gt; odds_<span class="hljs-variable">${HN}</span>
+              ;;
+              4 | 5 | 6) ODDS=`<span class="hljs-built_in">echo</span> <span class="hljs-variable">$HANDICAP</span> \* 0.55 + 1.25 | bc`
+                                             <span class="hljs-built_in">echo</span> <span class="hljs-variable">$ODDS</span> &gt; odds_<span class="hljs-variable">${HN}</span>
+              ;; 
+              7 | 8) ODDS=`<span class="hljs-built_in">echo</span> <span class="hljs-variable">$HANDICAP</span> \* 0.75 + 1.25 | bc`
+                                       <span class="hljs-built_in">echo</span> <span class="hljs-variable">$ODDS</span> &gt; odds_<span class="hljs-variable">${HN}</span>
+              ;; 
+              9) ODDS=`<span class="hljs-built_in">echo</span> <span class="hljs-variable">$HANDICAP</span> \* 0.90 + 1.25 | bc`
+                                  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$ODDS</span> &gt; odds_<span class="hljs-variable">${HN}</span>
+      <span class="hljs-keyword">esac</span>
+
+
+<span class="hljs-keyword">done</span>
+
+
+<span class="hljs-comment"># Print odds.</span>
+<span class="hljs-function"><span class="hljs-title">print_odds</span></span>() {
+tput cup 6 0
+<span class="hljs-built_in">echo</span> -ne <span class="hljs-string">'\E[30;42m'</span>
+<span class="hljs-keyword">for</span> HN <span class="hljs-keyword">in</span> `seq 9`; <span class="hljs-keyword">do</span>
+      <span class="hljs-built_in">echo</span> <span class="hljs-string">"#<span class="hljs-variable">$HN</span> odds-&gt;"</span> `cat odds_<span class="hljs-variable">${HN}</span>`
+<span class="hljs-keyword">done</span>
+}
+
+<span class="hljs-comment"># Draw the horses at starting line.</span>
+<span class="hljs-function"><span class="hljs-title">draw_horses</span></span>() {
+tput cup 6 0
+<span class="hljs-built_in">echo</span> -ne <span class="hljs-string">'\E[30;42m'</span>
+<span class="hljs-keyword">for</span> HN <span class="hljs-keyword">in</span> `seq 9`; <span class="hljs-keyword">do</span>
+      <span class="hljs-built_in">echo</span> /\\<span class="hljs-variable">$HN</span>/\\"                               <span class="hljs-string">"
+done
+}
+
+print_odds
+
+echo -ne '\E[47m'
+# Wait for a enter key press to start the race.
+# The escape sequence '\E[?25l' disables the cursor.
+tput cup 17 0
+echo -e '\E[?25l'Press [enter] key to start the race...
+read -s
+
+#  Disable normal echoing in the terminal.
+#  This avoids key presses that might "</span>contaminate<span class="hljs-string">" the screen
+#+ during the race.  
+stty -echo
+
+# --------------------------------------------------------
+# Start the race.
+
+draw_horses
+echo -ne '\E[37;47m'
+move_and_echo 18 1 <span class="hljs-variable">$BLANK80</span>
+echo -ne '\E[30m'
+move_and_echo 18 1 Starting...
+sleep 1
+
+# Set the column of the finish line.
+WINNING_POS=74
+
+# Define the time the race started.
+START_TIME=`date +%s`
+
+# COL variable needed by following "</span><span class="hljs-keyword">while</span><span class="hljs-string">" construct.
+COL=0    
+
+while [ <span class="hljs-variable">$COL</span> -lt <span class="hljs-variable">$WINNING_POS</span> ]; do
+                   
+          MOVE_HORSE=0     
+          
+          # Check if the random_1_9 function has returned a good value.
+          while ! echo <span class="hljs-variable">$MOVE_HORSE</span> | grep [1-9] &amp;&gt; /dev/null; do
+                MOVE_HORSE=`random_1_9`
+          done
+          
+          # Define old type and position of the "</span>randomized horse<span class="hljs-string">".
+          HORSE_TYPE=`cat  horse_<span class="hljs-variable">${MOVE_HORSE}</span>_position | tail -n 1`
+          COL=<span class="hljs-subst">$(expr `cat  horse_${MOVE_HORSE}_position | head -n 1`)</span>
+          
+          ADD_POS=1
+          # Check if the current position is an handicap position. 
+          if seq 10 7 68 | grep -w <span class="hljs-variable">$COL</span> &amp;&gt; /dev/null; then
+                if grep -w <span class="hljs-variable">$MOVE_HORSE</span> <span class="hljs-variable">$COL</span> &amp;&gt; /dev/null; then
+                      ADD_POS=0
+                      grep -v -w  <span class="hljs-variable">$MOVE_HORSE</span> <span class="hljs-variable">$COL</span> &gt; <span class="hljs-variable">${COL}</span>_new
+                      rm -f <span class="hljs-variable">$COL</span>
+                      mv -f <span class="hljs-variable">${COL}</span>_new <span class="hljs-variable">$COL</span>
+                      else ADD_POS=1
+                fi 
+          else ADD_POS=1
+          fi
+          COL=`expr <span class="hljs-variable">$COL</span> + <span class="hljs-variable">$ADD_POS</span>`
+          echo <span class="hljs-variable">$COL</span> &gt;  horse_<span class="hljs-variable">${MOVE_HORSE}</span>_position  # Store new position.
+                            
+         # Choose the type of horse to draw.         
+          case <span class="hljs-variable">$HORSE_TYPE</span> in 
+                1) HORSE_TYPE=2; DRAW_HORSE=draw_horse_two
+                ;;
+                2) HORSE_TYPE=1; DRAW_HORSE=draw_horse_one 
+          esac       
+          echo <span class="hljs-variable">$HORSE_TYPE</span> &gt;&gt;  horse_<span class="hljs-variable">${MOVE_HORSE}</span>_position
+          # Store current type.
+         
+          # Set foreground color to black and background to green.
+          echo -ne '\E[30;42m'
+          
+          # Move the cursor to new horse position.
+          tput cup `expr <span class="hljs-variable">$MOVE_HORSE</span> + 5` \
+          `cat  horse_<span class="hljs-variable">${MOVE_HORSE}</span>_position | head -n 1` 
+          
+          # Draw the horse.
+          <span class="hljs-variable">$DRAW_HORSE</span>
+           usleep <span class="hljs-variable">$USLEEP_ARG</span>
+          
+           # When all horses have gone beyond field line 15, reprint odds.
+           touch fieldline15
+           if [ <span class="hljs-variable">$COL</span> = 15 ]; then
+             echo <span class="hljs-variable">$MOVE_HORSE</span> &gt;&gt; fieldline15  
+           fi
+           if [ `wc -l fieldline15 | cut -f1 -d "</span> <span class="hljs-string">"` = 9 ]; then
+               print_odds
+               : &gt; fieldline15
+           fi           
+          
+          # Define the leading horse.
+          HIGHEST_POS=`cat *position | sort -n | tail -1`          
+          
+          # Set background color to white.
+          echo -ne '\E[47m'
+          tput cup 17 0
+          echo -n Current leader: `grep -w <span class="hljs-variable">$HIGHEST_POS</span> *position | cut -c7`\
+          "</span>                              <span class="hljs-string">"
+
+done  
+
+# Define the time the race finished.
+FINISH_TIME=`date +%s`
+
+# Set background color to green and enable blinking text.
+echo -ne '\E[30;42m'
+echo -en '\E[5m'
+
+# Make the winning horse blink.
+tput cup `expr <span class="hljs-variable">$MOVE_HORSE</span> + 5` \
+`cat  horse_<span class="hljs-variable">${MOVE_HORSE}</span>_position | head -n 1`
+<span class="hljs-variable">$DRAW_HORSE</span>
+
+# Disable blinking text.
+echo -en '\E[25m'
+
+# Set foreground and background color to white.
+echo -ne '\E[37;47m'
+move_and_echo 18 1 <span class="hljs-variable">$BLANK80</span>
+
+# Set foreground color to black.
+echo -ne '\E[30m'
+
+# Make winner blink.
+tput cup 17 0
+echo -e "</span>\E[5mWINNER: <span class="hljs-variable">$MOVE_HORSE</span>\E[25m<span class="hljs-string">""</span>  Odds: `cat odds_<span class="hljs-variable">${MOVE_HORSE}</span>`<span class="hljs-string">"\
+"</span>  Race time: `expr <span class="hljs-variable">$FINISH_TIME</span> - <span class="hljs-variable">$START_TIME</span>` secs<span class="hljs-string">"
+
+# Restore cursor and old colors.
+echo -en "</span>\E[?25h<span class="hljs-string">"
+echo -en "</span>\E[0m<span class="hljs-string">"
+
+# Restore echoing.
+stty echo
+
+# Remove race temp directory.
+rm -rf <span class="hljs-variable">$HORSE_RACE_TMP_DIR</span>
+
+tput cup 19 0
+
+exit 0</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>See also <a href="contributed-scripts.html#HASHEXAMPLE">Example A-21</a>, <a href="contributed-scripts.html#HOMEWORK">Example A-44</a>, <a href="contributed-scripts.html#SHOWALLC">Example A-52</a>, and <a href="contributed-scripts.html#PETALS">Example A-40</a>.</p>
+    <div class="CAUTION">
+      <table class="CAUTION" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+          <td align="left" valign="top">
+            <p>There is, however, a major problem with all this. <em>ANSI escape sequences are emphatically <a href="portabilityissues.html">non-portable</a>.</em> What works fine on some terminal emulators (or the console) may work differently, or not at all, on others. A <span class="QUOTE">"colorized"</span> script that looks stunning on the script author's machine may produce unreadable output on someone else's. This somewhat compromises the usefulness of colorizing scripts, and possibly relegates this technique to the status of a gimmick. Colorized scripts are probably inappropriate in a commercial setting, i.e., your supervisor might disapprove.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Alister's <a href="http://code.google.com/p/ansi-color/" target="_top">ansi-color</a> utility (based on <a href="http://bash.deta.in/color-1.1.tar.gz" target="_top">Moshe Jacobson's color utility</a> considerably simplifies using ANSI escape sequences. It substitutes a clean and logical syntax for the clumsy constructs just discussed.</p>
+    <p>Henry/teikedvl has likewise created a utility (<a href="http://scriptechocolor.sourceforge.net/" target="_top">http://scriptechocolor.sourceforge.net/</a>) to simplify creation of colorized scripts.</p>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN20259" href="colorizing.html#AEN20259" id="FTN.AEN20259"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><span class="ACRONYM">ANSI</span> is, of course, the acronym for the American National Standards Institute. This august body establishes and maintains various technical and industrial standards.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="recursionsct.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="optimizations.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Recursion: a script calling itself</td>
+        <td width="34%" align="center" valign="top"><a href="miscellany.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Optimizations</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

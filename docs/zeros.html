@@ -1,0 +1,280 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Of Zeros and Nulls</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="Network Programming" href="networkprogramming.html">
+  <link rel="NEXT" title="Debugging" href="debugging.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="networkprogramming.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="debugging.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="ZEROS" id="ZEROS"></a>Chapter 31. Of Zeros and Nulls</h1>
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" class="EPIGRAPH">
+      <tbody><tr>
+        <td width="45%">&nbsp;</td>
+        <td width="45%" align="left" valign="top">
+          <p><i>Faultily faultless, icily regular, splendidly null</i></p>
+          <p><i>Dead perfection; no more.</i></p>
+          <p><i>--Alfred Lord Tennyson</i></p>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="ZEROSREF" id="ZEROSREF"></a></p>
+    <div class="VARIABLELIST">
+      <p><b><a name="ZERONULL1" id="ZERONULL1"></a><tt class="FILENAME">/dev/zero</tt> ... <tt class="FILENAME">/dev/null</tt></b></p>
+      <dl>
+        <dt><a name="DEVNULLREF" id="DEVNULLREF"></a>Uses of <tt class="FILENAME">/dev/null</tt></dt>
+        <dd>
+          <p>Think of <tt class="FILENAME">/dev/null</tt> as a <i class="FIRSTTERM">black hole</i>. It is essentially the equivalent of a write-only file. Everything written to it disappears. Attempts to read or output from it result in nothing. All the same, <tt class="FILENAME">/dev/null</tt> can be quite useful from both the command-line and in scripts.</p>
+          <p>Suppressing <tt class="FILENAME">stdout</tt>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">cat <span class="hljs-variable">$filename</span> &gt;/dev/null
+<span class="hljs-comment"># Contents of the file will not list to stdout.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>Suppressing <tt class="FILENAME">stderr</tt> (from <a href="moreadv.html#EX57">Example 16-3</a>).</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">rm <span class="hljs-variable">$badname</span> 2&gt;/dev/null
+<span class="hljs-comment">#           So error messages [stderr] deep-sixed.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>Suppressing output from <em>both</em> <tt class="FILENAME">stdout</tt> and <tt class="FILENAME">stderr</tt>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">cat <span class="hljs-variable">$filename</span> 2&gt;/dev/null &gt;/dev/null
+<span class="hljs-comment"># If "$filename" does not exist, there will be no error message output.</span>
+<span class="hljs-comment"># If "$filename" does exist, the contents of the file will not list to stdout.</span>
+<span class="hljs-comment"># Therefore, no output at all will result from the above line of code.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  This can be useful in situations where the return code from a command</span>
+<span class="hljs-comment">#+ needs to be tested, but no output is desired.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># cat $filename &amp;&gt;/dev/null</span>
+<span class="hljs-comment">#     also works, as Baris Cicek points out.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>Deleting contents of a file, but preserving the file itself, with all attendant permissions (from <a href="sha-bang.html#EX1">Example 2-1</a> and <a href="sha-bang.html#EX2">Example 2-3</a>):</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">cat /dev/null &gt; /var/<span class="hljs-built_in">log</span>/messages
+<span class="hljs-comment">#  : &gt; /var/log/messages   has same effect, but does not spawn a new process.</span>
+
+cat /dev/null &gt; /var/<span class="hljs-built_in">log</span>/wtmp</pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>Automatically emptying the contents of a logfile (especially good for dealing with those nasty <span class="QUOTE">"cookies"</span> sent by commercial Web sites):</p>
+          <div class="EXAMPLE">
+            <a name="COOKIES" id="COOKIES"></a>
+            <p><b>Example 31-1. Hiding the cookie jar</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># Obsolete Netscape browser.</span>
+<span class="hljs-comment"># Same principle applies to newer browsers.</span>
+
+<span class="hljs-keyword">if</span> [ -f ~/.netscape/cookies ]  <span class="hljs-comment"># Remove, if exists.</span>
+<span class="hljs-keyword">then</span>
+  rm -f ~/.netscape/cookies
+<span class="hljs-keyword">fi</span>
+
+ln -s /dev/null ~/.netscape/cookies
+<span class="hljs-comment"># All cookies now get sent to a black hole, rather than saved to disk.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="ZEROSREF1" id="ZEROSREF1"></a>Uses of <tt class="FILENAME">/dev/zero</tt></dt>
+        <dd>
+          <p>Like <tt class="FILENAME">/dev/null</tt>, <tt class="FILENAME">/dev/zero</tt> is a pseudo-device file, but it actually produces a stream of nulls (<em>binary</em> zeros, not the <a href="special-chars.html#ASCIIDEF">ASCII</a> kind). Output written to <tt class="FILENAME">/dev/zero</tt> disappears, and it is fairly difficult to actually read the nulls emitted there, though it can be done with <a href="extmisc.html#ODREF">od</a> or a hex editor. <a name="SWAPFILEREF" id="SWAPFILEREF"></a>The chief use of <tt class="FILENAME">/dev/zero</tt> is creating an initialized dummy file of predetermined length intended as a temporary swap file.</p>
+          <div class="EXAMPLE">
+            <a name="EX73" id="EX73"></a>
+            <p><b>Example 31-2. Setting up a swapfile using <tt class="FILENAME">/dev/zero</tt></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Creating a swap file.</span>
+
+<span class="hljs-comment">#  A swap file provides a temporary storage cache</span>
+<span class="hljs-comment">#+ which helps speed up certain filesystem operations.</span>
+
+ROOT_UID=0         <span class="hljs-comment"># Root has $UID 0.</span>
+E_WRONG_USER=85    <span class="hljs-comment"># Not root?</span>
+
+FILE=/swap
+BLOCKSIZE=1024
+MINBLOCKS=40
+SUCCESS=0
+
+
+<span class="hljs-comment"># This script must be run as root.</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$UID</span>"</span> -ne <span class="hljs-string">"<span class="hljs-variable">$ROOT_UID</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span> <span class="hljs-string">"You must be root to run this script."</span>; <span class="hljs-built_in">echo</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_WRONG_USER</span>
+<span class="hljs-keyword">fi</span>  
+  
+
+blocks=<span class="hljs-variable">${1:-<span class="hljs-variable">$MINBLOCKS</span>}</span>          <span class="hljs-comment">#  Set to default of 40 blocks,</span>
+                                 <span class="hljs-comment">#+ if nothing specified on command-line.</span>
+<span class="hljs-comment"># This is the equivalent of the command block below.</span>
+<span class="hljs-comment"># --------------------------------------------------</span>
+<span class="hljs-comment"># if [ -n "$1" ]</span>
+<span class="hljs-comment"># then</span>
+<span class="hljs-comment">#   blocks=$1</span>
+<span class="hljs-comment"># else</span>
+<span class="hljs-comment">#   blocks=$MINBLOCKS</span>
+<span class="hljs-comment"># fi</span>
+<span class="hljs-comment"># --------------------------------------------------</span>
+
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$blocks</span>"</span> -lt <span class="hljs-variable">$MINBLOCKS</span> ]
+<span class="hljs-keyword">then</span>
+  blocks=<span class="hljs-variable">$MINBLOCKS</span>              <span class="hljs-comment"># Must be at least 40 blocks long.</span>
+<span class="hljs-keyword">fi</span>  
+
+
+<span class="hljs-comment">######################################################################</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Creating swap file of size <span class="hljs-variable">$blocks</span> blocks (KB)."</span>
+dd <span class="hljs-keyword">if</span>=/dev/zero of=<span class="hljs-variable">$FILE</span> bs=<span class="hljs-variable">$BLOCKSIZE</span> count=<span class="hljs-variable">$blocks</span>  <span class="hljs-comment"># Zero out file.</span>
+mkswap <span class="hljs-variable">$FILE</span> <span class="hljs-variable">$blocks</span>             <span class="hljs-comment"># Designate it a swap file.</span>
+swapon <span class="hljs-variable">$FILE</span>                     <span class="hljs-comment"># Activate swap file.</span>
+retcode=$?                       <span class="hljs-comment"># Everything worked?</span>
+<span class="hljs-comment">#  Note that if one or more of these commands fails,</span>
+<span class="hljs-comment">#+ then it could cause nasty problems.</span>
+<span class="hljs-comment">######################################################################</span>
+
+<span class="hljs-comment">#  Exercise:</span>
+<span class="hljs-comment">#  Rewrite the above block of code so that if it does not execute</span>
+<span class="hljs-comment">#+ successfully, then:</span>
+<span class="hljs-comment">#    1) an error message is echoed to stderr,</span>
+<span class="hljs-comment">#    2) all temporary files are cleaned up, and</span>
+<span class="hljs-comment">#    3) the script exits in an orderly fashion with an</span>
+<span class="hljs-comment">#+      appropriate error code.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Swap file created and activated."</span>
+
+<span class="hljs-built_in">exit</span> <span class="hljs-variable">$retcode</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>Another application of <tt class="FILENAME">/dev/zero</tt> is to <span class="QUOTE">"zero out"</span> a file of a designated size for a special purpose, such as mounting a filesystem on a <a href="devref1.html#LOOPBACKREF">loopback device</a> (see <a href="system.html#CREATEFS">Example 17-8</a>) or <span class="QUOTE">"securely"</span> deleting a file (see <a href="extmisc.html#BLOTOUT">Example 16-61</a>).</p>
+          <div class="EXAMPLE">
+            <a name="RAMDISK" id="RAMDISK"></a>
+            <p><b>Example 31-3. Creating a ramdisk</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># ramdisk.sh</span>
+
+<span class="hljs-comment">#  A "ramdisk" is a segment of system RAM memory</span>
+<span class="hljs-comment">#+ which acts as if it were a filesystem.</span>
+<span class="hljs-comment">#  Its advantage is very fast access (read/write time).</span>
+<span class="hljs-comment">#  Disadvantages: volatility, loss of data on reboot or powerdown,</span>
+<span class="hljs-comment">#+                less RAM available to system.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  Of what use is a ramdisk?</span>
+<span class="hljs-comment">#  Keeping a large dataset, such as a table or dictionary on ramdisk,</span>
+<span class="hljs-comment">#+ speeds up data lookup, since memory access is much faster than disk access.</span>
+
+
+E_NON_ROOT_USER=70             <span class="hljs-comment"># Must run as root.</span>
+ROOTUSER_NAME=root
+
+MOUNTPT=/mnt/ramdisk           <span class="hljs-comment"># Create with mkdir /mnt/ramdisk.</span>
+SIZE=2000                      <span class="hljs-comment"># 2K blocks (change as appropriate)</span>
+BLOCKSIZE=1024                 <span class="hljs-comment"># 1K (1024 byte) block size</span>
+DEVICE=/dev/ram0               <span class="hljs-comment"># First ram device</span>
+
+username=`id -nu`
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$username</span>"</span> != <span class="hljs-string">"<span class="hljs-variable">$ROOTUSER_NAME</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Must be root to run \"`basename <span class="hljs-variable">$0</span>`\"."</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NON_ROOT_USER</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">if</span> [ ! -d <span class="hljs-string">"<span class="hljs-variable">$MOUNTPT</span>"</span> ]         <span class="hljs-comment">#  Test whether mount point already there,</span>
+<span class="hljs-keyword">then</span>                           <span class="hljs-comment">#+ so no error if this script is run</span>
+  mkdir <span class="hljs-variable">$MOUNTPT</span>               <span class="hljs-comment">#+ multiple times.</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment">##############################################################################</span>
+dd <span class="hljs-keyword">if</span>=/dev/zero of=<span class="hljs-variable">$DEVICE</span> count=<span class="hljs-variable">$SIZE</span> bs=<span class="hljs-variable">$BLOCKSIZE</span>  <span class="hljs-comment"># Zero out RAM device.</span>
+                                                      <span class="hljs-comment"># Why is this necessary?</span>
+mke2fs <span class="hljs-variable">$DEVICE</span>                 <span class="hljs-comment"># Create an ext2 filesystem on it.</span>
+mount <span class="hljs-variable">$DEVICE</span> <span class="hljs-variable">$MOUNTPT</span>         <span class="hljs-comment"># Mount it.</span>
+chmod 777 <span class="hljs-variable">$MOUNTPT</span>             <span class="hljs-comment"># Enables ordinary user to access ramdisk.</span>
+                               <span class="hljs-comment"># However, must be root to unmount it.</span>
+<span class="hljs-comment">##############################################################################</span>
+<span class="hljs-comment"># Need to test whether above commands succeed. Could cause problems otherwise.</span>
+<span class="hljs-comment"># Exercise: modify this script to make it safer.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"\"<span class="hljs-variable">$MOUNTPT</span>\" now available for use."</span>
+<span class="hljs-comment"># The ramdisk is now accessible for storing files, even by an ordinary user.</span>
+
+<span class="hljs-comment">#  Caution, the ramdisk is volatile, and its contents will disappear</span>
+<span class="hljs-comment">#+ on reboot or power loss.</span>
+<span class="hljs-comment">#  Copy anything you want saved to a regular directory.</span>
+
+<span class="hljs-comment"># After reboot, run this script to again set up ramdisk.</span>
+<span class="hljs-comment"># Remounting /mnt/ramdisk without the other steps will not work.</span>
+
+<span class="hljs-comment">#  Suitably modified, this script can by invoked in /etc/rc.d/rc.local,</span>
+<span class="hljs-comment">#+ to set up ramdisk automatically at bootup.</span>
+<span class="hljs-comment">#  That may be appropriate on, for example, a database server.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>In addition to all the above, <tt class="FILENAME">/dev/zero</tt> is needed by ELF (<i class="FIRSTTERM">Executable and Linking Format</i>) UNIX/Linux binaries.</p>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="networkprogramming.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="debugging.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Network Programming</td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Debugging</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

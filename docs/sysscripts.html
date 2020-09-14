@@ -1,0 +1,114 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Analyzing a System Script</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="System and Administrative Commands" href="system.html">
+  <link rel="PREVIOUS" title="System and Administrative Commands" href="system.html">
+  <link rel="NEXT" title="Advanced Topics" href="part5.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="system.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 17. System and Administrative Commands</td>
+        <td width="10%" align="right" valign="bottom"><a href="part5.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="SYSSCRIPTS" id="SYSSCRIPTS"></a>17.1. Analyzing a System Script</h1>
+    <p><a name="KILLALL2REF" id="KILLALL2REF"></a></p>
+    <p>Using our knowledge of administrative commands, let us examine a system script. One of the shortest and simplest to understand scripts is <span class="QUOTE">"killall,"</span> <a name="AEN17079" href="#FTN.AEN17079" id="AEN17079"><span class="footnote">[1]</span></a> used to suspend running processes at system shutdown.</p>
+    <div class="EXAMPLE">
+      <a name="EX55" id="EX55"></a>
+      <p><b>Example 17-12. <i class="FIRSTTERM">killall</i>, from <tt class="FILENAME">/etc/rc.d/init.d</tt></b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/sh</span>
+
+<span class="hljs-comment"># --&gt; Comments added by the author of this document marked by "# --&gt;".</span>
+
+<span class="hljs-comment"># --&gt; This is part of the 'rc' script package</span>
+<span class="hljs-comment"># --&gt; by Miquel van Smoorenburg, &lt;miquels@drinkel.nl.mugnet.org&gt;.</span>
+
+<span class="hljs-comment"># --&gt; This particular script seems to be Red Hat / FC specific</span>
+<span class="hljs-comment"># --&gt; (may not be present in other distributions).</span>
+
+<span class="hljs-comment">#  Bring down all unneeded services that are still running</span>
+<span class="hljs-comment">#+ (there shouldn't be any, so this is just a sanity check)</span>
+
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> /var/lock/subsys/*; <span class="hljs-keyword">do</span>
+        <span class="hljs-comment"># --&gt; Standard for/in loop, but since "do" is on same line,</span>
+        <span class="hljs-comment"># --&gt; it is necessary to add ";".</span>
+        <span class="hljs-comment"># Check if the script is there.</span>
+        [ ! -f <span class="hljs-variable">$i</span> ] &amp;&amp; <span class="hljs-built_in">continue</span>
+        <span class="hljs-comment"># --&gt; This is a clever use of an "and list", equivalent to:</span>
+        <span class="hljs-comment"># --&gt; if [ ! -f "$i" ]; then continue</span>
+
+        <span class="hljs-comment"># Get the subsystem name.</span>
+        subsys=<span class="hljs-variable">${i#/var/lock/subsys/}</span>
+        <span class="hljs-comment"># --&gt; Match variable name, which, in this case, is the file name.</span>
+        <span class="hljs-comment"># --&gt; This is the exact equivalent of subsys=`basename $i`.</span>
+        
+        <span class="hljs-comment"># --&gt;  It gets it from the lock file name</span>
+        <span class="hljs-comment"># --&gt;+ (if there is a lock file,</span>
+        <span class="hljs-comment"># --&gt;+ that's proof the process has been running).</span>
+        <span class="hljs-comment"># --&gt;  See the "lockfile" entry, above.</span>
+
+
+        <span class="hljs-comment"># Bring the subsystem down.</span>
+        <span class="hljs-keyword">if</span> [ -f /etc/rc.d/init.d/<span class="hljs-variable">$subsys</span>.init ]; <span class="hljs-keyword">then</span>
+           /etc/rc.d/init.d/<span class="hljs-variable">$subsys</span>.init stop
+        <span class="hljs-keyword">else</span>
+           /etc/rc.d/init.d/<span class="hljs-variable">$subsys</span> stop
+        <span class="hljs-comment"># --&gt;  Suspend running jobs and daemons.</span>
+        <span class="hljs-comment"># --&gt;  Note that "stop" is a positional parameter,</span>
+        <span class="hljs-comment"># --&gt;+ not a shell builtin.</span>
+        <span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">done</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>That wasn't so bad. Aside from a little fancy footwork with variable matching, there is no new material there.</p>
+    <div class="FORMALPARA">
+      <p><b>Exercise 1.</b> In <tt class="FILENAME">/etc/rc.d/init.d</tt>, analyze the <b class="COMMAND">halt</b> script. It is a bit longer than <b class="COMMAND">killall</b>, but similar in concept. Make a copy of this script somewhere in your home directory and experiment with it (do <em>not</em> run it as <i class="FIRSTTERM">root</i>). Do a simulated run with the <tt class="OPTION">-vn</tt> flags (<tt class="USERINPUT"><b>sh -vn scriptname</b></tt>). Add extensive comments. Change the commands to <a href="internal.html#ECHOREF">echos</a>.</p>
+    </div>
+    <div class="FORMALPARA">
+      <p><b>Exercise 2.</b> Look at some of the more complex scripts in <tt class="FILENAME">/etc/rc.d/init.d</tt>. Try to understand at least portions of them. Follow the above procedure to analyze them. For some additional insight, you might also examine the file <tt class="FILENAME">sysvinitfiles</tt> in <tt class="FILENAME">/usr/share/doc/initscripts-?.??</tt>, which is part of the <span class="QUOTE">"initscripts"</span> documentation.</p>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN17079" href="sysscripts.html#AEN17079" id="FTN.AEN17079"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>The <i class="FIRSTTERM">killall</i> system script should not be confused with the <a href="x9644.html#KILLALLREF">killall</a> command in <tt class="FILENAME">/usr/bin</tt>.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="system.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="part5.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">System and Administrative Commands</td>
+        <td width="34%" align="center" valign="top"><a href="system.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Advanced Topics</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

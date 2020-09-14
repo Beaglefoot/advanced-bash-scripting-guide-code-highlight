@@ -1,0 +1,139 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Interactive and non-interactive shells and scripts</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Miscellany" href="miscellany.html">
+  <link rel="PREVIOUS" title="Miscellany" href="miscellany.html">
+  <link rel="NEXT" title="Shell Wrappers" href="wrapper.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="miscellany.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 36. Miscellany</td>
+        <td width="10%" align="right" valign="bottom"><a href="wrapper.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="INTANDNONINT" id="INTANDNONINT"></a>36.1. Interactive and non-interactive shells and scripts</h1>
+    <p>An <i class="FIRSTTERM">interactive</i> shell reads commands from user input on a <tt class="FILENAME">tty</tt>. Among other things, such a shell reads startup files on activation, displays a prompt, and enables job control by default. The user can <i class="FIRSTTERM">interact</i> with the shell.</p>
+    <p>A shell running a script is always a non-interactive shell. All the same, the script can still access its <tt class="FILENAME">tty</tt>. It is even possible to emulate an interactive shell in a script.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+MY_PROMPT=<span class="hljs-string">'$ '</span>
+<span class="hljs-keyword">while</span> :
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$MY_PROMPT</span>"</span>
+  <span class="hljs-built_in">read</span> line
+  <span class="hljs-built_in">eval</span> <span class="hljs-string">"<span class="hljs-variable">$line</span>"</span>
+  <span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># This example script, and much of the above explanation supplied by</span>
+<span class="hljs-comment"># Stephane Chazelas (thanks again).</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>Let us consider an <i class="FIRSTTERM">interactive</i> script to be one that requires input from the user, usually with <a href="internal.html#READREF">read</a> statements (see <a href="internal.html#EX36">Example 15-3</a>). <span class="QUOTE">"Real life"</span> is actually a bit messier than that. For now, assume an interactive script is bound to a tty, a script that a user has invoked from the console or an <i class="FIRSTTERM">xterm</i>.</p>
+    <p>Init and startup scripts are necessarily non-interactive, since they must run without human intervention. Many administrative and system maintenance scripts are likewise non-interactive. Unvarying repetitive tasks cry out for automation by non-interactive scripts.</p>
+    <p>Non-interactive scripts can run in the background, but interactive ones hang, waiting for input that never comes. Handle that difficulty by having an <b class="COMMAND">expect</b> script or embedded <a href="here-docs.html#HEREDOCREF">here document</a> feed input to an interactive script running as a background job. In the simplest case, redirect a file to supply input to a <b class="COMMAND">read</b> statement (<b class="COMMAND">read variable &lt;file</b>). These particular workarounds make possible general purpose scripts that run in either interactive or non-interactive modes.</p>
+    <p>If a script needs to test whether it is running in an interactive shell, it is simply a matter of finding whether the <i class="FIRSTTERM">prompt</i> variable, <a href="internalvariables.html#PS1REF">$PS1</a> is set. (If the user is being prompted for input, then the script needs to display a prompt.)</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">if</span> [ -z <span class="hljs-variable">$PS1</span> ] <span class="hljs-comment"># no prompt?</span>
+<span class="hljs-comment">### if [ -v PS1 ]   # On Bash 4.2+ ...</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-comment"># non-interactive</span>
+  ...
+<span class="hljs-keyword">else</span>
+  <span class="hljs-comment"># interactive</span>
+  ...
+<span class="hljs-keyword">fi</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="IITEST" id="IITEST"></a>Alternatively, the script can test for the presence of option <span class="QUOTE">"i"</span> in the <a href="internalvariables.html#FLPREF">$-</a> flag.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">case</span> $- <span class="hljs-keyword">in</span>
+*i*)    <span class="hljs-comment"># interactive shell</span>
+;;
+*)      <span class="hljs-comment"># non-interactive shell</span>
+;;
+<span class="hljs-comment"># (Courtesy of "UNIX F.A.Q.," 1993)</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="II2TEST" id="II2TEST"></a>However, John Lange describes an alternative method, using the <a href="fto.html#TERMTEST"><span class="TOKEN">-t</span> <i class="FIRSTTERM">test</i> operator</a>.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># Test for a terminal!</span>
+
+fd=0   <span class="hljs-comment"># stdin</span>
+
+<span class="hljs-comment">#  As we recall, the -t test option checks whether the stdin, [ -t 0 ],</span>
+<span class="hljs-comment">#+ or stdout, [ -t 1 ], in a given script is running in a terminal.</span>
+<span class="hljs-keyword">if</span> [ -t <span class="hljs-string">"<span class="hljs-variable">$fd</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> interactive
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> non-interactive
+<span class="hljs-keyword">fi</span>
+
+
+<span class="hljs-comment">#  But, as John points out:</span>
+<span class="hljs-comment">#    if [ -t 0 ] works ... when you're logged in locally</span>
+<span class="hljs-comment">#    but fails when you invoke the command remotely via ssh.</span>
+<span class="hljs-comment">#    So for a true test you also have to test for a socket.</span>
+
+<span class="hljs-keyword">if</span> [[ -t <span class="hljs-string">"<span class="hljs-variable">$fd</span>"</span> || -p /dev/stdin ]]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> interactive
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> non-interactive
+<span class="hljs-keyword">fi</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>Scripts may be forced to run in interactive mode with the <span class="TOKEN">-i</span> option or with a <tt class="USERINPUT"><b>#!/bin/bash -i</b></tt> header. Be aware that this can cause erratic script behavior or show error messages even when no error is present.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="miscellany.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="wrapper.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Miscellany</td>
+        <td width="34%" align="center" valign="top"><a href="miscellany.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Shell Wrappers</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

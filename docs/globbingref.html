@@ -1,0 +1,176 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Globbing</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Regular Expressions" href="regexp.html">
+  <link rel="PREVIOUS" title="A Brief Introduction to Regular Expressions" href="x17129.html">
+  <link rel="NEXT" title="Here Documents" href="here-docs.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="x17129.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 18. Regular Expressions</td>
+        <td width="10%" align="right" valign="bottom"><a href="here-docs.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="GLOBBINGREF" id="GLOBBINGREF"></a>18.2. Globbing</h1>
+    <p><a name="GLOBBINGREF2" id="GLOBBINGREF2"></a></p>
+    <p>Bash itself cannot recognize Regular Expressions. Inside scripts, it is commands and utilities -- such as <a href="sedawk.html#SEDREF">sed</a> and <a href="awk.html#AWKREF">awk</a> -- that interpret RE's.</p>
+    <p>Bash <em>does</em> carry out <i class="FIRSTTERM">filename expansion</i> <a name="AEN17572" href="#FTN.AEN17572" id="AEN17572"><span class="footnote">[1]</span></a> -- a process known as <i class="FIRSTTERM">globbing</i> -- but this does <em>not</em> use the standard RE set. Instead, globbing recognizes and expands <i class="FIRSTTERM">wild cards</i>. Globbing interprets the standard wild card characters <a name="AEN17581" href="#FTN.AEN17581" id="AEN17581"><span class="footnote">[2]</span></a> -- <a href="special-chars.html#ASTERISKREF">*</a> and <a href="special-chars.html#WILDCARDQU">?</a>, character lists in square brackets, and certain other special characters (such as <span class="TOKEN">^</span> for negating the sense of a match). <a name="WDOTFILEWC" id="WDOTFILEWC"></a>There are important limitations on wild card characters in globbing, however. Strings containing <tt class="REPLACEABLE"><i>*</i></tt> will not match filenames that start with a dot, as, for example, <a href="sample-bashrc.html"><tt class="FILENAME">.bashrc</tt></a>. <a name="AEN17592" href="#FTN.AEN17592" id="AEN17592"><span class="footnote">[3]</span></a> Likewise, the <tt class="REPLACEABLE"><i>?</i></tt> has a different meaning in globbing than as part of an RE.</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> ls -l</span>
+total 2
+ -rw-rw-r--    1 bozo  bozo         0 Aug  6 18:42 a.1
+ -rw-rw-r--    1 bozo  bozo         0 Aug  6 18:42 b.1
+ -rw-rw-r--    1 bozo  bozo         0 Aug  6 18:42 c.1
+ -rw-rw-r--    1 bozo  bozo       466 Aug  6 17:48 t2.sh
+ -rw-rw-r--    1 bozo  bozo       758 Jul 30 09:02 test1.txt
+<span class="hljs-meta">
+bash$</span><span class="bash"> ls -l t?.sh</span>
+-rw-rw-r--    1 bozo  bozo       466 Aug  6 17:48 t2.sh
+<span class="hljs-meta">
+bash$</span><span class="bash"> ls -l [ab]*</span>
+-rw-rw-r--    1 bozo  bozo         0 Aug  6 18:42 a.1
+ -rw-rw-r--    1 bozo  bozo         0 Aug  6 18:42 b.1
+<span class="hljs-meta">
+bash$</span><span class="bash"> ls -l [a-c]*</span>
+-rw-rw-r--    1 bozo  bozo         0 Aug  6 18:42 a.1
+ -rw-rw-r--    1 bozo  bozo         0 Aug  6 18:42 b.1
+ -rw-rw-r--    1 bozo  bozo         0 Aug  6 18:42 c.1
+<span class="hljs-meta">
+bash$</span><span class="bash"> ls -l [^ab]*</span>
+-rw-rw-r--    1 bozo  bozo         0 Aug  6 18:42 c.1
+ -rw-rw-r--    1 bozo  bozo       466 Aug  6 17:48 t2.sh
+ -rw-rw-r--    1 bozo  bozo       758 Jul 30 09:02 test1.txt
+<span class="hljs-meta">
+bash$</span><span class="bash"> ls -l {b*,c*,*est*}</span>
+-rw-rw-r--    1 bozo  bozo         0 Aug  6 18:42 b.1
+ -rw-rw-r--    1 bozo  bozo         0 Aug  6 18:42 c.1
+ -rw-rw-r--    1 bozo  bozo       758 Jul 30 09:02 test1.txt
+              </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>Bash performs filename expansion on unquoted command-line arguments. The <a href="internal.html#ECHOREF">echo</a> command demonstrates this.</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> *</span>
+a.1 b.1 c.1 t2.sh test1.txt
+<span class="hljs-meta">
+bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> t*</span>
+t2.sh test1.txt
+<span class="hljs-meta">
+bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> t?.sh</span>
+t2.sh
+              </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>It is possible to modify the way Bash interprets special characters in globbing. A <b class="COMMAND">set -f</b> command disables globbing, and the <tt class="OPTION">nocaseglob</tt> and <tt class="OPTION">nullglob</tt> options to <a href="internal.html#SHOPTREF">shopt</a> change globbing behavior.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>See also <a href="loops1.html#LISTGLOB">Example 11-5</a>.</p>
+    <div class="CAUTION">
+      <table class="CAUTION" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+          <td align="left" valign="top">
+            <p><a name="HANDLINGFNAMES" id="HANDLINGFNAMES"></a>Filenames with embedded <a href="special-chars.html#WHITESPACEREF">whitespace</a> can cause <i class="FIRSTTERM">globbing</i> to choke. <a href="http://www.dwheeler.com/essays/filenames-in-shell.html" target="_top">David Wheeler</a> shows how to avoid many such pitfalls.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs">IFS=<span class="hljs-string">"<span class="hljs-subst">$(printf '\n\t')</span>"</span>   <span class="hljs-comment"># Remove space.</span>
+
+<span class="hljs-comment">#  Correct glob use:</span>
+<span class="hljs-comment">#  Always use for-loop, prefix glob, check if exists file.</span>
+<span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> ./* ; <span class="hljs-keyword">do</span>         <span class="hljs-comment"># Use ./* ... NEVER bare *</span>
+  <span class="hljs-keyword">if</span> [ -e <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span> ] ; <span class="hljs-keyword">then</span>   <span class="hljs-comment"># Check whether file exists.</span>
+     COMMAND ... <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span> ...
+  <span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment"># This example taken from David Wheeler's site, with permission.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN17572" href="globbingref.html#AEN17572" id="FTN.AEN17572"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><i class="FIRSTTERM">Filename expansion</i> means expanding filename patterns or templates containing special characters. For example, <tt class="FILENAME">example.???</tt> might expand to <tt class="FILENAME">example.001</tt> and/or <tt class="FILENAME">example.txt</tt>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN17581" href="globbingref.html#AEN17581" id="FTN.AEN17581"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><a name="WILDCARDDEF" id="WILDCARDDEF"></a>A <i class="FIRSTTERM">wild card</i> character, analogous to a wild card in poker, can represent (almost) any other character.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN17592" href="globbingref.html#AEN17592" id="FTN.AEN17592"><span class="footnote">[3]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Filename expansion <em>can</em> match dotfiles, but only if the pattern explicitly includes the dot as a literal character.</p>
+        <table border="0" bgcolor="#E0E0E0" width="100%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs">~/[.]bashrc    <span class="hljs-comment">#  Will not expand to ~/.bashrc</span>
+~/?bashrc      <span class="hljs-comment">#  Neither will this.</span>
+               <span class="hljs-comment">#  Wild cards and metacharacters will NOT</span>
+               <span class="hljs-comment">#+ expand to a dot in globbing.</span>
+
+~/.[b]ashrc    <span class="hljs-comment">#  Will expand to ~/.bashrc</span>
+~/.ba?hrc      <span class="hljs-comment">#  Likewise.</span>
+~/.bashr*      <span class="hljs-comment">#  Likewise.</span>
+
+<span class="hljs-comment"># Setting the "dotglob" option turns this off.</span>
+
+<span class="hljs-comment"># Thanks, S.C.</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="x17129.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="here-docs.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">A Brief Introduction to Regular Expressions</td>
+        <td width="34%" align="center" valign="top"><a href="regexp.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Here Documents</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

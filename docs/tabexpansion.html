@@ -1,0 +1,186 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>An Introduction to Programmable Completion</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="PREVIOUS" title="Important System Directories" href="systemdirs.html">
+  <link rel="NEXT" title="Localization" href="localization.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="APPENDIX" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="systemdirs.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="localization.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="APPENDIX">
+    <h1><a name="TABEXPANSION" id="TABEXPANSION"></a>Appendix J. An Introduction to Programmable Completion</h1>
+    <p>The <i class="FIRSTTERM">programmable completion</i> feature in Bash permits typing a partial command, then pressing the <b class="KEYCAP">[Tab]</b> key to auto-complete the command sequence. <a name="AEN24082" href="#FTN.AEN24082" id="AEN24082"><span class="footnote">[1]</span></a> If multiple completions are possible, then <b class="KEYCAP">[Tab]</b> lists them all. Let's see how it works.</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> xtra[Tab]</span>
+xtraceroute       xtrapin           xtrapproto
+ xtraceroute.real  xtrapinfo         xtrapreset
+ xtrapchar         xtrapout          xtrapstats
+<span class="hljs-meta">
+
+bash$</span><span class="bash"> xtrac[Tab]</span>
+xtraceroute       xtraceroute.real
+<span class="hljs-meta">
+
+bash$</span><span class="bash"> xtraceroute.r[Tab]</span>
+xtraceroute.real
+      </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>Tab completion also works for variables and path names.</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> <span class="hljs-variable">$BASH</span>[Tab]</span>
+<span class="hljs-meta">$</span><span class="bash">BASH                 <span class="hljs-variable">$BASH_COMPLETION</span>      <span class="hljs-variable">$BASH_SUBSHELL</span></span>
+<span class="hljs-meta"> $</span><span class="bash">BASH_ARGC            <span class="hljs-variable">$BASH_COMPLETION_DIR</span>  <span class="hljs-variable">$BASH_VERSINFO</span></span>
+<span class="hljs-meta"> $</span><span class="bash">BASH_ARGV            <span class="hljs-variable">$BASH_LINENO</span>          <span class="hljs-variable">$BASH_VERSION</span></span>
+<span class="hljs-meta"> $</span><span class="bash">BASH_COMMAND         <span class="hljs-variable">$BASH_SOURCE</span></span>
+<span class="hljs-meta">
+
+bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> /usr/<span class="hljs-built_in">local</span>/[Tab]</span>
+bin/     etc/     include/ libexec/ sbin/    src/     
+ doc/     games/   lib/     man/     share/
+      </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="COMPLETEREF" id="COMPLETEREF"></a></p>
+    <p>The Bash <b class="COMMAND">complete</b> and <b class="COMMAND">compgen</b> <a href="internal.html#BUILTINREF">builtins</a> make it possible for <i class="FIRSTTERM">tab completion</i> to recognize partial <i class="FIRSTTERM">parameters</i> and <i class="FIRSTTERM">options</i> to commands. In a very simple case, we can use <b class="COMMAND">complete</b> from the command-line to specify a short list of acceptable parameters.</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> touch sample_command</span>
+<span class="hljs-meta">bash$</span><span class="bash"> touch file1.txt file2.txt file2.doc file30.txt file4.zzz</span>
+<span class="hljs-meta">bash$</span><span class="bash"> chmod +x sample_command</span>
+<span class="hljs-meta">bash$</span><span class="bash"> complete -f -X <span class="hljs-string">'!*.txt'</span> sample_command</span>
+<span class="hljs-meta">
+
+bash$</span><span class="bash"> ./sample[Tab][Tab]</span>
+sample_command
+file1.txt   file2.txt   file30.txt
+  </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>The <tt class="OPTION">-f</tt> option to <i class="FIRSTTERM">complete</i> specifies filenames, and <tt class="OPTION">-X</tt> the filter pattern.</p>
+    <p><a name="COMPGENREF" id="COMPGENREF"></a></p>
+    <p>For anything more complex, we could write a script that specifies a list of acceptable command-line parameters. The <b class="COMMAND">compgen</b> builtin expands a list of <i class="FIRSTTERM">arguments</i> to <i class="FIRSTTERM">generate</i> completion matches.</p>
+    <p>Let us take a <a href="contributed-scripts.html#USEGETOPT2">modified version</a> of the <em>UseGetOpt.sh</em> script as an example command. This script accepts a number of command-line parameters, preceded by either a single or double dash. And here is the corresponding <i class="FIRSTTERM">completion script</i>, by convention given a filename corresponding to its associated command.</p>
+    <div class="EXAMPLE">
+      <a name="USEGETOPTEX" id="USEGETOPTEX"></a>
+      <p><b>Example J-1. Completion script for <i class="FIRSTTERM">UseGetOpt.sh</i></b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># file: UseGetOpt-2</span>
+<span class="hljs-comment"># UseGetOpt-2.sh parameter-completion</span>
+
+_UseGetOpt-2 ()   <span class="hljs-comment">#  By convention, the function name</span>
+{                 <span class="hljs-comment">#+ starts with an underscore.</span>
+  <span class="hljs-built_in">local</span> cur
+  <span class="hljs-comment"># Pointer to current completion word.</span>
+  <span class="hljs-comment"># By convention, it's named "cur" but this isn't strictly necessary.</span>
+
+  COMPREPLY=()   <span class="hljs-comment"># Array variable storing the possible completions.</span>
+  cur=<span class="hljs-variable">${COMP_WORDS[COMP_CWORD]}</span>
+
+  <span class="hljs-keyword">case</span> <span class="hljs-string">"<span class="hljs-variable">$cur</span>"</span> <span class="hljs-keyword">in</span>
+    -*)
+    COMPREPLY=( $( compgen -W <span class="hljs-string">'-a -d -f -l -t -h --aoption --debug \
+                               --file --log --test --help --'</span> -- <span class="hljs-variable">$cur</span> ) );;
+<span class="hljs-comment">#   Generate the completion matches and load them into $COMPREPLY array.</span>
+<span class="hljs-comment">#   xx) May add more cases here.</span>
+<span class="hljs-comment">#   yy)</span>
+<span class="hljs-comment">#   zz)</span>
+  <span class="hljs-keyword">esac</span>
+
+  <span class="hljs-built_in">return</span> 0
+}
+
+complete -F _UseGetOpt-2 -o filenames ./UseGetOpt-2.sh
+<span class="hljs-comment">#        ^^ ^^^^^^^^^^^^  Invokes the function _UseGetOpt-2.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Now, let's try it.</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">source</span> UseGetOpt-2</span>
+<span class="hljs-meta">
+bash$</span><span class="bash"> ./UseGetOpt-2.sh -[Tab]</span>
+--         --aoption  --debug    --file     --help     --log     --test
+ -a         -d         -f         -h         -l         -t
+<span class="hljs-meta">
+
+bash$</span><span class="bash"> ./UseGetOpt-2.sh --[Tab]</span>
+--         --aoption  --debug    --file     --help     --log     --test
+  </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>We begin by <a href="internal.html#SOURCEREF">sourcing</a> the <span class="QUOTE">"completion script."</span> This sets the command-line parameters. <a name="AEN24160" href="#FTN.AEN24160" id="AEN24160"><span class="footnote">[2]</span></a></p>
+    <p>In the first instance, hitting <b class="KEYCAP">[Tab]</b> after a single dash, the output is all the possible parameters preceded by <em>one or more</em> dashes. Hitting <b class="KEYCAP">[Tab]</b> after <em>two</em> dashes gives the possible parameters preceded by <em>two or more</em> dashes.</p>
+    <p>Now, just what is the point of having to jump through flaming hoops to enable command-line tab completion? <em>It saves keystrokes.</em> <a name="AEN24173" href="#FTN.AEN24173" id="AEN24173"><span class="footnote">[3]</span></a></p>
+    <p>--</p>
+    <p><em>Resources:</em></p>
+    <p>Bash <a href="http://freshmeat.net/projects/bashcompletion" target="_top">programmable completion</a> project</p>
+    <p>Mitch Frazier's <a href="http://www.linuxjournal.com" target="_top"><i class="CITETITLE">Linux Journal</i></a> article, <a href="http://www.linuxjournal.com/content/more-using-bash-complete-command" target="_top"><em>More on Using the Bash Complete Command</em></a></p>
+    <p>Steve's excellent two-part article, <span class="QUOTE">"An Introduction to Bash Completion"</span>: <a href="http://www.debian-administration.org/article/An_introduction_to_bash_completion_part_1" target="_top">Part 1</a> and <a href="http://www.debian-administration.org/article/An_introduction_to_bash_completion_part_2" target="_top">Part 2</a></p>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN24082" href="tabexpansion.html#AEN24082" id="FTN.AEN24082"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>This works only from the <i class="FIRSTTERM">command line</i>, of course, and not within a script.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN24160" href="tabexpansion.html#AEN24160" id="FTN.AEN24160"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Normally the default parameter completion files reside in either the <tt class="FILENAME">/etc/profile.d</tt> directory or in <tt class="FILENAME">/etc/bash_completion</tt>. These autoload on system startup. So, after writing a useful completion script, you might wish to move it (as <i class="FIRSTTERM">root</i>, of course) to one of these directories.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN24173" href="tabexpansion.html#AEN24173" id="FTN.AEN24173"><span class="footnote">[3]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>It has been extensively documented that programmers are willing to put in long hours of effort in order to save ten minutes of <span class="QUOTE">"unnecessary"</span> labor. This is known as <i class="FIRSTTERM">optimization</i>.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="systemdirs.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="localization.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Important System Directories</td>
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+        <td width="33%" align="right" valign="top">Localization</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

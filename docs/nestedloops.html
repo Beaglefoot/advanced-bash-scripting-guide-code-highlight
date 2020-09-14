@@ -1,0 +1,84 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Nested Loops</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Loops and Branches" href="loops.html">
+  <link rel="PREVIOUS" title="Loops" href="loops1.html">
+  <link rel="NEXT" title="Loop Control" href="loopcontrol.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="loops1.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 11. Loops and Branches</td>
+        <td width="10%" align="right" valign="bottom"><a href="loopcontrol.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="NESTEDLOOPS" id="NESTEDLOOPS"></a>11.2. Nested Loops</h1>
+    <p>A <i class="FIRSTTERM">nested loop</i> is a loop within a loop, an inner loop within the body of an outer one. How this works is that the first pass of the outer loop triggers the inner loop, which executes to completion. Then the second pass of the outer loop triggers the inner loop again. This repeats until the outer loop finishes. Of course, a <i class="FIRSTTERM">break</i> within either the inner or outer loop would interrupt this process.</p>
+    <div class="EXAMPLE">
+      <a name="NESTEDLOOP" id="NESTEDLOOP"></a>
+      <p><b>Example 11-20. Nested Loop</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># nested-loop.sh: Nested "for" loops.</span>
+
+outer=1             <span class="hljs-comment"># Set outer loop counter.</span>
+
+<span class="hljs-comment"># Beginning of outer loop.</span>
+<span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> 1 2 3 4 5
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Pass <span class="hljs-variable">$outer</span> in outer loop."</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"---------------------"</span>
+  inner=1           <span class="hljs-comment"># Reset inner loop counter.</span>
+
+  <span class="hljs-comment"># ===============================================</span>
+  <span class="hljs-comment"># Beginning of inner loop.</span>
+  <span class="hljs-keyword">for</span> b <span class="hljs-keyword">in</span> 1 2 3 4 5
+  <span class="hljs-keyword">do</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Pass <span class="hljs-variable">$inner</span> in inner loop."</span>
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"inner+=1"</span>  <span class="hljs-comment"># Increment inner loop counter.</span>
+  <span class="hljs-keyword">done</span>
+  <span class="hljs-comment"># End of inner loop.</span>
+  <span class="hljs-comment"># ===============================================</span>
+
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"outer+=1"</span>    <span class="hljs-comment"># Increment outer loop counter. </span>
+  <span class="hljs-built_in">echo</span>              <span class="hljs-comment"># Space between output blocks in pass of outer loop.</span>
+<span class="hljs-keyword">done</span>               
+<span class="hljs-comment"># End of outer loop.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>See <a href="arrays.html#BUBBLE">Example 27-11</a> for an illustration of nested <a href="loops1.html#WHILELOOPREF">while loops</a>, and <a href="arrays.html#EX68">Example 27-13</a> to see a while loop nested inside an <a href="loops1.html#UNTILLOOPREF">until loop</a>.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="loops1.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="loopcontrol.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Loops</td>
+        <td width="34%" align="center" valign="top"><a href="loops.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Loop Control</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

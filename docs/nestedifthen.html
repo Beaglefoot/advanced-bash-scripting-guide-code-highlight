@@ -1,0 +1,68 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Nested if/then Condition Tests</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Tests" href="tests.html">
+  <link rel="PREVIOUS" title="Other Comparison Operators" href="comparison-ops.html">
+  <link rel="NEXT" title="Testing Your Knowledge of Tests" href="testtest.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="comparison-ops.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 7. Tests</td>
+        <td width="10%" align="right" valign="bottom"><a href="testtest.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="NESTEDIFTHEN" id="NESTEDIFTHEN"></a>7.4. Nested <tt class="REPLACEABLE"><i>if/then</i></tt> Condition Tests</h1>
+    <p>Condition tests using the <tt class="REPLACEABLE"><i>if/then</i></tt> construct may be nested. The net result is equivalent to using the <a href="ops.html#LOGOPS1"><i class="FIRSTTERM">&amp;&amp;</i></a> compound comparison operator.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">a=3
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> -gt 0 ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> -lt 5 ]
+  <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"The value of \"a\" lies somewhere between 0 and 5."</span>
+  <span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment"># Same result as:</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> -gt 0 ] &amp;&amp; [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> -lt 5 ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"The value of \"a\" lies somewhere between 0 and 5."</span>
+<span class="hljs-keyword">fi</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a href="bashver2.html#CARDS">Example 37-4</a> and <a href="system.html#BACKLIGHT">Example 17-11</a> demonstrate nested <tt class="REPLACEABLE"><i>if/then</i></tt> condition tests.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="comparison-ops.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="testtest.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Other Comparison Operators</td>
+        <td width="34%" align="center" valign="top"><a href="tests.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Testing Your Knowledge of Tests</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

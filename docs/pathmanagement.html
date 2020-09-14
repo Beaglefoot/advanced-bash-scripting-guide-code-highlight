@@ -1,0 +1,241 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Parsing and Managing Pathnames</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="PREVIOUS" title="Awk" href="awk.html">
+  <link rel="NEXT" title="Exit Codes With Special Meanings" href="exitcodes.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="APPENDIX" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="awk.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="exitcodes.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="APPENDIX">
+    <h1><a name="PATHMANAGEMENT" id="PATHMANAGEMENT"></a>Appendix D. Parsing and Managing Pathnames</h1>
+    <p>Emmanual Rouat contributed the following example of parsing and transforming <i class="FIRSTTERM">filenames</i> and, in particular, <a href="special-chars.html#PATHNAMEREF">pathnames</a>. It draws heavily on the functionality of <i class="FIRSTTERM">sed</i>.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/usr/bin/env bash</span>
+<span class="hljs-comment">#-----------------------------------------------------------</span>
+<span class="hljs-comment"># Management of PATH, LD_LIBRARY_PATH, MANPATH variables...</span>
+<span class="hljs-comment"># By Emmanuel Rouat &lt;no-email&gt;</span>
+<span class="hljs-comment"># (Inspired by the bash documentation 'pathfuncs' and on</span>
+<span class="hljs-comment"># discussions found on stackoverflow:</span>
+<span class="hljs-comment"># http://stackoverflow.com/questions/370047/</span>
+<span class="hljs-comment"># http://stackoverflow.com/questions/273909/#346860 )</span>
+<span class="hljs-comment"># Last modified: Sat Sep 22 12:01:55 CEST 2012</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># The following functions handle spaces correctly.</span>
+<span class="hljs-comment"># These functions belong in .bash_profile rather than in</span>
+<span class="hljs-comment"># .bashrc, I guess.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># The modular aspect of these functions should make it easy</span>
+<span class="hljs-comment"># to expand them to handle path substitutions instead</span>
+<span class="hljs-comment"># of path removal etc....</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># See http://www.catonmat.net/blog/awk-one-liners-explained-part-two/</span>
+<span class="hljs-comment"># (item 43) for an explanation of the 'duplicate-entries' removal</span>
+<span class="hljs-comment"># (it's a nice trick!)</span>
+<span class="hljs-comment">#-----------------------------------------------------------</span>
+
+<span class="hljs-comment"># Show $@ (usually PATH) as list.</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">p_show</span></span>() { <span class="hljs-built_in">local</span> p=<span class="hljs-string">"<span class="hljs-variable">$@</span>"</span> &amp;&amp; <span class="hljs-keyword">for</span> p; <span class="hljs-keyword">do</span> [[ <span class="hljs-variable">${!p}</span> ]] &amp;&amp;
+<span class="hljs-built_in">echo</span> -e <span class="hljs-variable">${!p//:/\\n}</span>; <span class="hljs-keyword">done</span> }
+
+<span class="hljs-comment"># Filter out empty lines, multiple/trailing slashes, and duplicate entries.</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">p_filter</span></span>()
+{ awk <span class="hljs-string">'/^[ \t]*$/ {next} {sub(/\/+$/, "");gsub(/\/+/, "/")}!x[$0]++'</span> ;}
+
+<span class="hljs-comment"># Rebuild list of items into ':' separated word (PATH-like).</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">p_build</span></span>() { paste -sd: ;}
+
+<span class="hljs-comment"># Clean $1 (typically PATH) and rebuild it</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">p_clean</span></span>()
+{ <span class="hljs-built_in">local</span> p=<span class="hljs-variable">${1}</span> &amp;&amp; <span class="hljs-built_in">eval</span> <span class="hljs-variable">${p}</span>=<span class="hljs-string">'$(p_show ${p} | p_filter | p_build)'</span> ;}
+
+<span class="hljs-comment"># Remove $1 from $2 (found on stackoverflow, with modifications).</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">p_rm</span></span>()
+{ <span class="hljs-built_in">local</span> d=$(<span class="hljs-built_in">echo</span> <span class="hljs-variable">$1</span> | p_filter) p=<span class="hljs-variable">${2}</span> &amp;&amp;
+  <span class="hljs-built_in">eval</span> <span class="hljs-variable">${p}</span>=<span class="hljs-string">'$(p_show ${p} | p_filter | grep -xv "${d}" | p_build)'</span> ;}
+
+<span class="hljs-comment">#  Same as previous, but filters on a pattern (dangerous...</span>
+<span class="hljs-comment">#+ don't use 'bin' or '/' as pattern!).</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">p_rmpat</span></span>()
+{ <span class="hljs-built_in">local</span> d=$(<span class="hljs-built_in">echo</span> <span class="hljs-variable">$1</span> | p_filter) p=<span class="hljs-variable">${2}</span> &amp;&amp; <span class="hljs-built_in">eval</span> <span class="hljs-variable">${p}</span>=<span class="hljs-string">'$(p_show ${p} |
+  p_filter | grep -v "${d}" | p_build)'</span> ;}
+
+<span class="hljs-comment"># Delete $1 from $2 and append it cleanly.</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">p_append</span></span>()
+{ <span class="hljs-built_in">local</span> d=$(<span class="hljs-built_in">echo</span> <span class="hljs-variable">$1</span> | p_filter) p=<span class="hljs-variable">${2}</span> &amp;&amp; p_rm <span class="hljs-string">"<span class="hljs-variable">${d}</span>"</span> <span class="hljs-variable">${p}</span> &amp;&amp;
+  <span class="hljs-built_in">eval</span> <span class="hljs-variable">${p}</span>=<span class="hljs-string">'$(p_show ${p} d | p_build)'</span> ;}
+
+<span class="hljs-comment"># Delete $1 from $2 and prepend it cleanly.</span>
+<span class="hljs-keyword">function</span> <span class="hljs-function"><span class="hljs-title">p_prepend</span></span>()
+{ <span class="hljs-built_in">local</span> d=$(<span class="hljs-built_in">echo</span> <span class="hljs-variable">$1</span> | p_filter) p=<span class="hljs-variable">${2}</span> &amp;&amp; p_rm <span class="hljs-string">"<span class="hljs-variable">${d}</span>"</span> <span class="hljs-variable">${p}</span> &amp;&amp;
+  <span class="hljs-built_in">eval</span> <span class="hljs-variable">${p}</span>=<span class="hljs-string">'$(p_show d ${p} | p_build)'</span> ;}
+
+<span class="hljs-comment"># Some tests:</span>
+<span class="hljs-built_in">echo</span>
+MYPATH=<span class="hljs-string">"/bin:/usr/bin/:/bin://bin/"</span>
+p_append <span class="hljs-string">"/project//my project/bin"</span> MYPATH
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Append '/project//my project/bin' to '/bin:/usr/bin/:/bin://bin/'"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"(result should be: /bin:/usr/bin:/project/my project/bin)"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$MYPATH</span>
+
+<span class="hljs-built_in">echo</span>
+MYOTHERPATH=<span class="hljs-string">"/bin:/usr/bin/:/bin:/project//my project/bin"</span>
+p_prepend <span class="hljs-string">"/project//my project/bin"</span> MYOTHERPATH
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Prepend '/project//my project/bin' \
+to '/bin:/usr/bin/:/bin:/project//my project/bin/'"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"(result should be: /project/my project/bin:/bin:/usr/bin)"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$MYOTHERPATH</span>
+
+<span class="hljs-built_in">echo</span>
+p_prepend <span class="hljs-string">"/project//my project/bin"</span> FOOPATH  <span class="hljs-comment"># FOOPATH doesn't exist.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Prepend '/project//my project/bin' to an unset variable"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"(result should be: /project/my project/bin)"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$FOOPATH</span>
+
+<span class="hljs-built_in">echo</span>
+BARPATH=<span class="hljs-string">"/a:/b/://b c://a:/my local pub"</span>
+p_clean BARPATH
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Clean BARPATH='/a:/b/://b c://a:/my local pub'"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"(result should be: /a:/b:/b c:/my local pub)"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$BARPATH</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>***</p>
+    <p>David Wheeler kindly permitted me to use his instructive examples.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">Doing it correctly: A quick summary
+by David Wheeler
+http://www.dwheeler.com/essays/filenames-in-shell.html
+
+So, how can you process filenames correctly <span class="hljs-keyword">in</span> shell? Here<span class="hljs-string">'s a quick
+summary about how to do it correctly, for the impatient who "just want the
+answer". In short: Double-quote to use "$variable" instead of $variable,
+set IFS to just newline and tab, prefix all globs/filenames so they cannot
+begin with "-" when expanded, and use one of a few templates that work
+correctly. Here are some of those templates that work correctly:
+
+
+ IFS="$(printf '</span>\n\t<span class="hljs-string">')"
+ # Remove SPACE, so filenames with spaces work well.
+
+ #  Correct glob use:
+ #+ always use "for" loop, prefix glob, check for existence:
+ for file in ./* ; do          # Use "./*" ... NEVER bare "*" ...
+   if [ -e "$file" ] ; then    # Make sure it isn'</span>t an empty match.
+     COMMAND ... <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span> ...
+   <span class="hljs-keyword">fi</span>
+ <span class="hljs-keyword">done</span>
+
+
+
+ <span class="hljs-comment"># Correct glob use, but requires nonstandard bash extension.</span>
+ <span class="hljs-built_in">shopt</span> -s nullglob  <span class="hljs-comment">#  Bash extension,</span>
+                    <span class="hljs-comment">#+ so that empty glob matches will work.</span>
+ <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> ./* ; <span class="hljs-keyword">do</span>        <span class="hljs-comment"># Use "./*", NEVER bare "*"</span>
+   COMMAND ... <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span> ...
+ <span class="hljs-keyword">done</span>
+
+
+
+ <span class="hljs-comment">#  These handle all filenames correctly;</span>
+ <span class="hljs-comment">#+ can be unwieldy if COMMAND is large:</span>
+ find ... -<span class="hljs-built_in">exec</span> COMMAND... {} \;
+ find ... -<span class="hljs-built_in">exec</span> COMMAND... {} \+ <span class="hljs-comment"># If multiple files are okay for COMMAND.</span>
+
+
+
+ <span class="hljs-comment">#  This skips filenames with control characters</span>
+ <span class="hljs-comment">#+ (including tab and newline).</span>
+ IFS=<span class="hljs-string">"<span class="hljs-subst">$(printf '\n\t')</span>"</span>
+ controlchars=<span class="hljs-string">"<span class="hljs-subst">$(printf '*[\001-\037\177]*')</span>"</span>
+ <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> $(find . ! -name <span class="hljs-string">"<span class="hljs-variable">$controlchars</span>"</span><span class="hljs-string">') ; do
+   COMMAND "$file" ...
+ done
+
+
+
+ #  Okay if filenames can'</span>t contain tabs or newlines --
+ <span class="hljs-comment">#+ beware the assumption.</span>
+ IFS=<span class="hljs-string">"<span class="hljs-subst">$(printf '\n\t')</span>"</span>
+ <span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> $(find .) ; <span class="hljs-keyword">do</span>
+   COMMAND <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span> ...
+ <span class="hljs-keyword">done</span>
+
+
+
+ <span class="hljs-comment"># Requires nonstandard but common extensions in find and xargs:</span>
+ find . -print0 | xargs -0 COMMAND
+
+ <span class="hljs-comment"># Requires nonstandard extensions to find and to shell (bash works).</span>
+ <span class="hljs-comment"># variables might not stay set once the loop ends:</span>
+ find . -print0 | <span class="hljs-keyword">while</span> IFS=<span class="hljs-string">""</span> <span class="hljs-built_in">read</span> -r -d <span class="hljs-string">""</span> file ; <span class="hljs-keyword">do</span> ...
+   COMMAND <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span> <span class="hljs-comment"># Use quoted "$file", not $file, everywhere.</span>
+ <span class="hljs-keyword">done</span>
+
+
+
+ <span class="hljs-comment">#  Requires nonstandard extensions to find and to shell (bash works).</span>
+ <span class="hljs-comment">#  Underlying system must include named pipes (FIFOs)</span>
+ <span class="hljs-comment">#+ or the /dev/fd mechanism.</span>
+ <span class="hljs-comment">#  In this version, variables *do* stay set after the loop ends,</span>
+ <span class="hljs-comment">#  and you can read from stdin.</span>
+ <span class="hljs-comment">#+ (Change the 4 to another number if fd 4 is needed.)</span>
+
+ <span class="hljs-keyword">while</span> IFS=<span class="hljs-string">""</span> <span class="hljs-built_in">read</span> -r -d <span class="hljs-string">""</span> file &lt;&amp;4 ; <span class="hljs-keyword">do</span>
+   COMMAND <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span>   <span class="hljs-comment"># Use quoted "$file" -- not $file, everywhere.</span>
+ <span class="hljs-keyword">done</span> 4&lt; &lt;(find . -print0)
+
+
+ <span class="hljs-comment">#  Named pipe version.</span>
+ <span class="hljs-comment">#  Requires nonstandard extensions to find and to shell's read (bash ok).</span>
+ <span class="hljs-comment">#  Underlying system must include named pipes (FIFOs).</span>
+ <span class="hljs-comment">#  Again, in this version, variables *do* stay set after the loop ends,</span>
+ <span class="hljs-comment">#  and you can read from stdin.</span>
+ <span class="hljs-comment"># (Change the 4 to something else if fd 4 needed).</span>
+
+ mkfifo mypipe
+
+ find . -print0 &gt; mypipe &amp;
+ <span class="hljs-keyword">while</span> IFS=<span class="hljs-string">""</span> <span class="hljs-built_in">read</span> -r -d <span class="hljs-string">""</span> file &lt;&amp;4 ; <span class="hljs-keyword">do</span>
+   COMMAND <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span> <span class="hljs-comment"># Use quoted "$file", not $file, everywhere.</span>
+ <span class="hljs-keyword">done</span> 4&lt; mypipe</pre>
+        </td>
+      </tr>
+    </tbody></table>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="awk.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="exitcodes.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Awk</td>
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+        <td width="33%" align="right" valign="top">Exit Codes With Special Meanings</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

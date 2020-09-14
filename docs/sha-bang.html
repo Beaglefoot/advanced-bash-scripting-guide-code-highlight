@@ -1,0 +1,332 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Starting Off With a Sha-Bang</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Introduction" href="part1.html">
+  <link rel="PREVIOUS" title="Shell Programming!" href="why-shell.html">
+  <link rel="NEXT" title="Invoking the script" href="invoking.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="why-shell.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="invoking.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="SHA-BANG" id="SHA-BANG"></a>Chapter 2. Starting Off With a Sha-Bang</h1>
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" class="EPIGRAPH">
+      <tbody><tr>
+        <td width="45%">&nbsp;</td>
+        <td width="45%" align="left" valign="top">
+          <p><i>Shell programming is a 1950s juke box . . .</i></p>
+          <p><i>--Larry Wall</i></p>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="TOC">
+      <dl>
+        <dt><b>Table of Contents</b></dt>
+        <dt>2.1. <a href="invoking.html">Invoking the script</a></dt>
+        <dt>2.2. <a href="prelimexer.html">Preliminary Exercises</a></dt>
+      </dl>
+    </div>
+    <p>In the simplest case, a script is nothing more than a list of system commands stored in a file. At the very least, this saves the effort of retyping that particular sequence of commands each time it is invoked.</p>
+    <div class="EXAMPLE">
+      <a name="EX1" id="EX1"></a>
+      <p><b>Example 2-1. <i class="FIRSTTERM">cleanup</i>: A script to clean up log files in /var/log</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># Cleanup</span>
+<span class="hljs-comment"># Run as root, of course.</span>
+
+<span class="hljs-built_in">cd</span> /var/<span class="hljs-built_in">log</span>
+cat /dev/null &gt; messages
+cat /dev/null &gt; wtmp
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Log files cleaned up."</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>There is nothing unusual here, only a set of commands that could just as easily have been invoked one by one from the command-line on the console or in a terminal window. The advantages of placing the commands in a script go far beyond not having to retype them time and again. The script becomes a <i class="FIRSTTERM">program</i> -- a <em>tool</em> -- and it can easily be modified or customized for a particular application.</p>
+    <div class="EXAMPLE">
+      <a name="EX1A" id="EX1A"></a>
+      <p><b>Example 2-2. <i class="FIRSTTERM">cleanup</i>: An improved clean-up script</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Proper header for a Bash script.</span>
+
+<span class="hljs-comment"># Cleanup, version 2</span>
+
+<span class="hljs-comment"># Run as root, of course.</span>
+<span class="hljs-comment"># Insert code here to print error message and exit if not root.</span>
+
+LOG_DIR=/var/<span class="hljs-built_in">log</span>
+<span class="hljs-comment"># Variables are better than hard-coded values.</span>
+<span class="hljs-built_in">cd</span> <span class="hljs-variable">$LOG_DIR</span>
+
+cat /dev/null &gt; messages
+cat /dev/null &gt; wtmp
+
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Logs cleaned up."</span>
+
+<span class="hljs-built_in">exit</span> <span class="hljs-comment">#  The right and proper method of "exiting" from a script.</span>
+     <span class="hljs-comment">#  A bare "exit" (no parameter) returns the exit status</span>
+     <span class="hljs-comment">#+ of the preceding command. </span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Now <em>that's</em> beginning to look like a real script. But we can go even farther . . .</p>
+    <div class="EXAMPLE">
+      <a name="EX2" id="EX2"></a>
+      <p><b>Example 2-3. <i class="FIRSTTERM">cleanup</i>: An enhanced and generalized version of above scripts.</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Cleanup, version 3</span>
+
+<span class="hljs-comment">#  Warning:</span>
+<span class="hljs-comment">#  -------</span>
+<span class="hljs-comment">#  This script uses quite a number of features that will be explained</span>
+<span class="hljs-comment">#+ later on.</span>
+<span class="hljs-comment">#  By the time you've finished the first half of the book,</span>
+<span class="hljs-comment">#+ there should be nothing mysterious about it.</span>
+
+
+
+LOG_DIR=/var/<span class="hljs-built_in">log</span>
+ROOT_UID=0     <span class="hljs-comment"># Only users with $UID 0 have root privileges.</span>
+LINES=50       <span class="hljs-comment"># Default number of lines saved.</span>
+E_XCD=86       <span class="hljs-comment"># Can't change directory?</span>
+E_NOTROOT=87   <span class="hljs-comment"># Non-root exit error.</span>
+
+
+<span class="hljs-comment"># Run as root, of course.</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$UID</span>"</span> -ne <span class="hljs-string">"<span class="hljs-variable">$ROOT_UID</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Must be root to run this script."</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOTROOT</span>
+<span class="hljs-keyword">fi</span>  
+
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]
+<span class="hljs-comment"># Test whether command-line argument is present (non-empty).</span>
+<span class="hljs-keyword">then</span>
+  lines=<span class="hljs-variable">$1</span>
+<span class="hljs-keyword">else</span>  
+  lines=<span class="hljs-variable">$LINES</span> <span class="hljs-comment"># Default, if not specified on command-line.</span>
+<span class="hljs-keyword">fi</span>  
+
+
+<span class="hljs-comment">#  Stephane Chazelas suggests the following,</span>
+<span class="hljs-comment">#+ as a better way of checking command-line arguments,</span>
+<span class="hljs-comment">#+ but this is still a bit advanced for this stage of the tutorial.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#    E_WRONGARGS=85  # Non-numerical argument (bad argument format).</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#    case "$1" in</span>
+<span class="hljs-comment">#    ""      ) lines=50;;</span>
+<span class="hljs-comment">#    *[!0-9]*) echo "Usage: `basename $0` lines-to-cleanup";</span>
+<span class="hljs-comment">#     exit $E_WRONGARGS;;</span>
+<span class="hljs-comment">#    *       ) lines=$1;;</span>
+<span class="hljs-comment">#    esac</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#* Skip ahead to "Loops" chapter to decipher all this.</span>
+
+
+<span class="hljs-built_in">cd</span> <span class="hljs-variable">$LOG_DIR</span>
+
+<span class="hljs-keyword">if</span> [ `<span class="hljs-built_in">pwd</span>` != <span class="hljs-string">"<span class="hljs-variable">$LOG_DIR</span>"</span> ]  <span class="hljs-comment"># or   if [ "$PWD" != "$LOG_DIR" ]</span>
+                            <span class="hljs-comment"># Not in /var/log?</span>
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Can't change to <span class="hljs-variable">$LOG_DIR</span>."</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_XCD</span>
+<span class="hljs-keyword">fi</span>  <span class="hljs-comment"># Doublecheck if in right directory before messing with log file.</span>
+
+<span class="hljs-comment"># Far more efficient is:</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># cd /var/log || {</span>
+<span class="hljs-comment">#   echo "Cannot change to necessary directory." &gt;&amp;2</span>
+<span class="hljs-comment">#   exit $E_XCD;</span>
+<span class="hljs-comment"># }</span>
+
+
+
+
+tail -n <span class="hljs-variable">$lines</span> messages &gt; mesg.temp <span class="hljs-comment"># Save last section of message log file.</span>
+mv mesg.temp messages               <span class="hljs-comment"># Rename it as system log file.</span>
+
+
+<span class="hljs-comment">#  cat /dev/null &gt; messages</span>
+<span class="hljs-comment">#* No longer needed, as the above method is safer.</span>
+
+cat /dev/null &gt; wtmp  <span class="hljs-comment">#  ': &gt; wtmp' and '&gt; wtmp'  have the same effect.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Log files cleaned up."</span>
+<span class="hljs-comment">#  Note that there are other log files in /var/log not affected</span>
+<span class="hljs-comment">#+ by this script.</span>
+
+<span class="hljs-built_in">exit</span> 0
+<span class="hljs-comment">#  A zero return value from the script upon exit indicates success</span>
+<span class="hljs-comment">#+ to the shell.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Since you may not wish to wipe out the entire system log, this version of the script keeps the last section of the message log intact. You will constantly discover ways of fine-tuning previously written scripts for increased effectiveness.</p>
+    <p><a name="SHABANGREF" id="SHABANGREF"></a>* * *</p>
+    <p><a name="MAGNUMREF" id="MAGNUMREF"></a>The <i class="FIRSTTERM">sha-bang</i> ( <span class="TOKEN">#!</span>) <a name="AEN205" href="#FTN.AEN205" id="AEN205"><span class="footnote">[1]</span></a> at the head of a script tells your system that this file is a set of commands to be fed to the command interpreter indicated. The <span class="TOKEN">#!</span> is actually a two-byte <a name="AEN214" href="#FTN.AEN214" id="AEN214"><span class="footnote">[2]</span></a> <i class="FIRSTTERM">magic number</i>, a special marker that designates a file type, or in this case an executable shell script (type <tt class="USERINPUT"><b>man magic</b></tt> for more details on this fascinating topic). Immediately following the <i class="FIRSTTERM">sha-bang</i> is a <i class="FIRSTTERM">path name</i>. This is the path to the program that interprets the commands in the script, whether it be a shell, a programming language, or a utility. This command interpreter then executes the commands in the script, starting at the top (the line following the <i class="FIRSTTERM">sha-bang</i> line), and ignoring comments. <a name="AEN226" href="#FTN.AEN226" id="AEN226"><span class="footnote">[3]</span></a></p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/sh</span>
+<span class="hljs-comment">#!/bin/bash</span>
+<span class="hljs-comment">#!/usr/bin/perl</span>
+<span class="hljs-comment">#!/usr/bin/tcl</span>
+<span class="hljs-comment">#!/bin/sed -f</span>
+<span class="hljs-comment">#!/bin/awk -f</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>Each of the above script header lines calls a different command interpreter, be it <tt class="FILENAME">/bin/sh</tt>, the default shell (<b class="COMMAND">bash</b> in a Linux system) or otherwise. <a name="AEN242" href="#FTN.AEN242" id="AEN242"><span class="footnote">[4]</span></a> Using <tt class="USERINPUT"><b>#!/bin/sh</b></tt>, the default Bourne shell in most commercial variants of UNIX, makes the script <a href="portabilityissues.html">portable</a> to non-Linux machines, though you <a href="gotchas.html#BINSH">sacrifice Bash-specific features</a>. The script will, however, conform to the <span class="ACRONYM">POSIX</span> <a name="AEN256" href="#FTN.AEN256" id="AEN256"><span class="footnote">[5]</span></a> <b class="COMMAND">sh</b> standard.</p>
+    <p>Note that the path given at the <span class="QUOTE">"sha-bang"</span> must be correct, otherwise an error message -- usually <span class="QUOTE">"Command not found."</span> -- will be the only result of running the script. <a name="AEN269" href="#FTN.AEN269" id="AEN269"><span class="footnote">[6]</span></a></p>
+    <p><span class="TOKEN">#!</span> can be omitted if the script consists only of a set of generic system commands, using no internal shell directives. The second example, above, requires the initial <span class="TOKEN">#!</span>, since the variable assignment line, <tt class="USERINPUT"><b>lines=50</b></tt>, uses a shell-specific construct. <a name="AEN279" href="#FTN.AEN279" id="AEN279"><span class="footnote">[7]</span></a> Note again that <tt class="USERINPUT"><b>#!/bin/sh</b></tt> invokes the default shell interpreter, which defaults to <tt class="FILENAME">/bin/bash</tt> on a Linux machine.</p>
+    <div class="TIP">
+      <table class="TIP" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/tip.gif" hspace="5" alt="Tip"></td>
+          <td align="left" valign="top">
+            <p>This tutorial encourages a modular approach to constructing a script. Make note of and collect <span class="QUOTE">"boilerplate"</span> code snippets that might be useful in future scripts. Eventually you will build quite an extensive library of nifty routines. As an example, the following script prolog tests whether the script has been invoked with the correct number of parameters.</p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs">E_WRONG_ARGS=85
+script_parameters=<span class="hljs-string">"-a -h -m -z"</span>
+<span class="hljs-comment">#                  -a = all, -h = help, etc.</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -ne <span class="hljs-variable">$Number_of_expected_args</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` <span class="hljs-variable">$script_parameters</span>"</span>
+  <span class="hljs-comment"># `basename $0` is the script's filename.</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_WRONG_ARGS</span>
+<span class="hljs-keyword">fi</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+            <p>Many times, you will write a script that carries out one particular task. The first script in this chapter is an example. Later, it might occur to you to generalize the script to do other, similar tasks. Replacing the literal (<span class="QUOTE">"hard-wired"</span>) constants by variables is a step in that direction, as is replacing repetitive code blocks by <a href="functions.html#FUNCTIONREF">functions</a>.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN205" href="sha-bang.html#AEN205" id="FTN.AEN205"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>More commonly seen in the literature as <i class="FIRSTTERM">she-bang</i> or <i class="FIRSTTERM">sh-bang</i>. This derives from the concatenation of the tokens <i class="FIRSTTERM">sharp</i> (<span class="TOKEN">#</span>) and <i class="FIRSTTERM">bang</i> (<span class="TOKEN">!</span>).</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN214" href="sha-bang.html#AEN214" id="FTN.AEN214"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Some flavors of UNIX (those based on 4.2 BSD) allegedly take a four-byte magic number, requiring a blank after the <span class="TOKEN">!</span> -- <tt class="USERINPUT"><b>#! /bin/sh</b></tt>. <a href="http://www.in-ulm.de/~mascheck/various/shebang/#details" target="_top">According to Sven Mascheck</a> this is probably a myth.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN226" href="sha-bang.html#AEN226" id="FTN.AEN226"><span class="footnote">[3]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>The <span class="TOKEN">#!</span> line in a shell script will be the first thing the command interpreter (<b class="COMMAND">sh</b> or <b class="COMMAND">bash</b>) sees. Since this line begins with a <span class="TOKEN">#</span>, it will be correctly interpreted as a comment when the command interpreter finally executes the script. The line has already served its purpose - calling the command interpreter.</p>
+        <p>If, in fact, the script includes an <em>extra</em> <span class="TOKEN">#!</span> line, then <b class="COMMAND">bash</b> will interpret it as a comment.</p>
+        <table border="0" bgcolor="#E0E0E0" width="100%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Part 1 of script."</span>
+a=1
+
+<span class="hljs-comment">#!/bin/bash</span>
+<span class="hljs-comment"># This does *not* launch a new script.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Part 2 of script."</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$a</span>  <span class="hljs-comment"># Value of $a stays at 1.</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN242" href="sha-bang.html#AEN242" id="FTN.AEN242"><span class="footnote">[4]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>This allows some cute tricks.</p>
+        <table border="0" bgcolor="#E0E0E0" width="100%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/rm</span>
+<span class="hljs-comment"># Self-deleting script.</span>
+
+<span class="hljs-comment"># Nothing much seems to happen when you run this... except that the file disappears.</span>
+
+WHATEVER=85
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"This line will never print (betcha!)."</span>
+
+<span class="hljs-built_in">exit</span> <span class="hljs-variable">$WHATEVER</span>  <span class="hljs-comment"># Doesn't matter. The script will not exit here.</span>
+                <span class="hljs-comment"># Try an echo $? after script termination.</span>
+                <span class="hljs-comment"># You'll get a 0, not a 85.</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+        <p>Also, try starting a <tt class="FILENAME">README</tt> file with a <tt class="USERINPUT"><b>#!/bin/more</b></tt>, and making it executable. The result is a self-listing documentation file. (A <a href="here-docs.html#HEREDOCREF">here document</a> using <a href="basic.html#CATREF">cat</a> is possibly a better alternative -- see <a href="here-docs.html#EX71">Example 19-3</a>).</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN256" href="sha-bang.html#AEN256" id="FTN.AEN256"><span class="footnote">[5]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><a name="POSIX2REF" id="POSIX2REF"></a><strong>P</strong>ortable <strong>O</strong>perating <strong>S</strong>ystem <em>I</em>nterface, an attempt to standardize UNI<strong>X</strong>-like OSes. The POSIX specifications are listed on the <a href="http://www.opengroup.org/onlinepubs/007904975/toc.htm" target="_top">Open Group site</a>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN269" href="sha-bang.html#AEN269" id="FTN.AEN269"><span class="footnote">[6]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>To avoid this possibility, a script may begin with a <a href="system.html#ENVV2REF">#!/bin/env bash</a> <i class="FIRSTTERM">sha-bang</i> line. This may be useful on UNIX machines where <i class="FIRSTTERM">bash</i> is not located in <tt class="FILENAME">/bin</tt></p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN279" href="sha-bang.html#AEN279" id="FTN.AEN279"><span class="footnote">[7]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>If <i class="FIRSTTERM">Bash</i> is your default shell, then the <span class="TOKEN">#!</span> isn't necessary at the beginning of a script. However, if launching a script from a different shell, such as <i class="FIRSTTERM">tcsh</i>, then you <em>will</em> need the <span class="TOKEN">#!</span>.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="why-shell.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="invoking.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Shell Programming!</td>
+        <td width="34%" align="center" valign="top"><a href="part1.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Invoking the script</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

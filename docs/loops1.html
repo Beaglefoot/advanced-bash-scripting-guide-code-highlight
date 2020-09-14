@@ -1,0 +1,1038 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Loops</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Loops and Branches" href="loops.html">
+  <link rel="PREVIOUS" title="Loops and Branches" href="loops.html">
+  <link rel="NEXT" title="Nested Loops" href="nestedloops.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="loops.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 11. Loops and Branches</td>
+        <td width="10%" align="right" valign="bottom"><a href="nestedloops.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="LOOPS1" id="LOOPS1"></a>11.1. Loops</h1>
+    <p>A <i class="FIRSTTERM">loop</i> is a block of code that <i class="FIRSTTERM">iterates</i> <a name="AEN6560" href="#FTN.AEN6560" id="AEN6560"><span class="footnote">[1]</span></a> a list of commands as long as the <i class="FIRSTTERM">loop control condition</i> is true.</p>
+    <div class="VARIABLELIST">
+      <p><b><a name="FORLOOPREF1" id="FORLOOPREF1"></a>for loops</b></p>
+      <dl>
+        <dt><b class="COMMAND">for <tt class="PARAMETER"><i>arg</i></tt> in <tt class="REPLACEABLE"><i>[list]</i></tt></b></dt>
+        <dd>
+          <p>This is the basic looping construct. It differs significantly from its <i class="FIRSTTERM">C</i> counterpart.</p>
+          <p><a name="DOINREF" id="DOINREF"></a></p>
+          <p><b class="COMMAND">for</b> <tt class="REPLACEABLE"><i>arg</i></tt> in [<tt class="REPLACEABLE"><i>list</i></tt>]<br>
+          do<br>
+          <tt class="REPLACEABLE"><i>command(s)</i></tt>...<br>
+          done</p>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>During each pass through the loop, <tt class="REPLACEABLE"><i>arg</i></tt> takes on the value of each successive variable in the <tt class="REPLACEABLE"><i>list</i></tt>.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">for</span> arg <span class="hljs-keyword">in</span> <span class="hljs-string">"<span class="hljs-variable">$var1</span>"</span> <span class="hljs-string">"<span class="hljs-variable">$var2</span>"</span> <span class="hljs-string">"<span class="hljs-variable">$var3</span>"</span> ... <span class="hljs-string">"<span class="hljs-variable">$varN</span>"</span>  
+<span class="hljs-comment"># In pass 1 of the loop, arg = $var1        </span>
+<span class="hljs-comment"># In pass 2 of the loop, arg = $var2        </span>
+<span class="hljs-comment"># In pass 3 of the loop, arg = $var3        </span>
+<span class="hljs-comment"># ...</span>
+<span class="hljs-comment"># In pass N of the loop, arg = $varN</span>
+
+<span class="hljs-comment"># Arguments in [list] quoted to prevent possible word splitting.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>The argument <tt class="REPLACEABLE"><i>list</i></tt> may contain <a href="special-chars.html#ASTERISKREF">wild cards</a>.</p>
+          <p><a name="NEEDSEMICOLON" id="NEEDSEMICOLON"></a></p>
+          <p>If <i class="FIRSTTERM">do</i> is on same line as <i class="FIRSTTERM">for</i>, there needs to be a semicolon after list.</p>
+          <p><b class="COMMAND">for</b> <tt class="REPLACEABLE"><i>arg</i></tt> in [<tt class="REPLACEABLE"><i>list</i></tt>] ; do<br></p>
+          <div class="EXAMPLE">
+            <a name="EX22" id="EX22"></a>
+            <p><b>Example 11-1. Simple <i class="FIRSTTERM">for</i> loops</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Listing the planets.</span>
+
+<span class="hljs-keyword">for</span> planet <span class="hljs-keyword">in</span> Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune Pluto
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$planet</span>  <span class="hljs-comment"># Each planet on a separate line.</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">for</span> planet <span class="hljs-keyword">in</span> <span class="hljs-string">"Mercury Venus Earth Mars Jupiter Saturn Uranus Neptune Pluto"</span>
+    <span class="hljs-comment"># All planets on same line.</span>
+    <span class="hljs-comment"># Entire 'list' enclosed in quotes creates a single variable.</span>
+    <span class="hljs-comment"># Why? Whitespace incorporated into the variable.</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$planet</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span> <span class="hljs-string">"Whoops! Pluto is no longer a planet!"</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="MULTPARAML" id="MULTPARAML"></a></p>
+          <p>Each <tt class="USERINPUT"><b>[list]</b></tt> element may contain multiple parameters. This is useful when processing parameters in groups. In such cases, use the <a href="internal.html#SETREF">set</a> command (see <a href="internal.html#EX34">Example 15-16</a>) to force parsing of each <tt class="USERINPUT"><b>[list]</b></tt> element and assignment of each component to the positional parameters.</p>
+          <div class="EXAMPLE">
+            <a name="EX22A" id="EX22A"></a>
+            <p><b>Example 11-2. <i class="FIRSTTERM">for</i> loop with two parameters in each [list] element</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Planets revisited.</span>
+
+<span class="hljs-comment"># Associate the name of each planet with its distance from the sun.</span>
+
+<span class="hljs-keyword">for</span> planet <span class="hljs-keyword">in</span> <span class="hljs-string">"Mercury 36"</span> <span class="hljs-string">"Venus 67"</span> <span class="hljs-string">"Earth 93"</span>  <span class="hljs-string">"Mars 142"</span> <span class="hljs-string">"Jupiter 483"</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">set</span> -- <span class="hljs-variable">$planet</span>  <span class="hljs-comment">#  Parses variable "planet"</span>
+                  <span class="hljs-comment">#+ and sets positional parameters.</span>
+  <span class="hljs-comment">#  The "--" prevents nasty surprises if $planet is null or</span>
+  <span class="hljs-comment">#+ begins with a dash.</span>
+
+  <span class="hljs-comment">#  May need to save original positional parameters,</span>
+  <span class="hljs-comment">#+ since they get overwritten.</span>
+  <span class="hljs-comment">#  One way of doing this is to use an array,</span>
+  <span class="hljs-comment">#         original_params=("$@")</span>
+
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>              <span class="hljs-variable">$2</span>,000,000 miles from the sun"</span>
+  <span class="hljs-comment">#-------two  tabs---concatenate zeroes onto parameter $2</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment"># (Thanks, S.C., for additional clarification.)</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="PARAMLI" id="PARAMLI"></a></p>
+          <p>A variable may supply the <tt class="USERINPUT"><b>[list]</b></tt> in a <i class="FIRSTTERM">for loop</i>.</p>
+          <div class="EXAMPLE">
+            <a name="FILEINFO" id="FILEINFO"></a>
+            <p><b>Example 11-3. <em>Fileinfo:</em> operating on a file list contained in a variable</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># fileinfo.sh</span>
+
+FILES=<span class="hljs-string">"/usr/sbin/accept
+/usr/sbin/pwck
+/usr/sbin/chroot
+/usr/bin/fakefile
+/sbin/badblocks
+/sbin/ypbind"</span>     <span class="hljs-comment"># List of files you are curious about.</span>
+                  <span class="hljs-comment"># Threw in a dummy file, /usr/bin/fakefile.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> <span class="hljs-variable">$FILES</span>
+<span class="hljs-keyword">do</span>
+
+  <span class="hljs-keyword">if</span> [ ! -e <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span> ]       <span class="hljs-comment"># Check if file exists.</span>
+  <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$file</span> does not exist."</span>; <span class="hljs-built_in">echo</span>
+    <span class="hljs-built_in">continue</span>                <span class="hljs-comment"># On to next.</span>
+   <span class="hljs-keyword">fi</span>
+
+  ls -l <span class="hljs-variable">$file</span> | awk <span class="hljs-string">'{ print $8 "         file size: " $5 }'</span>  <span class="hljs-comment"># Print 2 fields.</span>
+  whatis `basename <span class="hljs-variable">$file</span>`   <span class="hljs-comment"># File info.</span>
+  <span class="hljs-comment"># Note that the whatis database needs to have been set up for this to work.</span>
+  <span class="hljs-comment"># To do this, as root run /usr/bin/makewhatis.</span>
+  <span class="hljs-built_in">echo</span>
+<span class="hljs-keyword">done</span>  
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="PARAMLI2" id="PARAMLI2"></a></p>
+          <p>The <tt class="USERINPUT"><b>[list]</b></tt> in a <i class="FIRSTTERM">for loop</i> may be parameterized.</p>
+          <div class="EXAMPLE">
+            <a name="FILEINFO01" id="FILEINFO01"></a>
+            <p><b>Example 11-4. Operating on a parameterized file list</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+filename=<span class="hljs-string">"*txt"</span>
+
+<span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> <span class="hljs-variable">$filename</span>
+<span class="hljs-keyword">do</span>
+ <span class="hljs-built_in">echo</span> <span class="hljs-string">"Contents of <span class="hljs-variable">$file</span>"</span>
+ <span class="hljs-built_in">echo</span> <span class="hljs-string">"---"</span>
+ cat <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span>
+ <span class="hljs-built_in">echo</span>
+<span class="hljs-keyword">done</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="LIGLOB" id="LIGLOB"></a></p>
+          <p>If the <tt class="USERINPUT"><b>[list]</b></tt> in a <i class="FIRSTTERM">for loop</i> contains wild cards (<span class="TOKEN">*</span> and <span class="TOKEN">?</span>) used in filename expansion, then <a href="globbingref.html">globbing</a> takes place.</p>
+          <div class="EXAMPLE">
+            <a name="LISTGLOB" id="LISTGLOB"></a>
+            <p><b>Example 11-5. Operating on files with a <i class="FIRSTTERM">for</i> loop</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># list-glob.sh: Generating [list] in a for-loop, using "globbing" ...</span>
+<span class="hljs-comment"># Globbing = filename expansion.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> *
+<span class="hljs-comment">#           ^  Bash performs filename expansion</span>
+<span class="hljs-comment">#+             on expressions that globbing recognizes.</span>
+<span class="hljs-keyword">do</span>
+  ls -l <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span>  <span class="hljs-comment"># Lists all files in $PWD (current directory).</span>
+  <span class="hljs-comment">#  Recall that the wild card character "*" matches every filename,</span>
+  <span class="hljs-comment">#+ however, in "globbing," it doesn't match dot-files.</span>
+
+  <span class="hljs-comment">#  If the pattern matches no file, it is expanded to itself.</span>
+  <span class="hljs-comment">#  To prevent this, set the nullglob option</span>
+  <span class="hljs-comment">#+   (shopt -s nullglob).</span>
+  <span class="hljs-comment">#  Thanks, S.C.</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> [jx]*
+<span class="hljs-keyword">do</span>
+  rm -f <span class="hljs-variable">$file</span>    <span class="hljs-comment"># Removes only files beginning with "j" or "x" in $PWD.</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Removed file \"<span class="hljs-variable">$file</span>\""</span>.
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="OMITLIST" id="OMITLIST"></a></p>
+          <p>Omitting the <tt class="USERINPUT"><b>in [list]</b></tt> part of a <i class="FIRSTTERM">for loop</i> causes the loop to operate on <span class="TOKEN">$@</span> -- the <a href="internalvariables.html#POSPARAMREF">positional parameters</a>. A particularly clever illustration of this is <a href="contributed-scripts.html#PRIMES">Example A-15</a>. See also <a href="internal.html#REVPOSPARAMS">Example 15-17</a>.</p>
+          <div class="EXAMPLE">
+            <a name="EX23" id="EX23"></a>
+            <p><b>Example 11-6. Missing <tt class="USERINPUT"><b>in [list]</b></tt> in a <i class="FIRSTTERM">for</i> loop</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment">#  Invoke this script both with and without arguments,</span>
+<span class="hljs-comment">#+ and see what happens.</span>
+
+<span class="hljs-keyword">for</span> a
+<span class="hljs-keyword">do</span>
+ <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$a</span> "</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment">#  The 'in list' missing, therefore the loop operates on '$@'</span>
+<span class="hljs-comment">#+ (command-line argument list, including whitespace).</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="LOOPCS" id="LOOPCS"></a></p>
+          <p>It is possible to use <a href="commandsub.html#COMMANDSUBREF">command substitution</a> to generate the <tt class="USERINPUT"><b>[list]</b></tt> in a <i class="FIRSTTERM">for loop</i>. See also <a href="extmisc.html#EX53">Example 16-54</a>, <a href="loops1.html#SYMLINKS">Example 11-11</a> and <a href="mathc.html#BASE">Example 16-48</a>.</p>
+          <div class="EXAMPLE">
+            <a name="FORLOOPCMD" id="FORLOOPCMD"></a>
+            <p><b>Example 11-7. Generating the <tt class="USERINPUT"><b>[list]</b></tt> in a <i class="FIRSTTERM">for</i> loop with command substitution</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment">#  for-loopcmd.sh: for-loop with [list]</span>
+<span class="hljs-comment">#+ generated by command substitution.</span>
+
+NUMBERS=<span class="hljs-string">"9 7 3 8 37.53"</span>
+
+<span class="hljs-keyword">for</span> number <span class="hljs-keyword">in</span> `<span class="hljs-built_in">echo</span> <span class="hljs-variable">$NUMBERS</span>`  <span class="hljs-comment"># for number in 9 7 3 8 37.53</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$number</span> "</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span> 
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>Here is a somewhat more complex example of using command substitution to create the <tt class="USERINPUT"><b>[list]</b></tt>.</p>
+          <div class="EXAMPLE">
+            <a name="BINGREP" id="BINGREP"></a>
+            <p><b>Example 11-8. A <i class="FIRSTTERM">grep</i> replacement for binary files</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># bin-grep.sh: Locates matching strings in a binary file.</span>
+
+<span class="hljs-comment"># A "grep" replacement for binary files.</span>
+<span class="hljs-comment"># Similar effect to "grep -a"</span>
+
+E_BADARGS=65
+E_NOFILE=66
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -ne 2 ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` search_string filename"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">if</span> [ ! -f <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"File \"<span class="hljs-variable">$2</span>\" does not exist."</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOFILE</span>
+<span class="hljs-keyword">fi</span>  
+
+
+IFS=$<span class="hljs-string">'\012'</span>       <span class="hljs-comment"># Per suggestion of Anton Filippov.</span>
+                  <span class="hljs-comment"># was:  IFS="\n"</span>
+<span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> $( strings <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span> | grep <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> )
+<span class="hljs-comment"># The "strings" command lists strings in binary files.</span>
+<span class="hljs-comment"># Output then piped to "grep", which tests for desired string.</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$word</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment"># As S.C. points out, lines 23 - 30 could be replaced with the simpler</span>
+<span class="hljs-comment">#    strings "$2" | grep "$1" | tr -s "$IFS" '[\n*]'</span>
+
+
+<span class="hljs-comment">#  Try something like  "./bin-grep.sh mem /bin/ls"</span>
+<span class="hljs-comment">#+ to exercise this script.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>More of the same.</p>
+          <div class="EXAMPLE">
+            <a name="USERLIST" id="USERLIST"></a>
+            <p><b>Example 11-9. Listing all users on the system</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># userlist.sh</span>
+
+PASSWORD_FILE=/etc/passwd
+n=1           <span class="hljs-comment"># User number</span>
+
+<span class="hljs-keyword">for</span> name <span class="hljs-keyword">in</span> $(awk <span class="hljs-string">'BEGIN{FS=":"}{print $1}'</span> &lt; <span class="hljs-string">"<span class="hljs-variable">$PASSWORD_FILE</span>"</span> )
+<span class="hljs-comment"># Field separator = :    ^^^^^^</span>
+<span class="hljs-comment"># Print first field              ^^^^^^^^</span>
+<span class="hljs-comment"># Get input from password file  /etc/passwd  ^^^^^^^^^^^^^^^^^</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"USER #<span class="hljs-variable">$n</span> = <span class="hljs-variable">$name</span>"</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"n += 1"</span>
+<span class="hljs-keyword">done</span>  
+
+
+<span class="hljs-comment"># USER #1 = root</span>
+<span class="hljs-comment"># USER #2 = bin</span>
+<span class="hljs-comment"># USER #3 = daemon</span>
+<span class="hljs-comment"># ...</span>
+<span class="hljs-comment"># USER #33 = bozo</span>
+
+<span class="hljs-built_in">exit</span> $?
+
+<span class="hljs-comment">#  Discussion:</span>
+<span class="hljs-comment">#  ----------</span>
+<span class="hljs-comment">#  How is it that an ordinary user, or a script run by same,</span>
+<span class="hljs-comment">#+ can read /etc/passwd? (Hint: Check the /etc/passwd file permissions.)</span>
+<span class="hljs-comment">#  Is this a security hole? Why or why not?</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>Yet another example of the <tt class="USERINPUT"><b>[list]</b></tt> resulting from command substitution.</p>
+          <div class="EXAMPLE">
+            <a name="FINDSTRING" id="FINDSTRING"></a>
+            <p><b>Example 11-10. Checking all the binaries in a directory for authorship</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># findstring.sh:</span>
+<span class="hljs-comment"># Find a particular string in the binaries in a specified directory.</span>
+
+directory=/usr/bin/
+fstring=<span class="hljs-string">"Free Software Foundation"</span>  <span class="hljs-comment"># See which files come from the FSF.</span>
+
+<span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> $( find <span class="hljs-variable">$directory</span> -<span class="hljs-built_in">type</span> f -name <span class="hljs-string">'*'</span> | sort )
+<span class="hljs-keyword">do</span>
+  strings -f <span class="hljs-variable">$file</span> | grep <span class="hljs-string">"<span class="hljs-variable">$fstring</span>"</span> | sed -e <span class="hljs-string">"s%<span class="hljs-variable">$directory</span>%%"</span>
+  <span class="hljs-comment">#  In the "sed" expression,</span>
+  <span class="hljs-comment">#+ it is necessary to substitute for the normal "/" delimiter</span>
+  <span class="hljs-comment">#+ because "/" happens to be one of the characters filtered out.</span>
+  <span class="hljs-comment">#  Failure to do so gives an error message. (Try it.)</span>
+<span class="hljs-keyword">done</span>  
+
+<span class="hljs-built_in">exit</span> $?
+
+<span class="hljs-comment">#  Exercise (easy):</span>
+<span class="hljs-comment">#  ---------------</span>
+<span class="hljs-comment">#  Convert this script to take command-line parameters</span>
+<span class="hljs-comment">#+ for $directory and $fstring.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>A final example of <tt class="USERINPUT"><b>[list]</b></tt> / command substitution, but this time the <span class="QUOTE">"command"</span> is a <a href="functions.html#FUNCTIONREF">function</a>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs"><span class="hljs-function"><span class="hljs-title">generate_list</span></span> ()
+{
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"one two three"</span>
+}
+
+<span class="hljs-keyword">for</span> word <span class="hljs-keyword">in</span> $(generate_list)  <span class="hljs-comment"># Let "word" grab output of function.</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$word</span>"</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment"># one</span>
+<span class="hljs-comment"># two</span>
+<span class="hljs-comment"># three</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p><a name="LOOPREDIR" id="LOOPREDIR"></a></p>
+          <p>The output of a <i class="FIRSTTERM">for loop</i> may be piped to a command or commands.</p>
+          <div class="EXAMPLE">
+            <a name="SYMLINKS" id="SYMLINKS"></a>
+            <p><b>Example 11-11. Listing the <i class="FIRSTTERM">symbolic links</i> in a directory</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># symlinks.sh: Lists symbolic links in a directory.</span>
+
+
+directory=<span class="hljs-variable">${1-`pwd`}</span>
+<span class="hljs-comment">#  Defaults to current working directory,</span>
+<span class="hljs-comment">#+ if not otherwise specified.</span>
+<span class="hljs-comment">#  Equivalent to code block below.</span>
+<span class="hljs-comment"># ----------------------------------------------------------</span>
+<span class="hljs-comment"># ARGS=1                 # Expect one command-line argument.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># if [ $# -ne "$ARGS" ]  # If not 1 arg...</span>
+<span class="hljs-comment"># then</span>
+<span class="hljs-comment">#   directory=`pwd`      # current working directory</span>
+<span class="hljs-comment"># else</span>
+<span class="hljs-comment">#   directory=$1</span>
+<span class="hljs-comment"># fi</span>
+<span class="hljs-comment"># ----------------------------------------------------------</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"symbolic links in directory \"<span class="hljs-variable">$directory</span>\""</span>
+
+<span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> <span class="hljs-string">"<span class="hljs-subst">$( find $directory -type l )</span>"</span>   <span class="hljs-comment"># -type l = symbolic links</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span>
+<span class="hljs-keyword">done</span> | sort                                  <span class="hljs-comment"># Otherwise file list is unsorted.</span>
+<span class="hljs-comment">#  Strictly speaking, a loop isn't really necessary here,</span>
+<span class="hljs-comment">#+ since the output of the "find" command is expanded into a single word.</span>
+<span class="hljs-comment">#  However, it's easy to understand and illustrative this way.</span>
+
+<span class="hljs-comment">#  As Dominik 'Aeneas' Schnitzer points out,</span>
+<span class="hljs-comment">#+ failing to quote  $( find $directory -type l )</span>
+<span class="hljs-comment">#+ will choke on filenames with embedded whitespace.</span>
+<span class="hljs-comment">#  containing whitespace. </span>
+
+<span class="hljs-built_in">exit</span> 0
+
+
+<span class="hljs-comment"># --------------------------------------------------------</span>
+<span class="hljs-comment"># Jean Helou proposes the following alternative:</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"symbolic links in directory \"<span class="hljs-variable">$directory</span>\""</span>
+<span class="hljs-comment"># Backup of the current IFS. One can never be too cautious.</span>
+OLDIFS=<span class="hljs-variable">$IFS</span>
+IFS=:
+
+<span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> $(find <span class="hljs-variable">$directory</span> -<span class="hljs-built_in">type</span> l -<span class="hljs-built_in">printf</span> <span class="hljs-string">"%p<span class="hljs-variable">$IFS</span>"</span>)
+<span class="hljs-keyword">do</span>     <span class="hljs-comment">#                              ^^^^^^^^^^^^^^^^</span>
+       <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span>
+       <span class="hljs-keyword">done</span>|sort
+
+<span class="hljs-comment"># And, James "Mike" Conley suggests modifying Helou's code thusly:</span>
+
+OLDIFS=<span class="hljs-variable">$IFS</span>
+IFS=<span class="hljs-string">''</span> <span class="hljs-comment"># Null IFS means no word breaks</span>
+<span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> $( find <span class="hljs-variable">$directory</span> -<span class="hljs-built_in">type</span> l )
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$file</span>
+  <span class="hljs-keyword">done</span> | sort
+
+<span class="hljs-comment">#  This works in the "pathological" case of a directory name having</span>
+<span class="hljs-comment">#+ an embedded colon.</span>
+<span class="hljs-comment">#  "This also fixes the pathological case of the directory name having</span>
+<span class="hljs-comment">#+  a colon (or space in earlier example) as well."</span>
+</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>The <tt class="FILENAME">stdout</tt> of a loop may be <a href="io-redirection.html#IOREDIRREF">redirected</a> to a file, as this slight modification to the previous example shows.</p>
+          <div class="EXAMPLE">
+            <a name="SYMLINKS2" id="SYMLINKS2"></a>
+            <p><b>Example 11-12. Symbolic links in a directory, saved to a file</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># symlinks.sh: Lists symbolic links in a directory.</span>
+
+OUTFILE=symlinks.list                         <span class="hljs-comment"># save-file</span>
+
+directory=<span class="hljs-variable">${1-`pwd`}</span>
+<span class="hljs-comment">#  Defaults to current working directory,</span>
+<span class="hljs-comment">#+ if not otherwise specified.</span>
+
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"symbolic links in directory \"<span class="hljs-variable">$directory</span>\""</span> &gt; <span class="hljs-string">"<span class="hljs-variable">$OUTFILE</span>"</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"---------------------------"</span> &gt;&gt; <span class="hljs-string">"<span class="hljs-variable">$OUTFILE</span>"</span>
+
+<span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> <span class="hljs-string">"<span class="hljs-subst">$( find $directory -type l )</span>"</span>    <span class="hljs-comment"># -type l = symbolic links</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$file</span>"</span>
+<span class="hljs-keyword">done</span> | sort &gt;&gt; <span class="hljs-string">"<span class="hljs-variable">$OUTFILE</span>"</span>                     <span class="hljs-comment"># stdout of loop</span>
+<span class="hljs-comment">#           ^^^^^^^^^^^^^                       redirected to save file.</span>
+
+<span class="hljs-comment"># echo "Output file = $OUTFILE"</span>
+
+<span class="hljs-built_in">exit</span> $?</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="LOOPCSTYLE" id="LOOPCSTYLE"></a></p>
+          <p>There is an alternative syntax to a <i class="FIRSTTERM">for loop</i> that will look very familiar to C programmers. This requires <a href="dblparens.html#DBLPARENSREF">double parentheses</a>.</p>
+          <div class="EXAMPLE">
+            <a name="FORLOOPC" id="FORLOOPC"></a>
+            <p><b>Example 11-13. A C-style <i class="FIRSTTERM">for</i> loop</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Multiple ways to count up to 10.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># Standard syntax.</span>
+<span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> 1 2 3 4 5 6 7 8 9 10
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$a</span> "</span>
+<span class="hljs-keyword">done</span>  
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># +==========================================+</span>
+
+<span class="hljs-comment"># Using "seq" ...</span>
+<span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> `seq 10`
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$a</span> "</span>
+<span class="hljs-keyword">done</span>  
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># +==========================================+</span>
+
+<span class="hljs-comment"># Using brace expansion ...</span>
+<span class="hljs-comment"># Bash, version 3+.</span>
+<span class="hljs-keyword">for</span> a <span class="hljs-keyword">in</span> {1..10}
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$a</span> "</span>
+<span class="hljs-keyword">done</span>  
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># +==========================================+</span>
+
+<span class="hljs-comment"># Now, let's do the same, using C-like syntax.</span>
+
+LIMIT=10
+
+<span class="hljs-keyword">for</span> ((a=1; a &lt;= LIMIT ; a++))  <span class="hljs-comment"># Double parentheses, and naked "LIMIT"</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$a</span> "</span>
+<span class="hljs-keyword">done</span>                           <span class="hljs-comment"># A construct borrowed from ksh93.</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># +=========================================================================+</span>
+
+<span class="hljs-comment"># Let's use the C "comma operator" to increment two variables simultaneously.</span>
+
+<span class="hljs-keyword">for</span> ((a=1, b=1; a &lt;= LIMIT ; a++, b++))
+<span class="hljs-keyword">do</span>  <span class="hljs-comment"># The comma concatenates operations.</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$a</span>-<span class="hljs-variable">$b</span> "</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>See also <a href="arrays.html#QFUNCTION">Example 27-16</a>, <a href="arrays.html#TWODIM">Example 27-17</a>, and <a href="contributed-scripts.html#COLLATZ">Example A-6</a>.</p>
+          <p>---</p>
+          <p>Now, a <i class="FIRSTTERM">for loop</i> used in a <span class="QUOTE">"real-life"</span> context.</p>
+          <div class="EXAMPLE">
+            <a name="EX24" id="EX24"></a>
+            <p><b>Example 11-14. Using <i class="FIRSTTERM">efax</i> in batch mode</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Faxing (must have 'efax' package installed).</span>
+
+EXPECTED_ARGS=2
+E_BADARGS=85
+MODEM_PORT=<span class="hljs-string">"/dev/ttyS2"</span>   <span class="hljs-comment"># May be different on your machine.</span>
+<span class="hljs-comment">#                ^^^^^      PCMCIA modem card default port.</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -ne <span class="hljs-variable">$EXPECTED_ARGS</span> ]
+<span class="hljs-comment"># Check for proper number of command-line args.</span>
+<span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` phone# text-file"</span>
+   <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>
+
+
+<span class="hljs-keyword">if</span> [ ! -f <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"File <span class="hljs-variable">$2</span> is not a text file."</span>
+  <span class="hljs-comment">#     File is not a regular file, or does not exist.</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>
+  
+
+fax make <span class="hljs-variable">$2</span>              <span class="hljs-comment">#  Create fax-formatted files from text files.</span>
+
+<span class="hljs-keyword">for</span> file <span class="hljs-keyword">in</span> $(ls <span class="hljs-variable">$2</span>.0*)  <span class="hljs-comment">#  Concatenate the converted files.</span>
+                         <span class="hljs-comment">#  Uses wild card (filename "globbing")</span>
+                         <span class="hljs-comment">#+ in variable list.</span>
+<span class="hljs-keyword">do</span>
+  fil=<span class="hljs-string">"<span class="hljs-variable">$fil</span> <span class="hljs-variable">$file</span>"</span>
+<span class="hljs-keyword">done</span>  
+
+efax -d <span class="hljs-string">"<span class="hljs-variable">$MODEM_PORT</span>"</span>  -t <span class="hljs-string">"T<span class="hljs-variable">$1</span>"</span> <span class="hljs-variable">$fil</span>   <span class="hljs-comment"># Finally, do the work.</span>
+<span class="hljs-comment"># Trying adding  -o1  if above line fails.</span>
+
+
+<span class="hljs-comment">#  As S.C. points out, the for-loop can be eliminated with</span>
+<span class="hljs-comment">#     efax -d /dev/ttyS2 -o1 -t "T$1" $2.0*</span>
+<span class="hljs-comment">#+ but it's not quite as instructive [grin].</span>
+
+<span class="hljs-built_in">exit</span> $?   <span class="hljs-comment"># Also, efax sends diagnostic messages to stdout.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p><a name="NODODONE" id="NODODONE"></a>The <a href="internal.html#KEYWORDREF">keywords</a> <b class="COMMAND">do</b> and <b class="COMMAND">done</b> delineate the <i class="FIRSTTERM">for-loop</i> command block. However, these may, in certain contexts, be omitted by framing the command block within <a href="special-chars.html#CODEBLOCKREF">curly brackets</a></p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tbody><tr>
+                      <td>
+                        <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">for</span>((n=1; n&lt;=10; n++)) 
+<span class="hljs-comment"># No do!</span>
+{
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"* <span class="hljs-variable">$n</span> *"</span>
+}
+<span class="hljs-comment"># No done!</span>
+
+
+<span class="hljs-comment"># Outputs:</span>
+<span class="hljs-comment"># * 1 ** 2 ** 3 ** 4 ** 5 ** 6 ** 7 ** 8 ** 9 ** 10 *</span>
+<span class="hljs-comment"># And, echo $? returns 0, so Bash does not register an error.</span>
+
+
+<span class="hljs-built_in">echo</span>
+
+
+<span class="hljs-comment">#  But, note that in a classic for-loop:    for n in [list] ...</span>
+<span class="hljs-comment">#+ a terminal semicolon is required.</span>
+
+<span class="hljs-keyword">for</span> n <span class="hljs-keyword">in</span> 1 2 3
+{  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$n</span> "</span>; }
+<span class="hljs-comment">#               ^</span>
+
+
+<span class="hljs-comment"># Thank you, YongYe, for pointing this out.</span></pre>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="WHILELOOPREF" id="WHILELOOPREF"></a><b class="COMMAND">while</b></dt>
+        <dd>
+          <p>This construct tests for a condition at the top of a loop, and keeps looping as long as that condition is true (returns a <span class="RETURNVALUE">0</span> <a href="exit-status.html#EXITSTATUSREF">exit status</a>). In contrast to a <a href="loops1.html#FORLOOPREF1">for loop</a>, a <i class="FIRSTTERM">while loop</i> finds use in situations where the number of loop repetitions is not known beforehand.</p>
+          <p><b class="COMMAND">while</b> [ <tt class="REPLACEABLE"><i>condition</i></tt> ]<br>
+          do<br>
+          <tt class="REPLACEABLE"><i>command(s)</i></tt>...<br>
+          done</p>
+          <p>The bracket construct in a <i class="FIRSTTERM">while loop</i> is nothing more than our old friend, the <a href="testconstructs.html#TESTCONSTRUCTS1">test brackets</a> used in an <i class="FIRSTTERM">if/then</i> test. In fact, a <i class="FIRSTTERM">while loop</i> can legally use the more versatile <a href="testconstructs.html#DBLBRACKETS">double-brackets construct</a> (while [[ condition ]]).</p>
+          <p><a name="WHILENEEDSEMI" id="WHILENEEDSEMI"></a></p>
+          <p><a href="loops1.html#NEEDSEMICOLON">As is the case with <i class="FIRSTTERM">for loops</i></a>, placing the <i class="FIRSTTERM">do</i> on the same line as the condition test requires a semicolon.</p>
+          <p><b class="COMMAND">while</b> [ <tt class="REPLACEABLE"><i>condition</i></tt> ] ; do</p>
+          <p>Note that the <i class="FIRSTTERM">test brackets</i> <a href="loops1.html#WHILENOBRACKETS">are <em>not</em> mandatory</a> in a <i class="FIRSTTERM">while</i> loop. See, for example, the <a href="internal.html#GETOPTSX">getopts construct</a>.</p>
+          <div class="EXAMPLE">
+            <a name="EX25" id="EX25"></a>
+            <p><b>Example 11-15. Simple <i class="FIRSTTERM">while</i> loop</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+var0=0
+LIMIT=10
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$var0</span>"</span> -lt <span class="hljs-string">"<span class="hljs-variable">$LIMIT</span>"</span> ]
+<span class="hljs-comment">#      ^                    ^</span>
+<span class="hljs-comment"># Spaces, because these are "test-brackets" . . .</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$var0</span> "</span>        <span class="hljs-comment"># -n suppresses newline.</span>
+  <span class="hljs-comment">#             ^           Space, to separate printed out numbers.</span>
+
+  var0=`expr <span class="hljs-variable">$var0</span> + 1`   <span class="hljs-comment"># var0=$(($var0+1))  also works.</span>
+                          <span class="hljs-comment"># var0=$((var0 + 1)) also works.</span>
+                          <span class="hljs-comment"># let "var0 += 1"    also works.</span>
+<span class="hljs-keyword">done</span>                      <span class="hljs-comment"># Various other methods also work.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="EXAMPLE">
+            <a name="EX26" id="EX26"></a>
+            <p><b>Example 11-16. Another <i class="FIRSTTERM">while</i> loop</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-built_in">echo</span>
+                               <span class="hljs-comment"># Equivalent to:</span>
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$var1</span>"</span> != <span class="hljs-string">"end"</span> ]     <span class="hljs-comment"># while test "$var1" != "end"</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Input variable #1 (end to exit) "</span>
+  <span class="hljs-built_in">read</span> var1                    <span class="hljs-comment"># Not 'read $var1' (why?).</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"variable #1 = <span class="hljs-variable">$var1</span>"</span>   <span class="hljs-comment"># Need quotes because of "#" . . .</span>
+  <span class="hljs-comment"># If input is 'end', echoes it here.</span>
+  <span class="hljs-comment"># Does not test for termination condition until top of loop.</span>
+  <span class="hljs-built_in">echo</span>
+<span class="hljs-keyword">done</span>  
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="WHMULTCOND" id="WHMULTCOND"></a></p>
+          <p>A <i class="FIRSTTERM">while loop</i> may have multiple conditions. Only the final condition determines when the loop terminates. This necessitates a slightly different loop syntax, however.</p>
+          <div class="EXAMPLE">
+            <a name="EX26A" id="EX26A"></a>
+            <p><b>Example 11-17. <i class="FIRSTTERM">while</i> loop with multiple conditions</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+var1=<span class="hljs-built_in">unset</span>
+previous=<span class="hljs-variable">$var1</span>
+
+<span class="hljs-keyword">while</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"previous-variable = <span class="hljs-variable">$previous</span>"</span>
+      <span class="hljs-built_in">echo</span>
+      previous=<span class="hljs-variable">$var1</span>
+      [ <span class="hljs-string">"<span class="hljs-variable">$var1</span>"</span> != end ] <span class="hljs-comment"># Keeps track of what $var1 was previously.</span>
+      <span class="hljs-comment"># Four conditions on *while*, but only the final one controls loop.</span>
+      <span class="hljs-comment"># The *last* exit status is the one that counts.</span>
+<span class="hljs-keyword">do</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Input variable #1 (end to exit) "</span>
+  <span class="hljs-built_in">read</span> var1
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"variable #1 = <span class="hljs-variable">$var1</span>"</span>
+<span class="hljs-keyword">done</span>  
+
+<span class="hljs-comment"># Try to figure out how this all works.</span>
+<span class="hljs-comment"># It's a wee bit tricky.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="WLOOPCSTYLE" id="WLOOPCSTYLE"></a></p>
+          <p>As with a <i class="FIRSTTERM">for loop</i>, a <i class="FIRSTTERM">while loop</i> may employ C-style syntax by using the double-parentheses construct (see also <a href="dblparens.html#CVARS">Example 8-5</a>).</p>
+          <div class="EXAMPLE">
+            <a name="WHLOOPC" id="WHLOOPC"></a>
+            <p><b>Example 11-18. C-style syntax in a <i class="FIRSTTERM">while</i> loop</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># wh-loopc.sh: Count to 10 in a "while" loop.</span>
+
+LIMIT=10                 <span class="hljs-comment"># 10 iterations.</span>
+a=1
+
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$a</span>"</span> -le <span class="hljs-variable">$LIMIT</span> ]
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$a</span> "</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"a+=1"</span>
+<span class="hljs-keyword">done</span>                     <span class="hljs-comment"># No surprises, so far.</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># +=================================================================+</span>
+
+<span class="hljs-comment"># Now, we'll repeat with C-like syntax.</span>
+
+((a = 1))      <span class="hljs-comment"># a=1</span>
+<span class="hljs-comment"># Double parentheses permit space when setting a variable, as in C.</span>
+
+<span class="hljs-keyword">while</span> (( a &lt;= LIMIT ))   <span class="hljs-comment">#  Double parentheses,</span>
+<span class="hljs-keyword">do</span>                       <span class="hljs-comment">#+ and no "$" preceding variables.</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$a</span> "</span>
+  ((a += 1))             <span class="hljs-comment"># let "a+=1"</span>
+  <span class="hljs-comment"># Yes, indeed.</span>
+  <span class="hljs-comment"># Double parentheses permit incrementing a variable with C-like syntax.</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># C and Java programmers can feel right at home in Bash.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="WHILEFUNC" id="WHILEFUNC"></a></p>
+          <p>Inside its test brackets, a <i class="FIRSTTERM">while loop</i> can call a <a href="functions.html#FUNCTIONREF">function</a>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">t=0
+
+<span class="hljs-function"><span class="hljs-title">condition</span></span> ()
+{
+  ((t++))
+
+  <span class="hljs-keyword">if</span> [ <span class="hljs-variable">$t</span> -lt 5 ]
+  <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">return</span> 0  <span class="hljs-comment"># true</span>
+  <span class="hljs-keyword">else</span>
+    <span class="hljs-built_in">return</span> 1  <span class="hljs-comment"># false</span>
+  <span class="hljs-keyword">fi</span>
+}
+
+<span class="hljs-keyword">while</span> condition
+<span class="hljs-comment">#     ^^^^^^^^^</span>
+<span class="hljs-comment">#     Function call -- four loop iterations.</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Still going: t = <span class="hljs-variable">$t</span>"</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment"># Still going: t = 1</span>
+<span class="hljs-comment"># Still going: t = 2</span>
+<span class="hljs-comment"># Still going: t = 3</span>
+<span class="hljs-comment"># Still going: t = 4</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <table class="SIDEBAR" border="1" cellpadding="5">
+            <tbody><tr>
+              <td>
+                <div class="SIDEBAR">
+                  <a name="AEN6856" id="AEN6856"></a>
+                  <p><a name="WHILENOBRACKETS" id="WHILENOBRACKETS"></a></p>
+                  <p>Similar to the <a href="testconstructs.html#IFGREPREF">if-test</a> construct, a <i class="FIRSTTERM">while</i> loop can omit the test brackets.</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tbody><tr>
+                      <td>
+                        <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">while</span> condition
+<span class="hljs-keyword">do</span>
+   <span class="hljs-built_in">command</span>(s) ...
+<span class="hljs-keyword">done</span></pre>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                </div>
+              </td>
+            </tr>
+          </tbody></table>
+          <p><a name="WHILEREADREF2" id="WHILEREADREF2"></a></p>
+          <p>By coupling the power of the <a href="internal.html#READREF">read</a> command with a <i class="FIRSTTERM">while loop</i>, we get the handy <a href="internal.html#WHILEREADREF">while read</a> construct, useful for reading and parsing files.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">cat <span class="hljs-variable">$filename</span> |   <span class="hljs-comment"># Supply input from a file.</span>
+<span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> line   <span class="hljs-comment"># As long as there is another line to read ...</span>
+<span class="hljs-keyword">do</span>
+  ...
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment"># =========== Snippet from "sd.sh" example script ========== #</span>
+
+  <span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> value   <span class="hljs-comment"># Read one data point at a time.</span>
+  <span class="hljs-keyword">do</span>
+    rt=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">"scale=<span class="hljs-variable">$SC</span>; <span class="hljs-variable">$rt</span> + <span class="hljs-variable">$value</span>"</span> | bc)
+    (( ct++ ))
+  <span class="hljs-keyword">done</span>
+
+  am=$(<span class="hljs-built_in">echo</span> <span class="hljs-string">"scale=<span class="hljs-variable">$SC</span>; <span class="hljs-variable">$rt</span> / <span class="hljs-variable">$ct</span>"</span> | bc)
+
+  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$am</span>; <span class="hljs-built_in">return</span> <span class="hljs-variable">$ct</span>   <span class="hljs-comment"># This function "returns" TWO values!</span>
+  <span class="hljs-comment">#  Caution: This little trick will not work if $ct &gt; 255!</span>
+  <span class="hljs-comment">#  To handle a larger number of data points,</span>
+  <span class="hljs-comment">#+ simply comment out the "return $ct" above.</span>
+} &lt;<span class="hljs-string">"<span class="hljs-variable">$datafile</span>"</span>   <span class="hljs-comment"># Feed in data file.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p><a name="WHREDIR" id="WHREDIR"></a></p>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>A <i class="FIRSTTERM">while loop</i> may have its <tt class="FILENAME">stdin</tt> <a href="redircb.html#REDIRREF">redirected to a file</a> by a <span class="TOKEN">&lt;</span> at its end.</p>
+                  <p>A <i class="FIRSTTERM">while loop</i> may have its <tt class="FILENAME">stdin</tt> <a href="internal.html#READPIPEREF">supplied by a pipe</a>.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="UNTILLOOPREF" id="UNTILLOOPREF"></a><b class="COMMAND">until</b></dt>
+        <dd>
+          <p>This construct tests for a condition at the top of a loop, and keeps looping as long as that condition is <em>false</em> (opposite of <i class="FIRSTTERM">while loop</i>).</p>
+          <p><b class="COMMAND">until</b> [ <tt class="REPLACEABLE"><i>condition-is-true</i></tt> ]<br>
+          do<br>
+          <tt class="REPLACEABLE"><i>command(s)</i></tt>...<br>
+          done</p>
+          <p>Note that an <i class="FIRSTTERM">until loop</i> tests for the terminating condition at the <em>top</em> of the loop, differing from a similar construct in some programming languages.</p>
+          <p>As is the case with <i class="FIRSTTERM">for loops</i>, placing the <i class="FIRSTTERM">do</i> on the same line as the condition test requires a semicolon.</p>
+          <p><b class="COMMAND">until</b> [ <tt class="REPLACEABLE"><i>condition-is-true</i></tt> ] ; do</p>
+          <div class="EXAMPLE">
+            <a name="EX27" id="EX27"></a>
+            <p><b>Example 11-19. <i class="FIRSTTERM">until</i> loop</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+END_CONDITION=end
+
+until [ <span class="hljs-string">"<span class="hljs-variable">$var1</span>"</span> = <span class="hljs-string">"<span class="hljs-variable">$END_CONDITION</span>"</span> ]
+<span class="hljs-comment"># Tests condition here, at top of loop.</span>
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Input variable #1 "</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"(<span class="hljs-variable">$END_CONDITION</span> to exit)"</span>
+  <span class="hljs-built_in">read</span> var1
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"variable #1 = <span class="hljs-variable">$var1</span>"</span>
+  <span class="hljs-built_in">echo</span>
+<span class="hljs-keyword">done</span>  
+
+<span class="hljs-comment">#                     ---                        #</span>
+
+<span class="hljs-comment">#  As with "for" and "while" loops,</span>
+<span class="hljs-comment">#+ an "until" loop permits C-like test constructs.</span>
+
+LIMIT=10
+var=0
+
+until (( var &gt; LIMIT ))
+<span class="hljs-keyword">do</span>  <span class="hljs-comment"># ^^ ^     ^     ^^   No brackets, no $ prefixing variables.</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$var</span> "</span>
+  (( var++ ))
+<span class="hljs-keyword">done</span>    <span class="hljs-comment"># 0 1 2 3 4 5 6 7 8 9 10 </span>
+
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+      </dl>
+    </div>
+    <p><a name="CHOOSELOOP" id="CHOOSELOOP"></a></p>
+    <p>How to choose between a <i class="FIRSTTERM">for</i> loop or a <i class="FIRSTTERM">while</i> loop or <i class="FIRSTTERM">until</i> loop? In <b class="COMMAND">C</b>, you would typically use a <i class="FIRSTTERM">for</i> loop when the number of loop iterations is known beforehand. With <i class="FIRSTTERM">Bash</i>, however, the situation is fuzzier. The Bash <i class="FIRSTTERM">for</i> loop is more loosely structured and more flexible than its equivalent in other languages. Therefore, feel free to use whatever type of loop gets the job done in the simplest way.</p>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN6560" href="loops1.html#AEN6560" id="FTN.AEN6560"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><a name="ITERATIONREF" id="ITERATIONREF"></a><i class="FIRSTTERM">Iteration</i>: Repeated execution of a command or group of commands, usually -- but not always, <i class="FIRSTTERM">while</i> a given condition holds, or <i class="FIRSTTERM">until</i> a given condition is met.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="loops.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="nestedloops.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Loops and Branches</td>
+        <td width="34%" align="center" valign="top"><a href="loops.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Nested Loops</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

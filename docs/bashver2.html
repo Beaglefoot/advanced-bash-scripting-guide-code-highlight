@@ -1,0 +1,358 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Bash, version 2</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Bash, versions 2, 3, and 4" href="bash2.html">
+  <link rel="PREVIOUS" title="Bash, versions 2, 3, and 4" href="bash2.html">
+  <link rel="NEXT" title="Bash, version 3" href="bashver3.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="bash2.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 37. Bash, versions 2, 3, and 4</td>
+        <td width="10%" align="right" valign="bottom"><a href="bashver3.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="BASHVER2" id="BASHVER2"></a>37.1. Bash, version 2</h1>
+    <p><a name="BASH2REF" id="BASH2REF"></a></p>
+    <p>The current version of <i class="FIRSTTERM">Bash</i>, the one you have running on your machine, is most likely version 2.xx.yy, 3.xx.yy, or 4.xx.yy.</p>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> <span class="hljs-built_in">echo</span> <span class="hljs-variable">$BASH_VERSION</span></span>
+3.2.25(1)-release
+              </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>The version 2 update of the classic Bash scripting language added array variables, string and parameter expansion, and a better method of indirect variable references, among other features.</p>
+    <div class="EXAMPLE">
+      <a name="EX77" id="EX77"></a>
+      <p><b>Example 37-1. String expansion</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment"># String expansion.</span>
+<span class="hljs-comment"># Introduced with version 2 of Bash.</span>
+
+<span class="hljs-comment">#  Strings of the form $'xxx'</span>
+<span class="hljs-comment">#+ have the standard escaped characters interpreted. </span>
+
+<span class="hljs-built_in">echo</span> $<span class="hljs-string">'Ringing bell 3 times \a \a \a'</span>
+     <span class="hljs-comment"># May only ring once with certain terminals.</span>
+     <span class="hljs-comment"># Or ...</span>
+     <span class="hljs-comment"># May not ring at all, depending on terminal settings.</span>
+<span class="hljs-built_in">echo</span> $<span class="hljs-string">'Three form feeds \f \f \f'</span>
+<span class="hljs-built_in">echo</span> $<span class="hljs-string">'10 newlines \n\n\n\n\n\n\n\n\n\n'</span>
+<span class="hljs-built_in">echo</span> $<span class="hljs-string">'\102\141\163\150'</span>
+     <span class="hljs-comment">#   B   a   s   h</span>
+     <span class="hljs-comment"># Octal equivalent of characters.</span>
+
+<span class="hljs-built_in">exit</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="VARREFNEW" id="VARREFNEW"></a></p>
+    <div class="EXAMPLE">
+      <a name="EX78" id="EX78"></a>
+      <p><b>Example 37-2. Indirect variable references - the new way</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment"># Indirect variable referencing.</span>
+<span class="hljs-comment"># This has a few of the attributes of references in C++.</span>
+
+
+a=letter_of_alphabet
+letter_of_alphabet=z
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a = <span class="hljs-variable">$a</span>"</span>           <span class="hljs-comment"># Direct reference.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Now a = <span class="hljs-variable">${!a}</span>"</span>    <span class="hljs-comment"># Indirect reference.</span>
+<span class="hljs-comment">#  The ${!variable} notation is more intuitive than the old</span>
+<span class="hljs-comment">#+ eval var1=\$$var2</span>
+
+<span class="hljs-built_in">echo</span>
+
+t=table_cell_3
+table_cell_3=24
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"t = <span class="hljs-variable">${!t}</span>"</span>                      <span class="hljs-comment"># t = 24</span>
+table_cell_3=387
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Value of t changed to <span class="hljs-variable">${!t}</span>"</span>    <span class="hljs-comment"># 387</span>
+<span class="hljs-comment"># No 'eval' necessary.</span>
+
+<span class="hljs-comment">#  This is useful for referencing members of an array or table,</span>
+<span class="hljs-comment">#+ or for simulating a multi-dimensional array.</span>
+<span class="hljs-comment">#  An indexing option (analogous to pointer arithmetic)</span>
+<span class="hljs-comment">#+ would have been nice. Sigh.</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># See also, ind-ref.sh example.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="RESISTOR" id="RESISTOR"></a>
+      <p><b>Example 37-3. Simple database application, using indirect variable referencing</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># resistor-inventory.sh</span>
+<span class="hljs-comment"># Simple database / table-lookup application.</span>
+
+<span class="hljs-comment"># ============================================================== #</span>
+<span class="hljs-comment"># Data</span>
+
+B1723_value=470                                   <span class="hljs-comment"># Ohms</span>
+B1723_powerdissip=.25                             <span class="hljs-comment"># Watts</span>
+B1723_colorcode=<span class="hljs-string">"yellow-violet-brown"</span>             <span class="hljs-comment"># Color bands</span>
+B1723_loc=173                                     <span class="hljs-comment"># Where they are</span>
+B1723_inventory=78                                <span class="hljs-comment"># How many</span>
+
+B1724_value=1000
+B1724_powerdissip=.25
+B1724_colorcode=<span class="hljs-string">"brown-black-red"</span>
+B1724_loc=24N
+B1724_inventory=243
+
+B1725_value=10000
+B1725_powerdissip=.125
+B1725_colorcode=<span class="hljs-string">"brown-black-orange"</span>
+B1725_loc=24N
+B1725_inventory=89
+
+<span class="hljs-comment"># ============================================================== #</span>
+
+
+<span class="hljs-built_in">echo</span>
+
+PS3=<span class="hljs-string">'Enter catalog number: '</span>
+
+<span class="hljs-built_in">echo</span>
+
+select catalog_number <span class="hljs-keyword">in</span> <span class="hljs-string">"B1723"</span> <span class="hljs-string">"B1724"</span> <span class="hljs-string">"B1725"</span>
+<span class="hljs-keyword">do</span>
+  Inv=<span class="hljs-variable">${catalog_number}</span>_inventory
+  Val=<span class="hljs-variable">${catalog_number}</span>_value
+  Pdissip=<span class="hljs-variable">${catalog_number}</span>_powerdissip
+  Loc=<span class="hljs-variable">${catalog_number}</span>_loc
+  Ccode=<span class="hljs-variable">${catalog_number}</span>_colorcode
+
+  <span class="hljs-built_in">echo</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Catalog number <span class="hljs-variable">$catalog_number</span>:"</span>
+  <span class="hljs-comment"># Now, retrieve value, using indirect referencing.</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"There are <span class="hljs-variable">${!Inv}</span> of  [<span class="hljs-variable">${!Val}</span> ohm / <span class="hljs-variable">${!Pdissip}</span> watt]\
+  resistors in stock."</span>  <span class="hljs-comment">#        ^             ^</span>
+  <span class="hljs-comment"># As of Bash 4.2, you can replace "ohm" with \u2126 (using echo -e).</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"These are located in bin # <span class="hljs-variable">${!Loc}</span>."</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Their color code is \"<span class="hljs-variable">${!Ccode}</span>\"."</span>
+
+  <span class="hljs-built_in">break</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">echo</span>; <span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># Exercises:</span>
+<span class="hljs-comment"># ---------</span>
+<span class="hljs-comment"># 1) Rewrite this script to read its data from an external file.</span>
+<span class="hljs-comment"># 2) Rewrite this script to use arrays,</span>
+<span class="hljs-comment">#+   rather than indirect variable referencing.</span>
+<span class="hljs-comment">#    Which method is more straightforward and intuitive?</span>
+<span class="hljs-comment">#    Which method is easier to code?</span>
+
+
+<span class="hljs-comment"># Notes:</span>
+<span class="hljs-comment"># -----</span>
+<span class="hljs-comment">#  Shell scripts are inappropriate for anything except the most simple</span>
+<span class="hljs-comment">#+ database applications, and even then it involves workarounds and kludges.</span>
+<span class="hljs-comment">#  Much better is to use a language with native support for data structures,</span>
+<span class="hljs-comment">#+ such as C++ or Java (or even Perl).</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="CARDS" id="CARDS"></a>
+      <p><b>Example 37-4. Using arrays and other miscellaneous trickery to deal four random hands from a deck of cards</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># cards.sh</span>
+
+<span class="hljs-comment"># Deals four random hands from a deck of cards.</span>
+
+UNPICKED=0
+PICKED=1
+
+DUPE_CARD=99
+
+LOWER_LIMIT=0
+UPPER_LIMIT=51
+CARDS_IN_SUIT=13
+CARDS=52
+
+<span class="hljs-built_in">declare</span> -a Deck
+<span class="hljs-built_in">declare</span> -a Suits
+<span class="hljs-built_in">declare</span> -a Cards
+<span class="hljs-comment">#  It would have been easier to implement and more intuitive</span>
+<span class="hljs-comment">#+ with a single, 3-dimensional array.</span>
+<span class="hljs-comment">#  Perhaps a future version of Bash will support multidimensional arrays.</span>
+
+
+<span class="hljs-function"><span class="hljs-title">initialize_Deck</span></span> ()
+{
+i=<span class="hljs-variable">$LOWER_LIMIT</span>
+until [ <span class="hljs-string">"<span class="hljs-variable">$i</span>"</span> -gt <span class="hljs-variable">$UPPER_LIMIT</span> ]
+<span class="hljs-keyword">do</span>
+  Deck[i]=<span class="hljs-variable">$UNPICKED</span>   <span class="hljs-comment"># Set each card of "Deck" as unpicked.</span>
+  <span class="hljs-built_in">let</span> <span class="hljs-string">"i += 1"</span>
+<span class="hljs-keyword">done</span>
+<span class="hljs-built_in">echo</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">initialize_Suits</span></span> ()
+{
+Suits[0]=C <span class="hljs-comment">#Clubs</span>
+Suits[1]=D <span class="hljs-comment">#Diamonds</span>
+Suits[2]=H <span class="hljs-comment">#Hearts</span>
+Suits[3]=S <span class="hljs-comment">#Spades</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">initialize_Cards</span></span> ()
+{
+Cards=(2 3 4 5 6 7 8 9 10 J Q K A)
+<span class="hljs-comment"># Alternate method of initializing an array.</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">pick_a_card</span></span> ()
+{
+card_number=<span class="hljs-variable">$RANDOM</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"card_number %= <span class="hljs-variable">$CARDS</span>"</span> <span class="hljs-comment"># Restrict range to 0 - 51, i.e., 52 cards.</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">${Deck[card_number]}</span>"</span> -eq <span class="hljs-variable">$UNPICKED</span> ]
+<span class="hljs-keyword">then</span>
+  Deck[card_number]=<span class="hljs-variable">$PICKED</span>
+  <span class="hljs-built_in">return</span> <span class="hljs-variable">$card_number</span>
+<span class="hljs-keyword">else</span>  
+  <span class="hljs-built_in">return</span> <span class="hljs-variable">$DUPE_CARD</span>
+<span class="hljs-keyword">fi</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">parse_card</span></span> ()
+{
+number=<span class="hljs-variable">$1</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"suit_number = number / CARDS_IN_SUIT"</span>
+suit=<span class="hljs-variable">${Suits[suit_number]}</span>
+<span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$suit</span>-"</span>
+<span class="hljs-built_in">let</span> <span class="hljs-string">"card_no = number % CARDS_IN_SUIT"</span>
+Card=<span class="hljs-variable">${Cards[card_no]}</span>
+<span class="hljs-built_in">printf</span> %-4s <span class="hljs-variable">$Card</span>
+<span class="hljs-comment"># Print cards in neat columns.</span>
+}
+
+seed_random ()  <span class="hljs-comment"># Seed random number generator.</span>
+{               <span class="hljs-comment"># What happens if you don't do this?</span>
+seed=`<span class="hljs-built_in">eval</span> date +%s`
+<span class="hljs-built_in">let</span> <span class="hljs-string">"seed %= 32766"</span>
+RANDOM=<span class="hljs-variable">$seed</span>
+} <span class="hljs-comment"># Consider other methods of seeding the random number generator.</span>
+
+<span class="hljs-function"><span class="hljs-title">deal_cards</span></span> ()
+{
+<span class="hljs-built_in">echo</span>
+
+cards_picked=0
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$cards_picked</span>"</span> -le <span class="hljs-variable">$UPPER_LIMIT</span> ]
+<span class="hljs-keyword">do</span>
+  pick_a_card
+  t=$?
+
+  <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$t</span>"</span> -ne <span class="hljs-variable">$DUPE_CARD</span> ]
+  <span class="hljs-keyword">then</span>
+    parse_card <span class="hljs-variable">$t</span>
+
+    u=<span class="hljs-variable">$cards_picked</span>+1
+    <span class="hljs-comment"># Change back to 1-based indexing, temporarily. Why?</span>
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"u %= <span class="hljs-variable">$CARDS_IN_SUIT</span>"</span>
+    <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$u</span>"</span> -eq 0 ]   <span class="hljs-comment"># Nested if/then condition test.</span>
+    <span class="hljs-keyword">then</span>
+     <span class="hljs-built_in">echo</span>
+     <span class="hljs-built_in">echo</span>
+    <span class="hljs-keyword">fi</span>                  <span class="hljs-comment"># Each hand set apart with a blank line.</span>
+
+    <span class="hljs-built_in">let</span> <span class="hljs-string">"cards_picked += 1"</span>
+  <span class="hljs-keyword">fi</span>  
+<span class="hljs-keyword">done</span>  
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">return</span> 0
+}
+
+
+<span class="hljs-comment"># Structured programming:</span>
+<span class="hljs-comment"># Entire program logic modularized in functions.</span>
+
+<span class="hljs-comment">#===============</span>
+seed_random
+initialize_Deck
+initialize_Suits
+initialize_Cards
+deal_cards
+<span class="hljs-comment">#===============</span>
+
+<span class="hljs-built_in">exit</span>
+
+
+
+<span class="hljs-comment"># Exercise 1:</span>
+<span class="hljs-comment"># Add comments to thoroughly document this script.</span>
+
+<span class="hljs-comment"># Exercise 2:</span>
+<span class="hljs-comment"># Add a routine (function) to print out each hand sorted in suits.</span>
+<span class="hljs-comment"># You may add other bells and whistles if you like.</span>
+
+<span class="hljs-comment"># Exercise 3:</span>
+<span class="hljs-comment"># Simplify and streamline the logic of the script.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="bash2.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="bashver3.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Bash, versions 2, 3, and 4</td>
+        <td width="34%" align="center" valign="top"><a href="bash2.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Bash, version 3</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

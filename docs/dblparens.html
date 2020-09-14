@@ -1,0 +1,118 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>The Double-Parentheses Construct</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Operations and Related Topics" href="operations.html">
+  <link rel="PREVIOUS" title="Numerical Constants" href="numerical-constants.html">
+  <link rel="NEXT" title="Operator Precedence" href="opprecedence.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="numerical-constants.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 8. Operations and Related Topics</td>
+        <td width="10%" align="right" valign="bottom"><a href="opprecedence.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="DBLPARENS" id="DBLPARENS"></a>8.3. The Double-Parentheses Construct</h1>
+    <p><a name="DBLPARENSREF" id="DBLPARENSREF"></a></p>
+    <p>Similar to the <a href="internal.html#LETREF">let</a> command, the <b class="COMMAND">(( ... ))</b> construct permits arithmetic expansion and evaluation. In its simplest form, <tt class="USERINPUT"><b>a=$(( 5 + 3 ))</b></tt> would set <tt class="USERINPUT"><b>a</b></tt> to <tt class="USERINPUT"><b>5 + 3</b></tt>, or <tt class="USERINPUT"><b>8</b></tt>. However, this double-parentheses construct is also a mechanism for allowing C-style manipulation of variables in Bash, for example, <tt class="VARNAME">(( var++ ))</tt>.</p>
+    <p><a name="PLUSPLUSREF" id="PLUSPLUSREF"></a></p>
+    <div class="EXAMPLE">
+      <a name="CVARS" id="CVARS"></a>
+      <p><b>Example 8-5. C-style manipulation of variables</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># c-vars.sh</span>
+<span class="hljs-comment"># Manipulating a variable, C-style, using the (( ... )) construct.</span>
+
+
+<span class="hljs-built_in">echo</span>
+
+(( a = 23 ))  <span class="hljs-comment">#  Setting a value, C-style,</span>
+              <span class="hljs-comment">#+ with spaces on both sides of the "=".</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a (initial value) = <span class="hljs-variable">$a</span>"</span>   <span class="hljs-comment"># 23</span>
+
+(( a++ ))     <span class="hljs-comment">#  Post-increment 'a', C-style.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a (after a++) = <span class="hljs-variable">$a</span>"</span>       <span class="hljs-comment"># 24</span>
+
+(( a-- ))     <span class="hljs-comment">#  Post-decrement 'a', C-style.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a (after a--) = <span class="hljs-variable">$a</span>"</span>       <span class="hljs-comment"># 23</span>
+
+
+(( ++a ))     <span class="hljs-comment">#  Pre-increment 'a', C-style.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a (after ++a) = <span class="hljs-variable">$a</span>"</span>       <span class="hljs-comment"># 24</span>
+
+(( --a ))     <span class="hljs-comment">#  Pre-decrement 'a', C-style.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"a (after --a) = <span class="hljs-variable">$a</span>"</span>       <span class="hljs-comment"># 23</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment">########################################################</span>
+<span class="hljs-comment">#  Note that, as in C, pre- and post-decrement operators</span>
+<span class="hljs-comment">#+ have different side-effects.</span>
+
+n=1; <span class="hljs-built_in">let</span> --n &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-string">"True"</span> || <span class="hljs-built_in">echo</span> <span class="hljs-string">"False"</span>  <span class="hljs-comment"># False</span>
+n=1; <span class="hljs-built_in">let</span> n-- &amp;&amp; <span class="hljs-built_in">echo</span> <span class="hljs-string">"True"</span> || <span class="hljs-built_in">echo</span> <span class="hljs-string">"False"</span>  <span class="hljs-comment"># True</span>
+
+<span class="hljs-comment">#  Thanks, Jeroen Domburg.</span>
+<span class="hljs-comment">########################################################</span>
+
+<span class="hljs-built_in">echo</span>
+
+(( t = a&lt;45?7:11 ))   <span class="hljs-comment"># C-style trinary operator.</span>
+<span class="hljs-comment">#       ^  ^ ^</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"If a &lt; 45, then t = 7, else t = 11."</span>  <span class="hljs-comment"># a = 23</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"t = <span class="hljs-variable">$t</span> "</span>                              <span class="hljs-comment"># t = 7</span>
+
+<span class="hljs-built_in">echo</span>
+
+
+<span class="hljs-comment"># -----------------</span>
+<span class="hljs-comment"># Easter Egg alert!</span>
+<span class="hljs-comment"># -----------------</span>
+<span class="hljs-comment">#  Chet Ramey seems to have snuck a bunch of undocumented C-style</span>
+<span class="hljs-comment">#+ constructs into Bash (actually adapted from ksh, pretty much).</span>
+<span class="hljs-comment">#  In the Bash docs, Ramey calls (( ... )) shell arithmetic,</span>
+<span class="hljs-comment">#+ but it goes far beyond that.</span>
+<span class="hljs-comment">#  Sorry, Chet, the secret is out.</span>
+
+<span class="hljs-comment"># See also "for" and "while" loops using the (( ... )) construct.</span>
+
+<span class="hljs-comment"># These work only with version 2.04 or later of Bash.</span>
+
+<span class="hljs-built_in">exit</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>See also <a href="loops1.html#FORLOOPC">Example 11-13</a> and <a href="numerical-constants.html#NUMBERS">Example 8-4</a>.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="numerical-constants.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="opprecedence.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Numerical Constants</td>
+        <td width="34%" align="center" valign="top"><a href="operations.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Operator Precedence</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

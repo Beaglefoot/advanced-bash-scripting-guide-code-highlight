@@ -1,0 +1,439 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Shell Wrappers</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Miscellany" href="miscellany.html">
+  <link rel="PREVIOUS" title="Interactive and non-interactive shells and scripts" href="intandnonint.html">
+  <link rel="NEXT" title="Tests and Comparisons: Alternatives" href="testsandcomparisons.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="intandnonint.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 36. Miscellany</td>
+        <td width="10%" align="right" valign="bottom"><a href="testsandcomparisons.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="WRAPPER" id="WRAPPER"></a>36.2. Shell Wrappers</h1>
+    <p><a name="SHWRAPPER" id="SHWRAPPER"></a></p>
+    <p>A <i class="FIRSTTERM">wrapper</i> is a shell script that embeds a system command or utility, that accepts and passes a set of parameters to that command. <a name="AEN20130" href="#FTN.AEN20130" id="AEN20130"><span class="footnote">[1]</span></a> Wrapping a script around a complex command-line simplifies invoking it. This is expecially useful with <a href="sedawk.html#SEDREF">sed</a> and <a href="awk.html#AWKREF">awk</a>.</p>
+    <p>A <b class="COMMAND">sed</b> or <b class="COMMAND">awk</b> script would normally be invoked from the command-line by a <tt class="USERINPUT"><b>sed -e <tt class="REPLACEABLE"><i>'commands'</i></tt></b></tt> or <tt class="USERINPUT"><b>awk <tt class="REPLACEABLE"><i>'commands'</i></tt></b></tt>. Embedding such a script in a Bash script permits calling it more simply, and makes it <i class="FIRSTTERM">reusable</i>. This also enables combining the functionality of <i class="FIRSTTERM">sed</i> and <i class="FIRSTTERM">awk</i>, for example <a href="special-chars.html#PIPEREF">piping</a> the output of a set of <i class="FIRSTTERM">sed</i> commands to <i class="FIRSTTERM">awk</i>. As a saved executable file, you can then repeatedly invoke it in its original form or modified, without the inconvenience of retyping it on the command-line.</p>
+    <div class="EXAMPLE">
+      <a name="EX3" id="EX3"></a>
+      <p><b>Example 36-1. <i class="FIRSTTERM">shell wrapper</i></b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment"># This simple script removes blank lines from a file.</span>
+<span class="hljs-comment"># No argument checking.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># You might wish to add something like:</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># E_NOARGS=85</span>
+<span class="hljs-comment"># if [ -z "$1" ]</span>
+<span class="hljs-comment"># then</span>
+<span class="hljs-comment">#  echo "Usage: `basename $0` target-file"</span>
+<span class="hljs-comment">#  exit $E_NOARGS</span>
+<span class="hljs-comment"># fi</span>
+
+
+
+sed -e /^$/d <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>
+<span class="hljs-comment"># Same as</span>
+<span class="hljs-comment">#    sed -e '/^$/d' filename</span>
+<span class="hljs-comment"># invoked from the command-line.</span>
+
+<span class="hljs-comment">#  The '-e' means an "editing" command follows (optional here).</span>
+<span class="hljs-comment">#  '^' indicates the beginning of line, '$' the end.</span>
+<span class="hljs-comment">#  This matches lines with nothing between the beginning and the end --</span>
+<span class="hljs-comment">#+ blank lines.</span>
+<span class="hljs-comment">#  The 'd' is the delete command.</span>
+
+<span class="hljs-comment">#  Quoting the command-line arg permits</span>
+<span class="hljs-comment">#+ whitespace and special characters in the filename.</span>
+
+<span class="hljs-comment">#  Note that this script doesn't actually change the target file.</span>
+<span class="hljs-comment">#  If you need to do that, redirect its output.</span>
+
+<span class="hljs-built_in">exit</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="EX4" id="EX4"></a>
+      <p><b>Example 36-2. A slightly more complex <i class="FIRSTTERM">shell wrapper</i></b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment">#  subst.sh: a script that substitutes one pattern for</span>
+<span class="hljs-comment">#+ another in a file,</span>
+<span class="hljs-comment">#+ i.e., "sh subst.sh Smith Jones letter.txt".</span>
+<span class="hljs-comment">#                     Jones replaces Smith.</span>
+
+ARGS=3         <span class="hljs-comment"># Script requires 3 arguments.</span>
+E_BADARGS=85   <span class="hljs-comment"># Wrong number of arguments passed to script.</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -ne <span class="hljs-string">"<span class="hljs-variable">$ARGS</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` old-pattern new-pattern filename"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>
+
+old_pattern=<span class="hljs-variable">$1</span>
+new_pattern=<span class="hljs-variable">$2</span>
+
+<span class="hljs-keyword">if</span> [ -f <span class="hljs-string">"<span class="hljs-variable">$3</span>"</span> ]
+<span class="hljs-keyword">then</span>
+    file_name=<span class="hljs-variable">$3</span>
+<span class="hljs-keyword">else</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"File \"<span class="hljs-variable">$3</span>\" does not exist."</span>
+    <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADARGS</span>
+<span class="hljs-keyword">fi</span>
+
+
+<span class="hljs-comment"># -----------------------------------------------</span>
+<span class="hljs-comment">#  Here is where the heavy work gets done.</span>
+sed -e <span class="hljs-string">"s/<span class="hljs-variable">$old_pattern</span>/<span class="hljs-variable">$new_pattern</span>/g"</span> <span class="hljs-variable">$file_name</span>
+<span class="hljs-comment"># -----------------------------------------------</span>
+
+<span class="hljs-comment">#  's' is, of course, the substitute command in sed,</span>
+<span class="hljs-comment">#+ and /pattern/ invokes address matching.</span>
+<span class="hljs-comment">#  The 'g,' or global flag causes substitution for EVERY</span>
+<span class="hljs-comment">#+ occurence of $old_pattern on each line, not just the first.</span>
+<span class="hljs-comment">#  Read the 'sed' docs for an in-depth explanation.</span>
+
+<span class="hljs-built_in">exit</span> $?  <span class="hljs-comment"># Redirect the output of this script to write to a file.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="LOGGINGWRAPPER" id="LOGGINGWRAPPER"></a>
+      <p><b>Example 36-3. A generic <i class="FIRSTTERM">shell wrapper</i> that writes to a logfile</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment">#  logging-wrapper.sh</span>
+<span class="hljs-comment">#  Generic shell wrapper that performs an operation</span>
+<span class="hljs-comment">#+ and logs it.</span>
+
+DEFAULT_LOGFILE=logfile.txt
+
+<span class="hljs-comment"># Set the following two variables.</span>
+OPERATION=
+<span class="hljs-comment">#         Can be a complex chain of commands,</span>
+<span class="hljs-comment">#+        for example an awk script or a pipe . . .</span>
+
+LOGFILE=
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$LOGFILE</span>"</span> ]
+<span class="hljs-keyword">then</span>     <span class="hljs-comment"># If not set, default to ...</span>
+  LOGFILE=<span class="hljs-string">"<span class="hljs-variable">$DEFAULT_LOGFILE</span>"</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment">#         Command-line arguments, if any, for the operation.</span>
+OPTIONS=<span class="hljs-string">"<span class="hljs-variable">$@</span>"</span>
+
+
+<span class="hljs-comment"># Log it.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"`date` + `whoami` + <span class="hljs-variable">$OPERATION</span> "</span><span class="hljs-variable">$@</span><span class="hljs-string">""</span> &gt;&gt; <span class="hljs-variable">$LOGFILE</span>
+<span class="hljs-comment"># Now, do it.</span>
+<span class="hljs-built_in">exec</span> <span class="hljs-variable">$OPERATION</span> <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span>
+
+<span class="hljs-comment"># It's necessary to do the logging before the operation.</span>
+<span class="hljs-comment"># Why?</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="PRASC" id="PRASC"></a>
+      <p><b>Example 36-4. A <i class="FIRSTTERM">shell wrapper</i> around an awk script</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># pr-ascii.sh: Prints a table of ASCII characters.</span>
+
+START=33   <span class="hljs-comment"># Range of printable ASCII characters (decimal).</span>
+END=127    <span class="hljs-comment"># Will not work for unprintable characters (&gt; 127).</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">" Decimal   Hex     Character"</span>   <span class="hljs-comment"># Header.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">" -------   ---     ---------"</span>
+
+<span class="hljs-keyword">for</span> ((i=START; i&lt;=END; i++))
+<span class="hljs-keyword">do</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-variable">$i</span> | awk <span class="hljs-string">'{printf("  %3d       %2x         %c\n", $1, $1, $1)}'</span>
+<span class="hljs-comment"># The Bash printf builtin will not work in this context:</span>
+<span class="hljs-comment">#     printf "%c" "$i"</span>
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+
+<span class="hljs-comment">#  Decimal   Hex     Character</span>
+<span class="hljs-comment">#  -------   ---     ---------</span>
+<span class="hljs-comment">#    33       21         !</span>
+<span class="hljs-comment">#    34       22         "</span>
+<span class="hljs-comment">#    35       23         #</span>
+<span class="hljs-comment">#    36       24         $</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#    . . .</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#   122       7a         z</span>
+<span class="hljs-comment">#   123       7b         {</span>
+<span class="hljs-comment">#   124       7c         |</span>
+<span class="hljs-comment">#   125       7d         }</span>
+
+
+<span class="hljs-comment">#  Redirect the output of this script to a file</span>
+<span class="hljs-comment">#+ or pipe it to "more":  sh pr-asc.sh | more</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <div class="EXAMPLE">
+      <a name="COLTOTALER" id="COLTOTALER"></a>
+      <p><b>Example 36-5. A <i class="FIRSTTERM">shell wrapper</i> around another awk script</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment"># Adds up a specified column (of numbers) in the target file.</span>
+<span class="hljs-comment"># Floating-point (decimal) numbers okay, because awk can handle them.</span>
+
+ARGS=2
+E_WRONGARGS=85
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -ne <span class="hljs-string">"<span class="hljs-variable">$ARGS</span>"</span> ] <span class="hljs-comment"># Check for proper number of command-line args.</span>
+<span class="hljs-keyword">then</span>
+   <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` filename column-number"</span>
+   <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_WRONGARGS</span>
+<span class="hljs-keyword">fi</span>
+
+filename=<span class="hljs-variable">$1</span>
+column_number=<span class="hljs-variable">$2</span>
+
+<span class="hljs-comment">#  Passing shell variables to the awk part of the script is a bit tricky.</span>
+<span class="hljs-comment">#  One method is to strong-quote the Bash-script variable</span>
+<span class="hljs-comment">#+ within the awk script.</span>
+<span class="hljs-comment">#     $'$BASH_SCRIPT_VAR'</span>
+<span class="hljs-comment">#      ^                ^</span>
+<span class="hljs-comment">#  This is done in the embedded awk script below.</span>
+<span class="hljs-comment">#  See the awk documentation for more details.</span>
+
+<span class="hljs-comment"># A multi-line awk script is here invoked by</span>
+<span class="hljs-comment">#   awk '</span>
+<span class="hljs-comment">#   ...</span>
+<span class="hljs-comment">#   ...</span>
+<span class="hljs-comment">#   ...</span>
+<span class="hljs-comment">#   '</span>
+
+
+<span class="hljs-comment"># Begin awk script.</span>
+<span class="hljs-comment"># -----------------------------</span>
+awk <span class="hljs-string">'
+
+{ total += $'</span><span class="hljs-string">"<span class="hljs-variable">${column_number}</span>"</span><span class="hljs-string">'
+}
+END {
+     print total
+}     
+
+'</span> <span class="hljs-string">"<span class="hljs-variable">$filename</span>"</span>
+<span class="hljs-comment"># -----------------------------</span>
+<span class="hljs-comment"># End awk script.</span>
+
+
+<span class="hljs-comment">#   It may not be safe to pass shell variables to an embedded awk script,</span>
+<span class="hljs-comment">#+  so Stephane Chazelas proposes the following alternative:</span>
+<span class="hljs-comment">#   ---------------------------------------</span>
+<span class="hljs-comment">#   awk -v column_number="$column_number" '</span>
+<span class="hljs-comment">#   { total += $column_number</span>
+<span class="hljs-comment">#   }</span>
+<span class="hljs-comment">#   END {</span>
+<span class="hljs-comment">#       print total</span>
+<span class="hljs-comment">#   }' "$filename"</span>
+<span class="hljs-comment">#   ---------------------------------------</span>
+
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="PERLREF" id="PERLREF"></a>For those scripts needing a single do-it-all tool, a Swiss army knife, there is <i class="FIRSTTERM">Perl</i>. Perl combines the capabilities of <a href="sedawk.html#SEDREF">sed</a> and <a href="awk.html#AWKREF">awk</a>, and throws in a large subset of <b class="COMMAND">C</b>, to boot. It is modular and contains support for everything ranging from object-oriented programming up to and including the kitchen sink. Short Perl scripts lend themselves to embedding within shell scripts, and there may be some substance to the claim that Perl can totally replace shell scripting (though the author of the <em>ABS Guide</em> remains skeptical).</p>
+    <p><a name="PERLEMB" id="PERLEMB"></a></p>
+    <div class="EXAMPLE">
+      <a name="EX56" id="EX56"></a>
+      <p><b>Example 36-6. Perl embedded in a <i class="FIRSTTERM">Bash</i> script</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment"># Shell commands may precede the Perl script.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"This precedes the embedded Perl script within \"<span class="hljs-variable">$0</span>\"."</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"==============================================================="</span>
+
+perl -e <span class="hljs-string">'print "This line prints from an embedded Perl script.\n";'</span>
+<span class="hljs-comment"># Like sed, Perl also uses the "-e" option.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"==============================================================="</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"However, the script may also contain shell and system commands."</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>It is even possible to combine a Bash script and Perl script within the same file. Depending on how the script is invoked, either the Bash part or the Perl part will execute.</p>
+    <p><a name="BASHANDPERL0" id="BASHANDPERL0"></a></p>
+    <div class="EXAMPLE">
+      <a name="BASHANDPERL" id="BASHANDPERL"></a>
+      <p><b>Example 36-7. Bash and Perl scripts combined</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># bashandperl.sh</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Greetings from the Bash part of the script, <span class="hljs-variable">$0</span>."</span>
+<span class="hljs-comment"># More Bash commands may follow here.</span>
+
+<span class="hljs-built_in">exit</span>
+<span class="hljs-comment"># End of Bash part of the script.</span>
+
+<span class="hljs-comment"># =======================================================</span>
+
+<span class="hljs-comment">#!/usr/bin/perl</span>
+<span class="hljs-comment"># This part of the script must be invoked with</span>
+<span class="hljs-comment">#    perl -x bashandperl.sh</span>
+
+<span class="hljs-built_in">print</span> <span class="hljs-string">"Greetings from the Perl part of the script, <span class="hljs-variable">$0</span>.\n"</span>;
+<span class="hljs-comment">#      Perl doesn't seem to like "echo" ...</span>
+<span class="hljs-comment"># More Perl commands may follow here.</span>
+
+<span class="hljs-comment"># End of Perl part of the script.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> bash bashandperl.sh</span>
+Greetings from the Bash part of the script.
+<span class="hljs-meta">
+
+bash$</span><span class="bash"> perl -x bashandperl.sh</span>
+Greetings from the Perl part of the script.
+              </pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>It is, of course, possible to embed even more exotic scripting languages within shell wrappers. <i class="FIRSTTERM">Python</i>, for example ...</p>
+    <p><a name="PYTHONEMB" id="PYTHONEMB"></a></p>
+    <div class="EXAMPLE">
+      <a name="EX56PY" id="EX56PY"></a>
+      <p><b>Example 36-8. Python embedded in a <i class="FIRSTTERM">Bash</i> script</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># ex56py.sh</span>
+
+<span class="hljs-comment"># Shell commands may precede the Python script.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"This precedes the embedded Python script within \"<span class="hljs-variable">$0</span>.\""</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"==============================================================="</span>
+
+python -c <span class="hljs-string">'print "This line prints from an embedded Python script.\n";'</span>
+<span class="hljs-comment"># Unlike sed and perl, Python uses the "-c" option.</span>
+python -c <span class="hljs-string">'k = raw_input( "Hit a key to exit to outer script. " )'</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"==============================================================="</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"However, the script may also contain shell and system commands."</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Wrapping a script around <i class="FIRSTTERM">mplayer</i> and the Google's translation server, you can create something that talks back to you.</p>
+    <p><a name="SPEECH00" id="SPEECH00"></a></p>
+    <div class="EXAMPLE">
+      <a name="SPEECH0" id="SPEECH0"></a>
+      <p><b>Example 36-9. A script that speaks</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment">#   Courtesy of:</span>
+<span class="hljs-comment">#   http://elinux.org/RPi_Text_to_Speech_(Speech_Synthesis)</span>
+
+<span class="hljs-comment">#  You must be on-line for this script to work,</span>
+<span class="hljs-comment">#+ so you can access the Google translation server.</span>
+<span class="hljs-comment">#  Of course, mplayer must be present on your computer.</span>
+
+<span class="hljs-function"><span class="hljs-title">speak</span></span>()
+  {
+  <span class="hljs-built_in">local</span> IFS=+
+  <span class="hljs-comment"># Invoke mplayer, then connect to Google translation server.</span>
+  /usr/bin/mplayer -ao alsa -really-quiet -noconsolecontrols \
+ <span class="hljs-string">"http://translate.google.com/translate_tts?tl=en&amp;q="</span>$*<span class="hljs-string">""</span>
+  <span class="hljs-comment"># Google translates, but can also speak.</span>
+  }
+
+LINES=4
+
+spk=$(tail -<span class="hljs-variable">$LINES</span> <span class="hljs-variable">$0</span>) <span class="hljs-comment"># Tail end of same script!</span>
+speak <span class="hljs-string">"<span class="hljs-variable">$spk</span>"</span>
+<span class="hljs-built_in">exit</span>
+<span class="hljs-comment"># Browns. Nice talking to you.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>One interesting example of a complex shell wrapper is Martin Matusiak's <a href="http://sourceforge.net/projects/undvd/" target="_top"><i class="FIRSTTERM">undvd</i> script</a>, which provides an easy-to-use command-line interface to the complex <a href="http://www.mplayerhq.hu/DOCS/HTML/en/mencoder.html" target="_top">mencoder</a> utility. Another example is Itzchak Rehberg's <a href="http://projects.izzysoft.de/trac/ext3undel" target="_top">Ext3Undel</a>, a set of scripts to recover deleted file on an <i class="FIRSTTERM">ext3</i> filesystem.</p>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN20130" href="wrapper.html#AEN20130" id="FTN.AEN20130"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Quite a number of Linux utilities are, in fact, shell wrappers. Some examples are <tt class="FILENAME">/usr/bin/pdf2ps</tt>, <tt class="FILENAME">/usr/bin/batch</tt>, and <tt class="FILENAME">/usr/bin/xmkmf</tt>.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="intandnonint.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="testsandcomparisons.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Interactive and non-interactive shells and scripts</td>
+        <td width="34%" align="center" valign="top"><a href="miscellany.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Tests and Comparisons: Alternatives</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

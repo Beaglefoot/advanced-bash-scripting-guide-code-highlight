@@ -1,0 +1,208 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Network Programming</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="/proc" href="procref1.html">
+  <link rel="NEXT" title="Of Zeros and Nulls" href="zeros.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="procref1.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="zeros.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="NETWORKPROGRAMMING" id="NETWORKPROGRAMMING"></a>Chapter 30. Network Programming</h1>
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" class="EPIGRAPH">
+      <tbody><tr>
+        <td width="45%">&nbsp;</td>
+        <td width="45%" align="left" valign="top">
+          <p><i>The Net's a cross between an elephant and a white elephant sale: it never forgets, and it's always crap.</i></p>
+          <p><i>--Nemo</i></p>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>A Linux system has quite a number of tools for accessing, manipulating, and troubleshooting network connections. We can incorporate some of these tools into scripts -- scripts that expand our knowledge of networking, useful scripts that can facilitate the administration of a network.</p>
+    <p><a name="CGISCRIPT" id="CGISCRIPT"></a>Here is a simple CGI script that demonstrates connecting to a remote server.</p>
+    <div class="EXAMPLE">
+      <a name="TESTCGI" id="TESTCGI"></a>
+      <p><b>Example 30-1. Print the server environment</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># test-cgi.sh</span>
+<span class="hljs-comment"># by Michael Zick</span>
+<span class="hljs-comment"># Used with permission</span>
+
+<span class="hljs-comment"># May have to change the location for your site.</span>
+<span class="hljs-comment"># (At the ISP's servers, Bash may not be in the usual place.)</span>
+<span class="hljs-comment"># Other places: /usr/bin or /usr/local/bin</span>
+<span class="hljs-comment"># Might even try it without any path in sha-bang.</span>
+
+<span class="hljs-comment"># Disable filename globbing.</span>
+<span class="hljs-built_in">set</span> -f
+
+<span class="hljs-comment"># Header tells browser what to expect.</span>
+<span class="hljs-built_in">echo</span> Content-type: text/plain
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> CGI/1.0 <span class="hljs-built_in">test</span> script report:
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> environment settings:
+<span class="hljs-built_in">set</span>
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> whereis bash?
+whereis bash
+<span class="hljs-built_in">echo</span>
+
+
+<span class="hljs-built_in">echo</span> who are we?
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">${BASH_VERSINFO[*]}</span>
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">echo</span> argc is <span class="hljs-variable">$#</span>. argv is <span class="hljs-string">"$*"</span>.
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-comment"># CGI/1.0 expected environment variables.</span>
+
+<span class="hljs-built_in">echo</span> SERVER_SOFTWARE = <span class="hljs-variable">$SERVER_SOFTWARE</span>
+<span class="hljs-built_in">echo</span> SERVER_NAME = <span class="hljs-variable">$SERVER_NAME</span>
+<span class="hljs-built_in">echo</span> GATEWAY_INTERFACE = <span class="hljs-variable">$GATEWAY_INTERFACE</span>
+<span class="hljs-built_in">echo</span> SERVER_PROTOCOL = <span class="hljs-variable">$SERVER_PROTOCOL</span>
+<span class="hljs-built_in">echo</span> SERVER_PORT = <span class="hljs-variable">$SERVER_PORT</span>
+<span class="hljs-built_in">echo</span> REQUEST_METHOD = <span class="hljs-variable">$REQUEST_METHOD</span>
+<span class="hljs-built_in">echo</span> HTTP_ACCEPT = <span class="hljs-string">"<span class="hljs-variable">$HTTP_ACCEPT</span>"</span>
+<span class="hljs-built_in">echo</span> PATH_INFO = <span class="hljs-string">"<span class="hljs-variable">$PATH_INFO</span>"</span>
+<span class="hljs-built_in">echo</span> PATH_TRANSLATED = <span class="hljs-string">"<span class="hljs-variable">$PATH_TRANSLATED</span>"</span>
+<span class="hljs-built_in">echo</span> SCRIPT_NAME = <span class="hljs-string">"<span class="hljs-variable">$SCRIPT_NAME</span>"</span>
+<span class="hljs-built_in">echo</span> QUERY_STRING = <span class="hljs-string">"<span class="hljs-variable">$QUERY_STRING</span>"</span>
+<span class="hljs-built_in">echo</span> REMOTE_HOST = <span class="hljs-variable">$REMOTE_HOST</span>
+<span class="hljs-built_in">echo</span> REMOTE_ADDR = <span class="hljs-variable">$REMOTE_ADDR</span>
+<span class="hljs-built_in">echo</span> REMOTE_USER = <span class="hljs-variable">$REMOTE_USER</span>
+<span class="hljs-built_in">echo</span> AUTH_TYPE = <span class="hljs-variable">$AUTH_TYPE</span>
+<span class="hljs-built_in">echo</span> CONTENT_TYPE = <span class="hljs-variable">$CONTENT_TYPE</span>
+<span class="hljs-built_in">echo</span> CONTENT_LENGTH = <span class="hljs-variable">$CONTENT_LENGTH</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># Here document to give short instructions.</span>
+:&lt;&lt;-<span class="hljs-string">'_test_CGI_'</span>
+
+1) Drop this <span class="hljs-keyword">in</span> your http://domain.name/cgi-bin directory.
+2) Then, open http://domain.name/cgi-bin/test-cgi.sh.
+
+_test_CGI_</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>For security purposes, it may be helpful to identify the IP addresses a computer is accessing.</p>
+    <p><a name="IPTABLES02" id="IPTABLES02"></a></p>
+    <div class="EXAMPLE">
+      <a name="IPADDRESSES" id="IPADDRESSES"></a>
+      <p><b>Example 30-2. IP addresses</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># ip-addresses.sh</span>
+<span class="hljs-comment"># List the IP addresses your computer is connected to.</span>
+
+<span class="hljs-comment">#  Inspired by Greg Bledsoe's ddos.sh script,</span>
+<span class="hljs-comment">#  Linux Journal, 09 March 2011.</span>
+<span class="hljs-comment">#    URL:</span>
+<span class="hljs-comment">#  http://www.linuxjournal.com/content/back-dead-simple-bash-complex-ddos</span>
+<span class="hljs-comment">#  Greg licensed his script under the GPL2,</span>
+<span class="hljs-comment">#+ and as a derivative, this script is likewise GPL2.</span>
+
+connection_type=TCP      <span class="hljs-comment"># Also try UDP.</span>
+field=2           <span class="hljs-comment"># Which field of the output we're interested in.</span>
+no_match=LISTEN   <span class="hljs-comment"># Filter out records containing this. Why?</span>
+lsof_args=-ni     <span class="hljs-comment"># -i lists Internet-associated files.</span>
+                  <span class="hljs-comment"># -n preserves numerical IP addresses.</span>
+                  <span class="hljs-comment"># What happens without the -n option? Try it.</span>
+router=<span class="hljs-string">"[0-9][0-9][0-9][0-9][0-9]-&gt;"</span>
+<span class="hljs-comment">#       Delete the router info.</span>
+
+lsof <span class="hljs-string">"<span class="hljs-variable">$lsof_args</span>"</span> | grep <span class="hljs-variable">$connection_type</span> | grep -v <span class="hljs-string">"<span class="hljs-variable">$no_match</span>"</span> |
+      awk <span class="hljs-string">'{print $9}'</span> | cut -d : -f <span class="hljs-variable">$field</span> | sort | uniq |
+      sed s/<span class="hljs-string">"^<span class="hljs-variable">$router</span>"</span>//
+
+<span class="hljs-comment">#  Bledsoe's script assigns the output of a filtered IP list,</span>
+<span class="hljs-comment">#  (similar to lines 19-22, above) to a variable.</span>
+<span class="hljs-comment">#  He checks for multiple connections to a single IP address,</span>
+<span class="hljs-comment">#  then uses:</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#    iptables -I INPUT -s $ip -p tcp -j REJECT --reject-with tcp-reset</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  ... within a 60-second delay loop to bounce packets from DDOS attacks.</span>
+
+
+<span class="hljs-comment">#  Exercise:</span>
+<span class="hljs-comment">#  --------</span>
+<span class="hljs-comment">#  Use the 'iptables' command to extend this script</span>
+<span class="hljs-comment">#+ to reject connection attempts from well-known spammer IP domains.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>More examples of network programming:</p>
+    <ol type="1">
+      <li>
+        <p><a href="devref1.html#NPREF">Getting the time from <i class="FIRSTTERM">nist.gov</i></a></p>
+      </li>
+      <li>
+        <p><a href="devref1.html#NW001">Downloading a URL</a></p>
+      </li>
+      <li>
+        <p><a href="system.html#IPSCRIPT0">A GRE tunnel</a></p>
+      </li>
+      <li>
+        <p><a href="communications.html#PING0">Checking if an Internet server is up</a></p>
+      </li>
+      <li>
+        <p><a href="communications.html#ISSPAMMER">Example 16-41</a></p>
+      </li>
+      <li>
+        <p><a href="contributed-scripts.html#ISSPAMMER2">Example A-28</a></p>
+      </li>
+      <li>
+        <p><a href="contributed-scripts.html#WHX">Example A-29</a></p>
+      </li>
+      <li>
+        <p><a href="devref1.html#DEVTCP">Example 29-1</a></p>
+      </li>
+    </ol>
+    <p>See also the <a href="system.html#NETWORKSYS1">networking commands</a> in the <a href="system.html">System and Administrative Commands</a> chapter and the <a href="communications.html">communications commands</a> in the <a href="external.html">External Filters, Programs and Commands</a> chapter.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="procref1.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="zeros.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top"><tt class="FILENAME">/proc</tt></td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Of Zeros and Nulls</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

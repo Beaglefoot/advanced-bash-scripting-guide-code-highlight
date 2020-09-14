@@ -1,0 +1,1022 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Communications Commands</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="External Filters, Programs and Commands" href="external.html">
+  <link rel="PREVIOUS" title="File and Archiving Commands" href="filearchiv.html">
+  <link rel="NEXT" title="Terminal Control Commands" href="terminalccmds.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="filearchiv.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 16. External Filters, Programs and Commands</td>
+        <td width="10%" align="right" valign="bottom"><a href="terminalccmds.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="COMMUNICATIONS" id="COMMUNICATIONS"></a>16.6. Communications Commands</h1>
+    <p>Certain of the following commands find use in network data transfer and analysis, as well as in <a href="writingscripts.html#CSPAMMERS">chasing spammers</a>.</p>
+    <div class="VARIABLELIST">
+      <p><b><a name="COMMUNINFO1" id="COMMUNINFO1"></a>Information and Statistics</b></p>
+      <dl>
+        <dt><a name="HOSTREF" id="HOSTREF"></a><b class="COMMAND">host</b></dt>
+        <dd>
+          <p>Searches for information about an Internet host by name or IP address, using DNS.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> host surfacemail.com</span>
+surfacemail.com. has address 202.92.42.236
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="IPCALCREF" id="IPCALCREF"></a><b class="COMMAND">ipcalc</b></dt>
+        <dd>
+          <p>Displays IP information for a host. With the <tt class="OPTION">-h</tt> option, <b class="COMMAND">ipcalc</b> does a reverse DNS lookup, finding the name of the host (server) from the IP address.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> ipcalc -h 202.92.42.236</span>
+HOSTNAME=surfacemail.com
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="NSLOOKUPREF" id="NSLOOKUPREF"></a><b class="COMMAND">nslookup</b></dt>
+        <dd>
+          <p>Do an Internet <span class="QUOTE">"name server lookup"</span> on a host by IP address. This is essentially equivalent to <b class="COMMAND">ipcalc -h</b> or <b class="COMMAND">dig -x</b> . The command may be run either interactively or noninteractively, i.e., from within a script.</p>
+          <p>The <b class="COMMAND">nslookup</b> command has allegedly been <span class="QUOTE">"deprecated,"</span> but it is still useful.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> nslookup -sil 66.97.104.180</span>
+nslookup kuhleersparnis.ch
+ Server:         135.116.137.2
+ Address:        135.116.137.2#53
+
+ Non-authoritative answer:
+ Name:   kuhleersparnis.ch
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="DIGREF" id="DIGREF"></a><b class="COMMAND">dig</b></dt>
+        <dd>
+          <p><b class="COMMAND">D</b>omain <b class="COMMAND">I</b>nformation <b class="COMMAND">G</b>roper. Similar to <b class="COMMAND">nslookup</b>, <i class="FIRSTTERM">dig</i> does an Internet <i class="FIRSTTERM">name server lookup</i> on a host. May be run from the command-line or from within a script.</p>
+          <p>Some interesting options to <i class="FIRSTTERM">dig</i> are <tt class="OPTION">+time=N</tt> for setting a query timeout to <tt class="PARAMETER"><i>N</i></tt> seconds, <tt class="OPTION">+nofail</tt> for continuing to query servers until a reply is received, and <tt class="OPTION">-x</tt> for doing a reverse address lookup.</p>
+          <p>Compare the output of <b class="COMMAND">dig -x</b> with <b class="COMMAND">ipcalc -h</b> and <b class="COMMAND">nslookup</b>.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> dig -x 81.9.6.2</span>
+;; Got answer:
+ ;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NXDOMAIN, id: 11649
+ ;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 0
+
+ ;; QUESTION SECTION:
+ ;2.6.9.81.in-addr.arpa.         IN      PTR
+
+ ;; AUTHORITY SECTION:
+ 6.9.81.in-addr.arpa.    3600    IN      SOA     ns.eltel.net. noc.eltel.net.
+ 2002031705 900 600 86400 3600
+
+ ;; Query time: 537 msec
+ ;; SERVER: 135.116.137.2#53(135.116.137.2)
+ ;; WHEN: Wed Jun 26 08:35:24 2002
+ ;; MSG SIZE  rcvd: 91
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p><a name="SPAMLOOKUP_0" id="SPAMLOOKUP_0"></a></p>
+          <div class="EXAMPLE">
+            <a name="SPAMLOOKUP" id="SPAMLOOKUP"></a>
+            <p><b>Example 16-40. Finding out where to report a spammer</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># spam-lookup.sh: Look up abuse contact to report a spammer.</span>
+<span class="hljs-comment"># Thanks, Michael Zick.</span>
+
+<span class="hljs-comment"># Check for command-line arg.</span>
+ARGCOUNT=1
+E_WRONGARGS=85
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">$#</span> -ne <span class="hljs-string">"<span class="hljs-variable">$ARGCOUNT</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` domain-name"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_WRONGARGS</span>
+<span class="hljs-keyword">fi</span>
+
+
+dig +short <span class="hljs-variable">$1</span>.contacts.abuse.net -c <span class="hljs-keyword">in</span> -t txt
+<span class="hljs-comment"># Also try:</span>
+<span class="hljs-comment">#     dig +nssearch $1</span>
+<span class="hljs-comment">#     Tries to find "authoritative name servers" and display SOA records.</span>
+
+<span class="hljs-comment"># The following also works:</span>
+<span class="hljs-comment">#     whois -h whois.abuse.net $1</span>
+<span class="hljs-comment">#           ^^ ^^^^^^^^^^^^^^^  Specify host.  </span>
+<span class="hljs-comment">#     Can even lookup multiple spammers with this, i.e."</span>
+<span class="hljs-comment">#     whois -h whois.abuse.net $spamdomain1 $spamdomain2 . . .</span>
+
+
+<span class="hljs-comment">#  Exercise:</span>
+<span class="hljs-comment">#  --------</span>
+<span class="hljs-comment">#  Expand the functionality of this script</span>
+<span class="hljs-comment">#+ so that it automatically e-mails a notification</span>
+<span class="hljs-comment">#+ to the responsible ISP's contact address(es).</span>
+<span class="hljs-comment">#  Hint: use the "mail" command.</span>
+
+<span class="hljs-built_in">exit</span> $?
+
+<span class="hljs-comment"># spam-lookup.sh chinatietong.com</span>
+<span class="hljs-comment">#                A known spam domain.</span>
+
+<span class="hljs-comment"># "crnet_mgr@chinatietong.com"</span>
+<span class="hljs-comment"># "crnet_tec@chinatietong.com"</span>
+<span class="hljs-comment"># "postmaster@chinatietong.com"</span>
+
+
+<span class="hljs-comment">#  For a more elaborate version of this script,</span>
+<span class="hljs-comment">#+ see the SpamViz home page, http://www.spamviz.net/index.html.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="ISSPAMMER_0" id="ISSPAMMER_0"></a></p>
+          <div class="EXAMPLE">
+            <a name="ISSPAMMER" id="ISSPAMMER"></a>
+            <p><b>Example 16-41. Analyzing a spam domain</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#! /bin/bash</span>
+<span class="hljs-comment"># is-spammer.sh: Identifying spam domains</span>
+
+<span class="hljs-comment"># $Id: is-spammer, v 1.4 2004/09/01 19:37:52 mszick Exp $</span>
+<span class="hljs-comment"># Above line is RCS ID info.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  This is a simplified version of the "is_spammer.bash</span>
+<span class="hljs-comment">#+ script in the Contributed Scripts appendix.</span>
+
+<span class="hljs-comment"># is-spammer &lt;domain.name&gt;</span>
+
+<span class="hljs-comment"># Uses an external program: 'dig'</span>
+<span class="hljs-comment"># Tested with version: 9.2.4rc5</span>
+
+<span class="hljs-comment"># Uses functions.</span>
+<span class="hljs-comment"># Uses IFS to parse strings by assignment into arrays.</span>
+<span class="hljs-comment"># And even does something useful: checks e-mail blacklists.</span>
+
+<span class="hljs-comment"># Use the domain.name(s) from the text body:</span>
+<span class="hljs-comment"># http://www.good_stuff.spammer.biz/just_ignore_everything_else</span>
+<span class="hljs-comment">#                       ^^^^^^^^^^^</span>
+<span class="hljs-comment"># Or the domain.name(s) from any e-mail address:</span>
+<span class="hljs-comment"># Really_Good_Offer@spammer.biz</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># as the only argument to this script.</span>
+<span class="hljs-comment">#(PS: have your Inet connection running)</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># So, to invoke this script in the above two instances:</span>
+<span class="hljs-comment">#       is-spammer.sh spammer.biz</span>
+
+
+<span class="hljs-comment"># Whitespace == :Space:Tab:Line Feed:Carriage Return:</span>
+WSP_IFS=$<span class="hljs-string">'\x20'</span>$<span class="hljs-string">'\x09'</span>$<span class="hljs-string">'\x0A'</span>$<span class="hljs-string">'\x0D'</span>
+
+<span class="hljs-comment"># No Whitespace == Line Feed:Carriage Return</span>
+No_WSP=$<span class="hljs-string">'\x0A'</span>$<span class="hljs-string">'\x0D'</span>
+
+<span class="hljs-comment"># Field separator for dotted decimal ip addresses</span>
+ADR_IFS=<span class="hljs-variable">${No_WSP}</span><span class="hljs-string">'.'</span>
+
+<span class="hljs-comment"># Get the dns text resource record.</span>
+<span class="hljs-comment"># get_txt &lt;error_code&gt; &lt;list_query&gt;</span>
+<span class="hljs-function"><span class="hljs-title">get_txt</span></span>() {
+
+    <span class="hljs-comment"># Parse $1 by assignment at the dots.</span>
+    <span class="hljs-built_in">local</span> -a dns
+    IFS=<span class="hljs-variable">$ADR_IFS</span>
+    dns=( <span class="hljs-variable">$1</span> )
+    IFS=<span class="hljs-variable">$WSP_IFS</span>
+    <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">${dns[0]}</span>"</span> == <span class="hljs-string">'127'</span> ]
+    <span class="hljs-keyword">then</span>
+        <span class="hljs-comment"># See if there is a reason.</span>
+        <span class="hljs-built_in">echo</span> $(dig +short <span class="hljs-variable">$2</span> -t txt)
+    <span class="hljs-keyword">fi</span>
+}
+
+<span class="hljs-comment"># Get the dns address resource record.</span>
+<span class="hljs-comment"># chk_adr &lt;rev_dns&gt; &lt;list_server&gt;</span>
+<span class="hljs-function"><span class="hljs-title">chk_adr</span></span>() {
+    <span class="hljs-built_in">local</span> reply
+    <span class="hljs-built_in">local</span> server
+    <span class="hljs-built_in">local</span> reason
+
+    server=<span class="hljs-variable">${1}</span><span class="hljs-variable">${2}</span>
+    reply=$( dig +short <span class="hljs-variable">${server}</span> )
+
+    <span class="hljs-comment"># If reply might be an error code . . .</span>
+    <span class="hljs-keyword">if</span> [ <span class="hljs-variable">${#reply}</span> -gt 6 ]
+    <span class="hljs-keyword">then</span>
+        reason=$(get_txt <span class="hljs-variable">${reply}</span> <span class="hljs-variable">${server}</span> )
+        reason=<span class="hljs-variable">${reason:-<span class="hljs-variable">${reply}</span>}</span>
+    <span class="hljs-keyword">fi</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-variable">${reason:-' not blacklisted.'}</span>
+}
+
+<span class="hljs-comment"># Need to get the IP address from the name.</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">'Get address of: '</span><span class="hljs-variable">$1</span>
+ip_adr=$(dig +short <span class="hljs-variable">$1</span>)
+dns_reply=<span class="hljs-variable">${ip_adr:-' no answer '}</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">' Found address: '</span><span class="hljs-variable">${dns_reply}</span>
+
+<span class="hljs-comment"># A valid reply is at least 4 digits plus 3 dots.</span>
+<span class="hljs-keyword">if</span> [ <span class="hljs-variable">${#ip_adr}</span> -gt 6 ]
+<span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span>
+    <span class="hljs-built_in">declare</span> query
+
+    <span class="hljs-comment"># Parse by assignment at the dots.</span>
+    <span class="hljs-built_in">declare</span> -a dns
+    IFS=<span class="hljs-variable">$ADR_IFS</span>
+    dns=( <span class="hljs-variable">${ip_adr}</span> )
+    IFS=<span class="hljs-variable">$WSP_IFS</span>
+
+    <span class="hljs-comment"># Reorder octets into dns query order.</span>
+    rev_dns=<span class="hljs-string">"<span class="hljs-variable">${dns[3]}</span>"</span><span class="hljs-string">'.'</span><span class="hljs-string">"<span class="hljs-variable">${dns[2]}</span>"</span><span class="hljs-string">'.'</span><span class="hljs-string">"<span class="hljs-variable">${dns[1]}</span>"</span><span class="hljs-string">'.'</span><span class="hljs-string">"<span class="hljs-variable">${dns[0]}</span>"</span><span class="hljs-string">'.'</span>
+
+<span class="hljs-comment"># See: http://www.spamhaus.org (Conservative, well maintained)</span>
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">'spamhaus.org says: '</span>
+    <span class="hljs-built_in">echo</span> $(chk_adr <span class="hljs-variable">${rev_dns}</span> <span class="hljs-string">'sbl-xbl.spamhaus.org'</span>)
+
+<span class="hljs-comment"># See: http://ordb.org (Open mail relays)</span>
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">'   ordb.org  says: '</span>
+    <span class="hljs-built_in">echo</span> $(chk_adr <span class="hljs-variable">${rev_dns}</span> <span class="hljs-string">'relays.ordb.org'</span>)
+
+<span class="hljs-comment"># See: http://www.spamcop.net/ (You can report spammers here)</span>
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">' spamcop.net says: '</span>
+    <span class="hljs-built_in">echo</span> $(chk_adr <span class="hljs-variable">${rev_dns}</span> <span class="hljs-string">'bl.spamcop.net'</span>)
+
+<span class="hljs-comment"># # # other blacklist operations # # #</span>
+
+<span class="hljs-comment"># See: http://cbl.abuseat.org.</span>
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">' abuseat.org says: '</span>
+    <span class="hljs-built_in">echo</span> $(chk_adr <span class="hljs-variable">${rev_dns}</span> <span class="hljs-string">'cbl.abuseat.org'</span>)
+
+<span class="hljs-comment"># See: http://dsbl.org/usage (Various mail relays)</span>
+    <span class="hljs-built_in">echo</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">'Distributed Server Listings'</span>
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">'       list.dsbl.org says: '</span>
+    <span class="hljs-built_in">echo</span> $(chk_adr <span class="hljs-variable">${rev_dns}</span> <span class="hljs-string">'list.dsbl.org'</span>)
+
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">'   multihop.dsbl.org says: '</span>
+    <span class="hljs-built_in">echo</span> $(chk_adr <span class="hljs-variable">${rev_dns}</span> <span class="hljs-string">'multihop.dsbl.org'</span>)
+
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">'unconfirmed.dsbl.org says: '</span>
+    <span class="hljs-built_in">echo</span> $(chk_adr <span class="hljs-variable">${rev_dns}</span> <span class="hljs-string">'unconfirmed.dsbl.org'</span>)
+
+<span class="hljs-keyword">else</span>
+    <span class="hljs-built_in">echo</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">'Could not use that address.'</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment"># Exercises:</span>
+<span class="hljs-comment"># --------</span>
+
+<span class="hljs-comment"># 1) Check arguments to script,</span>
+<span class="hljs-comment">#    and exit with appropriate error message if necessary.</span>
+
+<span class="hljs-comment"># 2) Check if on-line at invocation of script,</span>
+<span class="hljs-comment">#    and exit with appropriate error message if necessary.</span>
+
+<span class="hljs-comment"># 3) Substitute generic variables for "hard-coded" BHL domains.</span>
+
+<span class="hljs-comment"># 4) Set a time-out for the script using the "+time=" option</span>
+     to the <span class="hljs-string">'dig'</span> <span class="hljs-built_in">command</span>.</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>For a much more elaborate version of the above script, see <a href="contributed-scripts.html#ISSPAMMER2">Example A-28</a>.</p>
+        </dd>
+        <dt><a name="TRACEROUTEREF" id="TRACEROUTEREF"></a><b class="COMMAND">traceroute</b></dt>
+        <dd>
+          <p>Trace the route taken by packets sent to a remote host. This command works within a LAN, WAN, or over the Internet. The remote host may be specified by an IP address. The output of this command may be filtered by <a href="textproc.html#GREPREF">grep</a> or <a href="sedawk.html#SEDREF">sed</a> in a pipe.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> traceroute 81.9.6.2</span>
+traceroute to 81.9.6.2 (81.9.6.2), 30 hops max, 38 byte packets
+ 1  tc43.xjbnnbrb.com (136.30.178.8)  191.303 ms  179.400 ms  179.767 ms
+ 2  or0.xjbnnbrb.com (136.30.178.1)  179.536 ms  179.534 ms  169.685 ms
+ 3  192.168.11.101 (192.168.11.101)  189.471 ms  189.556 ms *
+ ...
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="PINGREF" id="PINGREF"></a><b class="COMMAND">ping</b></dt>
+        <dd>
+          <p>Broadcast an <tt class="REPLACEABLE"><i>ICMP ECHO_REQUEST</i></tt> packet to another machine, either on a local or remote network. This is a diagnostic tool for testing network connections, and it should be used with caution.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> ping localhost</span>
+PING localhost.localdomain (127.0.0.1) from 127.0.0.1 : 56(84) bytes of data.
+ 64 bytes from localhost.localdomain (127.0.0.1): icmp_seq=0 ttl=255 time=709 usec
+ 64 bytes from localhost.localdomain (127.0.0.1): icmp_seq=1 ttl=255 time=286 usec
+
+ --- localhost.localdomain ping statistics ---
+ 2 packets transmitted, 2 packets received, 0% packet loss
+ round-trip min/avg/max/mdev = 0.286/0.497/0.709/0.212 ms
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>A successful <i class="FIRSTTERM">ping</i> returns an <a href="exit-status.html#EXITSTATUSREF">exit status</a> of <span class="ERRORCODE">0</span>. This can be tested for in a script.</p>
+          <p><a name="PING0" id="PING0"></a></p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">  HNAME=news-15.net  <span class="hljs-comment"># Notorious spammer.</span>
+<span class="hljs-comment"># HNAME=$HOST     # Debug: test for localhost.</span>
+  count=2  <span class="hljs-comment"># Send only two pings.</span>
+
+<span class="hljs-keyword">if</span> [[ `ping -c <span class="hljs-variable">$count</span> <span class="hljs-string">"<span class="hljs-variable">$HNAME</span>"</span>` ]]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">""</span><span class="hljs-variable">$HNAME</span><span class="hljs-string">" still up and broadcasting spam your way."</span>
+<span class="hljs-keyword">else</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">""</span><span class="hljs-variable">$HNAME</span><span class="hljs-string">" seems to be down. Pity."</span>
+<span class="hljs-keyword">fi</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="WHOISREF" id="WHOISREF"></a><b class="COMMAND">whois</b></dt>
+        <dd>
+          <p>Perform a DNS (Domain Name System) lookup. The <tt class="OPTION">-h</tt> option permits specifying which particular <i class="FIRSTTERM">whois</i> server to query. See <a href="othertypesv.html#EX18">Example 4-6</a> and <a href="communications.html#SPAMLOOKUP">Example 16-40</a>.</p>
+        </dd>
+        <dt><a name="FINGERREF" id="FINGERREF"></a><b class="COMMAND">finger</b></dt>
+        <dd>
+          <p>Retrieve information about users on a network. Optionally, this command can display a user's <tt class="FILENAME">~/.plan</tt>, <tt class="FILENAME">~/.project</tt>, and <tt class="FILENAME">~/.forward</tt> files, if present.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> finger</span>
+Login  Name           Tty      Idle  Login Time   Office     Office Phone
+ bozo   Bozo Bozeman   tty1        8  Jun 25 16:59                (:0)
+ bozo   Bozo Bozeman   ttyp0          Jun 25 16:59                (:0.0)
+ bozo   Bozo Bozeman   ttyp1          Jun 25 17:07                (:0.0)
+<span class="hljs-meta">
+
+
+bash$</span><span class="bash"> finger bozo</span>
+Login: bozo                             Name: Bozo Bozeman
+ Directory: /home/bozo                   Shell: /bin/bash
+ Office: 2355 Clown St., 543-1234
+ On since Fri Aug 31 20:13 (MST) on tty1    1 hour 38 minutes idle
+ On since Fri Aug 31 20:13 (MST) on pts/0   12 seconds idle
+ On since Fri Aug 31 20:13 (MST) on pts/1
+ On since Fri Aug 31 20:31 (MST) on pts/2   1 hour 16 minutes idle
+ Mail last read Tue Jul  3 10:08 2007 (MST) 
+ No Plan.
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>Out of security considerations, many networks disable <b class="COMMAND">finger</b> and its associated daemon. <a name="AEN13320" href="#FTN.AEN13320" id="AEN13320"><span class="footnote">[1]</span></a></p>
+        </dd>
+        <dt><a name="CHFNREF" id="CHFNREF"></a><b class="COMMAND">chfn</b></dt>
+        <dd>
+          <p>Change information disclosed by the <b class="COMMAND">finger</b> command.</p>
+        </dd>
+        <dt><a name="VRFYREF" id="VRFYREF"></a><b class="COMMAND">vrfy</b></dt>
+        <dd>
+          <p>Verify an Internet e-mail address.</p>
+          <p>This command seems to be missing from newer Linux distros.</p>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="COMMREMOTE1" id="COMMREMOTE1"></a>Remote Host Access</b></p>
+      <dl>
+        <dt><a name="RXREF" id="RXREF"></a><b class="COMMAND">sx</b>, <b class="COMMAND">rx</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">sx</b> and <b class="COMMAND">rx</b> command set serves to transfer files to and from a remote host using the <i class="FIRSTTERM">xmodem</i> protocol. These are generally part of a communications package, such as <b class="COMMAND">minicom</b>.</p>
+        </dd>
+        <dt><a name="RZREF" id="RZREF"></a><b class="COMMAND">sz</b>, <b class="COMMAND">rz</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">sz</b> and <b class="COMMAND">rz</b> command set serves to transfer files to and from a remote host using the <i class="FIRSTTERM">zmodem</i> protocol. <i class="FIRSTTERM">Zmodem</i> has certain advantages over <i class="FIRSTTERM">xmodem</i>, such as faster transmission rate and resumption of interrupted file transfers. Like <b class="COMMAND">sx</b> and <b class="COMMAND">rx</b>, these are generally part of a communications package.</p>
+        </dd>
+        <dt><a name="FTPREF" id="FTPREF"></a><b class="COMMAND">ftp</b></dt>
+        <dd>
+          <p>Utility and protocol for uploading / downloading files to or from a remote host. An ftp session can be automated in a script (see <a href="here-docs.html#EX72">Example 19-6</a> and <a href="contributed-scripts.html#ENCRYPTEDPW">Example A-4</a>).</p>
+        </dd>
+        <dt><a name="UUCPREF" id="UUCPREF"></a><b class="COMMAND">uucp</b>, <a name="UUXREF" id="UUXREF"></a><b class="COMMAND">uux</b>, <a name="CUREF" id="CUREF"></a><b class="COMMAND">cu</b></dt>
+        <dd>
+          <p><b class="COMMAND">uucp</b>: <i class="FIRSTTERM">UNIX to UNIX copy</i>. This is a communications package for transferring files between UNIX servers. A shell script is an effective way to handle a <b class="COMMAND">uucp</b> command sequence.</p>
+          <p>Since the advent of the Internet and e-mail, <b class="COMMAND">uucp</b> seems to have faded into obscurity, but it still exists and remains perfectly workable in situations where an Internet connection is not available or appropriate. The advantage of <b class="COMMAND">uucp</b> is that it is fault-tolerant, so even if there is a service interruption the copy operation will resume where it left off when the connection is restored.</p>
+          <p>---</p>
+          <p><b class="COMMAND">uux</b>: <i class="FIRSTTERM">UNIX to UNIX execute</i>. Execute a command on a remote system. This command is part of the <b class="COMMAND">uucp</b> package.</p>
+          <p>---</p>
+          <p><b class="COMMAND">cu</b>: <b class="COMMAND">C</b>all <b class="COMMAND">U</b>p a remote system and connect as a simple terminal. It is a sort of dumbed-down version of <a href="communications.html#TELNETREF">telnet</a>. This command is part of the <b class="COMMAND">uucp</b> package.</p>
+        </dd>
+        <dt><a name="TELNETREF" id="TELNETREF"></a><b class="COMMAND">telnet</b></dt>
+        <dd>
+          <p>Utility and protocol for connecting to a remote host.</p>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>The <i class="FIRSTTERM">telnet</i> protocol contains security holes and should therefore probably be avoided. Its use within a shell script is <em>not</em> recommended.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="WGETREF" id="WGETREF"></a><b class="COMMAND">wget</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">wget</b> utility <i class="FIRSTTERM">noninteractively</i> retrieves or downloads files from a Web or ftp site. It works well in a script.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">wget -p http://www.xyz23.com/file01.html
+<span class="hljs-comment">#  The -p or --page-requisite option causes wget to fetch all files</span>
+<span class="hljs-comment">#+ required to display the specified page.</span>
+
+wget -r ftp://ftp.xyz24.net/~bozo/project_files/ -O <span class="hljs-variable">$SAVEFILE</span>
+<span class="hljs-comment">#  The -r option recursively follows and retrieves all links</span>
+<span class="hljs-comment">#+ on the specified site.</span>
+
+wget -c ftp://ftp.xyz25.net/bozofiles/filename.tar.bz2
+<span class="hljs-comment">#  The -c option lets wget resume an interrupted download.</span>
+<span class="hljs-comment">#  This works with ftp servers and many HTTP sites.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <div class="EXAMPLE">
+            <a name="QUOTEFETCH" id="QUOTEFETCH"></a>
+            <p><b>Example 16-42. Getting a stock quote</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># quote-fetch.sh: Download a stock quote.</span>
+
+
+E_NOPARAMS=86
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]  <span class="hljs-comment"># Must specify a stock (symbol) to fetch.</span>
+  <span class="hljs-keyword">then</span> <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: `basename <span class="hljs-variable">$0</span>` stock-symbol"</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOPARAMS</span>
+<span class="hljs-keyword">fi</span>
+
+stock_symbol=<span class="hljs-variable">$1</span>
+
+file_suffix=.html
+<span class="hljs-comment"># Fetches an HTML file, so name it appropriately.</span>
+URL=<span class="hljs-string">'http://finance.yahoo.com/q?s='</span>
+<span class="hljs-comment"># Yahoo finance board, with stock query suffix.</span>
+
+<span class="hljs-comment"># -----------------------------------------------------------</span>
+wget -O <span class="hljs-variable">${stock_symbol}</span><span class="hljs-variable">${file_suffix}</span> <span class="hljs-string">"<span class="hljs-variable">${URL}</span><span class="hljs-variable">${stock_symbol}</span>"</span>
+<span class="hljs-comment"># -----------------------------------------------------------</span>
+
+
+<span class="hljs-comment"># To look up stuff on http://search.yahoo.com:</span>
+<span class="hljs-comment"># -----------------------------------------------------------</span>
+<span class="hljs-comment"># URL="http://search.yahoo.com/search?fr=ush-news&amp;p=${query}"</span>
+<span class="hljs-comment"># wget -O "$savefilename" "${URL}"</span>
+<span class="hljs-comment"># -----------------------------------------------------------</span>
+<span class="hljs-comment"># Saves a list of relevant URLs.</span>
+
+<span class="hljs-built_in">exit</span> $?
+
+<span class="hljs-comment"># Exercises:</span>
+<span class="hljs-comment"># ---------</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># 1) Add a test to ensure the user running the script is on-line.</span>
+<span class="hljs-comment">#    (Hint: parse the output of 'ps -ax' for "ppp" or "connect."</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># 2) Modify this script to fetch the local weather report,</span>
+<span class="hljs-comment">#+   taking the user's zip code as an argument.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>See also <a href="contributed-scripts.html#WGETTER2">Example A-30</a> and <a href="contributed-scripts.html#BASHPODDER">Example A-31</a>.</p>
+        </dd>
+        <dt><a name="LYNXREF" id="LYNXREF"></a><b class="COMMAND">lynx</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">lynx</b> Web and file browser can be used inside a script (with the <tt class="OPTION">-dump</tt> option) to retrieve a file from a Web or ftp site noninteractively.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">lynx -dump http://www.xyz23.com/file01.html &gt;<span class="hljs-variable">$SAVEFILE</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>With the <tt class="OPTION">-traversal</tt> option, <b class="COMMAND">lynx</b> starts at the HTTP URL specified as an argument, then <span class="QUOTE">"crawls"</span> through all links located on that particular server. Used together with the <tt class="OPTION">-crawl</tt> option, outputs page text to a log file.</p>
+        </dd>
+        <dt><a name="RLOGINREF" id="RLOGINREF"></a><b class="COMMAND">rlogin</b></dt>
+        <dd>
+          <p><tt class="REPLACEABLE"><i>Remote login</i></tt>, initates a session on a remote host. This command has security issues, so use <a href="communications.html#SSHREF">ssh</a> instead.</p>
+        </dd>
+        <dt><a name="RSHREF" id="RSHREF"></a><b class="COMMAND">rsh</b></dt>
+        <dd>
+          <p><tt class="REPLACEABLE"><i>Remote shell</i></tt>, executes command(s) on a remote host. This has security issues, so use <b class="COMMAND">ssh</b> instead.</p>
+        </dd>
+        <dt><a name="RCPREF" id="RCPREF"></a><b class="COMMAND">rcp</b></dt>
+        <dd>
+          <p><tt class="REPLACEABLE"><i>Remote copy</i></tt>, copies files between two different networked machines.</p>
+        </dd>
+        <dt><a name="RSYNCREF" id="RSYNCREF"></a><b class="COMMAND">rsync</b></dt>
+        <dd>
+          <p><tt class="REPLACEABLE"><i>Remote synchronize</i></tt>, updates (synchronizes) files between two different networked machines.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> rsync -a ~/sourcedir/*txt /node1/subdirectory/</span>
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <div class="EXAMPLE">
+            <a name="FC4UPD" id="FC4UPD"></a>
+            <p><b>Example 16-43. Updating FC4</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># fc4upd.sh</span>
+
+<span class="hljs-comment"># Script author: Frank Wang.</span>
+<span class="hljs-comment"># Slight stylistic modifications by ABS Guide author.</span>
+<span class="hljs-comment"># Used in ABS Guide with permission.</span>
+
+
+<span class="hljs-comment">#  Download Fedora Core 4 update from mirror site using rsync. </span>
+<span class="hljs-comment">#  Should also work for newer Fedora Cores -- 5, 6, . . .</span>
+<span class="hljs-comment">#  Only download latest package if multiple versions exist,</span>
+<span class="hljs-comment">#+ to save space.</span>
+
+URL=rsync://distro.ibiblio.org/fedora-linux-core/updates/
+<span class="hljs-comment"># URL=rsync://ftp.kddilabs.jp/fedora/core/updates/</span>
+<span class="hljs-comment"># URL=rsync://rsync.planetmirror.com/fedora-linux-core/updates/</span>
+
+DEST=<span class="hljs-variable">${1:-/var/www/html/fedora/updates/}</span>
+LOG=/tmp/repo-update-$(/bin/date +%Y-%m-%d).txt
+PID_FILE=/var/run/<span class="hljs-variable">${0##*/}</span>.pid
+
+E_RETURN=85        <span class="hljs-comment"># Something unexpected happened.</span>
+
+
+<span class="hljs-comment"># General rsync options</span>
+<span class="hljs-comment"># -r: recursive download</span>
+<span class="hljs-comment"># -t: reserve time</span>
+<span class="hljs-comment"># -v: verbose</span>
+
+OPTS=<span class="hljs-string">"-rtv --delete-excluded --delete-after --partial"</span>
+
+<span class="hljs-comment"># rsync include pattern</span>
+<span class="hljs-comment"># Leading slash causes absolute path name match.</span>
+INCLUDE=(
+    <span class="hljs-string">"/4/i386/kde-i18n-Chinese*"</span> 
+<span class="hljs-comment">#   ^                         ^</span>
+<span class="hljs-comment"># Quoting is necessary to prevent globbing.</span>
+) 
+
+
+<span class="hljs-comment"># rsync exclude pattern</span>
+<span class="hljs-comment"># Temporarily comment out unwanted pkgs using "#" . . .</span>
+EXCLUDE=(
+    /1
+    /2
+    /3
+    /testing
+    /4/SRPMS
+    /4/ppc
+    /4/x86_64
+    /4/i386/debug
+   <span class="hljs-string">"/4/i386/kde-i18n-*"</span>
+   <span class="hljs-string">"/4/i386/openoffice.org-langpack-*"</span>
+   <span class="hljs-string">"/4/i386/*i586.rpm"</span>
+   <span class="hljs-string">"/4/i386/GFS-*"</span>
+   <span class="hljs-string">"/4/i386/cman-*"</span>
+   <span class="hljs-string">"/4/i386/dlm-*"</span>
+   <span class="hljs-string">"/4/i386/gnbd-*"</span>
+   <span class="hljs-string">"/4/i386/kernel-smp*"</span>
+<span class="hljs-comment">#  "/4/i386/kernel-xen*" </span>
+<span class="hljs-comment">#  "/4/i386/xen-*" </span>
+)
+
+
+<span class="hljs-function"><span class="hljs-title">init</span></span> () {
+    <span class="hljs-comment"># Let pipe command return possible rsync error, e.g., stalled network.</span>
+    <span class="hljs-built_in">set</span> -o pipefail                  <span class="hljs-comment"># Newly introduced in Bash, version 3.</span>
+
+    TMP=<span class="hljs-variable">${TMPDIR:-/tmp}</span>/<span class="hljs-variable">${0##*/}</span>.$$  <span class="hljs-comment"># Store refined download list.</span>
+    <span class="hljs-built_in">trap</span> <span class="hljs-string">"{
+        rm -f <span class="hljs-variable">$TMP</span> 2&gt;/dev/null
+    }"</span> EXIT                          <span class="hljs-comment"># Clear temporary file on exit.</span>
+}
+
+
+<span class="hljs-function"><span class="hljs-title">check_pid</span></span> () {
+<span class="hljs-comment"># Check if process exists.</span>
+    <span class="hljs-keyword">if</span> [ -s <span class="hljs-string">"<span class="hljs-variable">$PID_FILE</span>"</span> ]; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"PID file exists. Checking ..."</span>
+        PID=$(/bin/egrep -o <span class="hljs-string">"^[[:digit:]]+"</span> <span class="hljs-variable">$PID_FILE</span>)
+        <span class="hljs-keyword">if</span> /bin/ps --pid <span class="hljs-variable">$PID</span> &amp;&gt;/dev/null; <span class="hljs-keyword">then</span>
+            <span class="hljs-built_in">echo</span> <span class="hljs-string">"Process <span class="hljs-variable">$PID</span> found. <span class="hljs-variable">${0##*/}</span> seems to be running!"</span>
+           /usr/bin/logger -t <span class="hljs-variable">${0##*/}</span> \
+                 <span class="hljs-string">"Process <span class="hljs-variable">$PID</span> found. <span class="hljs-variable">${0##*/}</span> seems to be running!"</span>
+            <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_RETURN</span>
+        <span class="hljs-keyword">fi</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"Process <span class="hljs-variable">$PID</span> not found. Start new process . . ."</span>
+    <span class="hljs-keyword">fi</span>
+}
+
+
+<span class="hljs-comment">#  Set overall file update range starting from root or $URL,</span>
+<span class="hljs-comment">#+ according to above patterns.</span>
+<span class="hljs-function"><span class="hljs-title">set_range</span></span> () {
+    include=
+    exclude=
+    <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> <span class="hljs-string">"<span class="hljs-variable">${INCLUDE[@]}</span>"</span>; <span class="hljs-keyword">do</span>
+        include=<span class="hljs-string">"<span class="hljs-variable">$include</span> --include \"<span class="hljs-variable">$p</span>\""</span>
+    <span class="hljs-keyword">done</span>
+
+    <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> <span class="hljs-string">"<span class="hljs-variable">${EXCLUDE[@]}</span>"</span>; <span class="hljs-keyword">do</span>
+        exclude=<span class="hljs-string">"<span class="hljs-variable">$exclude</span> --exclude \"<span class="hljs-variable">$p</span>\""</span>
+    <span class="hljs-keyword">done</span>
+}
+
+
+<span class="hljs-comment"># Retrieve and refine rsync update list.</span>
+<span class="hljs-function"><span class="hljs-title">get_list</span></span> () {
+    <span class="hljs-built_in">echo</span> $$ &gt; <span class="hljs-variable">$PID_FILE</span> || {
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"Can't write to pid file <span class="hljs-variable">$PID_FILE</span>"</span>
+        <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_RETURN</span>
+    }
+
+    <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"Retrieving and refining update list . . ."</span>
+
+    <span class="hljs-comment"># Retrieve list -- 'eval' is needed to run rsync as a single command.</span>
+    <span class="hljs-comment"># $3 and $4 is the date and time of file creation.</span>
+    <span class="hljs-comment"># $5 is the full package name.</span>
+    previous=
+    pre_file=
+    pre_date=0
+    <span class="hljs-built_in">eval</span> /bin/nice /usr/bin/rsync \
+        -r <span class="hljs-variable">$include</span> <span class="hljs-variable">$exclude</span> <span class="hljs-variable">$URL</span> | \
+        egrep <span class="hljs-string">'^dr.x|^-r'</span> | \
+        awk <span class="hljs-string">'{print $3, $4, $5}'</span> | \
+        sort -k3 | \
+        { <span class="hljs-keyword">while</span> <span class="hljs-built_in">read</span> line; <span class="hljs-keyword">do</span>
+            <span class="hljs-comment"># Get seconds since epoch, to filter out obsolete pkgs.</span>
+            cur_date=$(date -d <span class="hljs-string">"<span class="hljs-subst">$(echo $line | awk '{print $1, $2}')</span>"</span> +%s)
+            <span class="hljs-comment">#  echo $cur_date</span>
+
+            <span class="hljs-comment"># Get file name.</span>
+            cur_file=$(<span class="hljs-built_in">echo</span> <span class="hljs-variable">$line</span> | awk <span class="hljs-string">'{print $3}'</span>)
+            <span class="hljs-comment">#  echo $cur_file</span>
+
+            <span class="hljs-comment"># Get rpm pkg name from file name, if possible.</span>
+            <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$cur_file</span> == *rpm ]]; <span class="hljs-keyword">then</span>
+                pkg_name=$(<span class="hljs-built_in">echo</span> <span class="hljs-variable">$cur_file</span> | sed -r -e \
+                    <span class="hljs-string">'s/(^([^_-]+[_-])+)[[:digit:]]+\..*[_-].*$/\1/'</span>)
+            <span class="hljs-keyword">else</span>
+                pkg_name=
+            <span class="hljs-keyword">fi</span>
+            <span class="hljs-comment"># echo $pkg_name</span>
+
+            <span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$pkg_name</span>"</span> ]; <span class="hljs-keyword">then</span>   <span class="hljs-comment">#  If not a rpm file,</span>
+                <span class="hljs-built_in">echo</span> <span class="hljs-variable">$cur_file</span> &gt;&gt; <span class="hljs-variable">$TMP</span>    <span class="hljs-comment">#+ then append to download list.</span>
+            <span class="hljs-keyword">elif</span> [ <span class="hljs-string">"<span class="hljs-variable">$pkg_name</span>"</span> != <span class="hljs-string">"<span class="hljs-variable">$previous</span>"</span> ]; <span class="hljs-keyword">then</span>   <span class="hljs-comment"># A new pkg found.</span>
+                <span class="hljs-built_in">echo</span> <span class="hljs-variable">$pre_file</span> &gt;&gt; <span class="hljs-variable">$TMP</span>                  <span class="hljs-comment"># Output latest file.</span>
+                previous=<span class="hljs-variable">$pkg_name</span>                      <span class="hljs-comment"># Save current.</span>
+                pre_date=<span class="hljs-variable">$cur_date</span>
+                pre_file=<span class="hljs-variable">$cur_file</span>
+            <span class="hljs-keyword">elif</span> [ <span class="hljs-string">"<span class="hljs-variable">$cur_date</span>"</span> -gt <span class="hljs-string">"<span class="hljs-variable">$pre_date</span>"</span> ]; <span class="hljs-keyword">then</span>
+                                                <span class="hljs-comment">#  If same pkg, but newer,</span>
+                pre_date=<span class="hljs-variable">$cur_date</span>              <span class="hljs-comment">#+ then update latest pointer.</span>
+                pre_file=<span class="hljs-variable">$cur_file</span>
+            <span class="hljs-keyword">fi</span>
+            <span class="hljs-keyword">done</span>
+            <span class="hljs-built_in">echo</span> <span class="hljs-variable">$pre_file</span> &gt;&gt; <span class="hljs-variable">$TMP</span>              <span class="hljs-comment">#  TMP contains ALL</span>
+                                                <span class="hljs-comment">#+ of refined list now.</span>
+            <span class="hljs-comment"># echo "subshell=$BASH_SUBSHELL"</span>
+
+    }       <span class="hljs-comment"># Bracket required here to let final "echo $pre_file &gt;&gt; $TMP" </span>
+            <span class="hljs-comment"># Remained in the same subshell ( 1 ) with the entire loop.</span>
+
+    RET=$?  <span class="hljs-comment"># Get return code of the pipe command.</span>
+
+    [ <span class="hljs-string">"<span class="hljs-variable">$RET</span>"</span> -ne 0 ] &amp;&amp; {
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"List retrieving failed with code <span class="hljs-variable">$RET</span>"</span>
+        <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_RETURN</span>
+    }
+
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"done"</span>; <span class="hljs-built_in">echo</span>
+}
+
+<span class="hljs-comment"># Real rsync download part.</span>
+<span class="hljs-function"><span class="hljs-title">get_file</span></span> () {
+
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Downloading..."</span>
+    /bin/nice /usr/bin/rsync \
+        <span class="hljs-variable">$OPTS</span> \
+        --filter <span class="hljs-string">"merge,+/ <span class="hljs-variable">$TMP</span>"</span> \
+        --exclude <span class="hljs-string">'*'</span>  \
+        <span class="hljs-variable">$URL</span> <span class="hljs-variable">$DEST</span>     \
+        | /usr/bin/tee <span class="hljs-variable">$LOG</span>
+
+    RET=$?
+
+   <span class="hljs-comment">#  --filter merge,+/ is crucial for the intention. </span>
+   <span class="hljs-comment">#  + modifier means include and / means absolute path.</span>
+   <span class="hljs-comment">#  Then sorted list in $TMP will contain ascending dir name and </span>
+   <span class="hljs-comment">#+ prevent the following --exclude '*' from "shortcutting the circuit." </span>
+
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Done"</span>
+
+    rm -f <span class="hljs-variable">$PID_FILE</span> 2&gt;/dev/null
+
+    <span class="hljs-built_in">return</span> <span class="hljs-variable">$RET</span>
+}
+
+<span class="hljs-comment"># -------</span>
+<span class="hljs-comment"># Main</span>
+init
+check_pid
+set_range
+get_list
+get_file
+RET=$?
+<span class="hljs-comment"># -------</span>
+
+<span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$RET</span>"</span> -eq 0 ]; <span class="hljs-keyword">then</span>
+    /usr/bin/logger -t <span class="hljs-variable">${0##*/}</span> <span class="hljs-string">"Fedora update mirrored successfully."</span>
+<span class="hljs-keyword">else</span>
+    /usr/bin/logger -t <span class="hljs-variable">${0##*/}</span> \
+    <span class="hljs-string">"Fedora update mirrored with failure code: <span class="hljs-variable">$RET</span>"</span>
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-built_in">exit</span> <span class="hljs-variable">$RET</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>See also <a href="contributed-scripts.html#NIGHTLYBACKUP">Example A-32</a>.</p>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>Using <a href="communications.html#RCPREF">rcp</a>, <a href="communications.html#RSYNCREF">rsync</a>, and similar utilities with security implications in a shell script may not be advisable. Consider, instead, using <b class="COMMAND">ssh</b>, <a href="communications.html#SCPREF">scp</a>, or an <b class="COMMAND">expect</b> script.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="SSHREF" id="SSHREF"></a><b class="COMMAND">ssh</b></dt>
+        <dd>
+          <p><tt class="REPLACEABLE"><i>Secure shell</i></tt>, logs onto a remote host and executes commands there. This secure replacement for <b class="COMMAND">telnet</b>, <b class="COMMAND">rlogin</b>, <b class="COMMAND">rcp</b>, and <b class="COMMAND">rsh</b> uses identity authentication and encryption. See its <a href="basic.html#MANREF">manpage</a> for details.</p>
+          <div class="EXAMPLE">
+            <a name="REMOTE" id="REMOTE"></a>
+            <p><b>Example 16-44. Using <i class="FIRSTTERM">ssh</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># remote.bash: Using ssh.</span>
+
+<span class="hljs-comment"># This example by Michael Zick.</span>
+<span class="hljs-comment"># Used with permission.</span>
+
+
+<span class="hljs-comment">#   Presumptions:</span>
+<span class="hljs-comment">#   ------------</span>
+<span class="hljs-comment">#   fd-2 isn't being captured ( '2&gt;/dev/null' ).</span>
+<span class="hljs-comment">#   ssh/sshd presumes stderr ('2') will display to user.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#   sshd is running on your machine.</span>
+<span class="hljs-comment">#   For any 'standard' distribution, it probably is,</span>
+<span class="hljs-comment">#+  and without any funky ssh-keygen having been done.</span>
+
+<span class="hljs-comment"># Try ssh to your machine from the command-line:</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># $ ssh $HOSTNAME</span>
+<span class="hljs-comment"># Without extra set-up you'll be asked for your password.</span>
+<span class="hljs-comment">#   enter password</span>
+<span class="hljs-comment">#   when done,  $ exit</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># Did that work? If so, you're ready for more fun.</span>
+
+<span class="hljs-comment"># Try ssh to your machine as 'root':</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#   $  ssh -l root $HOSTNAME</span>
+<span class="hljs-comment">#   When asked for password, enter root's, not yours.</span>
+<span class="hljs-comment">#          Last login: Tue Aug 10 20:25:49 2004 from localhost.localdomain</span>
+<span class="hljs-comment">#   Enter 'exit' when done.</span>
+
+<span class="hljs-comment">#  The above gives you an interactive shell.</span>
+<span class="hljs-comment">#  It is possible for sshd to be set up in a 'single command' mode,</span>
+<span class="hljs-comment">#+ but that is beyond the scope of this example.</span>
+<span class="hljs-comment">#  The only thing to note is that the following will work in</span>
+<span class="hljs-comment">#+ 'single command' mode.</span>
+
+
+<span class="hljs-comment"># A basic, write stdout (local) command.</span>
+
+ls -l
+
+<span class="hljs-comment"># Now the same basic command on a remote machine.</span>
+<span class="hljs-comment"># Pass a different 'USERNAME' 'HOSTNAME' if desired:</span>
+USER=<span class="hljs-variable">${USERNAME:-$(whoami)}</span>
+HOST=<span class="hljs-variable">${HOSTNAME:-$(hostname)}</span>
+
+<span class="hljs-comment">#  Now excute the above command-line on the remote host,</span>
+<span class="hljs-comment">#+ with all transmissions encrypted.</span>
+
+ssh -l <span class="hljs-variable">${USER}</span> <span class="hljs-variable">${HOST}</span> <span class="hljs-string">" ls -l "</span>
+
+<span class="hljs-comment">#  The expected result is a listing of your username's home</span>
+<span class="hljs-comment">#+ directory on the remote machine.</span>
+<span class="hljs-comment">#  To see any difference, run this script from somewhere</span>
+<span class="hljs-comment">#+ other than your home directory.</span>
+
+<span class="hljs-comment">#  In other words, the Bash command is passed as a quoted line</span>
+<span class="hljs-comment">#+ to the remote shell, which executes it on the remote machine.</span>
+<span class="hljs-comment">#  In this case, sshd does  ' bash -c "ls -l" '   on your behalf.</span>
+
+<span class="hljs-comment">#  For information on topics such as not having to enter a</span>
+<span class="hljs-comment">#+ password/passphrase for every command-line, see</span>
+<span class="hljs-comment">#+    man ssh</span>
+<span class="hljs-comment">#+    man ssh-keygen</span>
+<span class="hljs-comment">#+    man sshd_config.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>Within a loop, <b class="COMMAND">ssh</b> may cause unexpected behavior. According to a <a href="http://groups-beta.google.com/group/comp.unix.shell/msg/dcb446b5fff7d230" target="_top">Usenet post</a> in the comp.unix shell archives, <b class="COMMAND">ssh</b> inherits the loop's <tt class="FILENAME">stdin</tt>. To remedy this, pass <b class="COMMAND">ssh</b> either the <tt class="OPTION">-n</tt> or <tt class="OPTION">-f</tt> option.</p>
+                  <p>Thanks, Jason Bechtel, for pointing this out.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="SCPREF" id="SCPREF"></a><b class="COMMAND">scp</b></dt>
+        <dd>
+          <p><tt class="REPLACEABLE"><i>Secure copy</i></tt>, similar in function to <b class="COMMAND">rcp</b>, copies files between two different networked machines, but does so using authentication, and with a security level similar to <b class="COMMAND">ssh</b>.</p>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="COMMLOCAL1" id="COMMLOCAL1"></a>Local Network</b></p>
+      <dl>
+        <dt><a name="WRITEREF" id="WRITEREF"></a><b class="COMMAND">write</b></dt>
+        <dd>
+          <p>This is a utility for terminal-to-terminal communication. It allows sending lines from your terminal (console or <i class="FIRSTTERM">xterm</i>) to that of another user. The <a href="system.html#MESGREF">mesg</a> command may, of course, be used to disable write access to a terminal</p>
+          <p>Since <b class="COMMAND">write</b> is interactive, it would not normally find use in a script.</p>
+        </dd>
+        <dt><a name="NETCONFIGREF" id="NETCONFIGREF"></a><b class="COMMAND">netconfig</b></dt>
+        <dd>
+          <p>A command-line utility for configuring a network adapter (using <i class="FIRSTTERM">DHCP</i>). This command is native to Red Hat centric Linux distros.</p>
+        </dd>
+      </dl>
+    </div>
+    <div class="VARIABLELIST">
+      <p><b><a name="COMMMAIL1" id="COMMMAIL1"></a>Mail</b></p>
+      <dl>
+        <dt><b class="COMMAND">mail</b></dt>
+        <dd>
+          <p>Send or read e-mail messages.</p>
+          <p>This stripped-down command-line mail client works fine as a command embedded in a script.</p>
+          <div class="EXAMPLE">
+            <a name="SELFMAILER" id="SELFMAILER"></a>
+            <p><b>Example 16-45. A script that mails itself</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/sh</span>
+<span class="hljs-comment"># self-mailer.sh: Self-mailing script</span>
+
+adr=<span class="hljs-variable">${1:-`whoami`}</span>     <span class="hljs-comment"># Default to current user, if not specified.</span>
+<span class="hljs-comment">#  Typing 'self-mailer.sh wiseguy@superdupergenius.com'</span>
+<span class="hljs-comment">#+ sends this script to that addressee.</span>
+<span class="hljs-comment">#  Just 'self-mailer.sh' (no argument) sends the script</span>
+<span class="hljs-comment">#+ to the person invoking it, for example, bozo@localhost.localdomain.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  For more on the ${parameter:-default} construct,</span>
+<span class="hljs-comment">#+ see the "Parameter Substitution" section</span>
+<span class="hljs-comment">#+ of the "Variables Revisited" chapter.</span>
+
+<span class="hljs-comment"># ============================================================================</span>
+  cat <span class="hljs-variable">$0</span> | mail -s <span class="hljs-string">"Script \"`basename <span class="hljs-variable">$0</span>`\" has mailed itself to you."</span> <span class="hljs-string">"<span class="hljs-variable">$adr</span>"</span>
+<span class="hljs-comment"># ============================================================================</span>
+
+<span class="hljs-comment"># --------------------------------------------</span>
+<span class="hljs-comment">#  Greetings from the self-mailing script.</span>
+<span class="hljs-comment">#  A mischievous person has run this script,</span>
+<span class="hljs-comment">#+ which has caused it to mail itself to you.</span>
+<span class="hljs-comment">#  Apparently, some people have nothing better</span>
+<span class="hljs-comment">#+ to do with their time.</span>
+<span class="hljs-comment"># --------------------------------------------</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"At `date`, script \"`basename <span class="hljs-variable">$0</span>`\" mailed to "</span><span class="hljs-variable">$adr</span><span class="hljs-string">"."</span>
+
+<span class="hljs-built_in">exit</span> 0
+
+<span class="hljs-comment">#  Note that the "mailx" command (in "send" mode) may be substituted</span>
+<span class="hljs-comment">#+ for "mail" ... but with somewhat different options.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="MAILTOREF" id="MAILTOREF"></a><b class="COMMAND">mailto</b></dt>
+        <dd>
+          <p>Similar to the <b class="COMMAND">mail</b> command, <b class="COMMAND">mailto</b> sends e-mail messages from the command-line or in a script. However, <b class="COMMAND">mailto</b> also permits sending MIME (multimedia) messages.</p>
+        </dd>
+        <dt><a name="MAILSTATSREF" id="MAILSTATSREF"></a><b class="COMMAND">mailstats</b></dt>
+        <dd>
+          <p>Show <i class="FIRSTTERM">mail statistics</i>. This command may be invoked only by <i class="FIRSTTERM">root</i>.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">root#</span><span class="bash"> mailstats</span>
+Statistics from Tue Jan  1 20:32:08 2008
+  M   msgsfr  bytes_from   msgsto    bytes_to  msgsrej msgsdis msgsqur  Mailer
+  4     1682      24118K        0          0K        0       0       0  esmtp
+  9      212        640K     1894      25131K        0       0       0  local
+ =====================================================================
+  T     1894      24758K     1894      25131K        0       0       0
+  C      414                    0
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="VACATIONREF" id="VACATIONREF"></a><b class="COMMAND">vacation</b></dt>
+        <dd>
+          <p>This utility automatically replies to e-mails that the intended recipient is on vacation and temporarily unavailable. It runs on a network, in conjunction with <b class="COMMAND">sendmail</b>, and is not applicable to a dial-up POPmail account.</p>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN13320" href="communications.html#AEN13320" id="FTN.AEN13320"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><a name="DAEMONREF" id="DAEMONREF"></a></p>
+        <p>A <i class="FIRSTTERM">daemon</i> is a background process not attached to a terminal session. Daemons perform designated services either at specified times or explicitly triggered by certain events.</p>
+        <p>The word <span class="QUOTE">"daemon"</span> means ghost in Greek, and there is certainly something mysterious, almost supernatural, about the way UNIX daemons wander about behind the scenes, silently carrying out their appointed tasks.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="filearchiv.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="terminalccmds.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">File and Archiving Commands</td>
+        <td width="34%" align="center" valign="top"><a href="external.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Terminal Control Commands</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>I/O Redirection</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Advanced Topics" href="part5.html">
+  <link rel="PREVIOUS" title="Here Strings" href="x17837.html">
+  <link rel="NEXT" title="Using exec" href="x17974.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="x17837.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="x17974.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="CHAPTER">
+    <h1><a name="IO-REDIRECTION" id="IO-REDIRECTION"></a>Chapter 20. I/O Redirection</h1>
+    <div class="TOC">
+      <dl>
+        <dt><b>Table of Contents</b></dt>
+        <dt>20.1. <a href="x17974.html">Using <i class="FIRSTTERM">exec</i></a></dt>
+        <dt>20.2. <a href="redircb.html">Redirecting Code Blocks</a></dt>
+        <dt>20.3. <a href="redirapps.html">Applications</a></dt>
+      </dl>
+    </div>
+    <p><a name="IOREDIRREF" id="IOREDIRREF"></a></p>
+    <p>There are always three default <i class="FIRSTTERM">files</i> <a name="AEN17884" href="#FTN.AEN17884" id="AEN17884"><span class="footnote">[1]</span></a> open, <tt class="FILENAME">stdin</tt> (the keyboard), <tt class="FILENAME">stdout</tt> (the screen), and <tt class="FILENAME">stderr</tt> (error messages output to the screen). These, and any other open files, can be redirected. Redirection simply means capturing output from a file, command, program, script, or even code block within a script (see <a href="special-chars.html#EX8">Example 3-1</a> and <a href="special-chars.html#RPMCHECK">Example 3-2</a>) and sending it as input to another file, command, program, or script.</p>
+    <p><a name="FDREF" id="FDREF"></a>Each open file gets assigned a file descriptor. <a name="AEN17894" href="#FTN.AEN17894" id="AEN17894"><span class="footnote">[2]</span></a> The file descriptors for <tt class="FILENAME">stdin</tt>, <tt class="FILENAME">stdout</tt>, and <tt class="FILENAME">stderr</tt> are 0, 1, and 2, respectively. For opening additional files, there remain descriptors 3 to 9. It is sometimes useful to assign one of these additional file descriptors to <tt class="FILENAME">stdin</tt>, <tt class="FILENAME">stdout</tt>, or <tt class="FILENAME">stderr</tt> as a temporary duplicate link. <a name="AEN17906" href="#FTN.AEN17906" id="AEN17906"><span class="footnote">[3]</span></a> This simplifies restoration to normal after complex redirection and reshuffling (see <a href="x17974.html#REDIR1">Example 20-1</a>).</p>
+    <p><a name="IOREDIRECTIONREF" id="IOREDIRECTIONREF"></a></p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">   COMMAND_OUTPUT &gt;
+      <span class="hljs-comment"># Redirect stdout to a file.</span>
+      <span class="hljs-comment"># Creates the file if not present, otherwise overwrites it.</span>
+
+      ls -lR &gt; dir-tree.list
+      <span class="hljs-comment"># Creates a file containing a listing of the directory tree.</span>
+
+   : &gt; filename
+      <span class="hljs-comment"># The &gt; truncates file "filename" to zero length.</span>
+      <span class="hljs-comment"># If file not present, creates zero-length file (same effect as 'touch').</span>
+      <span class="hljs-comment"># The : serves as a dummy placeholder, producing no output.</span>
+
+   &gt; filename    
+      <span class="hljs-comment"># The &gt; truncates file "filename" to zero length.</span>
+      <span class="hljs-comment"># If file not present, creates zero-length file (same effect as 'touch').</span>
+      <span class="hljs-comment"># (Same result as ": &gt;", above, but this does not work with some shells.)</span>
+
+   COMMAND_OUTPUT &gt;&gt;
+      <span class="hljs-comment"># Redirect stdout to a file.</span>
+      <span class="hljs-comment"># Creates the file if not present, otherwise appends to it.</span>
+
+
+      <span class="hljs-comment"># Single-line redirection commands (affect only the line they are on):</span>
+      <span class="hljs-comment"># --------------------------------------------------------------------</span>
+
+   1&gt;filename
+      <span class="hljs-comment"># Redirect stdout to file "filename."</span>
+   1&gt;&gt;filename
+      <span class="hljs-comment"># Redirect and append stdout to file "filename."</span>
+   2&gt;filename
+      <span class="hljs-comment"># Redirect stderr to file "filename."</span>
+   2&gt;&gt;filename
+      <span class="hljs-comment"># Redirect and append stderr to file "filename."</span>
+   &amp;&gt;filename
+      <span class="hljs-comment"># Redirect both stdout and stderr to file "filename."</span>
+      <span class="hljs-comment"># This operator is now functional, as of Bash 4, final release.</span>
+
+   M&gt;N
+     <span class="hljs-comment"># "M" is a file descriptor, which defaults to 1, if not explicitly set.</span>
+     <span class="hljs-comment"># "N" is a filename.</span>
+     <span class="hljs-comment"># File descriptor "M" is redirect to file "N."</span>
+   M&gt;&amp;N
+     <span class="hljs-comment"># "M" is a file descriptor, which defaults to 1, if not set.</span>
+     <span class="hljs-comment"># "N" is another file descriptor.</span>
+
+      <span class="hljs-comment">#==============================================================================</span>
+
+      <span class="hljs-comment"># Redirecting stdout, one line at a time.</span>
+      LOGFILE=script.log
+
+      <span class="hljs-built_in">echo</span> <span class="hljs-string">"This statement is sent to the log file, \"<span class="hljs-variable">$LOGFILE</span>\"."</span> 1&gt;<span class="hljs-variable">$LOGFILE</span>
+      <span class="hljs-built_in">echo</span> <span class="hljs-string">"This statement is appended to \"<span class="hljs-variable">$LOGFILE</span>\"."</span> 1&gt;&gt;<span class="hljs-variable">$LOGFILE</span>
+      <span class="hljs-built_in">echo</span> <span class="hljs-string">"This statement is also appended to \"<span class="hljs-variable">$LOGFILE</span>\"."</span> 1&gt;&gt;<span class="hljs-variable">$LOGFILE</span>
+      <span class="hljs-built_in">echo</span> <span class="hljs-string">"This statement is echoed to stdout, and will not appear in \"<span class="hljs-variable">$LOGFILE</span>\"."</span>
+      <span class="hljs-comment"># These redirection commands automatically "reset" after each line.</span>
+
+
+
+      <span class="hljs-comment"># Redirecting stderr, one line at a time.</span>
+      ERRORFILE=script.errors
+
+      bad_command1 2&gt;<span class="hljs-variable">$ERRORFILE</span>       <span class="hljs-comment">#  Error message sent to $ERRORFILE.</span>
+      bad_command2 2&gt;&gt;<span class="hljs-variable">$ERRORFILE</span>      <span class="hljs-comment">#  Error message appended to $ERRORFILE.</span>
+      bad_command3                    <span class="hljs-comment">#  Error message echoed to stderr,</span>
+                                      <span class="hljs-comment">#+ and does not appear in $ERRORFILE.</span>
+      <span class="hljs-comment"># These redirection commands also automatically "reset" after each line.</span>
+      <span class="hljs-comment">#=======================================================================</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="IOREDIRECTIONREF1" id="IOREDIRECTIONREF1"></a></p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">   2&gt;&amp;1
+      <span class="hljs-comment"># Redirects stderr to stdout.</span>
+      <span class="hljs-comment"># Error messages get sent to same place as standard output.</span>
+        &gt;&gt;filename 2&gt;&amp;1
+            bad_command &gt;&gt;filename 2&gt;&amp;1
+            <span class="hljs-comment"># Appends both stdout and stderr to the file "filename" ...</span>
+        2&gt;&amp;1 | [<span class="hljs-built_in">command</span>(s)]
+            bad_command 2&gt;&amp;1 | awk <span class="hljs-string">'{print $5}'</span>   <span class="hljs-comment"># found</span>
+            <span class="hljs-comment"># Sends stderr through a pipe.</span>
+            <span class="hljs-comment"># |&amp; was added to Bash 4 as an abbreviation for 2&gt;&amp;1 |.</span>
+
+   i&gt;&amp;j
+      <span class="hljs-comment"># Redirects file descriptor i to j.</span>
+      <span class="hljs-comment"># All output of file pointed to by i gets sent to file pointed to by j.</span>
+
+   &gt;&amp;j
+      <span class="hljs-comment"># Redirects, by default, file descriptor 1 (stdout) to j.</span>
+      <span class="hljs-comment"># All stdout gets sent to file pointed to by j.</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p><a name="IOREDIRECTIONREF2" id="IOREDIRECTIONREF2"></a></p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">   0&lt; FILENAME
+    &lt; FILENAME
+      <span class="hljs-comment"># Accept input from a file.</span>
+      <span class="hljs-comment"># Companion command to "&gt;", and often used in combination with it.</span>
+      <span class="hljs-comment">#</span>
+      <span class="hljs-comment"># grep search-word &lt;filename</span>
+
+
+   [j]&lt;&gt;filename
+      <span class="hljs-comment">#  Open file "filename" for reading and writing,</span>
+      <span class="hljs-comment">#+ and assign file descriptor "j" to it.</span>
+      <span class="hljs-comment">#  If "filename" does not exist, create it.</span>
+      <span class="hljs-comment">#  If file descriptor "j" is not specified, default to fd 0, stdin.</span>
+      <span class="hljs-comment">#</span>
+      <span class="hljs-comment">#  An application of this is writing at a specified place in a file. </span>
+      <span class="hljs-built_in">echo</span> 1234567890 &gt; File    <span class="hljs-comment"># Write string to "File".</span>
+      <span class="hljs-built_in">exec</span> 3&lt;&gt; File             <span class="hljs-comment"># Open "File" and assign fd 3 to it.</span>
+      <span class="hljs-built_in">read</span> -n 4 &lt;&amp;3             <span class="hljs-comment"># Read only 4 characters.</span>
+      <span class="hljs-built_in">echo</span> -n . &gt;&amp;3             <span class="hljs-comment"># Write a decimal point there.</span>
+      <span class="hljs-built_in">exec</span> 3&gt;&amp;-                 <span class="hljs-comment"># Close fd 3.</span>
+      cat File                  <span class="hljs-comment"># ==&gt; 1234.67890</span>
+      <span class="hljs-comment">#  Random access, by golly.</span>
+
+
+
+   |
+      <span class="hljs-comment"># Pipe.</span>
+      <span class="hljs-comment"># General purpose process and command chaining tool.</span>
+      <span class="hljs-comment"># Similar to "&gt;", but more general in effect.</span>
+      <span class="hljs-comment"># Useful for chaining commands, scripts, files, and programs together.</span>
+      cat *.txt | sort | uniq &gt; result-file
+      <span class="hljs-comment"># Sorts the output of all the .txt files and deletes duplicate lines,</span>
+      <span class="hljs-comment"># finally saves results to "result-file".</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>Multiple instances of input and output redirection and/or pipes can be combined in a single command line.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-built_in">command</span> &lt; input-file &gt; output-file
+<span class="hljs-comment"># Or the equivalent:</span>
+&lt; input-file <span class="hljs-built_in">command</span> &gt; output-file   <span class="hljs-comment"># Although this is non-standard.</span>
+
+command1 | command2 | command3 &gt; output-file</pre>
+        </td>
+      </tr>
+    </tbody></table>See <a href="filearchiv.html#DERPM">Example 16-31</a> and <a href="contributed-scripts.html#FIFO">Example A-14</a>.
+    <p>Multiple output streams may be redirected to one file.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">ls -yz &gt;&gt; command.log 2&gt;&amp;1
+<span class="hljs-comment">#  Capture result of illegal options "yz" in file "command.log."</span>
+<span class="hljs-comment">#  Because stderr is redirected to the file,</span>
+<span class="hljs-comment">#+ any error messages will also be there.</span>
+
+<span class="hljs-comment">#  Note, however, that the following does *not* give the same result.</span>
+ls -yz 2&gt;&amp;1 &gt;&gt; command.log
+<span class="hljs-comment">#  Outputs an error message, but does not write to file.</span>
+<span class="hljs-comment">#  More precisely, the command output (in this case, null)</span>
+<span class="hljs-comment">#+ writes to the file, but the error message goes only to stdout.</span>
+
+<span class="hljs-comment">#  If redirecting both stdout and stderr,</span>
+<span class="hljs-comment">#+ the order of the commands makes a difference.</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <div class="VARIABLELIST">
+      <p><b><a name="CFD" id="CFD"></a>Closing File Descriptors</b></p>
+      <dl>
+        <dt><span class="TOKEN">n&lt;&amp;-</span></dt>
+        <dd>
+          <p>Close input file descriptor <tt class="REPLACEABLE"><i>n</i></tt>.</p>
+        </dd>
+        <dt><span class="TOKEN">0&lt;&amp;-</span>, <span class="TOKEN">&lt;&amp;-</span></dt>
+        <dd>
+          <p>Close <tt class="FILENAME">stdin</tt>.</p>
+        </dd>
+        <dt><span class="TOKEN">n&gt;&amp;-</span></dt>
+        <dd>
+          <p>Close output file descriptor <tt class="REPLACEABLE"><i>n</i></tt>.</p>
+        </dd>
+        <dt><span class="TOKEN">1&gt;&amp;-</span>, <span class="TOKEN">&gt;&amp;-</span></dt>
+        <dd>
+          <p>Close <tt class="FILENAME">stdout</tt>.</p>
+        </dd>
+      </dl>
+    </div>
+    <p><a name="FDREF2" id="FDREF2"></a></p>
+    <p>Child processes inherit open file descriptors. This is why pipes work. To prevent an fd from being inherited, close it.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># Redirecting only stderr to a pipe.</span>
+
+<span class="hljs-built_in">exec</span> 3&gt;&amp;1                              <span class="hljs-comment"># Save current "value" of stdout.</span>
+ls -l 2&gt;&amp;1 &gt;&amp;3 3&gt;&amp;- | grep bad 3&gt;&amp;-    <span class="hljs-comment"># Close fd 3 for 'grep' (but not 'ls').</span>
+<span class="hljs-comment">#              ^^^^   ^^^^</span>
+<span class="hljs-built_in">exec</span> 3&gt;&amp;-                              <span class="hljs-comment"># Now close it for the remainder of the script.</span>
+
+<span class="hljs-comment"># Thanks, S.C.</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>For a more detailed introduction to I/O redirection see <a href="ioredirintro.html">Appendix F</a>.</p>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN17884" href="io-redirection.html#AEN17884" id="FTN.AEN17884"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>By convention in UNIX and Linux, data streams and peripherals (<a href="devref1.html#DEVFILEREF">device files</a>) are treated as files, in a fashion analogous to ordinary files.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN17894" href="io-redirection.html#AEN17894" id="FTN.AEN17894"><span class="footnote">[2]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p><a name="FDREF1" id="FDREF1"></a>A <i class="FIRSTTERM">file descriptor</i> is simply a number that the operating system assigns to an open file to keep track of it. Consider it a simplified type of file pointer. It is analogous to a <i class="FIRSTTERM">file handle</i> in <b class="COMMAND">C</b>.</p>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN17906" href="io-redirection.html#AEN17906" id="FTN.AEN17906"><span class="footnote">[3]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Using <tt class="REPLACEABLE"><i>file descriptor 5</i></tt> might cause problems. When Bash creates a child process, as with <a href="internal.html#EXECREF">exec</a>, the child inherits fd 5 (see Chet Ramey's archived e-mail, <a href="http://groups.google.com/group/gnu.bash.bug/browse_thread/thread/13955daafded3b5c/18c17050087f9f37" target="_top">SUBJECT: RE: File descriptor 5 is held open</a>). Best leave this particular fd alone.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="x17837.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="x17974.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Here Strings</td>
+        <td width="34%" align="center" valign="top"><a href="part5.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Using <i class="FIRSTTERM">exec</i></td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

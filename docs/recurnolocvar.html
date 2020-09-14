@@ -1,0 +1,215 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Recursion Without Local Variables</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Functions" href="functions.html">
+  <link rel="PREVIOUS" title="Local Variables" href="localvar.html">
+  <link rel="NEXT" title="Aliases" href="aliases.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="localvar.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 24. Functions</td>
+        <td width="10%" align="right" valign="bottom"><a href="aliases.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="RECURNOLOCVAR" id="RECURNOLOCVAR"></a>24.3. Recursion Without Local Variables</h1>
+    <p>A function may recursively call itself even without use of local variables.</p>
+    <p><a name="FIBOREF" id="FIBOREF"></a></p>
+    <div class="EXAMPLE">
+      <a name="FIBO" id="FIBO"></a>
+      <p><b>Example 24-16. <i class="FIRSTTERM">The Fibonacci Sequence</i></b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># fibo.sh : Fibonacci sequence (recursive)</span>
+<span class="hljs-comment"># Author: M. Cooper</span>
+<span class="hljs-comment"># License: GPL3</span>
+
+<span class="hljs-comment"># ----------algorithm--------------</span>
+<span class="hljs-comment"># Fibo(0) = 0</span>
+<span class="hljs-comment"># Fibo(1) = 1</span>
+<span class="hljs-comment"># else</span>
+<span class="hljs-comment">#   Fibo(j) = Fibo(j-1) + Fibo(j-2)</span>
+<span class="hljs-comment"># ---------------------------------</span>
+
+MAXTERM=15       <span class="hljs-comment"># Number of terms (+1) to generate.</span>
+MINIDX=2         <span class="hljs-comment"># If idx is less than 2, then Fibo(idx) = idx.</span>
+
+<span class="hljs-function"><span class="hljs-title">Fibonacci</span></span> ()
+{
+  idx=<span class="hljs-variable">$1</span>   <span class="hljs-comment"># Doesn't need to be local. Why not?</span>
+  <span class="hljs-keyword">if</span> [ <span class="hljs-string">"<span class="hljs-variable">$idx</span>"</span> -lt <span class="hljs-string">"<span class="hljs-variable">$MINIDX</span>"</span> ]
+  <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$idx</span>"</span>  <span class="hljs-comment"># First two terms are 0 1 ... see above.</span>
+  <span class="hljs-keyword">else</span>
+    (( --idx ))  <span class="hljs-comment"># j-1</span>
+    term1=$( Fibonacci <span class="hljs-variable">$idx</span> )   <span class="hljs-comment">#  Fibo(j-1)</span>
+
+    (( --idx ))  <span class="hljs-comment"># j-2</span>
+    term2=$( Fibonacci <span class="hljs-variable">$idx</span> )   <span class="hljs-comment">#  Fibo(j-2)</span>
+
+    <span class="hljs-built_in">echo</span> $(( term1 + term2 ))
+  <span class="hljs-keyword">fi</span>
+  <span class="hljs-comment">#  An ugly, ugly kludge.</span>
+  <span class="hljs-comment">#  The more elegant implementation of recursive fibo in C</span>
+  <span class="hljs-comment">#+ is a straightforward translation of the algorithm in lines 7 - 10.</span>
+}
+
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> $(seq 0 <span class="hljs-variable">$MAXTERM</span>)
+<span class="hljs-keyword">do</span>  <span class="hljs-comment"># Calculate $MAXTERM+1 terms.</span>
+  FIBO=$(Fibonacci <span class="hljs-variable">$i</span>)
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-string">"<span class="hljs-variable">$FIBO</span> "</span>
+<span class="hljs-keyword">done</span>
+<span class="hljs-comment"># 0 1 1 2 3 5 8 13 21 34 55 89 144 233 377 610</span>
+<span class="hljs-comment"># Takes a while, doesn't it? Recursion in a script is slow.</span>
+
+<span class="hljs-built_in">echo</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p><a name="HANOIREF" id="HANOIREF"></a></p>
+    <div class="EXAMPLE">
+      <a name="HANOI" id="HANOI"></a>
+      <p><b>Example 24-17. <i class="FIRSTTERM">The Towers of Hanoi</i></b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#! /bin/bash</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># The Towers Of Hanoi</span>
+<span class="hljs-comment"># Bash script</span>
+<span class="hljs-comment"># Copyright (C) 2000 Amit Singh. All Rights Reserved.</span>
+<span class="hljs-comment"># http://hanoi.kernelthread.com</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># Tested under Bash version 2.05b.0(13)-release.</span>
+<span class="hljs-comment"># Also works under Bash version 3.x.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  Used in "Advanced Bash Scripting Guide"</span>
+<span class="hljs-comment">#+ with permission of script author.</span>
+<span class="hljs-comment">#  Slightly modified and commented by ABS author.</span>
+
+<span class="hljs-comment">#=================================================================#</span>
+<span class="hljs-comment">#  The Tower of Hanoi is a mathematical puzzle attributed to</span>
+<span class="hljs-comment">#+ Edouard Lucas, a nineteenth-century French mathematician.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  There are three vertical posts set in a base.</span>
+<span class="hljs-comment">#  The first post has a set of annular rings stacked on it.</span>
+<span class="hljs-comment">#  These rings are disks with a hole drilled out of the center,</span>
+<span class="hljs-comment">#+ so they can slip over the posts and rest flat.</span>
+<span class="hljs-comment">#  The rings have different diameters, and they stack in ascending</span>
+<span class="hljs-comment">#+ order, according to size.</span>
+<span class="hljs-comment">#  The smallest ring is on top, and the largest on the bottom.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  The task is to transfer the stack of rings</span>
+<span class="hljs-comment">#+ to one of the other posts.</span>
+<span class="hljs-comment">#  You can move only one ring at a time to another post.</span>
+<span class="hljs-comment">#  You are permitted to move rings back to the original post.</span>
+<span class="hljs-comment">#  You may place a smaller ring atop a larger one,</span>
+<span class="hljs-comment">#+ but *not* vice versa.</span>
+<span class="hljs-comment">#  Again, it is forbidden to place a larger ring atop a smaller one.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  For a small number of rings, only a few moves are required.</span>
+<span class="hljs-comment">#+ For each additional ring,</span>
+<span class="hljs-comment">#+ the required number of moves approximately doubles,</span>
+<span class="hljs-comment">#+ and the "strategy" becomes increasingly complicated.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  For more information, see http://hanoi.kernelthread.com</span>
+<span class="hljs-comment">#+ or pp. 186-92 of _The Armchair Universe_ by A.K. Dewdney.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#         ...                   ...                    ...</span>
+<span class="hljs-comment">#         | |                   | |                    | |</span>
+<span class="hljs-comment">#        _|_|_                  | |                    | |</span>
+<span class="hljs-comment">#       |_____|                 | |                    | |</span>
+<span class="hljs-comment">#      |_______|                | |                    | |</span>
+<span class="hljs-comment">#     |_________|               | |                    | |</span>
+<span class="hljs-comment">#    |___________|              | |                    | |</span>
+<span class="hljs-comment">#   |             |             | |                    | |</span>
+<span class="hljs-comment"># .--------------------------------------------------------------.</span>
+<span class="hljs-comment"># |**************************************************************|</span>
+<span class="hljs-comment">#          #1                   #2                      #3</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#=================================================================#</span>
+
+
+E_NOPARAM=66  <span class="hljs-comment"># No parameter passed to script.</span>
+E_BADPARAM=67 <span class="hljs-comment"># Illegal number of disks passed to script.</span>
+Moves=        <span class="hljs-comment"># Global variable holding number of moves.</span>
+              <span class="hljs-comment"># Modification to original script.</span>
+
+<span class="hljs-function"><span class="hljs-title">dohanoi</span></span>() {   <span class="hljs-comment"># Recursive function.</span>
+    <span class="hljs-keyword">case</span> <span class="hljs-variable">$1</span> <span class="hljs-keyword">in</span>
+    0)
+        ;;
+    *)
+        dohanoi <span class="hljs-string">"<span class="hljs-subst">$(($1-1)</span>)"</span> <span class="hljs-variable">$2</span> <span class="hljs-variable">$4</span> <span class="hljs-variable">$3</span>
+        <span class="hljs-built_in">echo</span> move <span class="hljs-variable">$2</span> <span class="hljs-string">"--&gt;"</span> <span class="hljs-variable">$3</span>
+        ((Moves++))          <span class="hljs-comment"># Modification to original script.</span>
+        dohanoi <span class="hljs-string">"<span class="hljs-subst">$(($1-1)</span>)"</span> <span class="hljs-variable">$4</span> <span class="hljs-variable">$3</span> <span class="hljs-variable">$2</span>
+        ;;
+    <span class="hljs-keyword">esac</span>
+}
+
+<span class="hljs-keyword">case</span> <span class="hljs-variable">$#</span> <span class="hljs-keyword">in</span>
+    1) <span class="hljs-keyword">case</span> $((<span class="hljs-variable">$1</span>&gt;<span class="hljs-number">0</span>)) <span class="hljs-keyword">in</span>     <span class="hljs-comment"># Must have at least one disk.</span>
+       1)  <span class="hljs-comment"># Nested case statement.</span>
+           dohanoi <span class="hljs-variable">$1</span> 1 3 2
+           <span class="hljs-built_in">echo</span> <span class="hljs-string">"Total moves = <span class="hljs-variable">$Moves</span>"</span>   <span class="hljs-comment"># 2^n - 1, where n = # of disks.</span>
+           <span class="hljs-built_in">exit</span> 0;
+           ;;
+       *)
+           <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$0</span>: illegal value for number of disks"</span>;
+           <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_BADPARAM</span>;
+           ;;
+       <span class="hljs-keyword">esac</span>
+    ;;
+    *)
+       <span class="hljs-built_in">echo</span> <span class="hljs-string">"usage: <span class="hljs-variable">$0</span> N"</span>
+       <span class="hljs-built_in">echo</span> <span class="hljs-string">"       Where \"N\" is the number of disks."</span>
+       <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOPARAM</span>;
+       ;;
+<span class="hljs-keyword">esac</span>
+
+<span class="hljs-comment"># Exercises:</span>
+<span class="hljs-comment"># ---------</span>
+<span class="hljs-comment"># 1) Would commands beyond this point ever be executed?</span>
+<span class="hljs-comment">#    Why not? (Easy)</span>
+<span class="hljs-comment"># 2) Explain the workings of the workings of the "dohanoi" function.</span>
+<span class="hljs-comment">#    (Difficult -- see the Dewdney reference, above.)</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="localvar.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="aliases.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Local Variables</td>
+        <td width="34%" align="center" valign="top"><a href="functions.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Aliases</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

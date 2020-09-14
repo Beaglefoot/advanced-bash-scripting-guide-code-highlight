@@ -1,0 +1,248 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Unofficial Shell Scripting Stylesheet</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="Scripting With Style" href="scrstyle.html">
+  <link rel="PREVIOUS" title="Scripting With Style" href="scrstyle.html">
+  <link rel="NEXT" title="Miscellany" href="miscellany.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="scrstyle.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 35. Scripting With Style</td>
+        <td width="10%" align="right" valign="bottom"><a href="miscellany.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="UNOFFICIALST" id="UNOFFICIALST"></a>35.1. Unofficial Shell Scripting Stylesheet</h1>
+    <ul>
+      <li>
+        <p>Comment your code. This makes it easier for others to understand (and appreciate), and easier for you to maintain.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs">PASS=<span class="hljs-string">"<span class="hljs-variable">$PASS</span><span class="hljs-variable">${MATRIX:$(($RANDOM%${#MATRIX}</span>)):1}"</span>
+<span class="hljs-comment">#  It made perfect sense when you wrote it last year,</span>
+<span class="hljs-comment">#+ but now it's a complete mystery.</span>
+<span class="hljs-comment">#  (From Antek Sawicki's "pw.sh" script.)</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+        <p>Add descriptive headers to your scripts and functions.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+
+<span class="hljs-comment">#************************************************#</span>
+<span class="hljs-comment">#                   xyz.sh                       #</span>
+<span class="hljs-comment">#           written by Bozo Bozeman              #</span>
+<span class="hljs-comment">#                July 05, 2001                   #</span>
+<span class="hljs-comment">#                                                #</span>
+<span class="hljs-comment">#           Clean up project files.              #</span>
+<span class="hljs-comment">#************************************************#</span>
+
+E_BADDIR=85                       <span class="hljs-comment"># No such directory.</span>
+projectdir=/home/bozo/projects    <span class="hljs-comment"># Directory to clean up.</span>
+
+<span class="hljs-comment"># --------------------------------------------------------- #</span>
+<span class="hljs-comment"># cleanup_pfiles ()                                         #</span>
+<span class="hljs-comment"># Removes all files in designated directory.                #</span>
+<span class="hljs-comment"># Parameter: $target_directory                              #</span>
+<span class="hljs-comment"># Returns: 0 on success, $E_BADDIR if something went wrong. #</span>
+<span class="hljs-comment"># --------------------------------------------------------- #</span>
+<span class="hljs-function"><span class="hljs-title">cleanup_pfiles</span></span> ()
+{
+  <span class="hljs-keyword">if</span> [ ! -d <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ]  <span class="hljs-comment"># Test if target directory exists.</span>
+  <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$1</span> is not a directory."</span>
+    <span class="hljs-built_in">return</span> <span class="hljs-variable">$E_BADDIR</span>
+  <span class="hljs-keyword">fi</span>
+
+  rm -f <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span>/*
+  <span class="hljs-built_in">return</span> 0   <span class="hljs-comment"># Success.</span>
+}  
+
+cleanup_pfiles <span class="hljs-variable">$projectdir</span>
+
+<span class="hljs-built_in">exit</span> $?</pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p>Avoid using <span class="QUOTE">"magic numbers,"</span> <a name="AEN20041" href="#FTN.AEN20041" id="AEN20041"><span class="footnote">[1]</span></a> that is, <span class="QUOTE">"hard-wired"</span> literal constants. Use meaningful variable names instead. This makes the script easier to understand and permits making changes and updates without breaking the application.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs"><span class="hljs-keyword">if</span> [ -f /var/<span class="hljs-built_in">log</span>/messages ]
+<span class="hljs-keyword">then</span>
+  ...
+<span class="hljs-keyword">fi</span>
+<span class="hljs-comment">#  A year later, you decide to change the script to check /var/log/syslog.</span>
+<span class="hljs-comment">#  It is now necessary to manually change the script, instance by instance,</span>
+<span class="hljs-comment">#+ and hope nothing breaks.</span>
+
+<span class="hljs-comment"># A better way:</span>
+LOGFILE=/var/<span class="hljs-built_in">log</span>/messages  <span class="hljs-comment"># Only line that needs to be changed.</span>
+<span class="hljs-keyword">if</span> [ -f <span class="hljs-string">"<span class="hljs-variable">$LOGFILE</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  ...
+<span class="hljs-keyword">fi</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p>Choose descriptive names for variables and functions.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs">fl=`ls -al <span class="hljs-variable">$dirname</span>`                 <span class="hljs-comment"># Cryptic.</span>
+file_listing=`ls -al <span class="hljs-variable">$dirname</span>`       <span class="hljs-comment"># Better.</span>
+
+
+MAXVAL=10   <span class="hljs-comment"># All caps used for a script constant.</span>
+<span class="hljs-keyword">while</span> [ <span class="hljs-string">"<span class="hljs-variable">$index</span>"</span> -le <span class="hljs-string">"<span class="hljs-variable">$MAXVAL</span>"</span> ]
+...
+
+
+E_NOTFOUND=95                        <span class="hljs-comment">#  Uppercase for an errorcode,</span>
+                                     <span class="hljs-comment">#+ and name prefixed with E_.</span>
+<span class="hljs-keyword">if</span> [ ! -e <span class="hljs-string">"<span class="hljs-variable">$filename</span>"</span> ]
+<span class="hljs-keyword">then</span>
+  <span class="hljs-built_in">echo</span> <span class="hljs-string">"File <span class="hljs-variable">$filename</span> not found."</span>
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_NOTFOUND</span>
+<span class="hljs-keyword">fi</span>  
+
+
+MAIL_DIRECTORY=/var/spool/mail/bozo  <span class="hljs-comment">#  Uppercase for an environmental</span>
+<span class="hljs-built_in">export</span> MAIL_DIRECTORY                <span class="hljs-comment">#+ variable.</span>
+
+
+GetAnswer ()                         <span class="hljs-comment">#  Mixed case works well for a</span>
+{                                    <span class="hljs-comment">#+ function name, especially</span>
+  prompt=<span class="hljs-variable">$1</span>                          <span class="hljs-comment">#+ when it improves legibility.</span>
+  <span class="hljs-built_in">echo</span> -n <span class="hljs-variable">$prompt</span>
+  <span class="hljs-built_in">read</span> answer
+  <span class="hljs-built_in">return</span> <span class="hljs-variable">$answer</span>
+}  
+
+GetAnswer <span class="hljs-string">"What is your favorite number? "</span>
+favorite_number=$?
+<span class="hljs-built_in">echo</span> <span class="hljs-variable">$favorite_number</span>
+
+
+_uservariable=23                     <span class="hljs-comment"># Permissible, but not recommended.</span>
+<span class="hljs-comment"># It's better for user-defined variables not to start with an underscore.</span>
+<span class="hljs-comment"># Leave that for system variables.</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+      <li>
+        <p>Use <a href="exit-status.html#EXITCOMMANDREF">exit codes</a> in a systematic and meaningful way.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs">E_WRONG_ARGS=95
+...
+...
+<span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_WRONG_ARGS</span></pre>
+            </td>
+          </tr>
+        </tbody></table>See also <a href="exitcodes.html">Appendix E</a>.
+        <p><em>Ender</em> suggests using the <a href="exitcodes.html#SYSEXITSREF">exit codes in <tt class="FILENAME">/usr/include/sysexits.h</tt></a> in shell scripts, though these are primarily intended for C and C++ programming.</p>
+      </li>
+      <li>
+        <p>Use standardized parameter flags for script invocation. <em>Ender</em> proposes the following set of flags.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs">-a      All: Return all information (including hidden file info).
+-b      Brief: Short version, usually <span class="hljs-keyword">for</span> other scripts.
+-c      Copy, concatenate, etc.
+-d      Daily: Use information from the whole day, and not merely
+        information <span class="hljs-keyword">for</span> a specific instance/user.
+-e      Extended/Elaborate: (often does not include hidden file info).
+-h      Help: Verbose usage w/descs, aux info, discussion, <span class="hljs-built_in">help</span>.
+        See also -V.
+-l      Log output of script.
+-m      Manual: Launch man-page <span class="hljs-keyword">for</span> base <span class="hljs-built_in">command</span>.
+-n      Numbers: Numerical data only.
+-r      Recursive: All files <span class="hljs-keyword">in</span> a directory (and/or all sub-dirs).
+-s      Setup &amp; File Maintenance: Config files <span class="hljs-keyword">for</span> this script.
+-u      Usage: List of invocation flags <span class="hljs-keyword">for</span> the script.
+-v      Verbose: Human readable output, more or less formatted.
+-V      Version / License / Copy(right|left) / Contribs (email too).</pre>
+            </td>
+          </tr>
+        </tbody></table>
+        <p>See also <a href="standard-options.html">Section G.1</a>.</p>
+      </li>
+      <li>
+        <p>Break complex scripts into simpler modules. Use functions where appropriate. See <a href="bashver2.html#CARDS">Example 37-4</a>.</p>
+      </li>
+      <li>
+        <p>Don't use a complex construct where a simpler one will do.</p>
+        <table border="0" bgcolor="#E0E0E0" width="90%">
+          <tbody><tr>
+            <td>
+              <pre class="PROGRAMLISTING hljs">COMMAND
+<span class="hljs-keyword">if</span> [ $? -eq 0 ]
+...
+<span class="hljs-comment"># Redundant and non-intuitive.</span>
+
+<span class="hljs-keyword">if</span> COMMAND
+...
+<span class="hljs-comment"># More concise (if perhaps not quite as legible).</span></pre>
+            </td>
+          </tr>
+        </tbody></table>
+      </li>
+    </ul>
+    <table border="0" width="100%" cellspacing="0" cellpadding="0" class="EPIGRAPH">
+      <tbody><tr>
+        <td width="45%">&nbsp;</td>
+        <td width="45%" align="left" valign="top">
+          <p><i>... reading the UNIX source code to the Bourne shell (/bin/sh). I was shocked at how much simple algorithms could be made cryptic, and therefore useless, by a poor choice of code style. I asked myself, <span class="QUOTE">"Could someone be proud of this code?"</span></i></p>
+          <p><i>--Landon Noll</i></p>
+        </td>
+      </tr>
+    </tbody></table>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN20041" href="unofficialst.html#AEN20041" id="FTN.AEN20041"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>In this context, <span class="QUOTE">"magic numbers"</span> have an entirely different meaning than the <a href="sha-bang.html#MAGNUMREF">magic numbers</a> used to designate file types.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="scrstyle.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="miscellany.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Scripting With Style</td>
+        <td width="34%" align="center" valign="top"><a href="scrstyle.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Miscellany</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Awk</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="A Sed and Awk Micro-Primer" href="sedawk.html">
+  <link rel="PREVIOUS" title="Sed" href="x23170.html">
+  <link rel="NEXT" title="Parsing and Managing Pathnames" href="pathmanagement.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="x23170.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Appendix C. A Sed and Awk Micro-Primer</td>
+        <td width="10%" align="right" valign="bottom"><a href="pathmanagement.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="AWK" id="AWK"></a>C.2. Awk</h1>
+    <p><a name="AWKREF" id="AWKREF"></a></p>
+    <p><i class="FIRSTTERM">Awk</i> <a name="AEN23443" href="#FTN.AEN23443" id="AEN23443"><span class="footnote">[1]</span></a> is a full-featured text processing language with a syntax reminiscent of <i class="FIRSTTERM">C</i>. While it possesses an extensive set of operators and capabilities, we will cover only a few of these here - the ones most useful in shell scripts.</p>
+    <p>Awk breaks each line of input passed to it into <a name="FIELDREF2" id="FIELDREF2"></a> <a href="special-chars.html#FIELDREF">fields</a>. By default, a field is a string of consecutive characters delimited by <a href="special-chars.html#WHITESPACEREF">whitespace</a>, though there are options for changing this. Awk parses and operates on each separate field. This makes it ideal for handling structured text files -- especially tables -- data organized into consistent chunks, such as rows and columns.</p>
+    <p><a href="varsubn.html#SNGLQUO">Strong quoting</a> and <a href="special-chars.html#CODEBLOCKREF">curly brackets</a> enclose blocks of awk code within a shell script.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-comment"># $1 is field #1, $2 is field #2, etc.</span>
+
+<span class="hljs-built_in">echo</span> one two | awk <span class="hljs-string">'{print $1}'</span>
+<span class="hljs-comment"># one</span>
+
+<span class="hljs-built_in">echo</span> one two | awk <span class="hljs-string">'{print $2}'</span>
+<span class="hljs-comment"># two</span>
+
+<span class="hljs-comment"># But what is field #0 ($0)?</span>
+<span class="hljs-built_in">echo</span> one two | awk <span class="hljs-string">'{print $0}'</span>
+<span class="hljs-comment"># one two</span>
+<span class="hljs-comment"># All the fields!</span>
+
+
+awk <span class="hljs-string">'{print $3}'</span> <span class="hljs-variable">$filename</span>
+<span class="hljs-comment"># Prints field #3 of file $filename to stdout.</span>
+
+awk <span class="hljs-string">'{print $1 $5 $6}'</span> <span class="hljs-variable">$filename</span>
+<span class="hljs-comment"># Prints fields #1, #5, and #6 of file $filename.</span>
+
+awk <span class="hljs-string">'{print $0}'</span> <span class="hljs-variable">$filename</span>
+<span class="hljs-comment"># Prints the entire file!</span>
+<span class="hljs-comment"># Same effect as:   cat $filename . . . or . . . sed '' $filename</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>We have just seen the awk <i class="FIRSTTERM">print</i> command in action. The only other feature of awk we need to deal with here is variables. Awk handles variables similarly to shell scripts, though a bit more flexibly.</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">{ total += <span class="hljs-variable">${column_number}</span> }</pre>
+        </td>
+      </tr>
+    </tbody></table>This adds the value of <tt class="PARAMETER"><i>column_number</i></tt> to the running total of <tt class="PARAMETER"><i>total</i></tt>&gt;. Finally, to print <span class="QUOTE">"total"</span>, there is an <b class="COMMAND">END</b> command block, executed after the script has processed all its input.
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">END { <span class="hljs-built_in">print</span> total }</pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>Corresponding to the <b class="COMMAND">END</b>, there is a <b class="COMMAND">BEGIN</b>, for a code block to be performed before awk starts processing its input.</p>
+    <p>The following example illustrates how <b class="COMMAND">awk</b> can add text-parsing tools to a shell script.</p>
+    <div class="EXAMPLE">
+      <a name="LETTERCOUNT2" id="LETTERCOUNT2"></a>
+      <p><b>Example C-1. Counting Letter Occurrences</b></p>
+      <table border="0" bgcolor="#E0E0E0" width="100%">
+        <tbody><tr>
+          <td>
+            <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#! /bin/sh</span>
+<span class="hljs-comment"># letter-count2.sh: Counting letter occurrences in a text file.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># Script by nyal [nyal@voila.fr].</span>
+<span class="hljs-comment"># Used in ABS Guide with permission.</span>
+<span class="hljs-comment"># Recommented and reformatted by ABS Guide author.</span>
+<span class="hljs-comment"># Version 1.1: Modified to work with gawk 3.1.3.</span>
+<span class="hljs-comment">#              (Will still work with earlier versions.)</span>
+
+
+INIT_TAB_AWK=<span class="hljs-string">""</span>
+<span class="hljs-comment"># Parameter to initialize awk script.</span>
+count_case=0
+FILE_PARSE=<span class="hljs-variable">$1</span>
+
+E_PARAMERR=85
+
+<span class="hljs-function"><span class="hljs-title">usage</span></span>()
+{
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"Usage: letter-count.sh file letters"</span> 2&gt;&amp;1
+    <span class="hljs-comment"># For example:   ./letter-count2.sh filename.txt a b c</span>
+    <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_PARAMERR</span>  <span class="hljs-comment"># Too few arguments passed to script.</span>
+}
+
+<span class="hljs-keyword">if</span> [ ! -f <span class="hljs-string">"<span class="hljs-variable">$1</span>"</span> ] ; <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$1</span>: No such file."</span> 2&gt;&amp;1
+    usage                 <span class="hljs-comment"># Print usage message and exit.</span>
+<span class="hljs-keyword">fi</span> 
+
+<span class="hljs-keyword">if</span> [ -z <span class="hljs-string">"<span class="hljs-variable">$2</span>"</span> ] ; <span class="hljs-keyword">then</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"<span class="hljs-variable">$2</span>: No letters specified."</span> 2&gt;&amp;1
+    usage
+<span class="hljs-keyword">fi</span> 
+
+<span class="hljs-built_in">shift</span>                      <span class="hljs-comment"># Letters specified.</span>
+<span class="hljs-keyword">for</span> letter <span class="hljs-keyword">in</span> `<span class="hljs-built_in">echo</span> <span class="hljs-variable">$@</span>`    <span class="hljs-comment"># For each one . . .</span>
+  <span class="hljs-keyword">do</span>
+  INIT_TAB_AWK=<span class="hljs-string">"<span class="hljs-variable">$INIT_TAB_AWK</span> tab_search[<span class="hljs-variable">${count_case}</span>] = \
+  \"<span class="hljs-variable">$letter</span>\"; final_tab[<span class="hljs-variable">${count_case}</span>] = 0; "</span> 
+  <span class="hljs-comment"># Pass as parameter to awk script below.</span>
+  count_case=`expr <span class="hljs-variable">$count_case</span> + 1`
+<span class="hljs-keyword">done</span>
+
+<span class="hljs-comment"># DE<span class="hljs-doctag">BUG:</span></span>
+<span class="hljs-comment"># echo $INIT_TAB_AWK;</span>
+
+cat <span class="hljs-variable">$FILE_PARSE</span> |
+<span class="hljs-comment"># Pipe the target file to the following awk script.</span>
+
+<span class="hljs-comment"># ---------------------------------------------------------------------</span>
+<span class="hljs-comment"># Earlier version of script:</span>
+<span class="hljs-comment"># awk -v tab_search=0 -v final_tab=0 -v tab=0 -v \</span>
+<span class="hljs-comment"># nb_letter=0 -v chara=0 -v chara2=0 \</span>
+
+awk \
+<span class="hljs-string">"BEGIN { <span class="hljs-variable">$INIT_TAB_AWK</span> } \
+{ split(\$0, tab, \"\"); \
+for (chara in tab) \
+{ for (chara2 in tab_search) \
+{ if (tab_search[chara2] == tab[chara]) { final_tab[chara2]++ } } } } \
+END { for (chara in final_tab) \
+{ print tab_search[chara] \" =&gt; \" final_tab[chara] } }"</span>
+<span class="hljs-comment"># ---------------------------------------------------------------------</span>
+<span class="hljs-comment">#  Nothing all that complicated, just . . .</span>
+<span class="hljs-comment">#+ for-loops, if-tests, and a couple of specialized functions.</span>
+
+<span class="hljs-built_in">exit</span> $?
+
+<span class="hljs-comment"># Compare this script to letter-count.sh.</span></pre>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>For simpler examples of awk within shell scripts, see:</p>
+    <ol type="1">
+      <li>
+        <p><a href="internal.html#EX44">Example 15-14</a></p>
+      </li>
+      <li>
+        <p><a href="redircb.html#REDIR4">Example 20-8</a></p>
+      </li>
+      <li>
+        <p><a href="filearchiv.html#STRIPC">Example 16-32</a></p>
+      </li>
+      <li>
+        <p><a href="wrapper.html#COLTOTALER">Example 36-5</a></p>
+      </li>
+      <li>
+        <p><a href="ivr.html#COLTOTALER2">Example 28-2</a></p>
+      </li>
+      <li>
+        <p><a href="internal.html#COLTOTALER3">Example 15-20</a></p>
+      </li>
+      <li>
+        <p><a href="procref1.html#PIDID">Example 29-3</a></p>
+      </li>
+      <li>
+        <p><a href="procref1.html#CONSTAT">Example 29-4</a></p>
+      </li>
+      <li>
+        <p><a href="loops1.html#FILEINFO">Example 11-3</a></p>
+      </li>
+      <li>
+        <p><a href="extmisc.html#BLOTOUT">Example 16-61</a></p>
+      </li>
+      <li>
+        <p><a href="randomvar.html#SEEDINGRANDOM">Example 9-16</a></p>
+      </li>
+      <li>
+        <p><a href="moreadv.html#IDELETE">Example 16-4</a></p>
+      </li>
+      <li>
+        <p><a href="string-manipulation.html#SUBSTRINGEX">Example 10-6</a></p>
+      </li>
+      <li>
+        <p><a href="assortedtips.html#SUMPRODUCT">Example 36-19</a></p>
+      </li>
+      <li>
+        <p><a href="loops1.html#USERLIST">Example 11-9</a></p>
+      </li>
+      <li>
+        <p><a href="wrapper.html#PRASC">Example 36-4</a></p>
+      </li>
+      <li>
+        <p><a href="mathc.html#HYPOT">Example 16-53</a></p>
+      </li>
+      <li>
+        <p><a href="asciitable.html#ASCII3SH">Example T-3</a></p>
+      </li>
+    </ol>
+    <p>That's all the awk we'll cover here, folks, but there's lots more to learn. See the appropriate references in the <a href="biblio.html"><i>Bibliography</i></a>.</p>
+  </div>
+  <h3 class="FOOTNOTES">Notes</h3>
+  <table border="0" class="FOOTNOTES" width="100%">
+    <tbody><tr>
+      <td align="left" valign="top" width="5%"><a name="FTN.AEN23443" href="awk.html#AEN23443" id="FTN.AEN23443"><span class="footnote">[1]</span></a></td>
+      <td align="left" valign="top" width="95%">
+        <p>Its name derives from the initials of its authors, <b class="COMMAND">A</b>ho, <b class="COMMAND">W</b>einberg, and <b class="COMMAND">K</b>ernighan.</p>
+      </td>
+    </tr>
+  </tbody></table>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="x23170.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="pathmanagement.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Sed</td>
+        <td width="34%" align="center" valign="top"><a href="sedawk.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Parsing and Managing Pathnames</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

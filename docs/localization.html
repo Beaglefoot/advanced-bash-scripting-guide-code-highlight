@@ -1,0 +1,239 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Localization</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="PREVIOUS" title="An Introduction to Programmable Completion" href="tabexpansion.html">
+  <link rel="NEXT" title="History Commands" href="histcommands.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="APPENDIX" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="tabexpansion.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom"></td>
+        <td width="10%" align="right" valign="bottom"><a href="histcommands.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="APPENDIX">
+    <h1><a name="LOCALIZATION" id="LOCALIZATION"></a>Appendix K. Localization</h1>
+    <p>Localization is an undocumented Bash feature.</p>
+    <p><a name="LOCALEREF" id="LOCALEREF"></a>A localized shell script echoes its text output in the language defined as the system's locale. A Linux user in Berlin, Germany, would get script output in German, whereas his cousin in Berlin, Maryland, would get output from the same script in English.</p>
+    <p>To create a localized script, use the following template to write all messages to the user (error messages, prompts, etc.).</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># localized.sh</span>
+<span class="hljs-comment">#  Script by Stephane Chazelas,</span>
+<span class="hljs-comment">#+ modified by Bruno Haible, bugfixed by Alfredo Pironti.</span>
+
+. gettext.sh
+
+E_CDERROR=65
+
+<span class="hljs-function"><span class="hljs-title">error</span></span>()
+{
+  <span class="hljs-built_in">printf</span> <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span> &gt;&amp;2
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_CDERROR</span>
+}
+
+<span class="hljs-built_in">cd</span> <span class="hljs-variable">$var</span> || error <span class="hljs-string">"`eval_gettext \"Can\'t cd to \\\$var.\"`"</span>
+<span class="hljs-comment">#  The triple backslashes (escapes) in front of $var needed</span>
+<span class="hljs-comment">#+ "because eval_gettext expects a string</span>
+<span class="hljs-comment">#+ where the variable values have not yet been substituted."</span>
+<span class="hljs-comment">#    -- per Bruno Haible</span>
+<span class="hljs-built_in">read</span> -p <span class="hljs-string">"`gettext \"Enter the value: \"`"</span> var
+<span class="hljs-comment">#  ...</span>
+
+
+<span class="hljs-comment">#  ------------------------------------------------------------------</span>
+<span class="hljs-comment">#  Alfredo Pironti comments:</span>
+
+<span class="hljs-comment">#  This script has been modified to not use the $"..." syntax in</span>
+<span class="hljs-comment">#+ favor of the "`gettext \"...\"`" syntax.</span>
+<span class="hljs-comment">#  This is ok, but with the new localized.sh program, the commands</span>
+<span class="hljs-comment">#+ "bash -D filename" and "bash --dump-po-string filename"</span>
+<span class="hljs-comment">#+ will produce no output</span>
+<span class="hljs-comment">#+ (because those command are only searching for the $"..." strings)!</span>
+<span class="hljs-comment">#  The ONLY way to extract strings from the new file is to use the</span>
+<span class="hljs-comment"># 'xgettext' program. However, the xgettext program is buggy.</span>
+
+<span class="hljs-comment"># Note that 'xgettext' has another bug.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># The shell fragment:</span>
+<span class="hljs-comment">#    gettext -s "I like Bash"</span>
+<span class="hljs-comment"># will be correctly extracted, but . . .</span>
+<span class="hljs-comment">#    xgettext -s "I like Bash"</span>
+<span class="hljs-comment"># . . . fails!</span>
+<span class="hljs-comment">#  'xgettext' will extract "-s" because</span>
+<span class="hljs-comment">#+ the command only extracts the</span>
+<span class="hljs-comment">#+ very first argument after the 'gettext' word.</span>
+
+
+<span class="hljs-comment">#  Escape characters:</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  To localize a sentence like</span>
+<span class="hljs-comment">#     echo -e "Hello\tworld!"</span>
+<span class="hljs-comment">#+ you must use</span>
+<span class="hljs-comment">#     echo -e "`gettext \"Hello\\tworld\"`"</span>
+<span class="hljs-comment">#  The "double escape character" before the `t' is needed because</span>
+<span class="hljs-comment">#+ 'gettext' will search for a string like: 'Hello\tworld'</span>
+<span class="hljs-comment">#  This is because gettext will read one literal `\')</span>
+<span class="hljs-comment">#+ and will output a string like "Bonjour\tmonde",</span>
+<span class="hljs-comment">#+ so the 'echo' command will display the message correctly.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment">#  You may not use</span>
+<span class="hljs-comment">#     echo "`gettext -e \"Hello\tworld\"`"</span>
+<span class="hljs-comment">#+ due to the xgettext bug explained above.</span>
+
+
+
+<span class="hljs-comment"># Let's localize the following shell fragment:</span>
+<span class="hljs-comment">#     echo "-h display help and exit"</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># First, one could do this:</span>
+<span class="hljs-comment">#     echo "`gettext \"-h display help and exit\"`"</span>
+<span class="hljs-comment">#  This way 'xgettext' will work ok,</span>
+<span class="hljs-comment">#+ but the 'gettext' program will read "-h" as an option!</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># One solution could be</span>
+<span class="hljs-comment">#     echo "`gettext -- \"-h display help and exit\"`"</span>
+<span class="hljs-comment">#  This way 'gettext' will work,</span>
+<span class="hljs-comment">#+ but 'xgettext' will extract "--", as referred to above.</span>
+<span class="hljs-comment">#</span>
+<span class="hljs-comment"># The workaround you may use to get this string localized is</span>
+<span class="hljs-comment">#     echo -e "`gettext \"\\0-h display help and exit\"`"</span>
+<span class="hljs-comment">#  We have added a \0 (NULL) at the beginning of the sentence.</span>
+<span class="hljs-comment">#  This way 'gettext' works correctly, as does 'xgettext.'</span>
+<span class="hljs-comment">#  Moreover, the NULL character won't change the behavior</span>
+<span class="hljs-comment">#+ of the 'echo' command.</span>
+<span class="hljs-comment">#  ------------------------------------------------------------------</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> bash -D localized.sh</span>
+"Can't cd to %s."
+ "Enter the value: "</pre>
+        </td>
+      </tr>
+    </tbody></table>This lists all the localized text. (The <tt class="OPTION">-D</tt> option lists double-quoted strings prefixed by a <span class="TOKEN">$</span>, without executing the script.)
+    <table border="1" bgcolor="#E0E0E0" width="100%" class="no-border">
+      <tbody><tr>
+        <td>
+          <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> bash --dump-po-strings localized.sh</span>
+<span class="hljs-meta">#</span><span class="bash">: a:6</span>
+ msgid "Can't cd to %s."
+ msgstr ""
+<span class="hljs-meta"> #</span><span class="bash">: a:7</span>
+ msgid "Enter the value: "
+ msgstr ""</pre>
+        </td>
+      </tr>
+    </tbody></table>The <tt class="OPTION">--dump-po-strings</tt> option to Bash resembles the <tt class="OPTION">-D</tt> option, but uses <a href="textproc.html#GETTEXTREF">gettext</a> <span class="QUOTE">"po"</span> format.
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>Bruno Haible points out:</p>
+            <p>Starting with gettext-0.12.2, <b class="COMMAND">xgettext -o - localized.sh</b> is recommended instead of <b class="COMMAND">bash --dump-po-strings localized.sh</b>, because <b class="COMMAND">xgettext</b> . . .</p>
+            <p>1. understands the gettext and eval_gettext commands (whereas bash --dump-po-strings understands only its deprecated $"..." syntax)</p>
+            <p>2. can extract comments placed by the programmer, intended to be read by the translator.</p>
+            <p>This shell code is then not specific to Bash any more; it works the same way with Bash 1.x and other /bin/sh implementations.</p>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>Now, build a <tt class="FILENAME">language.po</tt> file for each language that the script will be translated into, specifying the <tt class="REPLACEABLE"><i>msgstr</i></tt>. Alfredo Pironti gives the following example:</p>
+    <p>fr.po:</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs"><span class="hljs-comment">#: a:6</span>
+msgid <span class="hljs-string">"Can't cd to <span class="hljs-variable">$var</span>."</span>
+msgstr <span class="hljs-string">"Impossible de se positionner dans le repertoire <span class="hljs-variable">$var</span>."</span>
+<span class="hljs-comment">#: a:7</span>
+msgid <span class="hljs-string">"Enter the value: "</span>
+msgstr <span class="hljs-string">"Entrez la valeur : "</span>
+
+<span class="hljs-comment">#  The string are dumped with the variable names, not with the %s syntax,</span>
+<span class="hljs-comment">#+ similar to C programs.</span>
+<span class="hljs-comment">#+ This is a very cool feature if the programmer uses</span>
+<span class="hljs-comment">#+ variable names that make sense!</span></pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>Then, run <a href="textproc.html#MSGFMTREF">msgfmt</a>.</p>
+    <p><tt class="USERINPUT"><b>msgfmt -o localized.sh.mo fr.po</b></tt></p>
+    <p>Place the resulting <tt class="FILENAME">localized.sh.mo</tt> file in the <tt class="FILENAME">/usr/local/share/locale/fr/LC_MESSAGES</tt> directory, and at the beginning of the script, insert the lines:</p>
+    <table border="0" bgcolor="#E0E0E0" width="100%">
+      <tbody><tr>
+        <td>
+          <pre class="PROGRAMLISTING hljs">TEXTDOMAINDIR=/usr/<span class="hljs-built_in">local</span>/share/locale
+TEXTDOMAIN=localized.sh</pre>
+        </td>
+      </tr>
+    </tbody></table>
+    <p>If a user on a French system runs the script, she will get French messages.</p>
+    <div class="NOTE">
+      <table class="NOTE" width="100%" border="0">
+        <tbody><tr>
+          <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+          <td align="left" valign="top">
+            <p>With older versions of Bash or other shells, localization requires <a href="textproc.html#GETTEXTREF">gettext</a>, using the <tt class="OPTION">-s</tt> option. In this case, the script becomes:</p>
+            <p><a name="GETTEXTEXAMPLE" id="GETTEXTEXAMPLE"></a></p>
+            <table border="0" bgcolor="#E0E0E0" width="100%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># localized.sh</span>
+
+E_CDERROR=65
+
+<span class="hljs-function"><span class="hljs-title">error</span></span>() {
+  <span class="hljs-built_in">local</span> format=<span class="hljs-variable">$1</span>
+  <span class="hljs-built_in">shift</span>
+  <span class="hljs-built_in">printf</span> <span class="hljs-string">"<span class="hljs-subst">$(gettext -s <span class="hljs-string">"<span class="hljs-variable">$format</span>"</span>)</span>"</span> <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span> &gt;&amp;2
+  <span class="hljs-built_in">exit</span> <span class="hljs-variable">$E_CDERROR</span>
+}
+<span class="hljs-built_in">cd</span> <span class="hljs-variable">$var</span> || error <span class="hljs-string">"Can't cd to %s."</span> <span class="hljs-string">"<span class="hljs-variable">$var</span>"</span>
+<span class="hljs-built_in">read</span> -p <span class="hljs-string">"<span class="hljs-subst">$(gettext -s <span class="hljs-string">"Enter the value: "</span>)</span>"</span> var
+<span class="hljs-comment"># ...</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+    <p>The <tt class="VARNAME">TEXTDOMAIN</tt> and <tt class="VARNAME">TEXTDOMAINDIR</tt> variables need to be set and exported to the environment. This should be done within the script itself.</p>
+    <p>---</p>
+    <p>This appendix written by Stephane Chazelas, with modifications suggested by Alfredo Pironti, and by Bruno Haible, maintainer of GNU <a href="textproc.html#GETTEXTREF">gettext</a>.</p>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="tabexpansion.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="histcommands.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">An Introduction to Programmable Completion</td>
+        <td width="34%" align="center" valign="top">&nbsp;</td>
+        <td width="33%" align="right" valign="top">History Commands</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>

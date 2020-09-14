@@ -1,0 +1,356 @@
+<!DOCTYPE html><html><head>
+  <meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.7.28">
+  <title>Time / Date Commands</title>
+  <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
+  <link rel="HOME" title="Advanced Bash-Scripting Guide" href="index.html">
+  <link rel="UP" title="External Filters, Programs and Commands" href="external.html">
+  <link rel="PREVIOUS" title="Complex Commands" href="moreadv.html">
+  <link rel="NEXT" title="Text Processing Commands" href="textproc.html">
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
+  <div class="NAVHEADER">
+    <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <th colspan="3" align="center">Advanced Bash-Scripting Guide:</th>
+      </tr>
+      <tr>
+        <td width="10%" align="left" valign="bottom"><a href="moreadv.html" accesskey="P">Prev</a></td>
+        <td width="80%" align="center" valign="bottom">Chapter 16. External Filters, Programs and Commands</td>
+        <td width="10%" align="right" valign="bottom"><a href="textproc.html" accesskey="N">Next</a></td>
+      </tr>
+    </tbody></table>
+    <hr align="left" width="100%">
+  </div>
+  <div class="SECT1">
+    <h1 class="SECT1"><a name="TIMEDATE" id="TIMEDATE"></a>16.3. Time / Date Commands</h1>
+    <div class="VARIABLELIST">
+      <p><b><a name="TDLISTING1" id="TDLISTING1"></a>Time/date and timing</b></p>
+      <dl>
+        <dt><a name="DATEREF" id="DATEREF"></a><b class="COMMAND">date</b></dt>
+        <dd>
+          <p>Simply invoked, <b class="COMMAND">date</b> prints the date and time to <tt class="FILENAME">stdout</tt>. Where this command gets interesting is in its formatting and parsing options.</p>
+          <div class="EXAMPLE">
+            <a name="EX51" id="EX51"></a>
+            <p><b>Example 16-10. Using <i class="FIRSTTERM">date</i></b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># Exercising the 'date' command</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"The number of days since the year's beginning is `date +%j`."</span>
+<span class="hljs-comment"># Needs a leading '+' to invoke formatting.</span>
+<span class="hljs-comment"># %j gives day of year.</span>
+
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"The number of seconds elapsed since 01/01/1970 is `date +%s`."</span>
+<span class="hljs-comment">#  %s yields number of seconds since "UNIX epoch" began,</span>
+<span class="hljs-comment">#+ but how is this useful?</span>
+
+prefix=temp
+suffix=$(date +%s)  <span class="hljs-comment"># The "+%s" option to 'date' is GNU-specific.</span>
+filename=<span class="hljs-variable">$prefix</span>.<span class="hljs-variable">$suffix</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"Temporary filename = <span class="hljs-variable">$filename</span>"</span>
+<span class="hljs-comment">#  It's great for creating "unique and random" temp filenames,</span>
+<span class="hljs-comment">#+ even better than using $$.</span>
+
+<span class="hljs-comment"># Read the 'date' man page for more formatting options.</span>
+
+<span class="hljs-built_in">exit</span> 0</pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p>The <tt class="OPTION">-u</tt> option gives the UTC (Universal Coordinated Time).</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> date</span>
+Fri Mar 29 21:07:39 MST 2002
+<span class="hljs-meta">
+
+
+bash$</span><span class="bash"> date -u</span>
+Sat Mar 30 04:07:42 UTC 2002
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>This option facilitates calculating the time between different dates.</p>
+          <div class="EXAMPLE">
+            <a name="DATECALC" id="DATECALC"></a>
+            <p><b>Example 16-11. <i class="FIRSTTERM">Date</i> calculations</b></p>
+            <table border="0" bgcolor="#E0E0E0" width="90%">
+              <tbody><tr>
+                <td>
+                  <pre class="PROGRAMLISTING hljs"><span class="hljs-meta">#!/bin/bash</span>
+<span class="hljs-comment"># date-calc.sh</span>
+<span class="hljs-comment"># Author: Nathan Coulter</span>
+<span class="hljs-comment"># Used in ABS Guide with permission (thanks!).</span>
+
+MPHR=60    <span class="hljs-comment"># Minutes per hour.</span>
+HPD=24     <span class="hljs-comment"># Hours per day.</span>
+
+<span class="hljs-function"><span class="hljs-title">diff</span></span> () {
+        <span class="hljs-built_in">printf</span> <span class="hljs-string">'%s'</span> $(( $(date -u -d"<span class="hljs-variable">$TARGET</span>" +%s) -
+                        $(date -u -d"<span class="hljs-variable">$CURRENT</span>" +%s)))
+<span class="hljs-comment">#                       %d = day of month.</span>
+}
+
+
+CURRENT=$(date -u -d <span class="hljs-string">'2007-09-01 17:30:24'</span> <span class="hljs-string">'+%F %T.%N %Z'</span>)
+TARGET=$(date -u -d<span class="hljs-string">'2007-12-25 12:30:00'</span> <span class="hljs-string">'+%F %T.%N %Z'</span>)
+<span class="hljs-comment"># %F = full date, %T = %H:%M:%S, %N = nanoseconds, %Z = time zone.</span>
+
+<span class="hljs-built_in">printf</span> <span class="hljs-string">'\nIn 2007, %s '</span> \
+       <span class="hljs-string">"<span class="hljs-subst">$(date -d<span class="hljs-string">"<span class="hljs-variable">$CURRENT</span> +
+        <span class="hljs-subst">$(( $(diff)</span> /<span class="hljs-variable">$MPHR</span> /<span class="hljs-variable">$MPHR</span> /<span class="hljs-variable">$HPD</span> / 2 )) days"</span> '+%d %B')</span>"</span> 
+<span class="hljs-comment">#       %B = name of month                ^ halfway</span>
+<span class="hljs-built_in">printf</span> <span class="hljs-string">'was halfway between %s '</span> <span class="hljs-string">"<span class="hljs-subst">$(date -d<span class="hljs-string">"<span class="hljs-variable">$CURRENT</span>"</span> '+%d %B')</span>"</span>
+<span class="hljs-built_in">printf</span> <span class="hljs-string">'and %s\n'</span> <span class="hljs-string">"<span class="hljs-subst">$(date -d<span class="hljs-string">"<span class="hljs-variable">$TARGET</span>"</span> '+%d %B')</span>"</span>
+
+<span class="hljs-built_in">printf</span> <span class="hljs-string">'\nOn %s at %s, there were\n'</span> \
+        $(date -u -d<span class="hljs-string">"<span class="hljs-variable">$CURRENT</span>"</span> +%F) $(date -u -d<span class="hljs-string">"<span class="hljs-variable">$CURRENT</span>"</span> +%T)
+DAYS=$(( $(diff) / <span class="hljs-variable">$MPHR</span> / <span class="hljs-variable">$MPHR</span> / <span class="hljs-variable">$HPD</span> ))
+CURRENT=$(date -d<span class="hljs-string">"<span class="hljs-variable">$CURRENT</span> +<span class="hljs-variable">$DAYS</span> days"</span> <span class="hljs-string">'+%F %T.%N %Z'</span>)
+HOURS=$(( $(diff) / <span class="hljs-variable">$MPHR</span> / <span class="hljs-variable">$MPHR</span> ))
+CURRENT=$(date -d<span class="hljs-string">"<span class="hljs-variable">$CURRENT</span> +<span class="hljs-variable">$HOURS</span> hours"</span> <span class="hljs-string">'+%F %T.%N %Z'</span>)
+MINUTES=$(( $(diff) / <span class="hljs-variable">$MPHR</span> ))
+CURRENT=$(date -d<span class="hljs-string">"<span class="hljs-variable">$CURRENT</span> +<span class="hljs-variable">$MINUTES</span> minutes"</span> <span class="hljs-string">'+%F %T.%N %Z'</span>)
+<span class="hljs-built_in">printf</span> <span class="hljs-string">'%s days, %s hours, '</span> <span class="hljs-string">"<span class="hljs-variable">$DAYS</span>"</span> <span class="hljs-string">"<span class="hljs-variable">$HOURS</span>"</span>
+<span class="hljs-built_in">printf</span> <span class="hljs-string">'%s minutes, and %s seconds '</span> <span class="hljs-string">"<span class="hljs-variable">$MINUTES</span>"</span> <span class="hljs-string">"<span class="hljs-subst">$(diff)</span>"</span>
+<span class="hljs-built_in">printf</span> <span class="hljs-string">'until Christmas Dinner!\n\n'</span>
+
+<span class="hljs-comment">#  Exercise:</span>
+<span class="hljs-comment">#  --------</span>
+<span class="hljs-comment">#  Rewrite the diff () function to accept passed parameters,</span>
+<span class="hljs-comment">#+ rather than using global variables.</span></pre>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <p><a name="DATERANDREF" id="DATERANDREF"></a></p>
+          <p>The <i class="FIRSTTERM">date</i> command has quite a number of <i class="FIRSTTERM">output</i> options. For example <tt class="OPTION">%N</tt> gives the nanosecond portion of the current time. One interesting use for this is to generate random integers.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">date +%N | sed -e <span class="hljs-string">'s/000$//'</span> -e <span class="hljs-string">'s/^0//'</span>
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<span class="hljs-comment">#  Strip off leading and trailing zeroes, if present.</span>
+<span class="hljs-comment">#  Length of generated integer depends on</span>
+<span class="hljs-comment">#+ how many zeroes stripped off.</span>
+
+<span class="hljs-comment"># 115281032</span>
+<span class="hljs-comment"># 63408725</span>
+<span class="hljs-comment"># 394504284</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>There are many more options (try <b class="COMMAND">man date</b>).</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">date +%j
+<span class="hljs-comment"># Echoes day of the year (days elapsed since January 1).</span>
+
+date +%k%M
+<span class="hljs-comment"># Echoes hour and minute in 24-hour format, as a single digit string.</span>
+
+
+
+<span class="hljs-comment"># The 'TZ' parameter permits overriding the default time zone.</span>
+date                 <span class="hljs-comment"># Mon Mar 28 21:42:16 MST 2005</span>
+TZ=EST date          <span class="hljs-comment"># Mon Mar 28 23:42:16 EST 2005</span>
+<span class="hljs-comment"># Thanks, Frank Kannemann and Pete Sjoberg, for the tip.</span>
+
+
+SixDaysAgo=$(date --date=<span class="hljs-string">'6 days ago'</span>)
+OneMonthAgo=$(date --date=<span class="hljs-string">'1 month ago'</span>)  <span class="hljs-comment"># Four weeks back (not a month!)</span>
+OneYearAgo=$(date --date=<span class="hljs-string">'1 year ago'</span>)</pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>See also <a href="special-chars.html#EX58">Example 3-4</a> and <a href="contributed-scripts.html#STOPWATCH">Example A-43</a>.</p>
+        </dd>
+        <dt><a name="ZDUMPREF" id="ZDUMPREF"></a><b class="COMMAND">zdump</b></dt>
+        <dd>
+          <p>Time zone dump: echoes the time in a specified time zone.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> zdump EST</span>
+EST  Tue Sep 18 22:09:22 2001 EST
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="TIMREF" id="TIMREF"></a><b class="COMMAND">time</b></dt>
+        <dd>
+          <p>Outputs verbose timing statistics for executing a command.</p>
+          <p><tt class="USERINPUT"><b>time ls -l /</b></tt> gives something like this:</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs">real    0m0.067s
+ user    0m0.004s
+ sys     0m0.005s</pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>See also the very similar <a href="x9644.html#TIMESREF">times</a> command in the previous section.</p>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>As of <a href="bashver2.html#BASH2REF">version 2.0</a> of Bash, <b class="COMMAND">time</b> became a shell reserved word, with slightly altered behavior in a pipeline.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="TOUCHREF" id="TOUCHREF"></a><b class="COMMAND">touch</b></dt>
+        <dd>
+          <p>Utility for updating access/modification times of a file to current system time or other specified time, but also useful for creating a new file. The command <tt class="USERINPUT"><b>touch zzz</b></tt> will create a new file of zero length, named <tt class="FILENAME">zzz</tt>, assuming that <tt class="FILENAME">zzz</tt> did not previously exist. Time-stamping empty files in this way is useful for storing date information, for example in keeping track of modification times on a project.</p>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>The <b class="COMMAND">touch</b> command is equivalent to <tt class="USERINPUT"><b>: &gt;&gt; newfile</b></tt> or <tt class="USERINPUT"><b>&gt;&gt; newfile</b></tt> (for ordinary files).</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="TIP">
+            <table class="TIP" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/tip.gif" hspace="5" alt="Tip"></td>
+                <td align="left" valign="top">
+                  <p>Before doing a <a href="basic.html#CPREF">cp -u</a> (<i class="FIRSTTERM">copy/update</i>), use <b class="COMMAND">touch</b> to update the time stamp of files you don't wish overwritten.</p>
+                  <p>As an example, if the directory <tt class="FILENAME">/home/bozo/tax_audit</tt> contains the files <tt class="FILENAME">spreadsheet-051606.data</tt>, <tt class="FILENAME">spreadsheet-051706.data</tt>, and <tt class="FILENAME">spreadsheet-051806.data</tt>, then doing a <b class="COMMAND">touch spreadsheet*.data</b> will protect these files from being overwritten by files with the same names during a <b class="COMMAND">cp -u /home/bozo/financial_info/spreadsheet*data /home/bozo/tax_audit</b>.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="ATREF" id="ATREF"></a><b class="COMMAND">at</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">at</b> job control command executes a given set of commands at a specified time. Superficially, it resembles <a href="system.html#CRONREF">cron</a>, however, <b class="COMMAND">at</b> is chiefly useful for one-time execution of a command set.</p>
+          <p><tt class="USERINPUT"><b>at 2pm January 15</b></tt> prompts for a set of commands to execute at that time. These commands should be shell-script compatible, since, for all practical purposes, the user is typing in an executable shell script a line at a time. Input terminates with a <a href="special-chars.html#CTLDREF">Ctl-D</a>.</p>
+          <p>Using either the <tt class="OPTION">-f</tt> option or input redirection (<span class="TOKEN">&lt;</span>), <b class="COMMAND">at</b> reads a command list from a file. This file is an executable shell script, though it should, of course, be non-interactive. Particularly clever is including the <a href="extmisc.html#RUNPARTSREF">run-parts</a> command in the file to execute a different set of scripts.</p>
+          <table border="1" bgcolor="#E0E0E0" width="90%" class="no-border">
+            <tbody><tr>
+              <td>
+                <pre class="SCREEN hljs"><span class="hljs-meta">bash$</span><span class="bash"> at 2:30 am Friday &lt; at-jobs.list</span>
+job 2 at 2000-10-27 02:30
+              </pre>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="BATCHREF" id="BATCHREF"></a><b class="COMMAND">batch</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">batch</b> job control command is similar to <b class="COMMAND">at</b>, but it runs a command list when the system load drops below <tt class="LITERAL">.8</tt>. Like <b class="COMMAND">at</b>, it can read commands from a file with the <tt class="OPTION">-f</tt> option.</p>
+          <p><a name="BATCHPROCREF" id="BATCHPROCREF"></a></p>
+          <table class="SIDEBAR" border="1" cellpadding="5">
+            <tbody><tr>
+              <td>
+                <div class="SIDEBAR">
+                  <a name="AEN10811" id="AEN10811"></a>
+                  <p>The concept of <i class="FIRSTTERM">batch processing</i> dates back to the era of mainframe computers. It means running a set of commands without user intervention.</p>
+                </div>
+              </td>
+            </tr>
+          </tbody></table>
+        </dd>
+        <dt><a name="CALREF" id="CALREF"></a><b class="COMMAND">cal</b></dt>
+        <dd>
+          <p>Prints a neatly formatted monthly calendar to <tt class="FILENAME">stdout</tt>. Will do current year or a large range of past and future years.</p>
+        </dd>
+        <dt><a name="SLEEPREF" id="SLEEPREF"></a><b class="COMMAND">sleep</b></dt>
+        <dd>
+          <p>This is the shell equivalent of a <i class="FIRSTTERM">wait loop</i>. It pauses for a specified number of seconds, doing nothing. It can be useful for timing or in processes running in the background, checking for a specific event every so often (polling), as in <a href="debugging.html#ONLINE">Example 32-6</a>.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">sleep 3     <span class="hljs-comment"># Pauses 3 seconds.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>The <b class="COMMAND">sleep</b> command defaults to seconds, but minute, hours, or days may also be specified.</p>
+                  <table border="0" bgcolor="#E0E0E0" width="90%">
+                    <tbody><tr>
+                      <td>
+                        <pre class="PROGRAMLISTING hljs">sleep 3 h   <span class="hljs-comment"># Pauses 3 hours!</span></pre>
+                      </td>
+                    </tr>
+                  </tbody></table>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+          <div class="NOTE">
+            <table class="NOTE" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/note.gif" hspace="5" alt="Note"></td>
+                <td align="left" valign="top">
+                  <p>The <a href="system.html#WATCHREF">watch</a> command may be a better choice than <b class="COMMAND">sleep</b> for running commands at timed intervals.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="USLEEPREF" id="USLEEPREF"></a><b class="COMMAND">usleep</b></dt>
+        <dd>
+          <p><i class="FIRSTTERM">Microsleep</i> (the <i class="FIRSTTERM">u</i> may be read as the Greek <i class="FIRSTTERM">mu</i>, or <i class="FIRSTTERM">micro-</i> prefix). This is the same as <b class="COMMAND">sleep</b>, above, but <span class="QUOTE">"sleeps"</span> in microsecond intervals. It can be used for fine-grained timing, or for polling an ongoing process at very frequent intervals.</p>
+          <table border="0" bgcolor="#E0E0E0" width="90%">
+            <tbody><tr>
+              <td>
+                <pre class="PROGRAMLISTING hljs">usleep 30     <span class="hljs-comment"># Pauses 30 microseconds.</span></pre>
+              </td>
+            </tr>
+          </tbody></table>
+          <p>This command is part of the Red Hat <i class="FIRSTTERM">initscripts / rc-scripts</i> package.</p>
+          <div class="CAUTION">
+            <table class="CAUTION" width="90%" border="0">
+              <tbody><tr>
+                <td width="25" align="center" valign="top"><img src="images/caution.gif" hspace="5" alt="Caution"></td>
+                <td align="left" valign="top">
+                  <p>The <b class="COMMAND">usleep</b> command does not provide particularly accurate timing, and is therefore unsuitable for critical timing loops.</p>
+                </td>
+              </tr>
+            </tbody></table>
+          </div>
+        </dd>
+        <dt><a name="HWCLOCKREF" id="HWCLOCKREF"></a><b class="COMMAND">hwclock</b>, <a name="CLOCKREF" id="CLOCKREF"></a><b class="COMMAND">clock</b></dt>
+        <dd>
+          <p>The <b class="COMMAND">hwclock</b> command accesses or adjusts the machine's hardware clock. Some options require <i class="FIRSTTERM">root</i> privileges. The <tt class="FILENAME">/etc/rc.d/rc.sysinit</tt> startup file uses <b class="COMMAND">hwclock</b> to set the system time from the hardware clock at bootup.</p>
+          <p>The <b class="COMMAND">clock</b> command is a synonym for <b class="COMMAND">hwclock</b>.</p>
+        </dd>
+      </dl>
+    </div>
+  </div>
+  <div class="NAVFOOTER">
+    <hr align="left" width="100%">
+    <table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+      <tbody><tr>
+        <td width="33%" align="left" valign="top"><a href="moreadv.html" accesskey="P">Prev</a></td>
+        <td width="34%" align="center" valign="top"><a href="index.html" accesskey="H">Home</a></td>
+        <td width="33%" align="right" valign="top"><a href="textproc.html" accesskey="N">Next</a></td>
+      </tr>
+      <tr>
+        <td width="33%" align="left" valign="top">Complex Commands</td>
+        <td width="34%" align="center" valign="top"><a href="external.html" accesskey="U">Up</a></td>
+        <td width="33%" align="right" valign="top">Text Processing Commands</td>
+      </tr>
+    </tbody></table>
+  </div>
+
+
+</body></html>
