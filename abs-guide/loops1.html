@@ -35,7 +35,7 @@
           <p><a name="DOINREF" id="DOINREF"></a></p>
           <p><b class="COMMAND">for</b> <tt class="REPLACEABLE"><i>arg</i></tt> in [<tt class="REPLACEABLE"><i>list</i></tt>]<br>
           do<br>
-          <tt class="REPLACEABLE"><i>�command(s)</i></tt>...<br>
+          <tt class="REPLACEABLE"><i>command(s)</i></tt>...<br>
           done</p>
           <div class="NOTE">
             <table class="NOTE" width="90%" border="0">
@@ -717,7 +717,7 @@ for n in 1 2 3
           <p>This construct tests for a condition at the top of a loop, and keeps looping as long as that condition is true (returns a <span class="RETURNVALUE">0</span> <a href="exit-status.html#EXITSTATUSREF">exit status</a>). In contrast to a <a href="loops1.html#FORLOOPREF1">for loop</a>, a <i class="FIRSTTERM">while loop</i> finds use in situations where the number of loop repetitions is not known beforehand.</p>
           <p><b class="COMMAND">while</b> [ <tt class="REPLACEABLE"><i>condition</i></tt> ]<br>
           do<br>
-          <tt class="REPLACEABLE"><i>�command(s)</i></tt>...<br>
+          <tt class="REPLACEABLE"><i>command(s)</i></tt>...<br>
           done</p>
           <p>The bracket construct in a <i class="FIRSTTERM">while loop</i> is nothing more than our old friend, the <a href="testconstructs.html#TESTCONSTRUCTS1">test brackets</a> used in an <i class="FIRSTTERM">if/then</i> test. In fact, a <i class="FIRSTTERM">while loop</i> can legally use the more versatile <a href="testconstructs.html#DBLBRACKETS">double-brackets construct</a> (while [[ condition ]]).</p>
           <p><a name="WHILENEEDSEMI" id="WHILENEEDSEMI"></a></p>
@@ -959,7 +959,7 @@ done
           <p>This construct tests for a condition at the top of a loop, and keeps looping as long as that condition is <em>false</em> (opposite of <i class="FIRSTTERM">while loop</i>).</p>
           <p><b class="COMMAND">until</b> [ <tt class="REPLACEABLE"><i>condition-is-true</i></tt> ]<br>
           do<br>
-          <tt class="REPLACEABLE"><i>�command(s)</i></tt>...<br>
+          <tt class="REPLACEABLE"><i>command(s)</i></tt>...<br>
           done</p>
           <p>Note that an <i class="FIRSTTERM">until loop</i> tests for the terminating condition at the <em>top</em> of the loop, differing from a similar construct in some programming languages.</p>
           <p>As is the case with <i class="FIRSTTERM">for loops</i>, placing the <i class="FIRSTTERM">do</i> on the same line as the condition test requires a semicolon.</p>

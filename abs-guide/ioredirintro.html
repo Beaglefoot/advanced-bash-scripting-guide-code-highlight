@@ -24,7 +24,7 @@
   </div>
   <div class="APPENDIX">
     <h1><a name="IOREDIRINTRO" id="IOREDIRINTRO"></a>Appendix F. A Detailed Introduction to I/O and I/O Redirection</h1>
-    <p><em>written by St�phane Chazelas, and revised by the document author</em></p>
+    <p><em>written by Stephane Chazelas, and revised by the document author</em></p>
     <p><a name="STDINOUTDEF" id="STDINOUTDEF"></a></p>
     <p>A command expects the first three <a href="io-redirection.html#FDREF">file descriptors</a> to be available. The first, <i class="FIRSTTERM">fd 0</i> (standard input, <tt class="FILENAME">stdin</tt>), is for reading. The other two (<i class="FIRSTTERM">fd 1</i>, <tt class="FILENAME">stdout</tt> and <i class="FIRSTTERM">fd 2</i>, <tt class="FILENAME">stderr</tt>) are for writing.</p>
     <p>There is a <tt class="FILENAME">stdin</tt>, <tt class="FILENAME">stdout</tt>, and a <tt class="FILENAME">stderr</tt> associated with each command. <tt class="USERINPUT"><b>ls 2&gt;&amp;1</b></tt> means temporarily connecting the <tt class="FILENAME">stderr</tt> of the <b class="COMMAND">ls</b> command to the same <span class="QUOTE">"resource"</span> as the shell's <tt class="FILENAME">stdout</tt>.</p>

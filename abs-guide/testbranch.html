@@ -34,13 +34,13 @@
           <p>The <b class="COMMAND">case</b> construct is the shell scripting analog to <tt class="REPLACEABLE"><i>switch</i></tt> in <b class="COMMAND">C/C++</b>. It permits branching to one of a number of code blocks, depending on condition tests. It serves as a kind of shorthand for multiple <span class="TOKEN">if/then/else</span> statements and is an appropriate tool for creating menus.</p>
           <p><b class="COMMAND">case</b> "$<tt class="REPLACEABLE"><i>variable</i></tt>" in<br>
           <br>
-          �"$<tt class="REPLACEABLE"><i>condition1</i></tt>" )<br>
-          �<tt class="REPLACEABLE"><i>command</i></tt>...<br>
-          �;;<br>
+          "$<tt class="REPLACEABLE"><i>condition1</i></tt>" )<br>
+          <tt class="REPLACEABLE"><i>command</i></tt>...<br>
+          ;;<br>
           <br>
-          �"$<tt class="REPLACEABLE"><i>condition2</i></tt>" )<br>
-          �<tt class="REPLACEABLE"><i>command</i></tt>...<br>
-          �;;<br>
+          "$<tt class="REPLACEABLE"><i>condition2</i></tt>" )<br>
+          <tt class="REPLACEABLE"><i>command</i></tt>...<br>
+          ;;<br>
           <br>
           <br>
           <b class="COMMAND">esac</b></p>
@@ -435,8 +435,8 @@ exit 0        # Script improved by S.C.
           <p>The <b class="COMMAND">select</b> construct, adopted from the Korn Shell, is yet another tool for building menus.</p>
           <p><b class="COMMAND">select</b> <tt class="REPLACEABLE"><i>variable</i></tt> [in <tt class="REPLACEABLE"><i>list</i></tt>]<br>
           do<br>
-          �<tt class="REPLACEABLE"><i>command</i></tt>...<br>
-          �break<br>
+          <tt class="REPLACEABLE"><i>command</i></tt>...<br>
+          break<br>
           done</p>
           <p>This prompts the user to enter one of the choices presented in the variable list. Note that <b class="COMMAND">select</b> uses the <tt class="VARNAME">$PS3</tt> prompt (<tt class="PROMPT">#?</tt> ) by default, but this may be changed.</p>
           <div class="EXAMPLE">
