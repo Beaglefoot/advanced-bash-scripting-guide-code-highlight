@@ -35,3 +35,19 @@ table.FOOTNOTES td:nth-of-type(1) > a {
 table.FOOTNOTES td:nth-of-type(1) > a {
   display: block;
 }
+
+table.CALSTABLE {
+  border: none;
+  border-spacing: 0;
+}
+
+table.CALSTABLE th,
+table.CALSTABLE td {
+  border: none;
+  padding: 0.6em;
+}
+
+table.CALSTABLE th,
+table.CALSTABLE tr:not(:last-of-type) td {
+  border-bottom: 1px solid #eee;
+}
