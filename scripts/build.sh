@@ -14,4 +14,4 @@ for html in abs-guide/*.html; do
 done
 
 
-bash "$project_root/scripts/copy_assests.sh"
+bash "$project_root/scripts/copy_assets.sh"
