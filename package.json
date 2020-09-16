@@ -5,7 +5,8 @@
   "author": "Beaglefoot <ch-e-st@yandex.ru>",
   "license": "MIT",
   "scripts": {
-    "build": "bash scripts/build.sh"
+    "build": "bash scripts/build.sh",
+    "copy": "bash scripts/copy_assets.sh"
   },
   "devDependencies": {
     "highlight.js": "10.2.0",

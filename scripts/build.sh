@@ -14,9 +14,4 @@ for html in abs-guide/*.html; do
 done
 
 
-mkdir "$target_dir/styles" 2>/dev/null
-cp -v "$project_root/styles/"* "$target_dir/styles/"
-cp -v "$project_root/node_modules/highlight.js/styles/atom-one-dark.css" "$target_dir/styles/"
-
-mkdir "$target_dir/images" 2>/dev/null
-cp -v "$project_root/images/"* "$target_dir/images/"
+bash "$project_root/scripts/copy_assests.sh"
