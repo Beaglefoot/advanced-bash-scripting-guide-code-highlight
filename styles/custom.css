@@ -51,3 +51,22 @@ table.CALSTABLE th,
 table.CALSTABLE tr:not(:last-of-type) td {
   border-bottom: 1px solid #eee;
 }
+
+#theme-toggle {
+  position: fixed;
+  top: 8px;
+  right: 8px;
+}
+
+.dark-mode {
+  background: #2e3436;
+  color: #f8f8f2;
+}
+
+.dark-mode a {
+  color: #66d9ef;
+}
+
+.dark-mode a:visited {
+  color: #ae81ff;
+}

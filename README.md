@@ -2,7 +2,7 @@
 
 ![github pages status](https://github.com/Beaglefoot/advanced-bash-scripting-guide-code-highlight/workflows/github%20pages/badge.svg)
 
-An already classic "Advanced Bash-Scripting Guide" book now with code highlights.
+An already classic "Advanced Bash-Scripting Guide" book now with code highlights and dark theme.
 
 Current version is deployed [here](https://beaglefoot.github.io/advanced-bash-scripting-guide-code-highlight/).
 

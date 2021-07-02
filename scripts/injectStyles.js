@@ -58,6 +58,29 @@ function removeBorderOnScreenBlocks() {
   }
 }
 
+function injectThemeToggleButton() {
+  const button = document.createElement("button");
+  button.textContent = "Toggle theme";
+  button.id = "theme-toggle";
+
+  const script = document.createElement("script");
+  script.textContent = `
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark-mode');
+      }
+
+      document.getElementById('theme-toggle').addEventListener(
+        'click',
+        () => document.body.classList.toggle('dark-mode')
+      );
+    });
+  `;
+
+  document.body.appendChild(button);
+  document.head.appendChild(script);
+}
+
 function main() {
   const htmlFilename = process.argv[2];
 
@@ -76,6 +99,8 @@ function main() {
   highlightScreenBlocks();
 
   removeBorderOnScreenBlocks();
+
+  injectThemeToggleButton();
 
   console.log(dom.serialize());
 }
