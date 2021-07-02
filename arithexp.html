@@ -6,7 +6,18 @@
   <link rel="UP" title="Beyond the Basics" href="part3.html">
   <link rel="PREVIOUS" title="Command Substitution" href="commandsub.html">
   <link rel="NEXT" title="Recess Time" href="recess-time.html">
-<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"><script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark-mode');
+      }
+
+      document.getElementById('theme-toggle').addEventListener(
+        'click',
+        () => document.body.classList.toggle('dark-mode')
+      );
+    });
+  </script></head>
 <body class="CHAPTER" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
   <div class="NAVHEADER">
     <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -110,4 +121,4 @@ z=$((z+<span class="hljs-number">3</span>))                                  <sp
   </div>
 
 
-</body></html>
+<button id="theme-toggle">Toggle theme</button></body></html>

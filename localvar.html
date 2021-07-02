@@ -6,7 +6,18 @@
   <link rel="UP" title="Functions" href="functions.html">
   <link rel="PREVIOUS" title="Complex Functions and Function Complexities" href="complexfunct.html">
   <link rel="NEXT" title="Recursion Without Local Variables" href="recurnolocvar.html">
-<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"><script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark-mode');
+      }
+
+      document.getElementById('theme-toggle').addEventListener(
+        'click',
+        () => document.body.classList.toggle('dark-mode')
+      );
+    });
+  </script></head>
 <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
   <div class="NAVHEADER">
     <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -427,4 +438,4 @@ recursive_function 1 50000  <span class="hljs-comment"># Recurse 50,000 levels!<
   </div>
 
 
-</body></html>
+<button id="theme-toggle">Toggle theme</button></body></html>

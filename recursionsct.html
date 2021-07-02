@@ -6,7 +6,18 @@
   <link rel="UP" title="Miscellany" href="miscellany.html">
   <link rel="PREVIOUS" title="Tests and Comparisons: Alternatives" href="testsandcomparisons.html">
   <link rel="NEXT" title="Colorizing Scripts" href="colorizing.html">
-<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"><script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark-mode');
+      }
+
+      document.getElementById('theme-toggle').addEventListener(
+        'click',
+        () => document.body.classList.toggle('dark-mode')
+      );
+    });
+  </script></head>
 <body class="SECT1" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
   <div class="NAVHEADER">
     <table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
@@ -217,4 +228,4 @@ Sam Roe         956 E. 8th St., New York, NY 10009          (212) 444-5678
   </div>
 
 
-</body></html>
+<button id="theme-toggle">Toggle theme</button></body></html>

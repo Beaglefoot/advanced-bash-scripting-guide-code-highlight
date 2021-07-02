@@ -3,7 +3,18 @@
   <title>Advanced Bash-Scripting Guide</title>
   <meta name="GENERATOR" content="Modular DocBook HTML Stylesheet Version 1.7">
   <link rel="NEXT" title="Introduction" href="part1.html">
-<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"></head>
+<link rel="stylesheet" href="styles/custom.css"><link rel="stylesheet" href="styles/atom-one-dark.css"><script>
+    document.addEventListener('DOMContentLoaded', () => {
+      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark-mode');
+      }
+
+      document.getElementById('theme-toggle').addEventListener(
+        'click',
+        () => document.body.classList.toggle('dark-mode')
+      );
+    });
+  </script></head>
 <body class="BOOK" bgcolor="#FFFFFF" text="#000000" link="#0000FF" vlink="#840084" alink="#0000FF">
   <div class="BOOK">
     <a name="AEN1" id="AEN1"></a>
@@ -619,4 +630,4 @@
   </div>
 
 
-</body></html>
+<button id="theme-toggle">Toggle theme</button></body></html>
