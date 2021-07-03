@@ -70,3 +70,8 @@ table.CALSTABLE tr:not(:last-of-type) td {
 .dark-mode a:visited {
   color: #ae81ff;
 }
+
+.dark-mode table.CALSTABLE th,
+.dark-mode table.CALSTABLE tr:not(:last-of-type) td {
+  border-color: #434b4e;
+}
