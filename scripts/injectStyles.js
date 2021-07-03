@@ -66,13 +66,20 @@ function injectThemeToggleButton() {
   const script = document.createElement("script");
   script.textContent = `
     document.addEventListener('DOMContentLoaded', () => {
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      const manuallySetTheme = localStorage.getItem('bash-guide-theme');
+
+      if (manuallySetTheme === 'dark') document.body.classList.add('dark-mode');
+      else if (manuallySetTheme === 'light') document.body.classList.remove('dark-mode');
+      else if (matchMedia('(prefers-color-scheme: dark)').matches) {
         document.body.classList.add('dark-mode');
       }
 
       document.getElementById('theme-toggle').addEventListener(
         'click',
-        () => document.body.classList.toggle('dark-mode')
+        () => {
+          const isSet = document.body.classList.toggle('dark-mode');
+          localStorage.setItem('bash-guide-theme', isSet ? 'dark' : 'light');
+        }
       );
     });
   `;
